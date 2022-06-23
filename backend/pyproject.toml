@@ -1,0 +1,36 @@
+[tool.poetry]
+name = "IndEAAv2"
+version = "1.0.0"
+description = ""
+authors = ["Frinze Erin Lapuz"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+poetry = "^1.1.11"
+Django = "^3.2.9"
+djangorestframework = "^3.12.4"
+psycopg2-binary = "^2.9.2"
+python-decouple = "^3.5"
+pytz = "^2021.3"
+gunicorn = "^20.1.0"
+python-dateutil = "^2.8.2"
+django-cors-headers = "^3.10.0"
+django-log-request-id = "^1.7.0"
+django-filter = "^21.1"
+requests = "^2.26.0"
+dj-rest-auth = {extras = ["with_social"], version = "^2.2.4"}
+djangorestframework-simplejwt = "^5.1.0"
+
+[tool.poetry.dev-dependencies]
+coverage = "^6.1.2"
+safety = "^1.10.3"
+flake8 = "^4.0.1"
+pytest-django = "^4.4.0"
+ipdb = "^0.13.9"
+pytest-mock = "^3.6.1"
+responses = "^0.16.0"
+pytest-cov = "^3.0.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
