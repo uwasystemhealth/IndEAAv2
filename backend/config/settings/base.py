@@ -68,7 +68,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
-    'rest_framework_jwt',
     'dj_rest_auth',
     'django_filters',
     'commands'
@@ -223,7 +222,6 @@ REST_FRAMEWORK = {
         # SessionAuthentication is needed for Browsable API however conflicts with dj-rest-auth
         # 'rest_framework.authentication.SessionAuthentication',
         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ),
     'DEFAULT_THROTTLE_CLASSES': [
         'config.throttling.IndEAAAnonRateThrottle',
