@@ -16,9 +16,9 @@ from datetime import timedelta
 
 from decouple import config
 from corsheaders.defaults import default_headers
-import sentry_sdk
-from sentry_sdk.integrations.django import DjangoIntegration
-from config.logs.utils import SpontaneLogger
+# import sentry_sdk
+# from sentry_sdk.integrations.django import DjangoIntegration
+from config.logs.utils import IndEAALogger
 
 ############
 # Env Config
@@ -59,7 +59,6 @@ DATETIME_INPUT_FORMATS = [
     '%d/%m/%Y %H:%M'
 ]
 
-# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -72,19 +71,6 @@ INSTALLED_APPS = [
     'rest_framework_jwt',
     'dj_rest_auth',
     'django_filters',
-    'authentication',
-    'utils',
-    'commands',
-    'status',
-    'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'dj_rest_auth.registration',
-    'activities',
-    'profile',
-    'groups',
-    'django_admin_multiple_choice_list_filter',
 ]
 
 # Refer to https://dj-rest-auth.readthedocs.io/en/latest/installation.html#registration-optional
@@ -197,18 +183,18 @@ STATICFILES_DIRS = (
 # Uploaded documents and split files
 ############################
 # In development, we use the filesystem which stores files in the MEDIA_ROOT, i.e. /media
-DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
-MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(PROJECT_ROOT, "media")
+# DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+# MEDIA_URL = "/media/"
+# MEDIA_ROOT = os.path.join(PROJECT_ROOT, "media")
 
-# In test / production, we use Amazon S3
-USE_AWS_S3 = config('USE_AWS_S3', default=False, cast=bool)
-if USE_AWS_S3:
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    AWS_S3_ACCESS_KEY_ID = config('AWS_S3_ACCESS_KEY_ID')
-    AWS_S3_SECRET_ACCESS_KEY = config('AWS_S3_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
-    AWS_S3_REGION_NAME = config('AWS_S3_REGION_NAME', 'ap-southeast-2')
+# # In test / production, we use Amazon S3
+# USE_AWS_S3 = config('USE_AWS_S3', default=False, cast=bool)
+# if USE_AWS_S3:
+#     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+#     AWS_S3_ACCESS_KEY_ID = config('AWS_S3_ACCESS_KEY_ID')
+#     AWS_S3_SECRET_ACCESS_KEY = config('AWS_S3_SECRET_ACCESS_KEY')
+#     AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+#     AWS_S3_REGION_NAME = config('AWS_S3_REGION_NAME', 'ap-southeast-2')
 
 #############################
 # JWT & Rest Framework Config
@@ -224,11 +210,6 @@ SIMPLE_JWT = {
 
 # Configuration for modifying the Serialisers for authentication
 # https://dj-rest-auth.readthedocs.io/en/latest/configuration.html#configuration
-REST_AUTH_SERIALIZERS = {"USER_DETAILS_SERIALIZER": "profile.serializers.UserDetailsSerializer"}
-REST_AUTH_REGISTER_SERIALIZERS = {"REGISTER_SERIALIZER": "authentication.serializers.RegisterSerializer"}
-# This is just a password assigned to anonymous users (required by registration)
-ANONYMOUS_PASSWORD = config('ANONYMOUS_PASSWORD', default='********')
-
 JWT_AUTH_COOKIE = 'access-token'
 JWT_AUTH_REFRESH_COOKIE = 'refresh-token'
 
@@ -244,7 +225,7 @@ REST_FRAMEWORK = {
         'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
     ),
     'DEFAULT_THROTTLE_CLASSES': [
-        'config.throttling.SpontaneAnonRateThrottle',
+        'config.throttling.IndEAAAnonRateThrottle',
     ],
     'DEFAULT_THROTTLE_RATES': {
         'anon': config('THROTTLE_RATES_ANON', default="100/minute"),
@@ -302,45 +283,45 @@ if ENABLE_LOG_DJANGO_QUERIES:
 ###############
 # Sentry Config
 ###############
-USE_SENTRY = config('USE_SENTRY', default=False, cast=bool)
-SENTRY_DSN_BACKEND = config('SENTRY_DSN_BACKEND', None)
-SENTRY_ENV = config('SENTRY_ENV', None)
-SENTRY_TRACE_RATE = config('SENTRY_TRACE_RATE', 0.02, cast=float)
-SENTRY_VERSION = sentry_sdk.VERSION
+# USE_SENTRY = config('USE_SENTRY', default=False, cast=bool)
+# SENTRY_DSN_BACKEND = config('SENTRY_DSN_BACKEND', None)
+# SENTRY_ENV = config('SENTRY_ENV', None)
+# SENTRY_TRACE_RATE = config('SENTRY_TRACE_RATE', 0.02, cast=float)
+# SENTRY_VERSION = sentry_sdk.VERSION
 
-SENTRY_ENDPOINTS_TO_TRACE = [
-]
+# SENTRY_ENDPOINTS_TO_TRACE = [
+# ]
 
-# We only want to trace GET and POST request, not OPTIONS, which sent by the browser to check CORS settings.
-SENTRY_HTTP_METHODS_TO_TRACE = ['GET', 'POST']
-
-
-def sentry_traces_sampler(sampling_context):
-    """ Only activate trace sampler for specific endpoints """
-    try:
-        if (sampling_context['wsgi_environ']['PATH_INFO'] in SENTRY_ENDPOINTS_TO_TRACE) and \
-                (sampling_context['wsgi_environ']['REQUEST_METHOD'] in SENTRY_HTTP_METHODS_TO_TRACE):
-            return SENTRY_TRACE_RATE
-        return 0
-    except Exception as exp:
-        logger = logging.getLogger('sentry_traces_sampler')
-        logger.error(f'Error trying to configure performance trace sampler for Sentry {exp}')
-        return 0
+# # We only want to trace GET and POST request, not OPTIONS, which sent by the browser to check CORS settings.
+# SENTRY_HTTP_METHODS_TO_TRACE = ['GET', 'POST']
 
 
-def sentry_before_send(event, hint):
-    return event
+# def sentry_traces_sampler(sampling_context):
+#     """ Only activate trace sampler for specific endpoints """
+#     try:
+#         if (sampling_context['wsgi_environ']['PATH_INFO'] in SENTRY_ENDPOINTS_TO_TRACE) and \
+#                 (sampling_context['wsgi_environ']['REQUEST_METHOD'] in SENTRY_HTTP_METHODS_TO_TRACE):
+#             return SENTRY_TRACE_RATE
+#         return 0
+#     except Exception as exp:
+#         logger = logging.getLogger('sentry_traces_sampler')
+#         logger.error(f'Error trying to configure performance trace sampler for Sentry {exp}')
+#         return 0
 
 
-if USE_SENTRY:
-    sentry_sdk.init(
-        dsn=SENTRY_DSN_BACKEND,
-        environment=SENTRY_ENV,
-        release=APP_VER,
-        send_default_pii=True,
-        integrations=[DjangoIntegration()],
-        before_send=sentry_before_send
-    )
+# def sentry_before_send(event, hint):
+#     return event
+
+
+# if USE_SENTRY:
+#     sentry_sdk.init(
+#         dsn=SENTRY_DSN_BACKEND,
+#         environment=SENTRY_ENV,
+#         release=APP_VER,
+#         send_default_pii=True,
+#         integrations=[DjangoIntegration()],
+#         before_send=sentry_before_send
+#     )
 
 #############
 # CORS Config
@@ -385,7 +366,7 @@ else:
 # Set Logger Class
 ##################
 
-logging.setLoggerClass(SpontaneLogger)
+logging.setLoggerClass(IndEAALogger)
 
 ##############
 # Email Config
@@ -398,22 +379,7 @@ EMAIL_PORT = config('EMAIL_PORT', '587', cast=int)
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', True, cast=bool)
 EMAIL_TIMEOUT = config('EMAIL_TIMEOUT', default=20, cast=int)
 
-EMAIL_ADDRESS_FROM = config('EMAIL_ADDRESS_FROM', 'noreply@spontane.fun')
+EMAIL_ADDRESS_FROM = config('EMAIL_ADDRESS_FROM', 'noreply-indeaa@systemhealthlab.com')
 
 # This string is prefixed to the beginning of every email (subject).
-EMAIL_SUBJECT_PREFIX = f'[Spontane {APP_ENV}] '
-
-##############
-# Spontane-Specific Config
-##############
-NUMBER_OF_TAGS = config('NUMBER_OF_TAGS', default=5, cast=int)
-NUMBER_OF_ACTIVITIES_TO_SUGGEST = config('NUMBER_OF_ACTIVITIES_TO_SUGGEST', default=8, cast=int)
-
-# These are the default tags that will be assigned to the user
-KEYWORDS_FOR_DEFAULT_TAGS = [
-    "chill",
-    "unique",
-    "games",
-    "social",
-    "nature",
-]
+EMAIL_SUBJECT_PREFIX = f'[IndEAA {APP_ENV}] '
