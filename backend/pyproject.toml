@@ -2,7 +2,7 @@
 name = "IndEAAv2"
 version = "1.0.0"
 description = ""
-authors = ["Frinze Erin Lapuz"]
+authors = ["SHL Redbacks"]
 
 [tool.poetry.dependencies]
 python = "^3.9"

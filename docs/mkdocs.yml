@@ -1,0 +1,88 @@
+site_name: IndEAAv2 Technical Documentation
+copyright: SHL Redbacks
+repo_url: https://github.com/uwasystemhealth/IndEAAv2
+# This uri refers to the github path to edit, change this if you branch is different in name
+edit_uri: edit/main/docs/docs/
+theme:
+  name: material
+  palette:
+  - media: "(prefers-color-scheme: light)" # below here is a palette for light mode
+    primary: orange
+    scheme: default
+    toggle:
+      icon: material/toggle-switch-off-outline
+      name: Switch to dark mode
+  - media: "(prefers-color-scheme: dark)"  # below here is a palette for dark mode
+    primary: orange
+    scheme: slate
+    toggle:
+      icon: material/toggle-switch
+      name: Switch to light mode
+  logo: images/shl.png
+  favicon: images/shl.png
+  features:
+    - navigation.tabs
+plugins:
+  - search
+  - mermaid2:
+      version: 8.8.2
+      arguments:
+        theme: white # white | dark
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.details
+  - pymdownx.smartsymbols
+  - pymdownx.highlight:
+      use_pygments: true
+      linenums: true
+  - pymdownx.tabbed
+  - footnotes
+  - pymdownx.critic
+  - attr_list
+  - def_list
+  - pymdownx.tasklist
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
+  - toc:
+      permalink: true
+      toc_depth: 4
+  - codehilite
+  - pymdownx.snippets:
+      base_path: docs
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:mermaid2.fence_mermaid
+
+extra_javascript:
+  - https://unpkg.com/mermaid@8.8.2/dist/mermaid.min.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+
+extra:
+  social:
+    - icon: octicons/globe-16
+      link: https://systemhealthlab.com/
+    - icon: fontawesome/brands/twitter
+      link: https://twitter.com/uwasystemhealth
+    - icon: fontawesome/brands/instagram
+      link: https://www.instagram.com/uwasystemhealth/
+    - icon: fontawesome/brands/facebook
+      link: https://www.facebook.com/SystemHealthLab/
+    - icon: fontawesome/brands/youtube
+      link: https://www.youtube.com/channel/UCzrEiyVpb3xix8yYt1m6BNw
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/company/systemhealthlab/
+    - icon: fontawesome/solid/paper-plane
+      link: mailto:systemhealthlab@gmail.com
+
+nav:
+- Overview: index.md
