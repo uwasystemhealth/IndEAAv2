@@ -1,0 +1,103 @@
+{% load static %} {% block html %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Feedback Notification</title>
+    <style>
+      {% include 'email/base.css' %}
+    </style>
+  </head>
+  <body class="">
+    <span class="preheader">Spontane email</span>
+    <table
+      role="presentation"
+      border="0"
+      cellpadding="0"
+      cellspacing="0"
+      class="body"
+    >
+      <tr>
+        <td>&nbsp;</td>
+        <td class="container">
+          <div class="content">
+            <!-- START CENTERED WHITE CONTAINER -->
+            <table role="presentation" class="main">
+              <tr>
+                <td class="wrapper-header">
+                  <table
+                    role="presentation"
+                    border="0"
+                    cellpadding="0"
+                    cellspacing="0"
+                  >
+                    <tr>
+                      <td align="left">
+                        <img
+                          src="cid:email-icon.png"
+                          width="16"
+                          align="center"
+                        />
+                        <strong>Spontane email</strong>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+              <!-- START MAIN CONTENT AREA -->
+              <tr>
+                <td class="wrapper">
+                  <hr />
+                  <table
+                    role="presentation"
+                    border="0"
+                    cellpadding="0"
+                    cellspacing="0"
+                  >
+                    <tr>
+                      <td>
+                        <h2>{{ notification_title }}</h2>
+                      </td>
+                    </tr>
+                    {% block email_content %} Main email content will be
+                    inserted here {% endblock %}
+                  </table>
+                </td>
+              </tr>
+
+              <!-- END MAIN CONTENT AREA -->
+            </table>
+            <!-- END CENTERED WHITE CONTAINER -->
+
+            <!-- START FOOTER -->
+            <div class="footer">
+              <table
+                role="presentation"
+                border="0"
+                cellpadding="0"
+                cellspacing="0"
+              >
+                <tr>
+                  <td class="content-block">
+                    This is an automatically generated email. Replies will not
+                    be read.
+                  </td>
+                </tr>
+                <tr>
+                  <td class="content-block powered-by">
+                    © Spontane
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <!-- END FOOTER -->
+          </div>
+        </td>
+        <td>&nbsp;</td>
+      </tr>
+    </table>
+  </body>
+</html>
+{% endblock %}
