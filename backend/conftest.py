@@ -4,7 +4,6 @@ import pytest
 from django.core.management import call_command
 from django.contrib.auth.models import User
 from rest_framework.test import APIClient
-from rest_framework_jwt.settings import api_settings
 
 
 @pytest.fixture
@@ -87,22 +86,3 @@ def api_client_with_credentials_return_user(
     api_client.force_authenticate(user=None)
     if user:
         user.delete()
-
-
-@pytest.fixture
-@pytest.mark.django_db
-def get_auth():
-
-    def _get_auth(username="admin", prepend_with_bearer=True):
-        """ Create a headers with `Bearer XXXX`
-        """
-        # Create token from JWT library
-        user = User.objects.get(username=username)
-        jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
-        jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
-
-        payload = jwt_payload_handler(user)
-        token = jwt_encode_handler(payload)
-        return f'Bearer {token}' if prepend_with_bearer else token
-
-    yield _get_auth

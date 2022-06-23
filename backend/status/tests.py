@@ -19,8 +19,8 @@ def test_local_version_endpoint_is_accessible_to_anyone(client: Client) -> None:
     local_version = response.json()["data"]["Local version"]
     environment = response.json()["data"]["Environment"]
     settings_module = response.json()["data"]["Variables"]["DJANGO_SETTINGS_MODULE"]
-    user_sentry = response.json()["data"]["Variables"]["USE_SENTRY"]
-    sentry_env = response.json()["data"]["Variables"]["SENTRY_ENV"]
+    # user_sentry = response.json()["data"]["Variables"]["USE_SENTRY"]
+    # sentry_env = response.json()["data"]["Variables"]["SENTRY_ENV"]
     gitshorthash = response.json()["data"]["Variables"]["GITSHORTHASH"]
 
     assert response.status_code == 200
@@ -28,6 +28,6 @@ def test_local_version_endpoint_is_accessible_to_anyone(client: Client) -> None:
     assert local_version == settings.APP_VER
     assert environment == settings.APP_ENV
     assert settings_module == settings.DJANGO_SETTINGS_MODULE
-    assert user_sentry == settings.USE_SENTRY
-    assert sentry_env == settings.SENTRY_ENV
+    # assert user_sentry == settings.USE_SENTRY
+    # # assert sentry_env == settings.SENTRY_ENV
     assert gitshorthash == settings.GITSHORTHASH

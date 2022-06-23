@@ -19,8 +19,8 @@ def status(request):
         'Environment': settings.APP_ENV,
         'Variables': {
             'DJANGO_SETTINGS_MODULE': settings.DJANGO_SETTINGS_MODULE,
-            'USE_SENTRY': settings.USE_SENTRY,
-            'SENTRY_ENV': settings.SENTRY_ENV,
+            # 'USE_SENTRY': settings.USE_SENTRY,
+            # 'SENTRY_ENV': settings.SENTRY_ENV,
             'GITSHORTHASH': settings.GITSHORTHASH,
             'EMAIL_SUBJECT_PREFIX': settings.EMAIL_SUBJECT_PREFIX
         }
