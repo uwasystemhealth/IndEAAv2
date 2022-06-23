@@ -35,13 +35,15 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.x
-      - name: Install flake8
-        run: pip install flake8
+      - name: Install Linter tools
+        run: pip install flake8==4.0.1 black==22.3.0 isort==5.10.1
       - name: Run flake8
         uses: liskin/gh-problem-matcher-wrap@v1
         with:
           linters: flake8
           run: flake8 --exclude=migrations --max-line-length 150 --ignore=F405,F403" backend/ # run flake8 to source files
+      - name: Run black
+        run:  cd backend && black . && isort --check .
 
   pytest_py3:
     name: "Automated Tests with Pytest"
