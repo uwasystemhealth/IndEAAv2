@@ -1,0 +1,99 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "lint:fix": "yarn lint --fix",
+    "test": "jest --watch",
+    "test:ci": "jest --ci",
+    "cypress": "yarn cypress:open",
+    "cypress:open": "export cypress_url=http://localhost:3000 && cypress open --project .",
+    "cypress:run": "cypress run --env url=http://localhost:3000",
+    "cypress:run:ci": "cypress run"
+  },
+  "dependencies": {
+    "next": "12.1.6",
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@cypress/code-coverage": "3.10.0",
+    "@testing-library/dom": "^8.14.0",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.3.0",
+    "@testing-library/react-hooks": "^8.0.1",
+    "@testing-library/user-event": "^14.2.1",
+    "@types/node": "18.0.0",
+    "@types/react": "18.0.14",
+    "@types/react-dom": "18.0.5",
+    "@typescript-eslint/eslint-plugin": "^5.13.0",
+    "@typescript-eslint/parser": "^5.0.0",
+    "cypress": "10.1.0",
+    "eslint": "^8.2.0",
+    "eslint-config-airbnb": "19.0.4",
+    "eslint-config-airbnb-typescript": "17.0.0",
+    "eslint-config-next": "12.1.6",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-cypress": "^2.12.1",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "jest": "^28.1.1",
+    "jest-environment-jsdom": "^28.1.1",
+    "msw": "^0.42.1",
+    "prettier": "^2.7.1",
+    "typescript": "4.7.4",
+    "whatwg-fetch": "^3.6.2"
+  },
+  "eslintConfig": {
+    "extends": [
+      "next/core-web-vitals",
+      "airbnb",
+      "airbnb-typescript",
+      "airbnb/hooks",
+      "prettier",
+      "plugin:cypress/recommended"
+    ],
+    "plugins": [
+      "eslint-plugin-prettier"
+    ],
+    "parserOptions": {
+      "project": "./tsconfig.eslint.json"
+    },
+    "rules": {
+      "import/extensions": [
+        "error",
+        "never"
+      ],
+      "import/no-extraneous-dependencies": "off",
+      "prettier/prettier": "error",
+      "react/function-component-definition": [
+        2,
+        {
+          "namedComponents": "arrow-function",
+          "unnamedComponents": "arrow-function"
+        }
+      ],
+      "react/jsx-uses-react": "off",
+      "react/react-in-jsx-scope": "off"
+    }
+  },
+  "prettier": {
+    "trailingComma": "all",
+    "printWidth": 100,
+    "tabWidth": 2,
+    "semi": true,
+    "singleQuote": true
+  },
+  "stylelint": {
+    "plugins": [
+      "stylelint-scss"
+    ]
+  }
+}
