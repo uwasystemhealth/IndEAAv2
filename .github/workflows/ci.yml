@@ -1,0 +1,136 @@
+# This is the main CI workflow that runs the following:
+# - linting (both frontend and backend)
+
+name: Main CI Pipeline
+
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: "Log level"
+        required: false
+        default: "warning"
+
+jobs:
+  frontend-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v2
+      - uses: bahmutov/npm-install@v1 # Can do caching
+        with:
+          install-command: yarn --frozen-lockfile --silent
+          working-directory: frontend
+      - name: Run Linting
+        run:  yarn lint
+        working-directory: frontend
+
+  backend-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - name: Install flake8
+        run: pip install flake8
+      - name: Run flake8
+        uses: liskin/gh-problem-matcher-wrap@v1
+        with:
+          linters: flake8
+          run: flake8 --exclude=migrations --max-line-length 150 --ignore=F405,F403" backend/ # run flake8 to source files
+
+  pytest_py3:
+    name: "Automated Tests with Pytest"
+    runs-on: ubuntu-latest
+    env:
+      working-directory: backend
+      POSTGRES_DB: indeaa_db
+      POSTGRES_PASSWORD: Password456
+      POSTGRES_USER: indeaa_db_user
+      POSTGRES_URL: db
+      POSTGRES_PORT: 5432
+    services:
+      postgres:
+        image: postgres:12.4-alpine
+        env:
+          POSTGRES_DB: ${{env.POSTGRES_DB}}
+          POSTGRES_PASSWORD: ${{env.POSTGRES_PASSWORD}}
+          POSTGRES_USER: ${{env.POSTGRES_USER}}
+          POSTGRES_PORT: ${{env.POSTGRES_PORT}}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      # Reference https://github.com/snok/install-poetry
+      #----------------------------------------------
+      #       check-out repo and set-up python
+      #----------------------------------------------
+      - name: Check out repository
+        uses: actions/checkout@v2
+      - name: Set up python
+        id: setup-python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.9
+      #----------------------------------------------
+      #  -----  install & configure poetry  -----
+      #----------------------------------------------
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+        with:
+          virtualenvs-create: true
+          virtualenvs-in-project: true
+          installer-parallel: true
+
+      #----------------------------------------------
+      #       load cached venv if cache exists
+      #----------------------------------------------
+      - name: Load cached venv
+        id: cached-poetry-dependencies
+        uses: actions/cache@v2
+        with:
+          path: backend/.venv
+          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/backend/poetry.lock') }}
+      #----------------------------------------------
+      # install dependencies if cache does not exist
+      #----------------------------------------------
+      - name: Install dependencies
+        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
+        working-directory: ${{env.working-directory}}
+        run: poetry install --no-interaction --no-root
+      #----------------------------------------------
+      # install your root project, if required
+      #----------------------------------------------
+      - name: Install library
+        run: poetry install --no-interaction
+        working-directory: ${{env.working-directory}}
+        
+      - uses: cardinalby/export-env-action@v1
+        with:
+          envFile: 'docker/indeaa-ci.env'
+          expand: 'true'
+      #----------------------------------------------
+      #              run test suite
+      #----------------------------------------------
+      - name: Run tests
+        working-directory: ${{env.working-directory}}
+        run: |
+          source .venv/bin/activate
+          pytest --cov-config=.coveragerc --cov . --cov-report html:coverage_html_report 
+          coverage report > ./pytest-coverage.txt
+      - name: Comment coverage
+        uses: coroo/pytest-coverage-commentator@v1.0.2
+        with:
+          pytest-coverage: backend/pytest-coverage.txt
+      - uses: actions/upload-artifact@v1
+        with:
+          name: coverage_html_report
+          path: backend/coverage_html_report
