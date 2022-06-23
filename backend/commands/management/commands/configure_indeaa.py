@@ -9,7 +9,7 @@ GROUPS = [
 
 # [username, email, password, group, is_staff]
 USERS = [
-    ['test1', 'test@spontane.fun', 'test1', None, True],
+    ['test1', 'test@systemhealthlab.com', 'test1', None, True],
 ]
 
 
