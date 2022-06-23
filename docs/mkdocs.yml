@@ -86,3 +86,6 @@ extra:
 
 nav:
 - Overview: index.md
+- Developers:
+    - Overview: developer/index.md
+    - Project Structure: developer/project_structure.md
