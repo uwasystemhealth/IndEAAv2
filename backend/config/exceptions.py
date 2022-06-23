@@ -2,13 +2,13 @@ import logging
 from copy import deepcopy
 
 from django.db import Error as DBError
+from rest_framework.exceptions import APIException
 from rest_framework.response import Response
 from rest_framework.views import exception_handler
-from rest_framework.exceptions import APIException
 
-from .logs.middleware import get_request_logger
+from .error_codes import GENERIC_CODE_ERRORS, APIErrors
 from .errors import APIError
-from .error_codes import APIErrors, GENERIC_CODE_ERRORS
+from .logs.middleware import get_request_logger
 
 
 def custom_exception_handler(exc, context):

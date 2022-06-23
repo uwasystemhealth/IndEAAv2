@@ -9,13 +9,13 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-import os
 import logging
-from pathlib import Path
+import os
 from datetime import timedelta
+from pathlib import Path
 
-from decouple import config
 from corsheaders.defaults import default_headers
+from decouple import config
 
 # import sentry_sdk
 # from sentry_sdk.integrations.django import DjangoIntegration

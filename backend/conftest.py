@@ -1,6 +1,6 @@
 import uuid
-import pytest
 
+import pytest
 from django.core.management import call_command
 from rest_framework.test import APIClient
 

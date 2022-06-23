@@ -1,7 +1,7 @@
 import logging
 
-from django.urls import resolve, Resolver404
 from django.conf import settings
+from django.urls import Resolver404, resolve
 
 
 class IndEAALogger(logging.Logger):

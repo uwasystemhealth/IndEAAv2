@@ -1,7 +1,7 @@
 from rest_framework.exceptions import ValidationError
 
-from config.errors import APIError
 from config.error_codes import APIErrors
+from config.errors import APIError
 
 
 def transform_validation_error_to_api_error(callback):

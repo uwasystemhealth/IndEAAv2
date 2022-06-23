@@ -1,4 +1,4 @@
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 
 class GroupName:

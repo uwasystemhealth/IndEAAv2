@@ -1,5 +1,5 @@
-from rest_framework.exceptions import APIException
 from django.forms.utils import ErrorList
+from rest_framework.exceptions import APIException
 
 
 class APIError(APIException):

@@ -1,6 +1,6 @@
-from config.exceptions import custom_exception_handler
-from config.errors import APIError
 from config.error_codes import APIErrors
+from config.errors import APIError
+from config.exceptions import custom_exception_handler
 
 
 def test_exceptions_api_error_without_context(mocker):

@@ -1,6 +1,6 @@
 from django.conf import settings
-from django.urls import reverse
 from django.test import Client
+from django.urls import reverse
 
 
 def test_local_version_endpoint_is_accessible_to_anyone(client: Client) -> None:

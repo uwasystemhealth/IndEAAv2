@@ -1,7 +1,6 @@
 from django.contrib import admin
 from django.urls import include, path
 
-
 api_patterns = (
     [
         path("status/", include("status.urls")),
