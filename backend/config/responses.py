@@ -16,7 +16,7 @@ class CustomApiResponse(Response):
     """
 
     def __init__(self, status, message, data, **kwargs):
-        super().__init__(data={'data': data, 'message': message}, status=status, **kwargs)
+        super().__init__(data={"data": data, "message": message}, status=status, **kwargs)
 
 
 class SuccessfulResponse(CustomApiResponse):

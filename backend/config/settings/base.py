@@ -37,9 +37,7 @@ DJANGO_SETTINGS_MODULE = config("DJANGO_SETTINGS_MODULE", "config.settings.base"
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent  # <-- '/config
-PROJECT_ROOT = os.path.dirname(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-)  # <- '/' directory
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # <- '/' directory
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -244,9 +242,7 @@ LOGGING = {
     "disable_existing_loggers": False,
     "filters": {"request_id": {"()": "log_request_id.filters.RequestIDFilter"}},
     "formatters": {
-        "standard": {
-            "format": "[%(asctime)s] [%(request_id)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s"
-        },
+        "standard": {"format": "[%(asctime)s] [%(request_id)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s"},
     },
     "handlers": {
         "console": {

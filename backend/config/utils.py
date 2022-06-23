@@ -2,7 +2,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
 class GroupName:
-    ADMIN_GROUP = 'superuser'
+    ADMIN_GROUP = "superuser"
 
 
 def django_paginator(model_list, paginate_by, page):

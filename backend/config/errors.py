@@ -15,12 +15,12 @@ class APIError(APIException):
         :param override_exception: Exception that was original raised.
 
         """
-        self.status_code = error['http_status_code']
+        self.status_code = error["http_status_code"]
         self.detail = {
-            'number': number or error.get('number', None),
-            'code': error['code'],
+            "number": number or error.get("number", None),
+            "code": error["code"],
             # Custom message first, or fallback to the defined one in `error` (Most likely from APIErrors)
-            'message': api_response_message or error['api_response_message']
+            "message": api_response_message or error["api_response_message"],
         }
 
         # Extra attributes to send information to the Custom Exception
@@ -30,13 +30,13 @@ class APIError(APIException):
         self.log_message = log_message
 
         if errors:
-            self.detail['errors'] = errors
+            self.detail["errors"] = errors
 
             # Combine any errors to a key to allow the option of just displaying the
             # 'message' + 'errors' in the client app without looping through or inspecting the error dict
-            self.detail['combined_error_message'] = f'{self.detail["message"]}.'
+            self.detail["combined_error_message"] = f'{self.detail["message"]}.'
             for error in errors:
                 # make the error into a standard django form error to align with validator errors
                 if not isinstance(errors[error], ErrorList):
                     errors[error] = ErrorList([errors[error]])
-                self.detail['combined_error_message'] += f' {errors[error].as_text()}.'
+                self.detail["combined_error_message"] += f" {errors[error].as_text()}."

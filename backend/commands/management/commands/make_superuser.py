@@ -16,13 +16,13 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
 
         # Positional arguments
-        parser.add_argument('username', type=str)
-        parser.add_argument('password', type=str)
+        parser.add_argument("username", type=str)
+        parser.add_argument("password", type=str)
 
     def handle(self, *args, **options):
 
-        username = options.get('username').lower()
-        password = options.get('password')
+        username = options.get("username").lower()
+        password = options.get("password")
 
         User = get_user_model()
 

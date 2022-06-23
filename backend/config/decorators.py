@@ -12,4 +12,5 @@ def transform_validation_error_to_api_error(callback):
             raise APIError(APIErrors.INPUT_VALIDATION, api_response_message=validation_error.detail)
         except Exception as other_error:
             raise other_error
+
     return wrap

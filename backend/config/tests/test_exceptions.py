@@ -17,6 +17,6 @@ def test_exceptions_api_error_without_context(mocker):
     context = {}
 
     response = custom_exception_handler(exc, context)
-    assert response.status_code == APIErrors.INPUT_VALIDATION['http_status_code']
-    assert response.data['message'] == APIErrors.INPUT_VALIDATION['api_response_message']
-    assert response.data['code'] == APIErrors.INPUT_VALIDATION['code']
+    assert response.status_code == APIErrors.INPUT_VALIDATION["http_status_code"]
+    assert response.data["message"] == APIErrors.INPUT_VALIDATION["api_response_message"]
+    assert response.data["code"] == APIErrors.INPUT_VALIDATION["code"]

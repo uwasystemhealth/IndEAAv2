@@ -33,7 +33,7 @@ class LogsMiddleware:
         payload = ""
 
         # Body is always a byte string, convert to ordinary string
-        if not(is_path_log_blacklisted):
+        if not (is_path_log_blacklisted):
             try:
                 body = request.body.decode("utf-8")
                 payload = f"- Request Payload: {json.loads(body)}"
@@ -41,7 +41,7 @@ class LogsMiddleware:
                 # This means that JSON decoding doesn't work because not a JSON
                 pass
 
-        log_data = f'Received {method} {path} {payload}'
+        log_data = f"Received {method} {path} {payload}"
         logger.info(log_data)
 
         # This is the Django view call
@@ -53,10 +53,10 @@ class LogsMiddleware:
 
         # Add Request Payload if it exist as a suffix (Payload from Djang App is always a Object or empty)
         payload = ""
-        if hasattr(response, "data") and not(is_path_log_blacklisted):
+        if hasattr(response, "data") and not (is_path_log_blacklisted):
             payload = f"- Response Payload: {response.data}"
 
-        log_data = f'Sent {status_code} {method} {path} {payload}'
+        log_data = f"Sent {status_code} {method} {path} {payload}"
         logger.info(log_data)
 
         return response

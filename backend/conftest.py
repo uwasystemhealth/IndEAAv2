@@ -7,7 +7,7 @@ from rest_framework.test import APIClient
 
 @pytest.fixture
 def test_password():
-    return 'strong-test-pass'
+    return "strong-test-pass"
 
 
 @pytest.fixture
@@ -16,11 +16,12 @@ def create_user(db, django_user_model, test_password) -> dict:
     user_created = None
 
     def make_user(**kwargs):
-        kwargs['password'] = test_password
-        if 'username' not in kwargs:
-            kwargs['username'] = str(uuid.uuid4())
+        kwargs["password"] = test_password
+        if "username" not in kwargs:
+            kwargs["username"] = str(uuid.uuid4())
         user_created = django_user_model.objects.create_user(**kwargs)
         return user_created
+
     yield make_user
 
     if user_created:
@@ -30,12 +31,12 @@ def create_user(db, django_user_model, test_password) -> dict:
 @pytest.fixture
 @pytest.mark.django_db
 def setup_indeaa(create_user) -> dict:
-    """ Create a basic fixture with the command configure_indeaa
-        and returns a dict with orm object to be used in other fixtures
+    """Create a basic fixture with the command configure_indeaa
+    and returns a dict with orm object to be used in other fixtures
     """
 
-    call_command('configure_indeaa')
-    call_command('make_superuser', 'admin', 'Password123')
+    call_command("configure_indeaa")
+    call_command("make_superuser", "admin", "Password123")
 
 
 @pytest.fixture
@@ -59,9 +60,7 @@ def api_client_no_auth():
 
 
 @pytest.fixture
-def api_client_with_credentials(
-    db, create_user, api_client
-):
+def api_client_with_credentials(db, create_user, api_client):
     user = create_user()
     api_client.force_authenticate(user=user)
     yield api_client
@@ -69,9 +68,7 @@ def api_client_with_credentials(
 
 
 @pytest.fixture
-def api_client_with_credentials_return_user(
-    db, create_user, api_client
-):
+def api_client_with_credentials_return_user(db, create_user, api_client):
     user = None
 
     def _api_client_with_credentials():

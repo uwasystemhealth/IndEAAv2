@@ -12,7 +12,7 @@ from .error_codes import APIErrors, GENERIC_CODE_ERRORS
 
 
 def custom_exception_handler(exc, context):
-    """ Logs then processes the given exception to return in the JSON format
+    """Logs then processes the given exception to return in the JSON format
 
     {
       "error": {
@@ -26,7 +26,7 @@ def custom_exception_handler(exc, context):
         }
     }
     """
-    request = context.get('request', None)
+    request = context.get("request", None)
     if request:
         logger = get_request_logger(request)
     else:
@@ -44,27 +44,27 @@ def custom_exception_handler(exc, context):
             if exc.status_code in GENERIC_CODE_ERRORS:
                 # Catch generic errors: 500, 401 to present to the client nicely
                 error = deepcopy(GENERIC_CODE_ERRORS[exc.status_code])
-                del error['api_response_message']
-                del error['http_status_code']
-                error['message'] = exc.detail
+                del error["api_response_message"]
+                del error["http_status_code"]
+                error["message"] = exc.detail
             else:
                 # Create a formatted APIException
-                error = {'code': exc.status_code, 'message': exc.detail, 'errors': {}}
+                error = {"code": exc.status_code, "message": exc.detail, "errors": {}}
         else:
             # Should never enter this else, but just in case
-            error = {'code': exc.status_code, 'message': exc.detail, 'errors': {}}
+            error = {"code": exc.status_code, "message": exc.detail, "errors": {}}
 
         # Only log as error if status code is > 500
-        if getattr(exc, 'status_code', None):
+        if getattr(exc, "status_code", None):
             if exc.status_code >= 500:
                 # if exc.is_warning = True -> do not log as error. Default is False
-                is_warning = getattr(exc, 'is_warning', False)
+                is_warning = getattr(exc, "is_warning", False)
             else:
                 # Always is a warning if code is 2xx or 4xx
                 is_warning = True
 
-        custom_log_message = getattr(exc, 'log_message', '')
-        override_exception = getattr(exc, 'override_exception', None)
+        custom_log_message = getattr(exc, "log_message", "")
+        override_exception = getattr(exc, "override_exception", None)
 
         log_message = f"Known error raised: {exc} ({custom_log_message})"
         if is_warning:
@@ -84,14 +84,14 @@ def custom_exception_handler(exc, context):
     else:
         # When there is no proper response to output then output a generic 500 error
         # log exceptions that cause a 500 internal server error with the full stack trace
-        logger.exception(f'Unknown Error Occurred: {exc}')
+        logger.exception(f"Unknown Error Occurred: {exc}")
 
     response = Response()
-    response.status_code = error_to_display['http_status_code']
+    response.status_code = error_to_display["http_status_code"]
     response.data = {
-        'number': error_to_display["number"],
-        'code': error_to_display['code'],
-        'message': error_to_display['api_response_message'],
-        'errors': {}
+        "number": error_to_display["number"],
+        "code": error_to_display["code"],
+        "message": error_to_display["api_response_message"],
+        "errors": {},
     }
     return response
