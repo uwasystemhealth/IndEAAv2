@@ -1,4 +1,4 @@
-// This contains all the custom hooks to integrate with RCTI
+// This contains all the custom hooks to integrate with the API
 import useSWR from 'swr';
 import useAuthenticatedAPIClient from 'components/hooks/useAuthenticatedAPIClient';
 import AppContext from 'components/Context/TopLevelContext';

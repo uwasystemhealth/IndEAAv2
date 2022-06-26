@@ -89,4 +89,5 @@ nav:
 - Developers:
     - Overview: developer/index.md
     - Project Structure: developer/project_structure.md
+    - Frontend Specific Documentation: developer/frontend_specific_documentation.md
     - Authentication: developer/authentication.md
