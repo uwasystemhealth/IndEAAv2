@@ -77,3 +77,6 @@ class CourseEvaluation(models.Model):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.eoc_set.name} - {self.unit_code} ({self.created_at})"
