@@ -22,7 +22,11 @@ class EOCSetAdmin(admin.ModelAdmin):
 class EOCGeneralAdmin(admin.ModelAdmin):
     list_display = ("id", "number", "title", "eoc_set")
     list_filter = ("eoc_set",)
-    search_fields = ("id", "number", "title",)
+    search_fields = (
+        "id",
+        "number",
+        "title",
+    )
     ordering = ("number",)
 
 
@@ -40,3 +44,5 @@ class CourseEvaluationAdmin(admin.ModelAdmin):
     list_filter = ("unit_code", "eoc_set")
     search_fields = ("id", "unit_code", "description")
     ordering = ("created_at",)
+
+    filter_horizontal = ("coordinators",)
