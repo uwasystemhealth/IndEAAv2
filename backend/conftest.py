@@ -1,11 +1,10 @@
 import uuid
 
 import pytest
+from dj_rest_auth.utils import jwt_encode
+from django.contrib.auth.models import User
 from django.core.management import call_command
 from rest_framework.test import APIClient
-from django.contrib.auth.models import User
-from dj_rest_auth.utils import jwt_encode
-
 
 
 @pytest.fixture
@@ -86,13 +85,12 @@ def api_client_with_credentials_return_user(db, create_user, api_client):
     if user:
         user.delete()
 
+
 @pytest.fixture
 @pytest.mark.django_db
 def get_auth():
-
     def _get_auth(username="admin"):
-        """ Create a headers with `Bearer XXXX`
-        """
+        """Create a headers with `Bearer XXXX`"""
         # Create token from JWT library
         user = User.objects.get(username=username)
         access_token, refresh_token = jwt_encode(user)
