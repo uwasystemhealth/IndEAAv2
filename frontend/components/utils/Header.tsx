@@ -23,6 +23,7 @@ const Header = () => {
   const { authenticationDetails, setAuthenticationDetails } = useContext(AppContext);
   const isUserAuthenticated = determineIfUserIsAuthentication(authenticationDetails.accessToken);
 
+  console.log(authenticationDetails.accessToken)
   const handleLogin = () => {
     router.push('/login');
   };

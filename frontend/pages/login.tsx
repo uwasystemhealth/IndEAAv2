@@ -16,12 +16,14 @@ import Button from '@mui/material/Button';
 import LoginIcon from '@mui/icons-material/Login';
 import Alert from '@mui/material/Alert';
 import axios from 'axios';
+import { determineIfUserIsAuthentication } from 'utils/Authentication';
 
 type Props = {};
 
 const Login = (props: Props) => {
   const router = useRouter();
   const { authenticationDetails, setAuthenticationDetails } = useContext(AppContext);
+  const isUserAuthenticated = determineIfUserIsAuthentication(authenticationDetails.accessToken);
 
   const [LoggedInErrored, setLoggedInErrored] = useState('');
   const formik = useFormik({
@@ -35,13 +37,15 @@ const Login = (props: Props) => {
     }),
     onSubmit: async (values) => {
       try {
-        const response = await API.CLIENT.post(API.ENDPOINT.AUTHENTICATION.LOGIN, values);
-        // Store data in localstorage
-        localStorage.setItem('access_token', response.data?.access_token);
-        localStorage.setItem('refresh_token', response.data?.refresh_token);
-
-        // Set the context that can be used by any of the app data
-        setAuthenticationDetails(response.data);
+        const { data } = await API.CLIENT.post(API.ENDPOINT.AUTHENTICATION.LOGIN, values);
+        const { access_token: accessToken, refresh_token: refreshToken } = data;
+        // Set access_token and refresh_token in localstorage
+        localStorage.setItem('access-token', accessToken);
+        localStorage.setItem('refresh-token', refreshToken);
+        setAuthenticationDetails({
+          accessToken,
+          refreshToken,
+        });
         setLoggedInErrored('');
         router.push('/');
       } catch (error) {
@@ -56,6 +60,11 @@ const Login = (props: Props) => {
       }
     },
   });
+
+  if (isUserAuthenticated) {
+    router.push('/');
+  }
+
   return (
     <form onSubmit={formik.handleSubmit}>
       {LoggedInErrored && <Alert severity="error">{LoggedInErrored}</Alert>}
