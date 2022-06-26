@@ -36,15 +36,7 @@ class EOCSpecificAdmin(admin.ModelAdmin):
 
 @admin.register(CourseEvaluation)
 class CourseEvaluationAdmin(admin.ModelAdmin):
-    list_display = (
-        "id",
-        "unit_code",
-        "description",
-    )
-    list_filter = ("unit_code",)
-    search_fields = (
-        "id",
-        "unit_code",
-        "description",
-    )
+    list_display = ("id", "unit_code", "description", "eoc_set")
+    list_filter = ("unit_code", "eoc_set")
+    search_fields = ("id", "unit_code", "description", "eoc_set")
     ordering = ("created_at",)
