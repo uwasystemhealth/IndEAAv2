@@ -37,12 +37,19 @@ class CourseEvaluationListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CourseEvaluation
-        fields = ("id", "unit_code", "description", "coordinators")
+        fields = (
+            "id",
+            "unit_code",
+            "description",
+            "coordinators",
+        )
 
 
 class CourseEvaluationDetailSerializer(serializers.ModelSerializer):
     eoc_set = EOCSetSerializer(read_only=True)
     coordinators = UserSerializer(many=True, read_only=True)
+
+    eoc_set_id = serializers.IntegerField(required=True)
 
     class Meta:
         model = CourseEvaluation
