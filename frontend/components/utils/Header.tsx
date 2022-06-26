@@ -13,7 +13,6 @@ import SHLLogo from 'public/shl.png';
 import Link from 'next/link';
 
 const Header = () => {
-
   return (
     <AppBar
       position="sticky"
@@ -28,7 +27,7 @@ const Header = () => {
               <Box
                 sx={{
                   padding: 1,
-                  display: { xs: 'none', md: 'flex' },
+                  display: 'flex',
                   alignItems: 'center',
                 }}
               >
@@ -36,8 +35,6 @@ const Header = () => {
                 <Typography
                   variant="h6"
                   noWrap
-                  component="a"
-                  href="/"
                   sx={{
                     marginLeft: 1,
                   }}
@@ -47,7 +44,7 @@ const Header = () => {
               </Box>
             </a>
           </Link>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' }, justifyContent: 'end' }}>
+          <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'end' }}>
             <Button
               variant="contained"
               startIcon={<ArticleIcon />}
