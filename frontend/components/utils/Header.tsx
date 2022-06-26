@@ -8,11 +8,33 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import ArticleIcon from '@mui/icons-material/Article';
 import LoginIcon from '@mui/icons-material/Login';
-
+import LogoutIcon from '@mui/icons-material/Logout';
 import SHLLogo from 'public/shl.png';
 import Link from 'next/link';
+import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
+import { useRouter } from 'next/router';
+import { useContext } from 'react';
+import AppContext from 'components/Context/TopLevelContext';
+import { determineIfUserIsAuthentication } from 'utils/Authentication';
 
 const Header = () => {
+  const router = useRouter();
+  const axios = useAuthenticatedAPIClient();
+  const { authenticationDetails, setAuthenticationDetails } = useContext(AppContext);
+  const isUserAuthenticated = determineIfUserIsAuthentication(authenticationDetails.accessToken);
+
+  const handleLogin = () => {
+    router.push('/login');
+  };
+
+  const handleLogout = () => {
+    setAuthenticationDetails({
+      accessToken: '',
+      refreshToken: '',
+    });
+    router.push('/login');
+  };
+
   return (
     <AppBar
       position="sticky"
@@ -57,12 +79,12 @@ const Header = () => {
             </Button>
             <Button
               variant="contained"
-              startIcon={<LoginIcon />}
-              onClick={() => console.log('a')}
+              startIcon={isUserAuthenticated ? <LogoutIcon /> : <LoginIcon />}
+              onClick={isUserAuthenticated ? handleLogout : handleLogin}
               color="secondary"
               sx={{ mr: 1 }}
             >
-              Login
+              {isUserAuthenticated ? 'Logout' : 'Login'}
             </Button>
           </Box>
         </Toolbar>
