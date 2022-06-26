@@ -22,7 +22,7 @@ class EOCSetAdmin(admin.ModelAdmin):
 class EOCGeneralAdmin(admin.ModelAdmin):
     list_display = ("id", "number", "title", "eoc_set")
     list_filter = ("eoc_set",)
-    search_fields = ("id", "number", "title", "eoc_set")
+    search_fields = ("id", "number", "title",)
     ordering = ("number",)
 
 
@@ -30,7 +30,7 @@ class EOCGeneralAdmin(admin.ModelAdmin):
 class EOCSpecificAdmin(admin.ModelAdmin):
     list_display = ("id", "number", "eoc_general", "get_general_and_specific_eoc", "description")
     list_filter = ("eoc_general",)
-    search_fields = ("id", "number", "eoc_general", "description")
+    search_fields = ("id", "number", "description")
     ordering = ("number",)
 
 
@@ -38,5 +38,5 @@ class EOCSpecificAdmin(admin.ModelAdmin):
 class CourseEvaluationAdmin(admin.ModelAdmin):
     list_display = ("id", "unit_code", "description", "eoc_set")
     list_filter = ("unit_code", "eoc_set")
-    search_fields = ("id", "unit_code", "description", "eoc_set")
+    search_fields = ("id", "unit_code", "description")
     ordering = ("created_at",)
