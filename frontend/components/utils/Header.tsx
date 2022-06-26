@@ -16,6 +16,7 @@ import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import AppContext from 'components/Context/TopLevelContext';
 import { determineIfUserIsAuthentication } from 'utils/Authentication';
+import API from 'utils/api';
 
 const Header = () => {
   const router = useRouter();
@@ -23,7 +24,6 @@ const Header = () => {
   const { authenticationDetails, setAuthenticationDetails } = useContext(AppContext);
   const isUserAuthenticated = determineIfUserIsAuthentication(authenticationDetails.accessToken);
 
-  console.log(authenticationDetails.accessToken)
   const handleLogin = () => {
     router.push('/login');
   };
@@ -33,6 +33,10 @@ const Header = () => {
       accessToken: '',
       refreshToken: '',
     });
+    localStorage.removeItem('access-token');
+    localStorage.removeItem('refresh-token');
+
+    axios.post(API.ENDPOINT.AUTHENTICATION.LOGOUT);
     router.push('/login');
   };
 

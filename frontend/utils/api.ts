@@ -11,6 +11,7 @@ export const API_CLIENT = axios.create(CONFIGS);
 export const API_ENDPOINT = {
   AUTHENTICATION: {
     LOGIN: '/api/v1/authentication/login/',
+    LOGOUT: '/api/v1/authentication/logout/',
     USER: '/api/v1/authentication/user/',
     REFRESH: '/api/v1/authentication/token/refresh/',
   },
