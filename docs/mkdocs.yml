@@ -89,3 +89,4 @@ nav:
 - Developers:
     - Overview: developer/index.md
     - Project Structure: developer/project_structure.md
+    - Authentication: developer/authentication.md
