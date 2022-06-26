@@ -1,7 +1,7 @@
+from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from django.contrib.auth.models import User
-from course_evaluations.models import EOCSet, EOCGeneral, EOCSpecific, CourseEvaluation
+from course_evaluations.models import CourseEvaluation, EOCGeneral, EOCSet, EOCSpecific
 
 
 class UserSerializer(serializers.ModelSerializer):

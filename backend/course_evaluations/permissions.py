@@ -1,5 +1,6 @@
 from rest_framework import permissions
 
+
 class IsCoordinatorAllowAll(permissions.BasePermission):
     """
     Custom permission to only allow coordinators the API

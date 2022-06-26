@@ -1,5 +1,6 @@
 from django.contrib import admin
-from course_evaluations.models import EOCSet, EOCGeneral, EOCSpecific, CourseEvaluation
+
+from course_evaluations.models import CourseEvaluation, EOCGeneral, EOCSet, EOCSpecific
 
 
 @admin.register(EOCSet)

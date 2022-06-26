@@ -1,11 +1,15 @@
-from rest_framework import viewsets, status, permissions
+from rest_framework import permissions, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
-from course_evaluations.serializers import CourseEvaluationDetailSerializer, CourseEvaluationListSerializer, EOCSet
 from course_evaluations.models import CourseEvaluation
 from course_evaluations.permissions import IsCoordinatorAllowAll
+from course_evaluations.serializers import (
+    CourseEvaluationDetailSerializer,
+    CourseEvaluationListSerializer,
+    EOCSet,
+)
 
 
 class CourseEvaluationViewSet(viewsets.ModelViewSet):

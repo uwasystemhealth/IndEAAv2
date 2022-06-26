@@ -1,8 +1,8 @@
 import uuid
-from django.db import models
 
 # Create your models here.
 from django.contrib.postgres.fields import ArrayField
+from django.db import models
 
 
 class EOCSet(models.Model):

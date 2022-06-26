@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group, Permission
 from django.core.management.base import BaseCommand
 
-from course_evaluations.models import EOCSet, EOCGeneral, EOCSpecific
+from course_evaluations.models import EOCGeneral, EOCSet, EOCSpecific
 
 # List of groups and permission for each group
 GROUPS = []
