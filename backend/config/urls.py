@@ -4,6 +4,7 @@ from django.urls import include, path
 api_patterns = (
     [
         path("status/", include("status.urls")),
+        path("course-evaluations/", include("course_evaluations.urls")),
     ],
     "api",
 )
