@@ -22,3 +22,19 @@ const API = {
   CONFIGS,
 };
 export default API;
+
+export interface UserAPIResponse {
+  pk: number;
+  username: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+}
+
+export const DEFAULT_USER_API_RESPONSE: UserAPIResponse = {
+  pk: 0,
+  username: '',
+  first_name: '',
+  last_name: '',
+  email: '',
+};
