@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 
-const Page: NextPage = () => {
+const Onboarding: NextPage = () => {
   return (
     <div className={styles.container}>
       <ul>
@@ -15,7 +15,7 @@ const Page: NextPage = () => {
           <Link href='/'>Sign out</Link>
         </li>
         <li>
-          <Link href='/administrator'>Administrator</Link>
+          <Link href='/admin'>Administrator</Link>
         </li>
         <li>
           <Link href='/coordinator'>Coordinator</Link>
@@ -28,4 +28,4 @@ const Page: NextPage = () => {
   )
 }
 
-export default Page;
+export default Onboarding;

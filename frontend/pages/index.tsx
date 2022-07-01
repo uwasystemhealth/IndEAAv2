@@ -4,7 +4,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 
-const Page: NextPage = () => {
+const Index: NextPage = () => {
   return (
     <div className={styles.container}>
       <ul>
@@ -19,4 +19,4 @@ const Page: NextPage = () => {
   )
 }
 
-export default Page;
+export default Index;
