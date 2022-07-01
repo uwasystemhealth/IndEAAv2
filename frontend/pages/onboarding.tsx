@@ -7,14 +7,11 @@ import styles from '../styles/Home.module.css'
 const Page: NextPage = () => {
   return (
     <div className={styles.container}>
-      <ul>
-        <li>
-          <Link href='/'>Indeaa</Link>
-        </li>
-        <li>
-          <Link href='/onboarding'>Login with Google</Link>
-        </li>
-      </ul>
+      <Link href='/'>IndEAA</Link>
+      <Link href='/'>Sign out</Link>
+      <Link href='/administrator'>Administrator</Link>
+      <Link href='/coordinator'>Coordinator</Link>
+      <Link href='/reviewer'>Reviewer</Link>
     </div>
   )
 }
