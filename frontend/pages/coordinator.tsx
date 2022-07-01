@@ -24,6 +24,17 @@ const Coordinator: NextPage = () => {
         <li>
           <Link href='/reviewer'>Reviewer</Link>
         </li>
+
+
+        <li>
+          <ul>
+            MECH5551/MECH5552 Evaluation
+
+            <li>
+              <Link href='/evaluation/1/coordinator'>View</Link>
+            </li>
+          </ul>
+        </li>
       </ul>
     </div>
   )

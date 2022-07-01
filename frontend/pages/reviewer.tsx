@@ -30,7 +30,7 @@ const Reviewer: NextPage = () => {
             MECH5551/MECH5552 Evaluation
 
             <li>
-              <Link href='/evaluation/1/overview'>Overview & EOC</Link>
+              <Link href='/evaluation/1/reviewer'>Overview & EOC</Link>
             </li>
           </ul>
         </li>
