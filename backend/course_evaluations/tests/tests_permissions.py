@@ -36,37 +36,34 @@ def test_create_view_course_evaluation_anonymous(api_client_no_auth):
     assert CourseEvaluation.objects.count() == 0
 
 
-def test_update_view_course_evaluation_anonymous(api_client_with_credentials_return_user, make_course_evaluation):
+def test_update_view_course_evaluation_anonymous(api_client_no_auth, api_client_with_credentials_return_user, make_course_evaluation):
     """
-    GIVEN: A course evaluation is created
-    WHEN: I update the course evaluation
-    THEN: The course evaluation is updated successfully
-    """
-    api_client, user = api_client_with_credentials_return_user()
-    course_evaluation_1 = make_course_evaluation(coordinators=[user])
-
-    url = reverse("api-v1:course_evaluations:course-evaluations-detail", kwargs={"pk": course_evaluation_1.id})
-    data = {
-        "description": "Test Update of CourseEvaluation",
-    }
-    response = api_client.patch(url, data)
-
-    assert response.status_code == status.HTTP_200_OK
-    assert response.data["unit_code"] == course_evaluation_1.unit_code
-    assert response.data["description"] == data["description"]
-
-
-def test_delete_view_course_evaluation(api_client_with_credentials_return_user, make_course_evaluation):
-    """
-    GIVEN: A course evaluation is created
-    WHEN: I delete the course evaluation
-    THEN: The course evaluation cannot be deleted
+    GIVEN: The user is not authenticated
+    WHEN: I update a course evaluation
+    THEN: The user is not authorised to use the endpoint
     """
     api_client, user = api_client_with_credentials_return_user()
-    course_evaluation_1 = make_course_evaluation(coordinators=[user])
+    course_evaluation = make_course_evaluation(coordinators=[user])
 
-    url = reverse("api-v1:course_evaluations:course-evaluations-detail", kwargs={"pk": course_evaluation_1.id})
-    response = api_client.delete(url)
+    url = reverse("api-v1:course_evaluations:course-evaluation-detail", kwargs={"pk": course_evaluation.id})
+    data = {"unit_code": "TEST"}
+    response = api_client_no_auth.put(url, data)
 
-    assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
+    assert CourseEvaluation.objects.count() == 1
+
+
+def test_delete_view_course_evaluation_anonymous(api_client_no_auth, api_client_with_credentials_return_user, make_course_evaluation):
+    """
+    GIVEN: The user is not authenticated
+    WHEN: I delete a course evaluation
+    THEN: The user is not authorised to use the endpoint
+    """
+    api_client, user = api_client_with_credentials_return_user()
+    course_evaluation = make_course_evaluation(coordinators=[user])
+
+    url = reverse("api-v1:course_evaluations:course-evaluation-detail", kwargs={"pk": course_evaluation.id})
+    response = api_client_no_auth.delete(url)
+
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
     assert CourseEvaluation.objects.count() == 1
