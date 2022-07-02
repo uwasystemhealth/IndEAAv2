@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.core.management import call_command
 from rest_framework.test import APIClient
 
+from course_evaluations.models import CourseEvaluation, EOCSet
+
 
 @pytest.fixture
 def test_password():
@@ -51,6 +53,7 @@ def api_client():
     return client
 
 
+@pytest.mark.django_db
 @pytest.fixture
 def api_client_no_auth():
     """
@@ -97,3 +100,45 @@ def get_auth():
         return access_token, refresh_token
 
     yield _get_auth
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def make_course_evaluation(setup_indeaa) -> CourseEvaluation:
+    """Make CourseEvaluation on demand inside tests"""
+    created_course_evaluation = []
+
+    # Create a CourseEvaluation record
+    def _make_course_evaluation(
+        unit_code="TEST1001",
+        description="Test CourseEvaluation",
+        coordinators=[],
+        eoc_set=None,
+    ):
+        # Get the default EOC set
+        if eoc_set is None:
+            # This is setup using `configure_indeaa` django command
+            eoc_set = EOCSet.objects.first()
+
+        # Create the record
+        course_evaluation = CourseEvaluation.objects.create(
+            unit_code=unit_code,
+            description=description,
+            eoc_set=eoc_set,
+        )
+
+        for coordinator in coordinators:
+            course_evaluation.coordinators.add(coordinator)
+
+        course_evaluation.save()
+
+        created_course_evaluation.append(course_evaluation)
+
+        return course_evaluation
+
+    # Recommended reading: https://docs.pytest.org/en/stable/fixture.html#yield-fixtures-recommended
+    yield _make_course_evaluation
+
+    # Teardown
+    for course_evaluation in created_course_evaluation:
+        course_evaluation.delete()
