@@ -42,7 +42,7 @@ def test_list_view_course_evaluation(api_client_with_credentials_return_user, ma
     assert len(course_evaluation_from_endpoint["coordinators"]) == 1
     coordinator = course_evaluation_from_endpoint["coordinators"][0]
 
-    assert coordinator["id"] == str(user.id)
+    assert coordinator["id"] == user.id
     assert coordinator["username"] == user.username
 
     # Check that there are certain fields that does not exist
