@@ -95,3 +95,18 @@ def test_update_view_course_evaluation(api_client_with_credentials_return_user, 
     assert response.status_code == status.HTTP_200_OK
     assert response.data["unit_code"] == course_evaluation_1.unit_code
     assert response.data["description"] == data["description"]
+
+def test_delete_view_course_evaluation(api_client_with_credentials_return_user, make_course_evaluation):
+    """
+    GIVEN: A course evaluation is created
+    WHEN: I delete the course evaluation
+    THEN: The course evaluation cannot be deleted
+    """
+    api_client, user = api_client_with_credentials_return_user()
+    course_evaluation_1 = make_course_evaluation(coordinators=[user])
+
+    url = reverse("api-v1:course_evaluations:course-evaluations-detail", kwargs={"pk": course_evaluation_1.id})
+    response = api_client.delete(url)
+
+    assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
+    assert CourseEvaluation.objects.count() == 1
