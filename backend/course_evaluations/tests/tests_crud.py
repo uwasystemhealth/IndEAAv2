@@ -3,7 +3,6 @@ This test file is focused on the crud functionality of the course evaluations.
 
 Note: Permission testing is not the focus of this test file.
 """
-from django.conf import settings
 from django.urls import reverse
 from rest_framework import status
 
@@ -21,7 +20,7 @@ def test_list_view_course_evaluation(api_client_with_credentials_return_user, ma
     course_evaluation_2 = make_course_evaluation(coordinators=[user])
 
     # This user should not be able to see this
-    course_evaluation_3 = make_course_evaluation(coordinators=[])
+    make_course_evaluation(coordinators=[])
 
     url = reverse("api-v1:course_evaluations:course-evaluations-list")
     response = api_client.get(url)
@@ -95,6 +94,7 @@ def test_update_view_course_evaluation(api_client_with_credentials_return_user, 
     assert response.status_code == status.HTTP_200_OK
     assert response.data["unit_code"] == course_evaluation_1.unit_code
     assert response.data["description"] == data["description"]
+
 
 def test_delete_view_course_evaluation(api_client_with_credentials_return_user, make_course_evaluation):
     """

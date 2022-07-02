@@ -1,11 +1,10 @@
 """
 This test file is focused on permission testing. This is to ensure that unauthorised access cannot use the API
 """
-from django.conf import settings
 from django.urls import reverse
 from rest_framework import status
 
-from course_evaluations.models import CourseEvaluation, EOCSet
+from course_evaluations.models import CourseEvaluation
 
 
 def test_list_view_course_evaluation_anonymous(api_client_no_auth):
@@ -55,6 +54,7 @@ def test_update_view_course_evaluation_anonymous(api_client_with_credentials_ret
     assert response.status_code == status.HTTP_200_OK
     assert response.data["unit_code"] == course_evaluation_1.unit_code
     assert response.data["description"] == data["description"]
+
 
 def test_delete_view_course_evaluation(api_client_with_credentials_return_user, make_course_evaluation):
     """
