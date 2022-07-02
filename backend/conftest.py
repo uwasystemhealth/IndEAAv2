@@ -38,7 +38,7 @@ def setup_indeaa(create_user) -> dict:
     """
 
     call_command("configure_indeaa")
-    call_command("make_superuser", "admin", "Password123")
+    call_command("make_superuser", "admin", "admin@admin.com" "Password123")
 
 
 @pytest.fixture
