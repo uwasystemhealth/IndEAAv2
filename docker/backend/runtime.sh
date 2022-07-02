@@ -106,7 +106,7 @@ if [ "${APP_DEPLOY_TYPE^^}" = "MIGRATE_AND_SETUP" ] || [ "${APP_DEPLOY_TYPE^^}" 
     python manage.py collectstatic --noinput
 
     printf "\n" && echo "Creating Django Superuser" | boxes -d shell -p a1l2
-    python manage.py make_superuser $SUPERUSER_USERNAME $SUPERUSER_PASSWORD
+    python manage.py make_superuser $SUPERUSER_USERNAME $SUPERUSER_EMAIL $SUPERUSER_PASSWORD
 
     # Configure indeaa
     printf "\n" && echo "Configuring IndEAA with standard config" | boxes -d shell -p a1l2

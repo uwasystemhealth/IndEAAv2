@@ -199,8 +199,6 @@ REST_USE_JWT = True
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
-    # Need to be very long to accomodate users who should not be logged out (eg. users not logged in with socials)
-    # Ideally keep their account for 3 years
     "REFRESH_TOKEN_LIFETIME": timedelta(days=365 * 3),
 }
 

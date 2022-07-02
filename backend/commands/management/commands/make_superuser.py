@@ -7,9 +7,9 @@ class Command(BaseCommand):
     Creates a superuser with the arguments provided.
     If user already exists, it ensures email is lowercase and sets the password specified.
 
-    Needs to be passed 'username' and 'password'
+    Needs to be passed 'username', 'email' and 'password'
 
-    example: python manage.py make_superuser admin Password123
+    example: python manage.py make_superuser admin admin@admin.com Password123
 
     """
 
@@ -17,11 +17,13 @@ class Command(BaseCommand):
 
         # Positional arguments
         parser.add_argument("username", type=str)
+        parser.add_argument("email", type=str)
         parser.add_argument("password", type=str)
 
     def handle(self, *args, **options):
 
         username = options.get("username").lower()
+        email = options.get("email").lower()
         password = options.get("password")
 
         User = get_user_model()
@@ -30,6 +32,7 @@ class Command(BaseCommand):
         print("------------ Superuser Creation Starting... --------------------")
         print(" ")
         print(f"Superuser Username: {username}")
+        print(f"Superuser Email: {email}")
         print("Superuser Password: <hidden>")
         print(" ")
 
@@ -42,7 +45,7 @@ class Command(BaseCommand):
             else:
                 print("Superuser not found, creating...")
                 # Create user account as superuser/admin
-                primary_superuser = User.objects.create_superuser(username, None, password)
+                primary_superuser = User.objects.create_superuser(username, email, password)
 
                 primary_superuser.is_active = True
                 primary_superuser.save()
