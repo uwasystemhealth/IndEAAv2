@@ -52,7 +52,7 @@ def test_list_view_course_evaluation(api_client_with_credentials_return_user, ma
     assert "eoc_set_id" not in course_evaluation_from_endpoint
 
 
-def test_create_course_evaluation(setup_indeaa, api_client_with_credentials_return_user):
+def test_create_view_course_evaluation(setup_indeaa, api_client_with_credentials_return_user):
     """
     GIVEN: As a user of the system
     WHEN: I create a course evaluation
@@ -75,3 +75,23 @@ def test_create_course_evaluation(setup_indeaa, api_client_with_credentials_retu
     assert course_evaluation.unit_code == data["unit_code"]
     assert course_evaluation.description == data["description"]
     assert course_evaluation.eoc_set == EOCSet.objects.first()
+
+
+def test_update_view_course_evaluation(api_client_with_credentials_return_user, make_course_evaluation):
+    """
+    GIVEN: A course evaluation is created
+    WHEN: I update the course evaluation
+    THEN: The course evaluation is updated successfully
+    """
+    api_client, user = api_client_with_credentials_return_user()
+    course_evaluation_1 = make_course_evaluation(coordinators=[user])
+
+    url = reverse("api-v1:course_evaluations:course-evaluations-detail", kwargs={"pk": course_evaluation_1.id})
+    data = {
+        "description": "Test Update of CourseEvaluation",
+    }
+    response = api_client.patch(url, data)
+
+    assert response.status_code == status.HTTP_200_OK
+    assert response.data["unit_code"] == course_evaluation_1.unit_code
+    assert response.data["description"] == data["description"]
