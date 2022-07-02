@@ -36,16 +36,19 @@ def test_create_view_course_evaluation_anonymous(api_client_no_auth):
     assert CourseEvaluation.objects.count() == 0
 
 
-def test_update_view_course_evaluation_anonymous(api_client_no_auth, api_client_with_credentials_return_user, make_course_evaluation):
+def test_update_view_course_evaluation_anonymous(api_client_no_auth, create_user, make_course_evaluation):
     """
     GIVEN: The user is not authenticated
     WHEN: I update a course evaluation
     THEN: The user is not authorised to use the endpoint
     """
-    api_client, user = api_client_with_credentials_return_user()
+    user = create_user()
     course_evaluation = make_course_evaluation(coordinators=[user])
 
-    url = reverse("api-v1:course_evaluations:course-evaluation-detail", kwargs={"pk": course_evaluation.id})
+    url = reverse(
+        "api-v1:course_evaluations:course-evaluation-detail",
+        kwargs={"pk": course_evaluation.id},
+    )
     data = {"unit_code": "TEST"}
     response = api_client_no_auth.put(url, data)
 
@@ -53,16 +56,19 @@ def test_update_view_course_evaluation_anonymous(api_client_no_auth, api_client_
     assert CourseEvaluation.objects.count() == 1
 
 
-def test_delete_view_course_evaluation_anonymous(api_client_no_auth, api_client_with_credentials_return_user, make_course_evaluation):
+def test_delete_view_course_evaluation_anonymous(api_client_no_auth, create_user, make_course_evaluation):
     """
     GIVEN: The user is not authenticated
     WHEN: I delete a course evaluation
     THEN: The user is not authorised to use the endpoint
     """
-    api_client, user = api_client_with_credentials_return_user()
+    user = create_user()
     course_evaluation = make_course_evaluation(coordinators=[user])
 
-    url = reverse("api-v1:course_evaluations:course-evaluation-detail", kwargs={"pk": course_evaluation.id})
+    url = reverse(
+        "api-v1:course_evaluations:course-evaluation-detail",
+        kwargs={"pk": course_evaluation.id},
+    )
     response = api_client_no_auth.delete(url)
 
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
