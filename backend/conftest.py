@@ -51,6 +51,7 @@ def api_client():
     return client
 
 
+@pytest.mark.django_db
 @pytest.fixture
 def api_client_no_auth():
     """
