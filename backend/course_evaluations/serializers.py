@@ -7,7 +7,7 @@ from course_evaluations.models import CourseEvaluation, EOCGeneral, EOCSet, EOCS
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ("username", "first_name", "last_name", "email", "is_staff", "is_active", "is_superuser")
+        fields = ("id", "username", "first_name", "last_name", "email", "is_staff", "is_active", "is_superuser")
 
 
 class EOCSpecificSerializer(serializers.ModelSerializer):
