@@ -11,7 +11,7 @@ import { Card } from '@mui/material';
 const Reviewer: NextPage = () => {
   return (
     <div className={styles.container}>
-      <BodyCard>
+      <BodyCard header="swag">
         <div>
           swag
         </div>
