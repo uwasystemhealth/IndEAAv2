@@ -21,8 +21,8 @@ function MyApp({ Component, pageProps }: AppProps) {
         <Header />
         <div style={myStyle}>    
         <Component {...pageProps} />
-        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}} className='rounded-lg bg-grey p-3 py-2 px-5 text-center shadow-lg sm:py-4'>
-        <div style={{backgroundColor: 'grey', textAlign: 'center', height: 200, width: 800}}>
+        <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        <div style={{backgroundColor: 'Lightgray', textAlign: 'center', height: 200, width: 800}}>
           <h1>Welcome</h1>
           <p>Please login to select your role</p>
         </div>
