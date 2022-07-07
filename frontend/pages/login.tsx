@@ -9,6 +9,8 @@ import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormHelperText from '@mui/material/FormHelperText';
 import FormControl from '@mui/material/FormControl';
+import Card from '@mui/material/Card';
+import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import EmailIcon from '@mui/icons-material/Email';
 import PasswordIcon from '@mui/icons-material/Password';
@@ -66,9 +68,16 @@ const Login = (props: Props) => {
   }
 
   return (
+    <Card sx={{minWidth: 250, maxHeight: 350}} style={{opacity: 0.9}}>
+    <Grid container alignItems="center" justifyContent="center" direction="column">
+      <br></br>
     <form onSubmit={formik.handleSubmit}>
       {LoggedInErrored && <Alert severity="error">{LoggedInErrored}</Alert>}
-      <TextField
+      <br></br>
+      <br></br>
+      <TextField 
+        style = {{marginBottom: '2em'}}
+        variant="outlined"
         fullWidth
         label="Email"
         id="email"
@@ -76,9 +85,6 @@ const Login = (props: Props) => {
         onChange={formik.handleChange}
         error={formik.touched.email && Boolean(formik.errors.email)}
         helperText={formik.touched.email && formik.errors.email}
-        sx={{
-          marginBottom: '1rem',
-        }}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -88,6 +94,8 @@ const Login = (props: Props) => {
         }}
       ></TextField>
       <TextField
+        variant = "outlined"
+        sx = {{marginBottom: '2em'}}
         fullWidth
         label="Password"
         id="password"
@@ -96,9 +104,6 @@ const Login = (props: Props) => {
         onChange={formik.handleChange}
         error={formik.touched.password && Boolean(formik.errors.password)}
         helperText={formik.touched.password && formik.errors.password}
-        sx={{
-          marginBottom: '1rem',
-        }}
         InputProps={{
           startAdornment: (
             <InputAdornment position="start">
@@ -107,10 +112,15 @@ const Login = (props: Props) => {
           ),
         }}
       ></TextField>
-      <Button startIcon={<LoginIcon />} variant="contained" size="large" type="submit">
+      <Grid container alignItems="center" justifyContent="center" direction="column">
+      <Button variant="contained" size="large" type="submit">
         Login
       </Button>
+      <br></br>
+      </Grid>
     </form>
+    </Grid>
+    </Card>
   );
 };
 

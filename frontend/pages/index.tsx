@@ -2,6 +2,14 @@ import { useSWRAuth } from '@/components/hooks/useSWRAuth';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Card from '@mui/material/Card';
+import CardHeader from '@mui/material/CardHeader';
+import Button from '@mui/material/Button';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Typography from '@mui/material/Typography';
 import { API_ENDPOINT, DEFAULT_USER_API_RESPONSE, UserAPIResponse } from 'utils/api';
 import styles from '../styles/Home.module.css';
 
@@ -15,20 +23,34 @@ const Home: NextPage = () => {
     first_name: firstName,
     last_name: lastName,
   } = (response?.data as unknown as UserAPIResponse) || DEFAULT_USER_API_RESPONSE;
-  return (
-    <div>
-      <p>isLoading: {`${isLoading}`}</p>
-      <p>error: {`${error}`}</p>
-      {pk && (
-        <div>
-          <p>pk: {pk}</p>
-          <p>username: {username}</p>
-          <p>email: {email}</p>
-          <p>firstName: {firstName}</p>
-          <p>lastName: {lastName}</p>
-        </div>
-      )}
-    </div>
+  return (  
+  
+    <Card style={{opacity: 0.8}}>
+      <Grid sx={{minWidth: 500, minHeight: 250}} container alignItems="center" justifyContent="center">
+      <CardContent>
+        <Typography sx={{ fontSize: 36 }} color="text.secondary" gutterBottom>
+          Welcome!
+        </Typography>
+        <Typography variant="body2">
+          Please Login to Continue
+        </Typography>
+      </CardContent>
+      </Grid>
+    </Card>
+    
+    // <div>
+    //   <p>isLoading: {`${isLoading}`}</p>
+    //   <p>error: {`${error}`}</p>
+    //   {pk && (
+    //     <div>
+    //       <p>pk: {pk}</p>
+    //       <p>username: {username}</p>
+    //       <p>email: {email}</p>
+    //       <p>firstName: {firstName}</p>
+    //       <p>lastName: {lastName}</p>
+    //     </div>
+    //   )}
+    // </div>
   );
 };
 
