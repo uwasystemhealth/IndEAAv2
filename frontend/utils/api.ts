@@ -10,9 +10,10 @@ export const API_CLIENT = axios.create(CONFIGS);
 // These contains the URL for the API on various endpoints
 export const API_ENDPOINT = {
   AUTHENTICATION: {
+    GOOGLE_LOGIN: '/auth/google/', // TODO: change url to match
     LOGIN: '/api/v1/authentication/login/',
     LOGOUT: '/api/v1/authentication/logout/',
-    USER: '/api/v1/authentication/user/',
+    USER: '/api/v1/authentication/user/', // NOTE: /auth/user is redundant (this is the same)
     REFRESH: '/api/v1/authentication/token/refresh/',
   },
 };
