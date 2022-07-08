@@ -1,7 +1,7 @@
 import AppContext from '@/components/Context/TopLevelContext';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import API from 'utils/api';
 import * as yup from 'yup';
 import OutlinedInput from '@mui/material/OutlinedInput';
@@ -17,6 +17,10 @@ import LoginIcon from '@mui/icons-material/Login';
 import Alert from '@mui/material/Alert';
 import axios from 'axios';
 import { determineIfUserIsAuthentication } from 'utils/Authentication';
+import { Google } from '@mui/icons-material';
+import CsrfToken, { getCookie } from '@/components/Authentication/CsrfToken';
+import { headers } from 'next.config';
+import cookie from 'react-cookies';
 
 type Props = {};
 
@@ -65,52 +69,94 @@ const Login = (props: Props) => {
     router.push('/');
   }
 
+  const [csrfMiddlewareToken, setCsrfMiddlewareToken] = useState<string>('ERROR');
+  useEffect(() => {
+    const getToken = async () => {
+      const response = await API.CLIENT.get(API.ENDPOINT.AUTHENTICATION.GOOGLE_LOGIN);
+      if (response.data.body) {
+        const token: string = response.data.body.children[0].value;
+        setCsrfMiddlewareToken(token);
+        console.log(token);
+      }
+    };
+
+    getToken();
+  }, []);
+
+  const test = async (csrf: string, csrfmiddleware: string) => {
+    console.log(csrf);
+
+    // const csrf_middleware_token = await API.CLIENT.get(API.ENDPOINT.AUTHENTICATION.GOOGLE_LOGIN);
+    // console.log(csrf_middleware_token);
+    axios.defaults.withCredentials = true;
+
+    await API.CLIENT.post(
+      API.ENDPOINT.AUTHENTICATION.GOOGLE_LOGIN,
+      { csrfmiddlewaretoken: csrfmiddleware },
+      {
+        headers: {
+          'X-CSRFTOKEN': csrf,
+        },
+      },
+    );
+  };
+
   return (
-    <form onSubmit={formik.handleSubmit}>
-      {LoggedInErrored && <Alert severity="error">{LoggedInErrored}</Alert>}
-      <TextField
-        fullWidth
-        label="Email"
-        id="email"
-        value={formik.values.email}
-        onChange={formik.handleChange}
-        error={formik.touched.email && Boolean(formik.errors.email)}
-        helperText={formik.touched.email && formik.errors.email}
-        sx={{
-          marginBottom: '1rem',
-        }}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <EmailIcon />
-            </InputAdornment>
-          ),
-        }}
-      ></TextField>
-      <TextField
-        fullWidth
-        label="Password"
-        id="password"
-        type={'password'}
-        value={formik.values.password}
-        onChange={formik.handleChange}
-        error={formik.touched.password && Boolean(formik.errors.password)}
-        helperText={formik.touched.password && formik.errors.password}
-        sx={{
-          marginBottom: '1rem',
-        }}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <PasswordIcon />
-            </InputAdornment>
-          ),
-        }}
-      ></TextField>
-      <Button startIcon={<LoginIcon />} variant="contained" size="large" type="submit">
-        Login
-      </Button>
-    </form>
+    <>
+      {cookie.load('csrftoken')}
+      <form onSubmit={formik.handleSubmit}>
+        {LoggedInErrored && <Alert severity="error">{LoggedInErrored}</Alert>}
+        <TextField
+          fullWidth
+          label="Email"
+          id="email"
+          value={formik.values.email}
+          onChange={formik.handleChange}
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          helperText={formik.touched.email && formik.errors.email}
+          sx={{
+            marginBottom: '1rem',
+          }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <EmailIcon />
+              </InputAdornment>
+            ),
+          }}
+        ></TextField>
+        <TextField
+          fullWidth
+          label="Password"
+          id="password"
+          type={'password'}
+          value={formik.values.password}
+          onChange={formik.handleChange}
+          error={formik.touched.password && Boolean(formik.errors.password)}
+          helperText={formik.touched.password && formik.errors.password}
+          sx={{
+            marginBottom: '1rem',
+          }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <PasswordIcon />
+              </InputAdornment>
+            ),
+          }}
+        ></TextField>
+        <Button startIcon={<LoginIcon />} variant="contained" size="large" type="submit">
+          Login
+        </Button>
+      </form>
+      <hr />
+      <form onSubmit={() => test(cookie.load('csrftoken'), csrfMiddlewareToken)}>
+        <input type="hidden" name="csrfmiddlewaretoken" value={'TESTING'} />
+        <Button startIcon={<Google />} variant="contained" size="large" type="submit">
+          Login with Google
+        </Button>
+      </form>
+    </>
   );
 };
 

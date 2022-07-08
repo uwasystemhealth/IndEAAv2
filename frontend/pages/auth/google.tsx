@@ -18,7 +18,7 @@ const Google = (props: Props) => {
 
   (async (code: string) => {
     try {
-      const { data } = await API.CLIENT.post(API.ENDPOINT.AUTHENTICATION.GOOGLE_LOGIN, {
+      const { data } = await API.CLIENT.post(API.ENDPOINT.AUTHENTICATION.GOOGLE_TOKEN, {
         code: code,
       });
       const { access_token: accessToken, refresh_token: refreshToken } = data;
@@ -30,7 +30,7 @@ const Google = (props: Props) => {
         refreshToken,
       });
       setLoggedInErrored('');
-      //   router.push('/');
+      router.push('/');
     } catch (error) {
       console.error(error);
       return {};
@@ -39,7 +39,8 @@ const Google = (props: Props) => {
 
   return (
     <>
-      <h1>{code}</h1>
+      <h1>{pageURL}</h1>
+      {/* <h1>{code}</h1> */}
       <h1>
         {authenticationDetails.accessToken}, {authenticationDetails.refreshToken}
       </h1>
@@ -48,15 +49,3 @@ const Google = (props: Props) => {
 };
 
 export default Google;
-
-// TODO: bugs - sometimes google says the redirect url is wrong (fix with refresh, nto sure if this is a configuration error)
-// FIXME:
-// CHANGE
-// def _complete_social_login(request, sociallogin):
-//   if request.user.is_authenticated:
-// TO
-// def _complete_social_login(request, sociallogin):
-//   if request.user and request.user.is_authenticated:
-// IN \usr\local\lib\python3.9\site-packages\allauth\socialaccount\helpers.py
-//
-// FIXME: not sure what I changed but now I'm getting this error: Error: Text content does not match server-rendered HTML.
