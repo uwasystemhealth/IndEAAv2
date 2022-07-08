@@ -24,19 +24,27 @@ const Home: NextPage = () => {
     last_name: lastName,
   } = (response?.data as unknown as UserAPIResponse) || DEFAULT_USER_API_RESPONSE;
   return (  
-  
-    <Card style={{opacity: 0.8}}>
-      <Grid sx={{minWidth: 500, minHeight: 250}} container alignItems="center" justifyContent="center">
-      <CardContent>
-        <Typography sx={{ fontSize: 36 }} color="text.secondary" gutterBottom>
-          Welcome!
-        </Typography>
-        <Typography variant="body2">
-          Please Login to Continue
-        </Typography>
-      </CardContent>
-      </Grid>
-    </Card>
+    <Grid
+      container
+      spacing={0}
+      direction="column"
+      alignItems="center"
+      justify="center"
+      style={{ minHeight: '100vh', paddingTop: '120px'}}
+    >
+      <Card style={{opacity: 0.8, width: '70%'}}>
+        <Grid sx={{minWidth: 500, minHeight: 250}} container alignItems="center" justifyContent="center">
+        <CardContent>
+          <Typography sx={{ fontSize: 36 }} color="text.secondary" gutterBottom>
+            Welcome!
+          </Typography>
+          <Typography variant="body2">
+            Please Login to continue
+          </Typography>
+        </CardContent>
+        </Grid>
+      </Card>
+    </Grid>
     
     // <div>
     //   <p>isLoading: {`${isLoading}`}</p>
