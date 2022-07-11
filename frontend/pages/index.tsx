@@ -1,3 +1,4 @@
+import * as React from 'react';
 import { useSWRAuth } from '@/components/hooks/useSWRAuth';
 import type { NextPage } from 'next';
 import Head from 'next/head';
@@ -5,9 +6,10 @@ import Image from 'next/image';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
-import CardHeader from '@mui/material/CardHeader';
-import Button from '@mui/material/Button';
-import CardActions from '@mui/material/CardActions';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { API_ENDPOINT, DEFAULT_USER_API_RESPONSE, UserAPIResponse } from 'utils/api';
@@ -23,7 +25,36 @@ const Home: NextPage = () => {
     first_name: firstName,
     last_name: lastName,
   } = (response?.data as unknown as UserAPIResponse) || DEFAULT_USER_API_RESPONSE;
+
+  const [role, setRole] = React.useState('');
+
+  const handleChange = (event: SelectChangeEvent) => {
+    setRole(event.target.value as string);
+  };
+
   return (  
+    // <Grid
+    //   container
+    //   spacing={0}
+    //   direction="column"
+    //   alignItems="center"
+    //   justify="center"
+    //   style={{ minHeight: '100vh', paddingTop: '120px'}}
+    // >
+    //   <Card style={{opacity: 0.8, width: '70%'}}>
+    //     <Grid sx={{minWidth: 500, minHeight: 250}} container alignItems="center" justifyContent="center">
+    //     <CardContent>
+    //       <Typography sx={{ fontSize: 36 }} color="text.secondary" gutterBottom>
+    //         Welcome!
+    //       </Typography>
+    //       <Typography variant="body2">
+    //         Please Login to continue
+    //       </Typography>
+    //     </CardContent>
+    //     </Grid>
+    //   </Card>
+    // </Grid>
+
     <Grid
       container
       spacing={0}
@@ -32,15 +63,37 @@ const Home: NextPage = () => {
       justify="center"
       style={{ minHeight: '100vh', paddingTop: '120px'}}
     >
-      <Card style={{opacity: 0.8, width: '70%'}}>
-        <Grid sx={{minWidth: 500, minHeight: 250}} container alignItems="center" justifyContent="center">
+      <Card style={{width: '70%'}}>
+        <Grid sx={{minWidth: 500, maxHeight: 70, backgroundColor: "darkOrange"}} container alignItems="center" justifyContent="center">
         <CardContent>
           <Typography sx={{ fontSize: 36 }} color="text.secondary" gutterBottom>
             Welcome!
           </Typography>
-          <Typography variant="body2">
-            Please Login to continue
+          </CardContent>
+          </Grid>
+          </Card>
+          <Card style={{opacity: 0.8, width: '70%'}}>
+          <Grid sx={{minWidth: 500, minHeight: 250}} container alignItems="center" justifyContent="center">
+          <CardContent>
+          <Typography sx={{fontSize: 24}} variant="body2">
+            Please Choose your Role
           </Typography>
+          <br></br>
+          <Box sx={{ minWidth: 120 }}>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Role</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={role}
+          label="Role"
+          onChange={handleChange}
+        >
+          <MenuItem value={10}>Coordinator</MenuItem>
+          <MenuItem value={20}>Reviewer</MenuItem>
+        </Select>
+      </FormControl>
+    </Box>
         </CardContent>
         </Grid>
       </Card>
