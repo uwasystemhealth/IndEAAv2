@@ -7,21 +7,17 @@ import CustomTheme from '@/components/utils/CustomTheme';
 import { AppProvider } from '@/components/Context/TopLevelContext';
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const myStyle={
-    backgroundImage: 
-"url('https://raw.githubusercontent.com/uwasystemhealth/IndEAA/develop/client/assets/img/bg7.jpg')", //'url(' + image + ')' won't work
-    height:'100vh',
-    marginTop:'-100px',
+  const myStyle = {
+    backgroundImage: `url("${image.src}")`
+    height: '100vh',
     backgroundSize: 'cover',
-
-};
+  };
   return (
     <AppProvider>
       <ThemeProvider theme={CustomTheme}>
-        <Header />
-        <div style={myStyle}>    
-        <Component {...pageProps} />
-        
+        <div style={myStyle}>
+          <Header />
+          <Component {...pageProps} />
         </div>
       </ThemeProvider>
     </AppProvider>
