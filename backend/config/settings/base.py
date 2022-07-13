@@ -298,6 +298,12 @@ LOGGING = {
     },
 }
 
+# from corsheaders.defaults import default_headers
+
+CORS_ALLOW_HEADERS =  [
+    'X-CSRFTOKEN',
+] #+ list(default_headers) 
+
 if ENABLE_LOG_DJANGO_QUERIES:
     LOGGING["loggers"]["django.db.backends"] = {"level": "DEBUG"}
 
@@ -399,3 +405,12 @@ EMAIL_ADDRESS_FROM = config("EMAIL_ADDRESS_FROM", "noreply-indeaa@systemhealthla
 
 # This string is prefixed to the beginning of every email (subject).
 EMAIL_SUBJECT_PREFIX = f"[IndEAA {APP_ENV}] "
+
+CSRF_TRUSTED_ORIGINS = ['localhost:3000']
+CORS_ALLOW_CREDENTIALS = True
+CSRF_COOKIE_HTTPONLY = False
+CSRF_COOKIE_NAME = "csrftoken"
+CSRF_COOKIE_HTTPONLY = False
+
+CORS_EXPOSE_HEADERS = ["Content-Type", "X-CSRFToken"]
+CORS_ALLOW_CREDENTIALS = True
