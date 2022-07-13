@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { useSWRAuth } from '@/components/hooks/useSWRAuth';
 import type { NextPage } from 'next';
 import Head from 'next/head';
@@ -110,21 +110,6 @@ const Home: NextPage = () => {
     </Grid>
 }
     </div>
-    
-    
-    // <div>
-    //   <p>isLoading: {`${isLoading}`}</p>
-    //   <p>error: {`${error}`}</p>
-    //   {pk && (
-    //     <div>
-    //       <p>pk: {pk}</p>
-    //       <p>username: {username}</p>
-    //       <p>email: {email}</p>
-    //       <p>firstName: {firstName}</p>
-    //       <p>lastName: {lastName}</p>
-    //     </div>
-    //   )}
-    // </div>
   );
 };
 
