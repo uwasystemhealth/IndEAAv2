@@ -4,16 +4,13 @@ export const CONFIGS: AxiosRequestConfig = {
   baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000',
   // ParseInt (base 10) - Decimal Number (the normal numbers)
   timeout: parseInt(process.env.NEXT_PUBLIC_AXIOS_TIMEOUT || '', 10) || 30000,
-  withCredentials: true,
-  xsrfHeaderName: 'X-CSRFToken',
-  xsrfCookieName: 'csrftoken',
 };
 export const API_CLIENT = axios.create(CONFIGS);
 
 // These contains the URL for the API on various endpoints
 export const API_ENDPOINT = {
   AUTHENTICATION: {
-    GOOGLE_LOGIN: '/api/v1/authentication/google/login/', // This doesn't work well due to CSRF tokens stuff
+    GOOGLE_LOGIN: '/api/v1/authentication/google/login/redirect/',
     GOOGLE_TOKEN: '/api/v1/authentication/google/',
     LOGIN: '/api/v1/authentication/login/',
     LOGOUT: '/api/v1/authentication/logout/',

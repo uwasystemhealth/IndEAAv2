@@ -28,7 +28,8 @@ APP_NAME = config("APP_NAME", "not-set")
 APP_ENV = config("APP_ENV", "not-set")
 APP_VER = config("APP_VER", "not-set")
 APP_URL = config("APP_URL", "not-set")
-DJANGO_SETTINGS_MODULE = config("DJANGO_SETTINGS_MODULE", "config.settings.base")
+DJANGO_SETTINGS_MODULE = config(
+    "DJANGO_SETTINGS_MODULE", "config.settings.base")
 
 
 ####################
@@ -37,7 +38,8 @@ DJANGO_SETTINGS_MODULE = config("DJANGO_SETTINGS_MODULE", "config.settings.base"
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent  # <-- '/config
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # <- '/' directory
+PROJECT_ROOT = os.path.dirname(os.path.dirname(
+    os.path.dirname(os.path.abspath(__file__))))  # <- '/' directory
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -67,7 +69,7 @@ INSTALLED_APPS = [
     "commands",
     "course_evaluations",
 
-    # Authentication    
+    # Authentication
     "rest_framework",
     "rest_framework.authtoken",
     'django.contrib.sites',
@@ -132,14 +134,14 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
-print(os.environ['GOOGLE_CLIENT_ID'],
-os.environ['GOOGLE_SECRET'])
+GOOGLE_CLIENT_ID = config('GOOGLE_CLIENT_ID', "not-set")
+GOOGLE_SECRET = config('GOOGLE_SECRET', "not-set")
 
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
         "APP": {
-            "client_id": os.environ['GOOGLE_CLIENT_ID'],
-            "secret": os.environ['GOOGLE_SECRET'],
+            "client_id": GOOGLE_CLIENT_ID,
+            "secret": GOOGLE_SECRET,
             "key": "",
         },
         # These are provider-specific settings that can only be
@@ -269,7 +271,8 @@ REST_FRAMEWORK = {
 # Django Logging Config
 #######################
 
-ENABLE_LOG_DJANGO_QUERIES = config("ENABLE_LOG_DJANGO_QUERIES", False, cast=bool)
+ENABLE_LOG_DJANGO_QUERIES = config(
+    "ENABLE_LOG_DJANGO_QUERIES", False, cast=bool)
 
 LOGGING = {
     "version": 1,
@@ -298,11 +301,6 @@ LOGGING = {
     },
 }
 
-# from corsheaders.defaults import default_headers
-
-CORS_ALLOW_HEADERS =  [
-    'X-CSRFTOKEN',
-] #+ list(default_headers) 
 
 if ENABLE_LOG_DJANGO_QUERIES:
     LOGGING["loggers"]["django.db.backends"] = {"level": "DEBUG"}
@@ -354,9 +352,11 @@ if ENABLE_LOG_DJANGO_QUERIES:
 # CORS Config
 #############
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_HEADERS = ["sentry-trace", *list(default_headers)]  # passed by staging
+CORS_ALLOW_HEADERS = ["sentry-trace", *
+                      list(default_headers)]  # passed by staging
 FRONTEND_URL = config("FRONTEND_URL", "http://localhost:11002")
-CORS_ALLOWED_ORIGINS = [FRONTEND_URL]
+CORS_ALLOWED_ORIGINS = [FRONTEND_URL, "https://accounts.google.com"]
+
 
 ######################################
 # App Versioning & Watermarking Config
@@ -401,16 +401,8 @@ EMAIL_PORT = config("EMAIL_PORT", "587", cast=int)
 EMAIL_USE_TLS = config("EMAIL_USE_TLS", True, cast=bool)
 EMAIL_TIMEOUT = config("EMAIL_TIMEOUT", default=20, cast=int)
 
-EMAIL_ADDRESS_FROM = config("EMAIL_ADDRESS_FROM", "noreply-indeaa@systemhealthlab.com")
+EMAIL_ADDRESS_FROM = config(
+    "EMAIL_ADDRESS_FROM", "noreply-indeaa@systemhealthlab.com")
 
 # This string is prefixed to the beginning of every email (subject).
 EMAIL_SUBJECT_PREFIX = f"[IndEAA {APP_ENV}] "
-
-CSRF_TRUSTED_ORIGINS = ['localhost:3000']
-CORS_ALLOW_CREDENTIALS = True
-CSRF_COOKIE_HTTPONLY = False
-CSRF_COOKIE_NAME = "csrftoken"
-CSRF_COOKIE_HTTPONLY = False
-
-CORS_EXPOSE_HEADERS = ["Content-Type", "X-CSRFToken"]
-CORS_ALLOW_CREDENTIALS = True

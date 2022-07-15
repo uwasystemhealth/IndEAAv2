@@ -1,24 +1,15 @@
-
-import urllib.parse
-
 from allauth.socialaccount.providers.google import views as google_views
 from django.urls import include, path
-from django.shortcuts import redirect
 from rest_framework import routers
-from authentication.views import GoogleLogin
-
-FRONTEND_URL = "http://localhost:3000/auth/google"
-
-def google_callback(request):
-    params = urllib.parse.urlencode(request.GET)
-    print(params)
-    return redirect(f'{FRONTEND_URL}?{params}')
-
+from authentication.views import GoogleCallbackRedirect, GoogleLogin, \
+    GoogleLoginRedirect
 
 google_patterns = [
+    path('login/callback/', GoogleCallbackRedirect.as_view(),
+         name='google_callback'),
     path('', GoogleLogin.as_view()),
     path('login/', google_views.oauth2_login),
-    path('login/callback/', google_callback, name='google_callback'),
+    path('login/redirect/', GoogleLoginRedirect.as_view())
 ]
 
 app_name = "google"

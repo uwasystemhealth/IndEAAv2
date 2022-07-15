@@ -1,14 +1,10 @@
 import AppContext from '@/components/Context/TopLevelContext';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/router';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import API from 'utils/api';
 import * as yup from 'yup';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
-import FormHelperText from '@mui/material/FormHelperText';
-import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import EmailIcon from '@mui/icons-material/Email';
 import PasswordIcon from '@mui/icons-material/Password';
@@ -18,9 +14,6 @@ import Alert from '@mui/material/Alert';
 import axios from 'axios';
 import { determineIfUserIsAuthentication } from 'utils/Authentication';
 import { Google } from '@mui/icons-material';
-import CsrfToken, { getCookie } from '@/components/Authentication/CsrfToken';
-import { headers } from 'next.config';
-import cookie from 'react-cookies';
 
 type Props = {};
 
@@ -69,41 +62,8 @@ const Login = (props: Props) => {
     router.push('/');
   }
 
-  const [csrfMiddlewareToken, setCsrfMiddlewareToken] = useState<string>('ERROR');
-  useEffect(() => {
-    const getToken = async () => {
-      const response = await API.CLIENT.get(API.ENDPOINT.AUTHENTICATION.GOOGLE_LOGIN);
-      if (response.data.body) {
-        const token: string = response.data.body.children[0].value;
-        setCsrfMiddlewareToken(token);
-        console.log(token);
-      }
-    };
-
-    getToken();
-  }, []);
-
-  const test = async (csrf: string, csrfmiddleware: string) => {
-    console.log(csrf);
-
-    // const csrf_middleware_token = await API.CLIENT.get(API.ENDPOINT.AUTHENTICATION.GOOGLE_LOGIN);
-    // console.log(csrf_middleware_token);
-    axios.defaults.withCredentials = true;
-
-    await API.CLIENT.post(
-      API.ENDPOINT.AUTHENTICATION.GOOGLE_LOGIN,
-      { csrfmiddlewaretoken: csrfmiddleware },
-      {
-        headers: {
-          'X-CSRFTOKEN': csrf,
-        },
-      },
-    );
-  };
-
   return (
     <>
-      {cookie.load('csrftoken')}
       <form onSubmit={formik.handleSubmit}>
         {LoggedInErrored && <Alert severity="error">{LoggedInErrored}</Alert>}
         <TextField
@@ -150,8 +110,10 @@ const Login = (props: Props) => {
         </Button>
       </form>
       <hr />
-      <form onSubmit={() => test(cookie.load('csrftoken'), csrfMiddlewareToken)}>
-        <input type="hidden" name="csrfmiddlewaretoken" value={'TESTING'} />
+      <form
+        method="get"
+        action={`${API.CONFIGS.baseURL}${API.ENDPOINT.AUTHENTICATION.GOOGLE_LOGIN}`}
+      >
         <Button startIcon={<Google />} variant="contained" size="large" type="submit">
           Login with Google
         </Button>
