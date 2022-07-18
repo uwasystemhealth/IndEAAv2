@@ -16,7 +16,7 @@ import { useRouter } from 'next/router';
 import AppContext from 'components/Context/TopLevelContext';
 import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
 import { determineIfUserIsAuthentication } from 'utils/Authentication';
-
+import { Container } from '@mui/material';
 
 const Overview: NextPage = () => {
   // Change these data when this issue gets worked on. For now it just contains a demo of how to get user info
@@ -40,28 +40,24 @@ const Overview: NextPage = () => {
     setValue(newValue);
   };
 
-  return (  
-    <Grid style={{ minHeight: '100vh'}}>
+  return (
+    <Container>
       <Grid container spacing={5}>
         <Grid item xs={12} sm={6}>
-          <Paper sx={{minHeight: 400}}>Information</Paper>
+          <Card sx={{ minHeight: 400 }}>Information</Card>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Paper sx={{minHeight: 400}}>Documents</Paper>
-        </Grid>
-        <Grid container spacing={0} direction="column" alignItems="center" justify="center" sx={{padding: 5}}>
-        <Card sx={{minWidth: 1000}}>
-            <CardContent>
-                <Typography>
-                    Buttons
-                </Typography>
-            </CardContent>
-            
-        </Card>
+          <Card sx={{ minHeight: 400 }}>Documents</Card>
         </Grid>
       </Grid>
-        
-    </Grid>
+      <Box sx={{ p: 2 }}>
+        <Card>
+          <CardContent>
+            <Typography>Buttons</Typography>
+          </CardContent>
+        </Card>
+      </Box>
+    </Container>
   );
 };
 
