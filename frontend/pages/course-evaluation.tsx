@@ -75,45 +75,39 @@ const Coordinator_evaluation: NextPage = () => {
   };
 
   return (
-    <div>
-      <Container
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
+    <Container
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <Box
+        sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: '#0E91AC', width: '90%' }}
       >
-        <Box
-          sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: '#0E91AC', width: '90%' }}
-        >
-          <Tabs
-            value={value}
-            onChange={handleChangeTab}
-            variant="fullWidth"
-          >
-            <Tab label="OVERVIEW" {...a11yProps(0)} />
-            <Tab label="JUSTIFICATIONS" {...a11yProps(1)} />
-            <Tab label="DOCUMENTS" {...a11yProps(2)} />
-            <Tab label="REVIEWS" {...a11yProps(3)} />
-          </Tabs>
-        </Box>
-        <Box sx={{ backgroundColor: '#EEEEEE', width: '100%' }}>
-          <TabPanel value={value} index={0}>
-            <Overview />
-          </TabPanel>
-          <TabPanel value={value} index={1}>
-            Item Two
-          </TabPanel>
-          <TabPanel value={value} index={2}>
-            Item Three
-          </TabPanel>
-          <TabPanel value={value} index={3}>
-            Item Four
-          </TabPanel>
-        </Box>
-      </Container>
-    </div>
+        <Tabs value={value} onChange={handleChangeTab} variant="fullWidth">
+          <Tab label="OVERVIEW" {...a11yProps(0)} />
+          <Tab label="JUSTIFICATIONS" {...a11yProps(1)} />
+          <Tab label="DOCUMENTS" {...a11yProps(2)} />
+          <Tab label="REVIEWS" {...a11yProps(3)} />
+        </Tabs>
+      </Box>
+      <Box sx={{ backgroundColor: '#EEEEEE', width: '100%' }}>
+        <TabPanel value={value} index={0}>
+          <Overview />
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          Item Two
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          Item Three
+        </TabPanel>
+        <TabPanel value={value} index={3}>
+          Item Four
+        </TabPanel>
+      </Box>
+    </Container>
   );
 };
 
