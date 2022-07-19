@@ -2,10 +2,6 @@ from django.urls import reverse
 from rest_framework import status
 
 
-def fail(setup_indeaa):
-    assert "True" == "False"
-
-
 def test_login_get_jwt_and_user_info_success(setup_indeaa, api_client):
     """
     GIVEN: A user is logged with the correct admin user details
