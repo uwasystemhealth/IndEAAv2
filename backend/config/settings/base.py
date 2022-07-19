@@ -28,8 +28,7 @@ APP_NAME = config("APP_NAME", "not-set")
 APP_ENV = config("APP_ENV", "not-set")
 APP_VER = config("APP_VER", "not-set")
 APP_URL = config("APP_URL", "not-set")
-DJANGO_SETTINGS_MODULE = config(
-    "DJANGO_SETTINGS_MODULE", "config.settings.base")
+DJANGO_SETTINGS_MODULE = config("DJANGO_SETTINGS_MODULE", "config.settings.base")
 
 
 ####################
@@ -38,8 +37,7 @@ DJANGO_SETTINGS_MODULE = config(
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent  # <-- '/config
-PROJECT_ROOT = os.path.dirname(os.path.dirname(
-    os.path.dirname(os.path.abspath(__file__))))  # <- '/' directory
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))  # <- '/' directory
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -68,17 +66,16 @@ INSTALLED_APPS = [
     "django_filters",
     "commands",
     "course_evaluations",
-
     # Authentication
     "rest_framework",
     "rest_framework.authtoken",
-    'django.contrib.sites',
+    "django.contrib.sites",
     "dj_rest_auth",
-    'dj_rest_auth.registration',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
+    "dj_rest_auth.registration",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
 ]
 
 # Refer to https://dj-rest-auth.readthedocs.io/en/latest/installation.html#registration-optional
@@ -131,11 +128,11 @@ POSTGRES_PASSWORD = config("POSTGRES_PASSWORD", "not-set")
 
 AUTHENTICATION_BACKENDS = [
     # `allauth` specific authentication methods, such as login by e-mail
-    'allauth.account.auth_backends.AuthenticationBackend',
+    "allauth.account.auth_backends.AuthenticationBackend",
 ]
 
-GOOGLE_CLIENT_ID = config('GOOGLE_CLIENT_ID', "not-set")
-GOOGLE_SECRET = config('GOOGLE_SECRET', "not-set")
+GOOGLE_CLIENT_ID = config("GOOGLE_CLIENT_ID", "not-set")
+GOOGLE_SECRET = config("GOOGLE_SECRET", "not-set")
 
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
@@ -152,7 +149,7 @@ SOCIALACCOUNT_PROVIDERS = {
         ],
         "AUTH_PARAMS": {
             "access_type": "offline",
-        }
+        },
     }
 }
 
@@ -271,8 +268,7 @@ REST_FRAMEWORK = {
 # Django Logging Config
 #######################
 
-ENABLE_LOG_DJANGO_QUERIES = config(
-    "ENABLE_LOG_DJANGO_QUERIES", False, cast=bool)
+ENABLE_LOG_DJANGO_QUERIES = config("ENABLE_LOG_DJANGO_QUERIES", False, cast=bool)
 
 LOGGING = {
     "version": 1,
