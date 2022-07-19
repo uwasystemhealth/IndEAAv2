@@ -2,6 +2,10 @@ from django.urls import reverse
 from rest_framework import status
 
 
+def fail(setup_indeaa):
+    assert "True" == "False"
+
+
 def test_login_get_jwt_and_user_info_success(setup_indeaa, api_client):
     """
     GIVEN: A user is logged with the correct admin user details
@@ -10,7 +14,7 @@ def test_login_get_jwt_and_user_info_success(setup_indeaa, api_client):
     AND: The response should not have a 'password'
     """
     # Credentials for admin can be seen in `conftest.py`
-    request = api_client.post(reverse("api-v1:rest_login"), {"username": "admin", "password": "Password123"})
+    request = api_client.post(reverse("api-v1:authentication:rest_login"), {"username": "admin", "password": "Password123"})
 
     # Check that the response is OK (JWT Created)
     assert request.status_code == status.HTTP_200_OK
@@ -29,7 +33,7 @@ def test_reauthenticate_and_get_user_info_success(setup_indeaa, api_client, get_
     THEN: The response should contain a new JWT and newer expiration for the token
     """
     access_token, refresh_token = get_auth("admin")
-    request = api_client.post(reverse("api-v1:token_refresh"), {"refresh": str(refresh_token)})
+    request = api_client.post(reverse("api-v1:authentication:token_refresh"), {"refresh": str(refresh_token)})
 
     # Check that the response is OK (JWT Created or already exist)
     assert request.status_code == status.HTTP_200_OK
@@ -52,7 +56,7 @@ def test_verify_token_success(setup_indeaa, api_client, get_auth):
     """
     access_token, _ = get_auth("admin")
 
-    request = api_client.post(reverse("api-v1:token_verify"), {"token": str(access_token)})
+    request = api_client.post(reverse("api-v1:authentication:token_verify"), {"token": str(access_token)})
 
     # Check that the response is OK and JWT is still the same
     assert request.status_code == status.HTTP_200_OK
@@ -67,7 +71,7 @@ def test_get_user(setup_indeaa, api_client_with_credentials_return_user):
 
     api_client, user = api_client_with_credentials_return_user()
 
-    request = api_client.get(reverse("api-v1:rest_user_details"))
+    request = api_client.get(reverse("api-v1:authentication:rest_user_details"))
 
     # Check that the response is OK and JWT is still the same
     assert request.status_code == status.HTTP_200_OK
@@ -81,7 +85,7 @@ def test_login_get_jwt_and_user_info_failure(setup_indeaa, api_client):
     THEN: The status code should be 400 (Wrong Credentials)
     """
     # Credentials for admin can be seen in `conftest.py`
-    request = api_client.post(reverse("api-v1:rest_login"), {"username": "admin", "password": "WRONG_PASSWORD"})
+    request = api_client.post(reverse("api-v1:authentication:rest_login"), {"username": "admin", "password": "WRONG_PASSWORD"})
 
     # Check that the response is OK (JWT Created)
     assert request.status_code == 400
@@ -105,7 +109,7 @@ def test_reauthenticate_and_get_user_info_failure(setup_indeaa, api_client, get_
         ".H3tEYYU8bESQ1yyR14GcVcSbM1u6GT1DmxqIszwaeB8"
     )
 
-    request = api_client.post(reverse("api-v1:token_refresh"), {"refresh": EXPIRED_TOKEN})
+    request = api_client.post(reverse("api-v1:authentication:token_refresh"), {"refresh": EXPIRED_TOKEN})
 
     # Check that the response is OK (JWT Created or already exist)
     assert request.status_code == 401
@@ -128,7 +132,7 @@ def test_verify_token_failure(setup_indeaa, api_client, get_auth):
         ".H3tEYYU8bESQ1yyR14GcVcSbM1u6GT1DmxqIszwaeB8"
     )
 
-    request = api_client.post(reverse("api-v1:token_verify"), {"token": EXPIRED_TOKEN})
+    request = api_client.post(reverse("api-v1:authentication:token_verify"), {"token": EXPIRED_TOKEN})
 
     # Check that the response is OK (JWT Created or already exist)
     assert request.status_code == 401
