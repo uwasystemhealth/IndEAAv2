@@ -47,13 +47,13 @@ const Home: NextPage = () => {
 
   return (
     <Container>
-      <Card>
-        <CardContent
-          sx={{
-            minHeight: '50vh',
-          }}
-        >
-          {!isUserAuthenticated ? (
+      {!isUserAuthenticated ? (
+        <Card>
+          <CardContent
+            sx={{
+              minHeight: '50vh',
+            }}
+          >
             <Box
               sx={{
                 display: 'flex',
@@ -67,49 +67,11 @@ const Home: NextPage = () => {
               </Typography>
               <Typography variant="body2">Please Login to continue</Typography>
             </Box>
-          ) : (
-            <EvaluationList evaluations={courseEvaluationListEntries} />
-            // <Box
-            //   sx={{
-            //     display: 'flex',
-            //     flexDirection: 'column',
-            //     gap: 2,
-            //   }}
-            // >
-            //   {courseEvaluationListEntries.map((courseEvaluationListEntry) => (
-            //     <Card key={courseEvaluationListEntry.id}>
-            //       <CardContent>
-            //         <Box
-            //           sx={{
-            //             display: 'flex',
-            //             flexDirection: 'row',
-            //             justifyContent: 'space-between',
-            //           }}
-            //         >
-            //           <Box>
-            //             <Typography gutterBottom variant="h5" component="div">
-            //               {courseEvaluationListEntry.unit_code}
-            //             </Typography>
-            //             <Typography variant="body2" color="text.secondary">
-            //               {courseEvaluationListEntry.description}
-            //             </Typography>
-            //           </Box>
-            //           <Box
-            //             sx={{
-            //               display: 'flex',
-            //               alignItems: 'center',
-            //             }}
-            //           >
-            //             <Button>View</Button>
-            //           </Box>
-            //         </Box>
-            //       </CardContent>
-            //     </Card>
-            //   ))}
-            // </Box>
-          )}
-        </CardContent>
-      </Card>
+          </CardContent>
+        </Card>
+      ) : (
+        <EvaluationList evaluations={courseEvaluationListEntries} reviews={[]} />
+      )}
     </Container>
   );
 };
