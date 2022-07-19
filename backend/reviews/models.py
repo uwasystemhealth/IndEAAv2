@@ -1,9 +1,11 @@
+from re import I
 import uuid
 
 # Create your models here.
 from django.db import models
 from course_evaluations.models import CourseEvaluation, EOCSpecific
 
+from documents.models import Document
 
 class Review(models.Model):
     """
@@ -33,10 +35,30 @@ class ReviewEocSpecific(models.Model):
     """
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-
+    review = models.ForeignKey(Review, null=True, related_name="eoc_specific_reviews", on_delete=models.CASCADE)
     eoc_specific = models.ForeignKey(EOCSpecific, on_delete=models.CASCADE)
 
     development_level = models.IntegerChoices("DevelopmentLevel", "1 2 3 4 5")
 
     suggestion = models.TextField(null=False, blank=True)
     justification = models.TextField(null=False, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+
+
+class ReviewDocument(models.Model):
+    """
+    For each review, the reviewer may supply comments on different documents.
+    ReviewDocument contains information regarding these comments.
+    """
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    review = models.ForeignKey(Review, related_name="documents", on_delete=models.CASCADE)
+    document = models.ForeignKey(Document, related_name="review_messages", on_delete=models.CASCADE)
+    is_viewed = models.BooleanField()
+    comment = models.TextField()    
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
