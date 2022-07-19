@@ -5,12 +5,20 @@ from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from dj_rest_auth.registration.views import SocialLoginView
 from django.urls import reverse
 from django.views.generic.base import RedirectView
+from django.contrib.auth.models import AnonymousUser
 
 from config.settings.base import FRONTEND_URL, GOOGLE_CLIENT_ID, SOCIALACCOUNT_PROVIDERS
 
+class CustomOAuth2Adapter(google_views.GoogleOAuth2Adapter):
+
+    def complete_login(self, request, app, token, **kwargs):
+        if request.user is None:
+            request.user = AnonymousUser()
+        return super().complete_login(request, app, token, **kwargs)
+
 
 class GoogleLogin(SocialLoginView):
-    adapter_class = google_views.GoogleOAuth2Adapter
+    adapter_class = CustomOAuth2Adapter
     client_class = OAuth2Client
 
     @property
