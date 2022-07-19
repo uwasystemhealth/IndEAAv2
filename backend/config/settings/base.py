@@ -352,8 +352,7 @@ if ENABLE_LOG_DJANGO_QUERIES:
 # CORS Config
 #############
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_HEADERS = ["sentry-trace", *
-                      list(default_headers)]  # passed by staging
+CORS_ALLOW_HEADERS = ["sentry-trace", *list(default_headers)]  # passed by staging
 FRONTEND_URL = config("FRONTEND_URL", "http://localhost:11002")
 CORS_ALLOWED_ORIGINS = [FRONTEND_URL, "https://accounts.google.com"]
 

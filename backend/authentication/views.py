@@ -5,8 +5,7 @@ from django.urls import reverse
 from django.views.generic.base import RedirectView
 import urllib
 
-from config.settings.base import FRONTEND_URL, GOOGLE_CLIENT_ID, \
-    SOCIALACCOUNT_PROVIDERS
+from config.settings.base import FRONTEND_URL, GOOGLE_CLIENT_ID, SOCIALACCOUNT_PROVIDERS
 
 
 class GoogleLogin(SocialLoginView):
@@ -31,10 +30,8 @@ class GoogleLoginRedirect(RedirectView):
         callback_url = self.request.build_absolute_uri(
             reverse('api-v1:authentication:google_callback'))
 
-        return f"https://accounts.google.com/o/oauth2/v2/auth?\
-redirect_uri={callback_url}\
-&prompt=consent&response_type=code\
-&client_id={GOOGLE_CLIENT_ID}&scope={scope}{params}"
+        return (f"https://accounts.google.com/o/oauth2/v2/auth?edirect_uri={callback_url}&prompt=consent"
+                f"&response_type=code&client_id={GOOGLE_CLIENT_ID}&scope={scope}{params}")
 
 
 class GoogleCallbackRedirect(RedirectView):
