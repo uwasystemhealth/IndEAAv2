@@ -3,11 +3,12 @@ import urllib
 from allauth.socialaccount.providers.google import views as google_views
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from dj_rest_auth.registration.views import SocialLoginView
+from django.contrib.auth.models import AnonymousUser
 from django.urls import reverse
 from django.views.generic.base import RedirectView
-from django.contrib.auth.models import AnonymousUser
 
 from config.settings.base import FRONTEND_URL, GOOGLE_CLIENT_ID, SOCIALACCOUNT_PROVIDERS
+
 
 class CustomOAuth2Adapter(google_views.GoogleOAuth2Adapter):
     """
