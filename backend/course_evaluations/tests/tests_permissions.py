@@ -5,8 +5,10 @@ from django.urls import reverse
 from rest_framework import status
 
 from course_evaluations.models import CourseEvaluation
+import pytest
 
 
+@pytest.mark.django_db
 def test_list_view_course_evaluation_anonymous(api_client_no_auth):
     """
     GIVEN: The user is not authenticated
@@ -19,6 +21,7 @@ def test_list_view_course_evaluation_anonymous(api_client_no_auth):
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
 
+@pytest.mark.django_db
 def test_create_view_course_evaluation_anonymous(api_client_no_auth):
     """
     GIVEN: The user is not authenticated
@@ -36,6 +39,7 @@ def test_create_view_course_evaluation_anonymous(api_client_no_auth):
     assert CourseEvaluation.objects.count() == 0
 
 
+@pytest.mark.django_db
 def test_update_view_course_evaluation_anonymous(api_client_no_auth, create_user, make_course_evaluation):
     """
     GIVEN: The user is not authenticated
@@ -46,7 +50,7 @@ def test_update_view_course_evaluation_anonymous(api_client_no_auth, create_user
     course_evaluation = make_course_evaluation(coordinators=[user])
 
     url = reverse(
-        "api-v1:course_evaluations:course-evaluation-detail",
+        "api-v1:course_evaluations:course-evaluations-detail",
         kwargs={"pk": course_evaluation.id},
     )
     data = {"unit_code": "TEST"}
@@ -56,6 +60,7 @@ def test_update_view_course_evaluation_anonymous(api_client_no_auth, create_user
     assert CourseEvaluation.objects.count() == 1
 
 
+@pytest.mark.django_db
 def test_delete_view_course_evaluation_anonymous(api_client_no_auth, create_user, make_course_evaluation):
     """
     GIVEN: The user is not authenticated
@@ -66,7 +71,7 @@ def test_delete_view_course_evaluation_anonymous(api_client_no_auth, create_user
     course_evaluation = make_course_evaluation(coordinators=[user])
 
     url = reverse(
-        "api-v1:course_evaluations:course-evaluation-detail",
+        "api-v1:course_evaluations:course-evaluations-detail",
         kwargs={"pk": course_evaluation.id},
     )
     response = api_client_no_auth.delete(url)
