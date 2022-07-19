@@ -54,3 +54,4 @@ class CourseEvaluationDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = CourseEvaluation
         fields = "__all__"
+

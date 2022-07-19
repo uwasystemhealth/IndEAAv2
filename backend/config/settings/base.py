@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     "django_filters",
     "commands",
     "course_evaluations",
+    "reviews",
 ]
 
 # Refer to https://dj-rest-auth.readthedocs.io/en/latest/installation.html#registration-optional

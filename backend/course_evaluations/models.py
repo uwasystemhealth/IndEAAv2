@@ -80,3 +80,4 @@ class CourseEvaluation(models.Model):
 
     def __str__(self):
         return f"{self.eoc_set.name} - {self.unit_code} ({self.created_at})"
+

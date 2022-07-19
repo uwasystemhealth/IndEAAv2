@@ -11,6 +11,13 @@ api_patterns = (
                 namespace="course_evaluations",  # use this namespace for url reversal
             ),
         ),
+        path(
+            "reviews/",
+            include(
+                ("reviews.urls", "reviews"),
+                namespace="reviews",
+            ),
+        ),
         path("authentication/", include("dj_rest_auth.urls")),
     ],
     "api",
