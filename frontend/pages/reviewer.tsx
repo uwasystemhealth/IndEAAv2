@@ -11,15 +11,20 @@ import BodyCard from '../components/utils/BodyCard'
 
 import { Card, Button } from '@mui/material';
 
+import OngoingReviewsList from '../components/Reviewer/OngoingReviewsList.tsx'
+
+
 const Reviewer: NextPage = () => {
 
-  const showArchived = useState(false);
+  const [showArchived, setShowArchived] = useState(false);
+  const archivedButtonText = showArchived ? "Hide Archived" : "Show Archvied";
+  const toggleArchived = (e) => setShowArchived(!showArchived);
 
   return (
     <div className={styles.container}>
       <BodyCard header="Review Courses">
         <div>
-          <Button>Archived</Button>
+          <Button onClick={toggleArchived}>{archivedButtonText}</Button>
           <OngoingReviewsList showArchived={showArchived} />
         </div>
       </BodyCard>
