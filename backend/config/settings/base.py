@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     "commands",
     "course_evaluations",
     "reviews",
+    "documents",
 ]
 
 # Refer to https://dj-rest-auth.readthedocs.io/en/latest/installation.html#registration-optional

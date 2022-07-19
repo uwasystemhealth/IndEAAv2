@@ -18,6 +18,13 @@ api_patterns = (
                 namespace="reviews",
             ),
         ),
+        path(
+            "documents/",
+            include(
+                ("documents.urls", "documents"),
+                namespace="documents",
+            )
+        ),
         path("authentication/", include("dj_rest_auth.urls")),
     ],
     "api",

@@ -1,5 +1,4 @@
 from django.contrib import admin
-
 from course_evaluations.models import CourseEvaluation, EOCGeneral, EOCSet, EOCSpecific
 
 
