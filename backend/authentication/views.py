@@ -10,6 +10,10 @@ from django.contrib.auth.models import AnonymousUser
 from config.settings.base import FRONTEND_URL, GOOGLE_CLIENT_ID, SOCIALACCOUNT_PROVIDERS
 
 class CustomOAuth2Adapter(google_views.GoogleOAuth2Adapter):
+    """
+    This is a manual fix as `request.user` is erroring out because `request.user.is_authenticated` is being evaluated but `request.user` is None.
+    See: Related issues of https://github.com/uwasystemhealth/IndEAAv2/issues/29
+    """
 
     def complete_login(self, request, app, token, **kwargs):
         if request.user is None:
