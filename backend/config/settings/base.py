@@ -354,7 +354,7 @@ if ENABLE_LOG_DJANGO_QUERIES:
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = ["sentry-trace", *list(default_headers)]  # passed by staging
 FRONTEND_URL = config("FRONTEND_URL", "http://localhost:11002")
-CORS_ALLOWED_ORIGINS = [FRONTEND_URL, "https://accounts.google.com"]
+CORS_ALLOWED_ORIGINS = [FRONTEND_URL]
 
 
 ######################################
@@ -400,8 +400,7 @@ EMAIL_PORT = config("EMAIL_PORT", "587", cast=int)
 EMAIL_USE_TLS = config("EMAIL_USE_TLS", True, cast=bool)
 EMAIL_TIMEOUT = config("EMAIL_TIMEOUT", default=20, cast=int)
 
-EMAIL_ADDRESS_FROM = config(
-    "EMAIL_ADDRESS_FROM", "noreply-indeaa@systemhealthlab.com")
+EMAIL_ADDRESS_FROM = config("EMAIL_ADDRESS_FROM", "noreply-indeaa@systemhealthlab.com")
 
 # This string is prefixed to the beginning of every email (subject).
 EMAIL_SUBJECT_PREFIX = f"[IndEAA {APP_ENV}] "
