@@ -1,4 +1,5 @@
 import AppContext from '@/components/Context/TopLevelContext';
+import { Box, Card, Typography } from '@mui/material';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
 import { useState, useEffect, useContext } from 'react';
@@ -58,10 +59,22 @@ const Google = (props: Props) => {
   }, []);
 
   return (
-    <div style={{ textAlign: 'center' }}>
-      <h1>{state === LOGIN_STATE.ERROR ? 'Error' : 'Please wait, logging in...'}</h1>
-      <h2 style={{ color: 'red' }}>{loggedInErrored}</h2>
-    </div>
+    <>
+      <Box
+        sx={{
+          position: 'fixed',
+          bottom: '0',
+          right: '0',
+        }}
+      >
+        <Typography
+          sx={{ justifyContent: 'flex-end' }}
+          color={state === LOGIN_STATE.ERROR ? 'error.main' : 'info.main'}
+        >
+          {state === LOGIN_STATE.ERROR ? loggedInErrored : 'Please wait, logging in . . .'}
+        </Typography>
+      </Box>
+    </>
   );
 };
 
