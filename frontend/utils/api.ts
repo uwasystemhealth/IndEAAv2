@@ -56,3 +56,5 @@ export const DEFAULT_COURSE_EVALUATION_LIST_ENTRY: CourseEvaluationListEntry = {
   coordinators: []
 }
 
+
+
