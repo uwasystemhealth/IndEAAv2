@@ -28,6 +28,7 @@ import AppContext from 'components/Context/TopLevelContext';
 import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
 import { determineIfUserIsAuthentication } from 'utils/Authentication';
 import Button from '@mui/material/Button';
+import EvaluationList from '@/components/coordinator-course-evaluation-list/evaluationList';
 
 const Home: NextPage = () => {
   // Change these data when this issue gets worked on. For now it just contains a demo of how to get user info
@@ -67,44 +68,45 @@ const Home: NextPage = () => {
               <Typography variant="body2">Please Login to continue</Typography>
             </Box>
           ) : (
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 2,
-              }}
-            >
-              {courseEvaluationListEntries.map((courseEvaluationListEntry) => (
-                <Card key={courseEvaluationListEntry.id}>
-                  <CardContent>
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                      }}
-                    >
-                      <Box>
-                        <Typography gutterBottom variant="h5" component="div">
-                          {courseEvaluationListEntry.unit_code}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          {courseEvaluationListEntry.description}
-                        </Typography>
-                      </Box>
-                      <Box
-                        sx={{
-                          display: 'flex',
-                          alignItems: 'center',
-                        }}
-                      >
-                        <Button>View</Button>
-                      </Box>
-                    </Box>
-                  </CardContent>
-                </Card>
-              ))}
-            </Box>
+            <EvaluationList evaluations={courseEvaluationListEntries} />
+            // <Box
+            //   sx={{
+            //     display: 'flex',
+            //     flexDirection: 'column',
+            //     gap: 2,
+            //   }}
+            // >
+            //   {courseEvaluationListEntries.map((courseEvaluationListEntry) => (
+            //     <Card key={courseEvaluationListEntry.id}>
+            //       <CardContent>
+            //         <Box
+            //           sx={{
+            //             display: 'flex',
+            //             flexDirection: 'row',
+            //             justifyContent: 'space-between',
+            //           }}
+            //         >
+            //           <Box>
+            //             <Typography gutterBottom variant="h5" component="div">
+            //               {courseEvaluationListEntry.unit_code}
+            //             </Typography>
+            //             <Typography variant="body2" color="text.secondary">
+            //               {courseEvaluationListEntry.description}
+            //             </Typography>
+            //           </Box>
+            //           <Box
+            //             sx={{
+            //               display: 'flex',
+            //               alignItems: 'center',
+            //             }}
+            //           >
+            //             <Button>View</Button>
+            //           </Box>
+            //         </Box>
+            //       </CardContent>
+            //     </Card>
+            //   ))}
+            // </Box>
           )}
         </CardContent>
       </Card>
