@@ -5,11 +5,12 @@ import React, { useContext, useState } from 'react';
 import API from 'utils/api';
 import * as yup from 'yup';
 import InputAdornment from '@mui/material/InputAdornment';
+import Card from '@mui/material/Card';
+import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import EmailIcon from '@mui/icons-material/Email';
 import PasswordIcon from '@mui/icons-material/Password';
 import Button from '@mui/material/Button';
-import LoginIcon from '@mui/icons-material/Login';
 import Alert from '@mui/material/Alert';
 import axios from 'axios';
 import { determineIfUserIsAuthentication } from 'utils/Authentication';
@@ -62,63 +63,76 @@ const Login = (props: Props) => {
     router.push('/');
   }
 
+  const MARGIN = '2em';
+
   return (
-    <>
-      <form onSubmit={formik.handleSubmit}>
-        {LoggedInErrored && <Alert severity="error">{LoggedInErrored}</Alert>}
-        <TextField
-          fullWidth
-          label="Email"
-          id="email"
-          value={formik.values.email}
-          onChange={formik.handleChange}
-          error={formik.touched.email && Boolean(formik.errors.email)}
-          helperText={formik.touched.email && formik.errors.email}
-          sx={{
-            marginBottom: '1rem',
-          }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <EmailIcon />
-              </InputAdornment>
-            ),
-          }}
-        ></TextField>
-        <TextField
-          fullWidth
-          label="Password"
-          id="password"
-          type={'password'}
-          value={formik.values.password}
-          onChange={formik.handleChange}
-          error={formik.touched.password && Boolean(formik.errors.password)}
-          helperText={formik.touched.password && formik.errors.password}
-          sx={{
-            marginBottom: '1rem',
-          }}
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <PasswordIcon />
-              </InputAdornment>
-            ),
-          }}
-        ></TextField>
-        <Button startIcon={<LoginIcon />} variant="contained" size="large" type="submit">
-          Login
-        </Button>
-      </form>
-      <hr />
-      <form
-        method="get"
-        action={`${API.CONFIGS.baseURL}${API.ENDPOINT.AUTHENTICATION.GOOGLE_LOGIN}`}
-      >
-        <Button startIcon={<Google />} variant="contained" size="large" type="submit">
-          Login with Google
-        </Button>
-      </form>
-    </>
+    <Card sx={{ minWidth: 250 }}>
+      <Grid container alignItems="center" justifyContent="center" direction="column">
+        <Grid container alignItems="center" justifyContent="center" direction="column">
+          <form onSubmit={formik.handleSubmit}>
+            {LoggedInErrored && <Alert severity="error">{LoggedInErrored}</Alert>}
+            <TextField
+              sx={{ marginTop: MARGIN, marginBottom: MARGIN }}
+              variant="outlined"
+              fullWidth
+              label="Email"
+              id="email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <EmailIcon />
+                  </InputAdornment>
+                ),
+              }}
+            ></TextField>
+            <TextField
+              variant="outlined"
+              sx={{ marginBottom: MARGIN }}
+              fullWidth
+              label="Password"
+              id="password"
+              type={'password'}
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <PasswordIcon />
+                  </InputAdornment>
+                ),
+              }}
+            ></TextField>
+            <Grid container alignItems="center" justifyContent="center" direction="column">
+              <Button variant="contained" size="large" type="submit">
+                Login
+              </Button>
+            </Grid>
+          </form>
+        </Grid>
+        <Grid container alignItems="center" justifyContent="center" direction="column">
+          <form
+            method="get"
+            action={`${API.CONFIGS.baseURL}${API.ENDPOINT.AUTHENTICATION.GOOGLE_LOGIN}`}
+          >
+            <Button
+              startIcon={<Google />}
+              variant="contained"
+              size="large"
+              type="submit"
+              sx={{ marginTop: MARGIN, marginBottom: MARGIN }}
+            >
+              Login with Google
+            </Button>
+          </form>
+        </Grid>
+      </Grid>
+    </Card>
   );
 };
 
