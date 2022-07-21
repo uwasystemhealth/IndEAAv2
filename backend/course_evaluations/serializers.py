@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from course_evaluations.models import CourseEvaluation, EOCGeneral, EOCSet, EOCSpecific
+from course_evaluations.models import CourseEvaluation, EOCGeneral, EOCSet, EOCSpecific, CourseEvaluationJustification
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -45,11 +45,19 @@ class CourseEvaluationListSerializer(serializers.ModelSerializer):
         )
 
 
+class CourseEvaluationJustificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CourseEvaluationJustification
+        fields = "__all__"
+
+
 class CourseEvaluationDetailSerializer(serializers.ModelSerializer):
     eoc_set = EOCSetSerializer(read_only=True)
     coordinators = UserSerializer(many=True, read_only=True)
+    course_evalution_justifications = CourseEvaluationJustificationSerializer(many=True, read_only=True)
 
     eoc_set_id = serializers.IntegerField(required=True)
+    
 
     class Meta:
         model = CourseEvaluation

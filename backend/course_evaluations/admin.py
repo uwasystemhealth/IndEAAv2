@@ -1,5 +1,5 @@
 from django.contrib import admin
-from course_evaluations.models import CourseEvaluation, EOCGeneral, EOCSet, EOCSpecific
+from course_evaluations.models import CourseEvaluation, EOCGeneral, EOCSet, EOCSpecific, CourseEvaluationJustification
 
 
 @admin.register(EOCSet)
@@ -37,6 +37,13 @@ class EOCSpecificAdmin(admin.ModelAdmin):
     search_fields = ("id", "number", "description")
     ordering = ("number",)
 
+
+@admin.register(CourseEvaluationJustification)
+class CourseEvaluationJustificationAdmin(admin.ModelAdmin):
+    list_display = ("id", "course_evaluation", "justification")
+    list_filter = ("course_evaluation",)
+    search_fields = ("id", "justification")
+    ordering = ("id",)
 
 @admin.register(CourseEvaluation)
 class CourseEvaluationAdmin(admin.ModelAdmin):

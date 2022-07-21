@@ -4,7 +4,6 @@ import uuid
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
-
 class EOCSet(models.Model):
     """
     EOCSet is a group of EOCs (Elements of Competencies)
@@ -72,12 +71,22 @@ class CourseEvaluation(models.Model):
     # Many-to-many Relationship with the Django User model
     # related_name: Allows to reference `CourseEvaluation` from User model
     coordinators = models.ManyToManyField("auth.User", related_name="course_evaluation_coordinator")
-
     eoc_set = models.ForeignKey(EOCSet, on_delete=models.CASCADE)
-
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.eoc_set.name} - {self.unit_code} ({self.created_at})"
 
+
+class CourseEvaluationJustification(models.Model):
+    """
+    A course coodinator must provide some written justification for how their course
+    is acheiving a variety of EOCs. It may be the case that a single written justification
+    can be used for multiple different EOC specifics.
+    """
+
+    course_evaluation = models.ForeignKey(CourseEvaluation, on_delete=models.CASCADE)
+    eoc_specific = models.ForeignKey(EOCSpecific, on_delete=models.CASCADE)
+    justification = models.TextField(null=False, blank=True)
+    development_level = models.IntegerChoices("DevelopmentLevel", "1 2 3 4 5")

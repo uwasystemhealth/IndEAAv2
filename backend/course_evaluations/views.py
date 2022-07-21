@@ -8,8 +8,8 @@ from course_evaluations.serializers import (
     CourseEvaluationDetailSerializer,
     CourseEvaluationListSerializer,
     EOCSet,
+    CourseEvaluationJustificationSerializer,
 )
-
 
 class CourseEvaluationViewSet(viewsets.ModelViewSet):
     """
