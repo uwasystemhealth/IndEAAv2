@@ -41,7 +41,7 @@ function EvaluationList({ list }: Props) {
           pb: 2,
         }}
       >
-        <Stack spacing={5} direction="row">
+        <Stack spacing={2} direction="row">
           <Button variant="contained" sx={{ backgroundColor: '#808080' }}>
             SHOW COMPLETED
           </Button>
@@ -71,6 +71,11 @@ function EvaluationList({ list }: Props) {
                   <Typography gutterBottom variant="h5" component="div">
                     {courseEvaluationListEntry.unit_code}
                   </Typography>
+                  {courseEvaluationListEntry.coordinators.map((coordinator, i) => (
+                    <Typography key={i} sx={{ display: 'flex' }}>
+                      {coordinator.username}
+                    </Typography>
+                  ))}
                   <Typography variant="body2" color="text.secondary">
                     {courseEvaluationListEntry.description}
                   </Typography>
@@ -81,7 +86,9 @@ function EvaluationList({ list }: Props) {
                     alignItems: 'center',
                   }}
                 >
-                  <Button>View</Button>
+                  <Button variant="contained" sx={{ backgroundColor: '#F67B2F' }}>
+                    View
+                  </Button>
                 </Box>
               </Box>
             </CardContent>
