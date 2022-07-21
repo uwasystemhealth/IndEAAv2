@@ -17,48 +17,15 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import Stack from '@mui/material/Stack';
 import { CourseEvaluationListEntry } from 'utils/api';
 import { Reviews } from '@mui/icons-material';
 
 type Props = {
-  evaluations: CourseEvaluationListEntry[];
-  reviews: String[];
+  list: CourseEvaluationListEntry[];
 };
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
-
-function EvaluationList({ evaluations, reviews }: Props) {
+function EvaluationList({ list }: Props) {
   const [value, setValue] = React.useState(0);
 
   const handleChangeTab = (event: React.SyntheticEvent, newValue: number) => {
@@ -66,76 +33,60 @@ function EvaluationList({ evaluations, reviews }: Props) {
   };
 
   return (
-    <Container
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
+    <Container>
       <Box
-        sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: '#0E91AC', width: '90%' }}
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          pb: 2,
+        }}
       >
-        {evaluations.length > 0 && reviews.length > 0 ? (
-          <Tabs value={value} onChange={handleChangeTab} variant="fullWidth">
-            <Tab label="COURSE EVALUATIONS" {...a11yProps(0)} />
-            <Tab label="REVIEW COURSES" {...a11yProps(1)} />
-          </Tabs>
-        ) : evaluations.length > 0 ? (
-          <Tabs value={value} onChange={handleChangeTab} variant="fullWidth">
-            <Tab label="COURSE EVALUATIONS" {...a11yProps(0)} />{' '}
-          </Tabs>
-        ) : (
-          <Tabs value={value} onChange={handleChangeTab} variant="fullWidth">
-            <Tab label="Reviews" {...a11yProps(0)} />
-          </Tabs>
-        )}
+        <Stack spacing={5} direction="row">
+          <Button variant="contained" sx={{ backgroundColor: '#808080' }}>
+            SHOW COMPLETED
+          </Button>
+          <Button variant="contained" sx={{ backgroundColor: '#00BCD4' }}>
+            CREATE NEW EVALUATION
+          </Button>
+        </Stack>
       </Box>
-      <Box sx={{ backgroundColor: '#EEEEEE', width: '100%' }}>
-        <TabPanel value={value} index={0}>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 2,
-            }}
-          >
-            {evaluations.map((courseEvaluationListEntry) => (
-              <Card key={courseEvaluationListEntry.id}>
-                <CardContent>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                    }}
-                  >
-                    <Box>
-                      <Typography gutterBottom variant="h5" component="div">
-                        {courseEvaluationListEntry.unit_code}
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        {courseEvaluationListEntry.description}
-                      </Typography>
-                    </Box>
-                    <Box
-                      sx={{
-                        display: 'flex',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <Button>View</Button>
-                    </Box>
-                  </Box>
-                </CardContent>
-              </Card>
-            ))}
-          </Box>
-        </TabPanel>
-        <TabPanel value={value} index={1}>
-          Item Two
-        </TabPanel>
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 2,
+        }}
+      >
+        {list.map((courseEvaluationListEntry) => (
+          <Card key={courseEvaluationListEntry.id}>
+            <CardContent>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  justifyContent: 'space-between',
+                }}
+              >
+                <Box>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {courseEvaluationListEntry.unit_code}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {courseEvaluationListEntry.description}
+                  </Typography>
+                </Box>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Button>View</Button>
+                </Box>
+              </Box>
+            </CardContent>
+          </Card>
+        ))}
       </Box>
     </Container>
   );

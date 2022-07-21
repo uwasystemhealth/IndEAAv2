@@ -28,7 +28,7 @@ import AppContext from 'components/Context/TopLevelContext';
 import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
 import { determineIfUserIsAuthentication } from 'utils/Authentication';
 import Button from '@mui/material/Button';
-import EvaluationList from '@/components/coordinator-course-evaluation-list/evaluationList';
+import Listings from '@/components/coordinator-course-evaluation-list/listings';
 
 const Home: NextPage = () => {
   // Change these data when this issue gets worked on. For now it just contains a demo of how to get user info
@@ -70,7 +70,7 @@ const Home: NextPage = () => {
           </CardContent>
         </Card>
       ) : (
-        <EvaluationList evaluations={courseEvaluationListEntries} reviews={[]} />
+        <Listings evaluations={courseEvaluationListEntries} reviews={[]} />
       )}
     </Container>
   );
