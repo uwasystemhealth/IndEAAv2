@@ -29,7 +29,7 @@ type Props = {
 function EvaluationList({ list }: Props) {
     
   const router = useRouter();
-
+  console.log(list)
 
   const viewDetail = (id: string) => {
     router.push({

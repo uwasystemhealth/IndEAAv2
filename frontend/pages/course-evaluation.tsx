@@ -28,10 +28,13 @@ import AppContext from 'components/Context/TopLevelContext';
 import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
 import { determineIfUserIsAuthentication } from 'utils/Authentication';
 import Button from '@mui/material/Button';
-import Listings from '@/components/coordinator-course-evaluation-list/listings';
+import Listings from '@/components/course-listings/listings';
 
 const testing: NextPage = () => {
-  
+  // const search = window.location.search;
+  // const params = new URLSearchParams(search);
+  // const foo = params.get('id');
+  // console.log(foo);
 
   return (
     <Container>
