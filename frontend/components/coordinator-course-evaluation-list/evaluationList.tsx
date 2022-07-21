@@ -31,8 +31,11 @@ function EvaluationList({ list }: Props) {
   const router = useRouter();
 
 
-  const viewDetail = () => {
-    router.push('/course-evaluation');
+  const viewDetail = (id: string) => {
+    router.push({
+      pathname: '/course-evaluation',
+      query: {id: id}
+    })
   };
 
   return (
@@ -89,7 +92,7 @@ function EvaluationList({ list }: Props) {
                 >
                   <Button
                     variant="contained"
-                    onClick={viewDetail}
+                    onClick={() => viewDetail(courseEvaluationListEntry.id)}
                     sx={{ backgroundColor: '#F67B2F' }}
                   >
                     View
