@@ -20,16 +20,19 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { CourseEvaluationListEntry } from 'utils/api';
 import { Reviews } from '@mui/icons-material';
+import { useRouter } from 'next/router';
 
 type Props = {
   list: CourseEvaluationListEntry[];
 };
 
 function EvaluationList({ list }: Props) {
-  const [value, setValue] = React.useState(0);
+    
+  const router = useRouter();
 
-  const handleChangeTab = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
+
+  const viewDetail = () => {
+    router.push('/course-evaluation');
   };
 
   return (
@@ -72,9 +75,7 @@ function EvaluationList({ list }: Props) {
                     {courseEvaluationListEntry.unit_code}
                   </Typography>
                   {courseEvaluationListEntry.coordinators.map((coordinator, i) => (
-                    <Typography key={i} sx={{ display: 'flex' }}>
-                      {coordinator.username}
-                    </Typography>
+                    <Typography key={i}>{coordinator.username}</Typography>
                   ))}
                   <Typography variant="body2" color="text.secondary">
                     {courseEvaluationListEntry.description}
@@ -86,7 +87,11 @@ function EvaluationList({ list }: Props) {
                     alignItems: 'center',
                   }}
                 >
-                  <Button variant="contained" sx={{ backgroundColor: '#F67B2F' }}>
+                  <Button
+                    variant="contained"
+                    onClick={viewDetail}
+                    sx={{ backgroundColor: '#F67B2F' }}
+                  >
                     View
                   </Button>
                 </Box>
