@@ -1,4 +1,3 @@
-from re import I
 import uuid
 
 # Create your models here.
