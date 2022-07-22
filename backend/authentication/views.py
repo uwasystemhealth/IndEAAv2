@@ -3,14 +3,27 @@ import urllib
 from allauth.socialaccount.providers.google import views as google_views
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from dj_rest_auth.registration.views import SocialLoginView
+from django.contrib.auth.models import AnonymousUser
 from django.urls import reverse
 from django.views.generic.base import RedirectView
 
 from config.settings.base import FRONTEND_URL, GOOGLE_CLIENT_ID, SOCIALACCOUNT_PROVIDERS
 
 
+class CustomOAuth2Adapter(google_views.GoogleOAuth2Adapter):
+    """
+    This is a manual fix as `request.user` is erroring out because `request.user.is_authenticated` is being evaluated but `request.user` is None.
+    See: Related issues of https://github.com/uwasystemhealth/IndEAAv2/issues/29
+    """
+
+    def complete_login(self, request, app, token, **kwargs):
+        if request.user is None:
+            request.user = AnonymousUser()
+        return super().complete_login(request, app, token, **kwargs)
+
+
 class GoogleLogin(SocialLoginView):
-    adapter_class = google_views.GoogleOAuth2Adapter
+    adapter_class = CustomOAuth2Adapter
     client_class = OAuth2Client
 
     @property
