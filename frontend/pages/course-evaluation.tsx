@@ -31,6 +31,7 @@ import Button from '@mui/material/Button';
 import Listings from '@/components/course-listings/listings';
 
 const testing: NextPage = () => {
+  // to get url parameter
   // const search = window.location.search;
   // const params = new URLSearchParams(search);
   // const foo = params.get('id');

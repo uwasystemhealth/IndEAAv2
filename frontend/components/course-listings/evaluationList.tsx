@@ -27,15 +27,13 @@ type Props = {
 };
 
 function EvaluationList({ list }: Props) {
-    
   const router = useRouter();
-  console.log(list)
 
   const viewDetail = (id: string) => {
     router.push({
       pathname: '/course-evaluation',
-      query: {id: id}
-    })
+      query: { id: id },
+    });
   };
 
   return (
@@ -77,9 +75,21 @@ function EvaluationList({ list }: Props) {
                   <Typography gutterBottom variant="h5" component="div">
                     {courseEvaluationListEntry.unit_code}
                   </Typography>
-                  {courseEvaluationListEntry.coordinators.map((coordinator, i) => (
-                    <Typography key={i}>{coordinator.username}</Typography>
-                  ))}
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                    }}
+                  >
+                    <Typography sx={{ fontWeight: 'bold', pb: 1, pr: 1 }}>
+                      Coordinators:
+                    </Typography>
+                    <Typography>
+                      {courseEvaluationListEntry.coordinators
+                        .map(({ username }) => username)
+                        .join(', ')}
+                    </Typography>
+                  </Box>
                   <Typography variant="body2" color="text.secondary">
                     {courseEvaluationListEntry.description}
                   </Typography>

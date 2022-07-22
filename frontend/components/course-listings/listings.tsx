@@ -21,6 +21,7 @@ import { CourseEvaluationListEntry } from 'utils/api';
 import { Reviews } from '@mui/icons-material';
 import EvaluationList from './evaluationList';
 
+//for now reviews as string but will need to change in reviewer list branch (similar to evaluations)
 type Props = {
   evaluations: CourseEvaluationListEntry[];
   reviews: String[];
