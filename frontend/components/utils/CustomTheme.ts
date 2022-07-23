@@ -1,5 +1,6 @@
 import { createTheme } from '@mui/material/styles';
 
+const { palette } = createTheme();
 const CustomTheme = createTheme({
   palette: {
     primary: {
