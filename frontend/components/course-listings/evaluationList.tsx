@@ -1,30 +1,12 @@
 import React from 'react';
-import { useSWRAuth } from '@/components/hooks/useSWRAuth';
-import type { NextPage } from 'next';
-import Head from 'next/head';
-import Image from 'next/image';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
 import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
 import CardContent from '@mui/material/CardContent';
-import CardHeader from '@mui/material/CardHeader';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import { Reviews } from '@mui/icons-material';
-import { useRouter } from 'next/router';
-import styles from '../styles/Home.module.css';
-import { useContext } from 'react';
-import AppContext from 'components/Context/TopLevelContext';
-import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
-import { determineIfUserIsAuthentication } from 'utils/Authentication';
+import Link from '@mui/material/Link';
 import { CourseEvaluationListEntry } from 'utils/api';
 
 type Props = {
@@ -32,15 +14,6 @@ type Props = {
 };
 
 function EvaluationList({ list }: Props) {
-  const router = useRouter();
-
-  const viewDetail = (id: string) => {
-    router.push({
-      pathname: '/course-evaluation',
-      query: { id: id },
-    });
-  };
-
   return (
     <Container>
       <Box
@@ -103,13 +76,11 @@ function EvaluationList({ list }: Props) {
                     alignItems: 'center',
                   }}
                 >
-                  <Button
-                    variant="contained"
-                    onClick={() => viewDetail(courseEvaluationListEntry.id)}
-                    sx={{ backgroundColor: '#F67B2F' }}
-                  >
-                    View
-                  </Button>
+                  <Link href={`/course-evaluation/${courseEvaluationListEntry.id}`}>
+                    <Button variant="contained" sx={{ backgroundColor: '#F67B2F' }}>
+                      View
+                    </Button>
+                  </Link>
                 </Box>
               </Box>
             </CardContent>
