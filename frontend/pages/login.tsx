@@ -4,21 +4,17 @@ import { useRouter } from 'next/router';
 import React, { useContext, useState } from 'react';
 import API from 'utils/api';
 import * as yup from 'yup';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
-import FormHelperText from '@mui/material/FormHelperText';
-import FormControl from '@mui/material/FormControl';
 import Card from '@mui/material/Card';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import EmailIcon from '@mui/icons-material/Email';
 import PasswordIcon from '@mui/icons-material/Password';
 import Button from '@mui/material/Button';
-import LoginIcon from '@mui/icons-material/Login';
 import Alert from '@mui/material/Alert';
 import axios from 'axios';
 import { determineIfUserIsAuthentication } from 'utils/Authentication';
+import { Google } from '@mui/icons-material';
 
 type Props = {};
 
@@ -67,59 +63,75 @@ const Login = (props: Props) => {
     router.push('/');
   }
 
+  const MARGIN = '2em';
+
   return (
-    <Card sx={{minWidth: 250, maxHeight: 350}} style={{opacity: 0.9}}>
-    <Grid container alignItems="center" justifyContent="center" direction="column">
-      <br></br>
-    <form onSubmit={formik.handleSubmit}>
-      {LoggedInErrored && <Alert severity="error">{LoggedInErrored}</Alert>}
-      <br></br>
-      <br></br>
-      <TextField 
-        style = {{marginBottom: '2em'}}
-        variant="outlined"
-        fullWidth
-        label="Email"
-        id="email"
-        value={formik.values.email}
-        onChange={formik.handleChange}
-        error={formik.touched.email && Boolean(formik.errors.email)}
-        helperText={formik.touched.email && formik.errors.email}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <EmailIcon />
-            </InputAdornment>
-          ),
-        }}
-      ></TextField>
-      <TextField
-        variant = "outlined"
-        sx = {{marginBottom: '2em'}}
-        fullWidth
-        label="Password"
-        id="password"
-        type={'password'}
-        value={formik.values.password}
-        onChange={formik.handleChange}
-        error={formik.touched.password && Boolean(formik.errors.password)}
-        helperText={formik.touched.password && formik.errors.password}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <PasswordIcon />
-            </InputAdornment>
-          ),
-        }}
-      ></TextField>
+    <Card sx={{ minWidth: 250 }}>
       <Grid container alignItems="center" justifyContent="center" direction="column">
-      <Button variant="contained" size="large" type="submit">
-        Login
-      </Button>
-      <br></br>
+        <Grid container alignItems="center" justifyContent="center" direction="column">
+          <form onSubmit={formik.handleSubmit}>
+            {LoggedInErrored && <Alert severity="error">{LoggedInErrored}</Alert>}
+            <TextField
+              sx={{ marginTop: MARGIN, marginBottom: MARGIN }}
+              variant="outlined"
+              fullWidth
+              label="Email"
+              id="email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <EmailIcon />
+                  </InputAdornment>
+                ),
+              }}
+            ></TextField>
+            <TextField
+              variant="outlined"
+              sx={{ marginBottom: MARGIN }}
+              fullWidth
+              label="Password"
+              id="password"
+              type={'password'}
+              value={formik.values.password}
+              onChange={formik.handleChange}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <PasswordIcon />
+                  </InputAdornment>
+                ),
+              }}
+            ></TextField>
+            <Grid container alignItems="center" justifyContent="center" direction="column">
+              <Button variant="contained" size="large" type="submit">
+                Login
+              </Button>
+            </Grid>
+          </form>
+        </Grid>
+        <Grid container alignItems="center" justifyContent="center" direction="column">
+          <form
+            method="get"
+            action={`${API.CONFIGS.baseURL}${API.ENDPOINT.AUTHENTICATION.GOOGLE_LOGIN}`}
+          >
+            <Button
+              startIcon={<Google />}
+              variant="contained"
+              size="large"
+              type="submit"
+              sx={{ marginTop: MARGIN, marginBottom: MARGIN }}
+            >
+              Login with Google
+            </Button>
+          </form>
+        </Grid>
       </Grid>
-    </form>
-    </Grid>
     </Card>
   );
 };
