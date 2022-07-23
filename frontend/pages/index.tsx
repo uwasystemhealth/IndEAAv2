@@ -70,7 +70,7 @@ const Home: NextPage = () => {
           </CardContent>
         </Card>
       ) : (
-        <Listings evaluations={courseEvaluationListEntries} reviews={[]} />
+        <Listings />
       )}
     </Container>
   );

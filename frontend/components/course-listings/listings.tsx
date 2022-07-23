@@ -17,15 +17,9 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import { CourseEvaluationListEntry } from 'utils/api';
 import { Reviews } from '@mui/icons-material';
 import EvaluationList from './evaluationList';
-
-//for now reviews as string but will need to change in reviewer list branch (similar to evaluations)
-type Props = {
-  evaluations: CourseEvaluationListEntry[];
-  reviews: String[];
-};
+import { API_ENDPOINT, CourseEvaluationListEntry } from 'utils/api';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -60,12 +54,18 @@ function a11yProps(index: number) {
   };
 }
 
-function Listings({ evaluations, reviews }: Props) {
-  const [value, setValue] = React.useState(0);
+function Listings() {
+  const [tabsValue, setTabsValue] = React.useState(0);
+
+  const { response, isLoading, error } = useSWRAuth(API_ENDPOINT.COURSE_EVALUATION.LIST);
+  const courseEvaluationListEntries = ((response?.data as unknown) ||
+    []) as CourseEvaluationListEntry[];
 
   const handleChangeTab = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
+    setTabsValue(newValue);
   };
+
+  const reviews: string[] = [];
 
   return (
     <Container
@@ -79,26 +79,26 @@ function Listings({ evaluations, reviews }: Props) {
       <Box
         sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: '#0E91AC', width: '90%' }}
       >
-        {evaluations.length > 0 && reviews.length > 0 ? (
-          <Tabs value={value} onChange={handleChangeTab} variant="fullWidth">
+        {courseEvaluationListEntries.length > 0 && reviews.length > 0 ? (
+          <Tabs value={tabsValue} onChange={handleChangeTab} variant="fullWidth">
             <Tab label="COURSE EVALUATIONS" {...a11yProps(0)} />
             <Tab label="REVIEW COURSES" {...a11yProps(1)} />
           </Tabs>
-        ) : evaluations.length > 0 ? (
-          <Tabs value={value} onChange={handleChangeTab} variant="fullWidth">
+        ) : courseEvaluationListEntries.length > 0 ? (
+          <Tabs value={tabsValue} onChange={handleChangeTab} variant="fullWidth">
             <Tab label="COURSE EVALUATIONS" {...a11yProps(0)} />{' '}
           </Tabs>
         ) : (
-          <Tabs value={value} onChange={handleChangeTab} variant="fullWidth">
+          <Tabs value={tabsValue} onChange={handleChangeTab} variant="fullWidth">
             <Tab label="Reviews" {...a11yProps(0)} />
           </Tabs>
         )}
       </Box>
       <Box sx={{ backgroundColor: '#EEEEEE', width: '100%' }}>
-        <TabPanel value={value} index={0}>
-          <EvaluationList list={evaluations} />
+        <TabPanel value={tabsValue} index={0}>
+          <EvaluationList list={courseEvaluationListEntries} />
         </TabPanel>
-        <TabPanel value={value} index={1}>
+        <TabPanel value={tabsValue} index={1}>
           Item Two
         </TabPanel>
       </Box>

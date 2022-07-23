@@ -18,9 +18,14 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import { CourseEvaluationListEntry } from 'utils/api';
 import { Reviews } from '@mui/icons-material';
 import { useRouter } from 'next/router';
+import styles from '../styles/Home.module.css';
+import { useContext } from 'react';
+import AppContext from 'components/Context/TopLevelContext';
+import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
+import { determineIfUserIsAuthentication } from 'utils/Authentication';
+import { CourseEvaluationListEntry } from 'utils/api';
 
 type Props = {
   list: CourseEvaluationListEntry[];
@@ -81,9 +86,7 @@ function EvaluationList({ list }: Props) {
                       flexDirection: 'row',
                     }}
                   >
-                    <Typography sx={{ fontWeight: 'bold', pb: 1, pr: 1 }}>
-                      Coordinators:
-                    </Typography>
+                    <Typography sx={{ fontWeight: 'bold', pb: 1, pr: 1 }}>Coordinators:</Typography>
                     <Typography>
                       {courseEvaluationListEntry.coordinators
                         .map(({ username }) => username)
