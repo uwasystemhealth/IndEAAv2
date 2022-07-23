@@ -8,6 +8,8 @@ const Post = () => {
   const router = useRouter();
   const { pid } = router.query;
 
+  console.log(pid)
+
   return (
     <Container>
       <Card>

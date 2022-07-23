@@ -13,7 +13,7 @@ type Props = {
   list: CourseEvaluationListEntry[];
 };
 
-function EvaluationList({ list }: Props) {
+function CoordinatorList({ list }: Props) {
   return (
     <Container>
       <Box
@@ -24,10 +24,10 @@ function EvaluationList({ list }: Props) {
         }}
       >
         <Stack spacing={2} direction="row">
-          <Button variant="contained" sx={{ backgroundColor: '#808080' }}>
+          <Button variant="contained" color="inherit">
             SHOW COMPLETED
           </Button>
-          <Button variant="contained" sx={{ backgroundColor: '#00BCD4' }}>
+          <Button variant="contained" color="info">
             CREATE NEW EVALUATION
           </Button>
         </Stack>
@@ -77,7 +77,7 @@ function EvaluationList({ list }: Props) {
                   }}
                 >
                   <Link href={`/course-evaluation/${courseEvaluationListEntry.id}`}>
-                    <Button variant="contained" sx={{ backgroundColor: '#F67B2F' }}>
+                    <Button variant="contained" color="primary">
                       View
                     </Button>
                   </Link>
@@ -91,4 +91,4 @@ function EvaluationList({ list }: Props) {
   );
 }
 
-export default EvaluationList;
+export default CoordinatorList;

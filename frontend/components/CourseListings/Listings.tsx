@@ -1,24 +1,11 @@
 import React from 'react';
 import { useSWRAuth } from '@/components/hooks/useSWRAuth';
-import type { NextPage } from 'next';
-import Head from 'next/head';
-import Image from 'next/image';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import CardContent from '@mui/material/CardContent';
-import CardHeader from '@mui/material/CardHeader';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import { Reviews } from '@mui/icons-material';
-import EvaluationList from './evaluationList';
+import CoordinatorList from './CoordinatorList';
 import { API_ENDPOINT, CourseEvaluationListEntry } from 'utils/api';
 
 interface TabPanelProps {
@@ -89,7 +76,7 @@ function Listings() {
       </Box>
       <Box sx={{ backgroundColor: '#EEEEEE', width: '100%' }}>
         <TabPanel value={tabsValue} index={0}>
-          <EvaluationList list={courseEvaluationListEntries} />
+          <CoordinatorList list={courseEvaluationListEntries} />
         </TabPanel>
         <TabPanel value={tabsValue} index={1}>
           Item Two
