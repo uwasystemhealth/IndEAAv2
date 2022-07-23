@@ -65,6 +65,7 @@ function Listings() {
     setTabsValue(newValue);
   };
 
+  //for now, under the review list branch it should be changed to something similar to courseEvaluationListEntries
   const reviews: string[] = [];
 
   return (
@@ -79,20 +80,12 @@ function Listings() {
       <Box
         sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: '#0E91AC', width: '90%' }}
       >
-        {courseEvaluationListEntries.length > 0 && reviews.length > 0 ? (
-          <Tabs value={tabsValue} onChange={handleChangeTab} variant="fullWidth">
+        <Tabs value={tabsValue} onChange={handleChangeTab} variant="fullWidth">
+          {courseEvaluationListEntries.length > 0 && (
             <Tab label="COURSE EVALUATIONS" {...a11yProps(0)} />
-            <Tab label="REVIEW COURSES" {...a11yProps(1)} />
-          </Tabs>
-        ) : courseEvaluationListEntries.length > 0 ? (
-          <Tabs value={tabsValue} onChange={handleChangeTab} variant="fullWidth">
-            <Tab label="COURSE EVALUATIONS" {...a11yProps(0)} />{' '}
-          </Tabs>
-        ) : (
-          <Tabs value={tabsValue} onChange={handleChangeTab} variant="fullWidth">
-            <Tab label="Reviews" {...a11yProps(0)} />
-          </Tabs>
-        )}
+          )}
+          {reviews.length > 0 && <Tab label="REVIEW COURSES" {...a11yProps(1)} />}
+        </Tabs>
       </Box>
       <Box sx={{ backgroundColor: '#EEEEEE', width: '100%' }}>
         <TabPanel value={tabsValue} index={0}>
