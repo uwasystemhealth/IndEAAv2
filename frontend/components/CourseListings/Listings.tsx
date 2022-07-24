@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSWRAuth } from '@/components/hooks/useSWRAuth';
+import { useTheme } from "@mui/material/styles";
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Tabs from '@mui/material/Tabs';
@@ -7,6 +8,7 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import CoordinatorList from './CoordinatorList';
 import { API_ENDPOINT, CourseEvaluationListEntry } from 'utils/api';
+import CustomTheme from '../utils/CustomTheme';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -42,6 +44,9 @@ function a11yProps(index: number) {
 }
 
 function Listings() {
+
+  const theme = useTheme();
+
   const [tabsValue, setTabsValue] = React.useState(0);
 
   const { response, isLoading, error } = useSWRAuth(API_ENDPOINT.COURSE_EVALUATION.LIST);
@@ -52,7 +57,7 @@ function Listings() {
     setTabsValue(newValue);
   };
 
-  //for now, under the review list branch it should be changed to something similar to courseEvaluationListEntries
+  //under the review list branch this should be changed to something similar to courseEvaluationListEntries
   const reviews: string[] = [""];
 
   return (
@@ -64,7 +69,7 @@ function Listings() {
         alignItems: 'center',
       }}
     >
-      <Box sx={{ backgroundColor: '#EEEEEE', width: '100%' }}>
+      <Box sx={{ backgroundColor: CustomTheme.palette.primary.light, width: '100%' }}>
         <Tabs value={tabsValue} onChange={handleChangeTab} variant="fullWidth">
           {courseEvaluationListEntries.length > 0 && (
             <Tab label="COURSE EVALUATIONS" {...a11yProps(0)} />
