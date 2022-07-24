@@ -53,12 +53,16 @@ type Props = {
 
 function SectionTabs({ id }: Props) {
   const { response, isLoading, error } = useSWRAuth(API_ENDPOINT.COURSE_EVALUATION.LIST);
+
   const courseEvaluationListEntries = ((response?.data as unknown) ||
     []) as CourseEvaluationListEntry[];
-  let store: CourseEvaluationListEntry = DEFAULT_COURSE_EVALUATION_LIST_ENTRY;
+
+  let evaluation: CourseEvaluationListEntry = DEFAULT_COURSE_EVALUATION_LIST_ENTRY;
+
+  //looping through all evaluations to find the one that is being asked for
   courseEvaluationListEntries.forEach(function (value) {
     if (value.id == id) {
-      store = value;
+      evaluation = value;
       return;
     }
   });
@@ -78,24 +82,20 @@ function SectionTabs({ id }: Props) {
         alignItems: 'center',
       }}
     >
-      <Box
-        sx={{
-          borderBottom: 1,
-          borderColor: 'divider',
-          backgroundColor: CustomTheme.palette.info.main,
-          width: '100%',
-        }}
-      >
-        <Tabs value={tabsValue} onChange={handleChangeTab} variant="fullWidth">
+      <Box sx={{ backgroundColor: CustomTheme.palette.primary.light, width: '100%' }}>
+        <Tabs
+          value={tabsValue}
+          onChange={handleChangeTab}
+          variant="fullWidth"
+          sx={{ backgroundColor: CustomTheme.palette.info.main }}
+        >
           <Tab label="OVERVIEW" {...a11yProps(0)} />
           <Tab label="JUSTIFICATIONS" {...a11yProps(1)} />
           <Tab label="DOCUMENTS" {...a11yProps(2)} />
           <Tab label="REVIEWS" {...a11yProps(3)} />
         </Tabs>
-      </Box>
-      <Box sx={{ backgroundColor: CustomTheme.palette.primary.light, width: '100%' }}>
         <TabPanel value={tabsValue} index={0}>
-          <Overview evaluation={store} />
+          <Overview evaluation={evaluation} />
         </TabPanel>
         <TabPanel value={tabsValue} index={1}>
           Item Two

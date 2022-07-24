@@ -5,7 +5,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { Button, Container, Stack } from '@mui/material';
-import { API_ENDPOINT, CourseEvaluationListEntry } from 'utils/api';
+import { CourseEvaluationListEntry } from 'utils/api';
 import CustomTheme from '../utils/CustomTheme';
 
 type Props = {
