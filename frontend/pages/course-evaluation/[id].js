@@ -6,9 +6,9 @@ import Typography from '@mui/material/Typography';
 
 const Post = () => {
   const router = useRouter();
-  const { pid } = router.query;
+  const { id } = router.query;
 
-  console.log(pid)
+  console.log(id)
 
   return (
     <Container>
