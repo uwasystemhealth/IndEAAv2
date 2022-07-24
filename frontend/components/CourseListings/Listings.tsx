@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSWRAuth } from '@/components/hooks/useSWRAuth';
-import { useTheme } from "@mui/material/styles";
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Tabs from '@mui/material/Tabs';
@@ -45,7 +44,6 @@ function a11yProps(index: number) {
 
 function Listings() {
 
-  const theme = useTheme();
 
   const [tabsValue, setTabsValue] = React.useState(0);
 

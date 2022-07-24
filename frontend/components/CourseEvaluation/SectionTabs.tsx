@@ -1,16 +1,16 @@
 import * as React from 'react';
-import type { NextPage } from 'next';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
-import Grid from '@mui/material/Grid';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import styles from '../styles/Home.module.css';
-import { useContext } from 'react';
-import { useRouter } from 'next/router';
+import { useSWRAuth } from '@/components/hooks/useSWRAuth';
+import {
+  API_ENDPOINT,
+  CourseEvaluationListEntry,
+  DEFAULT_COURSE_EVALUATION_LIST_ENTRY,
+} from 'utils/api';
+import CustomTheme from '../utils/CustomTheme';
 
 import Overview from './Overview';
 
@@ -47,8 +47,21 @@ function a11yProps(index: number) {
   };
 }
 
-const SectionTabs: NextPage = () => {
-  // Change these data when this issue gets worked on. For now it just contains a demo of how to get user info
+type Props = {
+  id: string;
+};
+
+function SectionTabs({ id }: Props) {
+  const { response, isLoading, error } = useSWRAuth(API_ENDPOINT.COURSE_EVALUATION.LIST);
+  const courseEvaluationListEntries = ((response?.data as unknown) ||
+    []) as CourseEvaluationListEntry[];
+  let store: CourseEvaluationListEntry = DEFAULT_COURSE_EVALUATION_LIST_ENTRY;
+  courseEvaluationListEntries.forEach(function (value) {
+    if (value.id == id) {
+      store = value;
+      return;
+    }
+  });
 
   const [tabsValue, setTabsValue] = React.useState(0);
 
@@ -66,7 +79,12 @@ const SectionTabs: NextPage = () => {
       }}
     >
       <Box
-        sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: '#0E91AC', width: '90%' }}
+        sx={{
+          borderBottom: 1,
+          borderColor: 'divider',
+          backgroundColor: CustomTheme.palette.info.main,
+          width: '100%',
+        }}
       >
         <Tabs value={tabsValue} onChange={handleChangeTab} variant="fullWidth">
           <Tab label="OVERVIEW" {...a11yProps(0)} />
@@ -75,9 +93,9 @@ const SectionTabs: NextPage = () => {
           <Tab label="REVIEWS" {...a11yProps(3)} />
         </Tabs>
       </Box>
-      <Box sx={{ backgroundColor: '#EEEEEE', width: '100%' }}>
+      <Box sx={{ backgroundColor: CustomTheme.palette.primary.light, width: '100%' }}>
         <TabPanel value={tabsValue} index={0}>
-          <Overview />
+          <Overview evaluation={store} />
         </TabPanel>
         <TabPanel value={tabsValue} index={1}>
           Item Two
@@ -91,6 +109,6 @@ const SectionTabs: NextPage = () => {
       </Box>
     </Container>
   );
-};
+}
 
 export default SectionTabs;
