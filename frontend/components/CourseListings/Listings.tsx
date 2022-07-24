@@ -58,7 +58,7 @@ function Listings() {
   };
 
   //under the review list branch this should be changed to something similar to courseEvaluationListEntries
-  const reviews: string[] = [""];
+  const reviews: string[] = [];
 
   return (
     <Container
