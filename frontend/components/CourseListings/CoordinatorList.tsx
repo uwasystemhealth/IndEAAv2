@@ -24,11 +24,11 @@ function CoordinatorList({ list }: Props) {
         }}
       >
         <Stack spacing={2} direction="row">
-          <Button variant="contained" color="inherit">
-            SHOW COMPLETED
-          </Button>
-          <Button variant="contained" color="info">
+          <Button variant="contained" color="primary">
             CREATE NEW EVALUATION
+          </Button>
+          <Button variant="contained" color="secondary">
+            SHOW COMPLETED
           </Button>
         </Stack>
       </Box>

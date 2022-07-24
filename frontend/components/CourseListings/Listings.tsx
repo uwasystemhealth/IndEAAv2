@@ -53,7 +53,7 @@ function Listings() {
   };
 
   //for now, under the review list branch it should be changed to something similar to courseEvaluationListEntries
-  const reviews: string[] = [];
+  const reviews: string[] = [""];
 
   return (
     <Container
@@ -64,17 +64,13 @@ function Listings() {
         alignItems: 'center',
       }}
     >
-      <Box
-        sx={{ borderBottom: 1, borderColor: 'divider', backgroundColor: '#0E91AC', width: '90%' }}
-      >
+      <Box sx={{ backgroundColor: '#EEEEEE', width: '100%' }}>
         <Tabs value={tabsValue} onChange={handleChangeTab} variant="fullWidth">
           {courseEvaluationListEntries.length > 0 && (
             <Tab label="COURSE EVALUATIONS" {...a11yProps(0)} />
           )}
           {reviews.length > 0 && <Tab label="REVIEW COURSES" {...a11yProps(1)} />}
         </Tabs>
-      </Box>
-      <Box sx={{ backgroundColor: '#EEEEEE', width: '100%' }}>
         <TabPanel value={tabsValue} index={0}>
           <CoordinatorList list={courseEvaluationListEntries} />
         </TabPanel>
