@@ -11,7 +11,7 @@ api_patterns = (
                 namespace="course_evaluations",  # use this namespace for url reversal
             ),
         ),
-        path("authentication/", include("dj_rest_auth.urls")),
+        path("authentication/", include("authentication.urls", namespace="authentication")),
     ],
     "api",
 )
@@ -20,5 +20,4 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/v1/", include(api_patterns, namespace="api-v1")),
     path("api-auth/", include("rest_framework.urls")),
-    # path('dj-rest-auth/registration/', include('dj_rest_auth.registration.urls'))
 ]
