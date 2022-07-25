@@ -13,6 +13,9 @@ type Props = {
 };
 
 function Overview({ evaluation }: Props) {
+  console.log(evaluation)
+  
+  const dateString = evaluation.created_at.slice(0,10)
 
   return (
     <Container>
@@ -38,7 +41,7 @@ function Overview({ evaluation }: Props) {
             </Typography>
             <Typography sx={{ p: 1, fontWeight: 'bold' }}>
               Date Started:
-              <Typography variant="subtitle2">{evaluation.created_at}</Typography>
+              <Typography variant="subtitle2">{dateString}</Typography>
             </Typography>
           </Card>
         </Grid>
