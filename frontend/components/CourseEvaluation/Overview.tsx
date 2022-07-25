@@ -33,7 +33,7 @@ function Overview({ evaluation }: Props) {
             <Typography sx={{ p: 1, fontWeight: 'bold' }}>
               Coordinators:
               <Typography variant="subtitle2">
-                {evaluation.coordinators.map(({ username }) => username).join(', ')}
+                {evaluation.coordinators?.map(({ username }) => username).join(', ')}
               </Typography>
             </Typography>
             <Typography sx={{ p: 1, fontWeight: 'bold' }}>

@@ -21,20 +21,11 @@ type Props = {
 };
 
 function SectionTabs({ courseEvaluationId }: Props) {
-  const { response, isLoading, error } = useSWRAuth(API_ENDPOINT.COURSE_EVALUATION.LIST);
 
-  const courseEvaluationListEntries = ((response?.data as unknown) ||
-    []) as CourseEvaluationListEntry[];
+  const { response, isLoading, error } = useSWRAuth( courseEvaluationId ? API_ENDPOINT.COURSE_EVALUATION.DETAIL(courseEvaluationId) : "" );
 
-  let evaluation: CourseEvaluationListEntry = DEFAULT_COURSE_EVALUATION_LIST_ENTRY;
-
-  //looping through all evaluations to find the one that is being asked for
-  courseEvaluationListEntries.forEach(function (value) {
-    if (value.id == courseEvaluationId) {
-      evaluation = value;
-      return;
-    }
-  });
+  const evaluation = ((response?.data as unknown) ||
+    []) as CourseEvaluationListEntry;
 
   const [tabsValue, setTabsValue] = React.useState(0);
 

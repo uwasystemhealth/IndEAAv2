@@ -18,7 +18,8 @@ export const API_ENDPOINT = {
     REFRESH: '/api/v1/authentication/token/refresh/',
   },
   COURSE_EVALUATION: {
-    LIST: '/api/v1/course-evaluations/'
+    LIST: '/api/v1/course-evaluations/',
+    DETAIL: (courseEvaluationId : string) => `/api/v1/course-evaluations/${courseEvaluationId}`
   }
 };
 const API = {
