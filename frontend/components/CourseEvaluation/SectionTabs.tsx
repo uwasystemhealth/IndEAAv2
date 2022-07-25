@@ -3,29 +3,33 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
 import { useSWRAuth } from '@/components/hooks/useSWRAuth';
-import {
-  API_ENDPOINT,
-  CourseEvaluationListEntry,
-  DEFAULT_COURSE_EVALUATION_LIST_ENTRY,
-} from 'utils/api';
+import { API_ENDPOINT, CourseEvaluationListEntry } from 'utils/api';
 import CustomTheme from '../utils/CustomTheme';
 
-import TabPanel, {a11yProps} from "../Custom/TabPanel"
+import TabPanel, { a11yProps } from '../Custom/TabPanel';
 import Overview from './Overview';
-
 
 type Props = {
   courseEvaluationId: string;
 };
 
 function SectionTabs({ courseEvaluationId }: Props) {
+  const { response, isLoading, error } = useSWRAuth(
+    courseEvaluationId ? API_ENDPOINT.COURSE_EVALUATION.DETAIL(courseEvaluationId) : '',
+  );
 
-  const { response, isLoading, error } = useSWRAuth( courseEvaluationId ? API_ENDPOINT.COURSE_EVALUATION.DETAIL(courseEvaluationId) : "" );
+  const evaluation = ((response?.data as unknown) || []) as CourseEvaluationListEntry;
 
-  const evaluation = ((response?.data as unknown) ||
-    []) as CourseEvaluationListEntry;
+  const TAB_DISPLAYS = [
+    {
+      label: 'Overview',
+      tabComponent: <Overview evaluation={evaluation} />,
+    },
+    { label: 'JUSTIFICATIONS', tabComponent: 'item two' },
+    { label: 'DOCUMENTS', tabComponent: 'item three' },
+    { label: 'REVIEWS', tabComponent: 'item four' },
+  ];
 
   const [tabsValue, setTabsValue] = React.useState(0);
 
@@ -49,23 +53,16 @@ function SectionTabs({ courseEvaluationId }: Props) {
           variant="fullWidth"
           sx={{ backgroundColor: CustomTheme.palette.info.main }}
         >
-          <Tab label="OVERVIEW" {...a11yProps(0)} />
-          <Tab label="JUSTIFICATIONS" {...a11yProps(1)} />
-          <Tab label="DOCUMENTS" {...a11yProps(2)} />
-          <Tab label="REVIEWS" {...a11yProps(3)} />
+          {TAB_DISPLAYS.map(({ label }, index) => (
+            <Tab key={index} label={label} {...a11yProps(index)} />
+          ))}
         </Tabs>
-        <TabPanel value={tabsValue} index={0}>
-          <Overview evaluation={evaluation} />
-        </TabPanel>
-        <TabPanel value={tabsValue} index={1}>
-          Item Two
-        </TabPanel>
-        <TabPanel value={tabsValue} index={2}>
-          Item Three
-        </TabPanel>
-        <TabPanel value={tabsValue} index={3}>
-          Item Four
-        </TabPanel>
+
+        {TAB_DISPLAYS.map(({ tabComponent }, index) => (
+          <TabPanel key={index} value={tabsValue} index={index}>
+            {tabComponent}
+          </TabPanel>
+        ))}
       </Box>
     </Container>
   );

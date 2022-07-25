@@ -38,7 +38,7 @@ function Overview({ evaluation }: Props) {
             </Typography>
             <Typography sx={{ p: 1, fontWeight: 'bold' }}>
               Date Started:
-              <Typography variant="subtitle2">10th july 2022 (hard coded) </Typography>
+              <Typography variant="subtitle2">{evaluation.created_at}</Typography>
             </Typography>
           </Card>
         </Grid>
