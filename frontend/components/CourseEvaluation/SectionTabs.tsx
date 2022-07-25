@@ -17,10 +17,10 @@ import Overview from './Overview';
 
 
 type Props = {
-  id: string;
+  courseEvaluationId: string;
 };
 
-function SectionTabs({ id }: Props) {
+function SectionTabs({ courseEvaluationId }: Props) {
   const { response, isLoading, error } = useSWRAuth(API_ENDPOINT.COURSE_EVALUATION.LIST);
 
   const courseEvaluationListEntries = ((response?.data as unknown) ||
@@ -30,7 +30,7 @@ function SectionTabs({ id }: Props) {
 
   //looping through all evaluations to find the one that is being asked for
   courseEvaluationListEntries.forEach(function (value) {
-    if (value.id == id) {
+    if (value.id == courseEvaluationId) {
       evaluation = value;
       return;
     }
