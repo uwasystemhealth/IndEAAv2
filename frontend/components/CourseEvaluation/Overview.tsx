@@ -14,8 +14,7 @@ type Props = {
 
 function Overview({ evaluation }: Props) {
   console.log(evaluation)
-  
-  const dateString = evaluation.created_at.slice(0,10)
+  const dateString = evaluation.created_at?.slice(0,10)
 
   return (
     <Container>

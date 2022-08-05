@@ -50,13 +50,15 @@ export interface CourseEvaluationListEntry {
   unit_code: string
   description: string
   coordinators: UserAPIResponse[]
+  created_at: string
 }
 
 export const DEFAULT_COURSE_EVALUATION_LIST_ENTRY: CourseEvaluationListEntry = {
   id: '',
   unit_code: '',
   description: '',
-  coordinators: []
+  coordinators: [],
+  created_at: ''
 }
 
 
