@@ -18,7 +18,8 @@ export const API_ENDPOINT = {
     REFRESH: '/api/v1/authentication/token/refresh/',
   },
   COURSE_EVALUATION: {
-    LIST: '/api/v1/course-evaluations/'
+    LIST: '/api/v1/course-evaluations/',
+    DETAIL: (courseEvaluationId : string) => `/api/v1/course-evaluations/${courseEvaluationId}`
   }
 };
 const API = {
@@ -44,19 +45,20 @@ export const DEFAULT_USER_API_RESPONSE: UserAPIResponse = {
   email: '',
 };
 
-
 export interface CourseEvaluationListEntry {
   id: string
   unit_code: string
   description: string
   coordinators: UserAPIResponse[]
+  created_at: string
 }
 
 export const DEFAULT_COURSE_EVALUATION_LIST_ENTRY: CourseEvaluationListEntry = {
   id: '',
   unit_code: '',
   description: '',
-  coordinators: []
+  coordinators: [],
+  created_at: ''
 }
 
 

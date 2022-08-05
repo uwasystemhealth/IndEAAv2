@@ -13,8 +13,6 @@ import { determineIfUserIsAuthentication } from 'utils/Authentication';
 import Listings from '@/components/CourseListings/Listings';
 
 const Home: NextPage = () => {
-  // Change these data when this issue gets worked on. For now it just contains a demo of how to get user info
-  const { response, isLoading, error } = useSWRAuth(API_ENDPOINT.COURSE_EVALUATION.LIST);
 
   const { authenticationDetails, setAuthenticationDetails } = useContext(AppContext);
   const isUserAuthenticated = determineIfUserIsAuthentication(authenticationDetails.accessToken);
