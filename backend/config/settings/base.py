@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     "django_filters",
     "commands",
     "course_evaluations",
+    "documents",
     # Authentication
     "rest_framework",
     "rest_framework.authtoken",

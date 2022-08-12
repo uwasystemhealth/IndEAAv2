@@ -12,6 +12,7 @@ api_patterns = (
             ),
         ),
         path("authentication/", include("authentication.urls", namespace="authentication")),
+        path("documents/", include("documents.urls", namespace="documents"))
     ],
     "api",
 )
