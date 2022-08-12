@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSWRAuth } from '@/components/hooks/useSWRAuth';
-import { useTheme } from "@mui/material/styles";
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Tabs from '@mui/material/Tabs';
@@ -9,43 +8,11 @@ import Typography from '@mui/material/Typography';
 import CoordinatorList from './CoordinatorList';
 import { API_ENDPOINT, CourseEvaluationListEntry } from 'utils/api';
 import CustomTheme from '../utils/CustomTheme';
+import TabPanel, {a11yProps} from "../Custom/TabPanel"
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
-
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index, ...other } = props;
-
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
-
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
 
 function Listings() {
 
-  const theme = useTheme();
 
   const [tabsValue, setTabsValue] = React.useState(0);
 
@@ -58,7 +25,7 @@ function Listings() {
   };
 
   //under the review list branch this should be changed to something similar to courseEvaluationListEntries
-  const reviews: string[] = [""];
+  const reviews: string[] = [];
 
   return (
     <Container
