@@ -10,13 +10,16 @@ export const API_CLIENT = axios.create(CONFIGS);
 // These contains the URL for the API on various endpoints
 export const API_ENDPOINT = {
   AUTHENTICATION: {
+    GOOGLE_LOGIN: '/api/v1/authentication/google/login/redirect/',
+    GOOGLE_TOKEN: '/api/v1/authentication/google/',
     LOGIN: '/api/v1/authentication/login/',
     LOGOUT: '/api/v1/authentication/logout/',
     USER: '/api/v1/authentication/user/',
     REFRESH: '/api/v1/authentication/token/refresh/',
   },
   COURSE_EVALUATION: {
-    LIST: '/api/v1/course-evaluations/'
+    LIST: '/api/v1/course-evaluations/',
+    DETAIL: (courseEvaluationId : string) => `/api/v1/course-evaluations/${courseEvaluationId}`
   }
 };
 const API = {
@@ -42,19 +45,20 @@ export const DEFAULT_USER_API_RESPONSE: UserAPIResponse = {
   email: '',
 };
 
-
 export interface CourseEvaluationListEntry {
   id: string
   unit_code: string
   description: string
   coordinators: UserAPIResponse[]
+  created_at: string
 }
 
 export const DEFAULT_COURSE_EVALUATION_LIST_ENTRY: CourseEvaluationListEntry = {
   id: '',
   unit_code: '',
   description: '',
-  coordinators: []
+  coordinators: [],
+  created_at: ''
 }
 
 

@@ -63,9 +63,19 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_filters",
+    "commands",
+    "course_evaluations",
+    # Authentication
     "rest_framework",
     "rest_framework.authtoken",
+    "django.contrib.sites",
     "dj_rest_auth",
+    "dj_rest_auth.registration",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.google",
     "django_filters",
     "commands",
     "course_evaluations",
@@ -120,6 +130,33 @@ POSTGRES_DB = config("POSTGRES_DB", "not-set")
 POSTGRES_PORT = config("POSTGRES_PORT", "not-set")
 POSTGRES_USER = config("POSTGRES_USER", "not-set")
 POSTGRES_PASSWORD = config("POSTGRES_PASSWORD", "not-set")
+
+AUTHENTICATION_BACKENDS = [
+    # `allauth` specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend",
+]
+
+GOOGLE_CLIENT_ID = config("GOOGLE_CLIENT_ID", "not-set")
+GOOGLE_SECRET = config("GOOGLE_SECRET", "not-set")
+
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "APP": {
+            "client_id": GOOGLE_CLIENT_ID,
+            "secret": GOOGLE_SECRET,
+            "key": "",
+        },
+        # These are provider-specific settings that can only be
+        # listed here:
+        "SCOPE": [
+            "profile",
+            "email",
+        ],
+        "AUTH_PARAMS": {
+            "access_type": "offline",
+        },
+    }
+}
 
 DATABASES = {
     "default": {
@@ -265,6 +302,7 @@ LOGGING = {
     },
 }
 
+
 if ENABLE_LOG_DJANGO_QUERIES:
     LOGGING["loggers"]["django.db.backends"] = {"level": "DEBUG"}
 
@@ -318,6 +356,7 @@ CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_HEADERS = ["sentry-trace", *list(default_headers)]  # passed by staging
 FRONTEND_URL = config("FRONTEND_URL", "http://localhost:11002")
 CORS_ALLOWED_ORIGINS = [FRONTEND_URL]
+
 
 ######################################
 # App Versioning & Watermarking Config

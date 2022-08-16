@@ -9,7 +9,7 @@ import { AppProvider } from '@/components/Context/TopLevelContext';
 function MyApp({ Component, pageProps }: AppProps) {
   const myStyle = {
     backgroundImage: `url("${image.src}")`,
-    height: '100vh',
+    minHeight: '100vh',
     backgroundSize: 'cover',
   };
   return (
