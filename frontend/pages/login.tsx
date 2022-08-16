@@ -74,7 +74,7 @@ const Login = (props: Props) => {
 
   return (
     <Container>
-      <Card sx={{ minWidth: 250 }}>
+      <Card>
         <CardContent
           sx={{
             minHeight: '50vh',
