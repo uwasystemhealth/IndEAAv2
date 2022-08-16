@@ -7,4 +7,15 @@ from documents.models import Document
 
 @admin.register(Document)
 class DocumentAdmin(admin.ModelAdmin):
-    list_display = ("id", "url", "is_introduction")
+    list_display = ("id", "course_evaluation", "name", "url", "is_introduction")
+    search_fields = ("id", "name", "description", "justification")
+
+    list_filter = (
+        "course_evaluation",
+        "is_introduction",
+    )
+
+    filter_horizontal = (
+        "eoc_generals",
+        "eoc_specifics",
+    )
