@@ -14,7 +14,7 @@ class DocumentsViewSet(viewsets.ModelViewSet):
     Viewset that handles documents
 
     Permissions:
-    - Coordinator (ALL)
+    - Coordinator (DETAIL, CREATE, UPDATE, DELETE). Essentially for management of the documents for a particular course_evaluation
 
     Note: A reviewer should only see documents as part of their specific endpoint. See `reviews/serializers.py` or `reviews/views.py`
     """
@@ -35,4 +35,3 @@ class DocumentsViewSet(viewsets.ModelViewSet):
         - Reviewer: the user should use the endpoint at `reviews/views.py`
         """
         return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
-        
