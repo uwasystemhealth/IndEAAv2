@@ -66,6 +66,8 @@ INSTALLED_APPS = [
     "django_filters",
     "commands",
     "course_evaluations",
+    "reviews",
+    "documents",
     # Authentication
     "rest_framework",
     "rest_framework.authtoken",
@@ -76,11 +78,6 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
-    "django_filters",
-    "commands",
-    "course_evaluations",
-    "reviews",
-    "documents",
 ]
 
 # Refer to https://dj-rest-auth.readthedocs.io/en/latest/installation.html#registration-optional
