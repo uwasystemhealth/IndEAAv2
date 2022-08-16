@@ -1,5 +1,7 @@
 from django.contrib import admin
+
 from reviews.models import Review, ReviewDocument, ReviewEocSpecific
+
 
 # Register your models here.
 @admin.register(Review)
@@ -18,4 +20,3 @@ class ReviewDocumentAdmin(admin.ModelAdmin):
 class ReviewEocSpecificAdmin(admin.ModelAdmin):
     list_display = ("id", "review", "eoc_specific", "development_level", "suggestion", "justification")
     ordering = ("created_at",)
-

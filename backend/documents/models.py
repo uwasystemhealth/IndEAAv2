@@ -1,12 +1,14 @@
 import uuid
+
 from django.db import models
 
 # Create your models here.
-from course_evaluations.models import EOCSpecific, EOCGeneral
+from course_evaluations.models import EOCGeneral, EOCSpecific
+
 
 class Document(models.Model):
     """
-    A document is a url to a resource that a reviewer will look at 
+    A document is a url to a resource that a reviewer will look at
     to judge the quality of a course
     """
 

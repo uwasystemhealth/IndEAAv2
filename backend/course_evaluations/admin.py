@@ -1,5 +1,12 @@
 from django.contrib import admin
-from course_evaluations.models import CourseEvaluation, EOCGeneral, EOCSet, EOCSpecific, CourseEvaluationJustification
+
+from course_evaluations.models import (
+    CourseEvaluation,
+    CourseEvaluationJustification,
+    EOCGeneral,
+    EOCSet,
+    EOCSpecific,
+)
 
 
 @admin.register(EOCSet)
@@ -44,6 +51,7 @@ class CourseEvaluationJustificationAdmin(admin.ModelAdmin):
     list_filter = ("course_evaluation",)
     search_fields = ("id", "justification")
     ordering = ("id",)
+
 
 @admin.register(CourseEvaluation)
 class CourseEvaluationAdmin(admin.ModelAdmin):

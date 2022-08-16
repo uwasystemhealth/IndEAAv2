@@ -24,7 +24,7 @@ api_patterns = (
             include(
                 ("documents.urls", "documents"),
                 namespace="documents",
-            )
+            ),
         ),
     ],
     "api",

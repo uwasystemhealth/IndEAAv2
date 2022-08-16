@@ -1,11 +1,11 @@
 """
 This test file is focused on permission testing. This is to ensure that unauthorised access cannot use the API
 """
+import pytest
 from django.urls import reverse
 from rest_framework import status
 
 from course_evaluations.models import CourseEvaluation
-import pytest
 
 
 @pytest.mark.django_db

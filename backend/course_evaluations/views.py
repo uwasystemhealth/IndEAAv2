@@ -6,10 +6,11 @@ from course_evaluations.models import CourseEvaluation
 from course_evaluations.permissions import IsCoordinatorAllowAll
 from course_evaluations.serializers import (
     CourseEvaluationDetailSerializer,
+    CourseEvaluationJustificationSerializer,
     CourseEvaluationListSerializer,
     EOCSet,
-    CourseEvaluationJustificationSerializer,
 )
+
 
 class CourseEvaluationViewSet(viewsets.ModelViewSet):
     """

@@ -11,4 +11,3 @@ router.register(r"", DocumentsViewSet, basename="documents")
 urlpatterns = [
     path("", include(router.urls)),
 ]
-

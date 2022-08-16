@@ -4,6 +4,7 @@ from rest_framework.response import Response
 
 from documents.models import Document
 from documents.serializers import DocumentSerializer
+
 # Create your views here.
 
 
@@ -13,8 +14,7 @@ class DocumentsViewSet(viewsets.ModelViewSet):
     """
 
     queryset = Document.objects.all()
-    def get_serializer(self, *args, **kwargs):
-        """
 
-        """
-        return DocumentSerializer(*args, **kwargs) 
+    def get_serializer(self, *args, **kwargs):
+        """ """
+        return DocumentSerializer(*args, **kwargs)

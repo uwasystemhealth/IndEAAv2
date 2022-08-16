@@ -1,5 +1,7 @@
 from rest_framework import serializers
-from reviews.models import Review, ReviewEocSpecific, ReviewDocument
+
+from reviews.models import Review, ReviewDocument, ReviewEocSpecific
+
 
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,7 +13,7 @@ class ReviewEOCSpecificSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReviewEocSpecific
         fields = "__all__"
-    
+
 
 class ReviewDocumentSerializer(serializers.ModelSerializer):
     class Meta:

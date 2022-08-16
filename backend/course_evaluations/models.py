@@ -4,6 +4,7 @@ import uuid
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 
+
 class EOCSet(models.Model):
     """
     EOCSet is a group of EOCs (Elements of Competencies)
@@ -87,6 +88,6 @@ class CourseEvaluationJustification(models.Model):
     """
 
     course_evaluation = models.ForeignKey(CourseEvaluation, on_delete=models.CASCADE)
-    eoc_specific = models.ForeignKey(EOCSpecific, on_delete=models.CASCADE)
+    eoc_specific = models.ManyToManyField(EOCSpecific, related_name="justification")
     justification = models.TextField(null=False, blank=True)
     development_level = models.IntegerChoices("DevelopmentLevel", "1 2 3 4 5")

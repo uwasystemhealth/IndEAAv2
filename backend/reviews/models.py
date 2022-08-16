@@ -2,9 +2,10 @@ import uuid
 
 # Create your models here.
 from django.db import models
-from course_evaluations.models import CourseEvaluation, EOCSpecific
 
+from course_evaluations.models import CourseEvaluation, EOCSpecific
 from documents.models import Document
+
 
 class Review(models.Model):
     """
@@ -46,18 +47,17 @@ class ReviewEocSpecific(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-
 class ReviewDocument(models.Model):
     """
     For each review, the reviewer may supply comments on different documents.
     ReviewDocument contains information regarding these comments.
     """
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     review = models.ForeignKey(Review, related_name="documents", on_delete=models.CASCADE)
     document = models.ForeignKey(Document, related_name="review_messages", on_delete=models.CASCADE)
     is_viewed = models.BooleanField()
-    comment = models.TextField()    
+    comment = models.TextField()
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
