@@ -108,4 +108,4 @@ class CourseEvaluationJustification(models.Model):
 
     def __str__(self):
         eoc_specifics = ", ".join([eoc_specific.get_general_and_specific_eoc() for eoc_specific in self.eoc_specifics.all()])
-        return f"{self.course_evaluation.unit_code} - {eoc_specifics}"
+        return f"Course Evaluation Justification ({self.course_evaluation.unit_code}) - {eoc_specifics}"
