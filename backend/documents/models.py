@@ -3,7 +3,7 @@ import uuid
 from django.db import models
 
 # Create your models here.
-from course_evaluations.models import EOCGeneral, EOCSpecific
+from course_evaluations.models import CourseEvaluation, EOCGeneral, EOCSpecific
 
 
 class Document(models.Model):
@@ -12,14 +12,18 @@ class Document(models.Model):
     to judge the quality of a course
     """
 
-    # UUID for the review
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
-    is_introduction = models.BooleanField()
+    # Main relations
+    course_evaluation = models.ForeignKey(CourseEvaluation, on_delete=models.CASCADE)
 
-    # The actual URL to the resource
+    # Information about the document
+    name = models.CharField(max_length=50, null=False, blank=False)
+    description = models.TextField(null=False, blank=True)
     url = models.URLField()
 
+    # Tags Equivalence
+    is_introduction = models.BooleanField()
     eoc_generals = models.ManyToManyField(EOCGeneral)
     eoc_specifics = models.ManyToManyField(EOCSpecific)
 
