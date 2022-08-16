@@ -28,14 +28,11 @@ class DocumentsViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         """
-        List only the documents that the user is a coordinator
-        """
-        queryset = self.filter_queryset(self.get_queryset())
+        This is method is not needed. We will never be using a way to list all the documents that the user can view.
 
-        # Find out all the IDs of the course evaluation at which the user is a coordinator
-        course_evaluation_ids = request.user.course_evaluation_coordinator.values_list("id", flat=True)
-        filtered_queryset = queryset.filter(
-            course_evaluation_id__in=course_evaluation_ids
-        )
-        serializer = DocumentSerializer(filtered_queryset, many=True)
-        return Response(serializer.data)
+        If the role of the user is:
+        - Coordinator: the user should use the endpoint at `course_evaluations/views.py`
+        - Reviewer: the user should use the endpoint at `reviews/views.py`
+        """
+        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        
