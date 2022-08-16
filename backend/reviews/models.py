@@ -3,7 +3,7 @@ import uuid
 # Create your models here.
 from django.db import models
 
-from course_evaluations.models import CourseEvaluation, EOCSpecific
+from course_evaluations.models import CourseEvaluation, DevelopmentLevels, EOCSpecific
 from documents.models import Document
 
 
@@ -38,7 +38,7 @@ class ReviewEocSpecific(models.Model):
     review = models.ForeignKey(Review, null=True, related_name="eoc_specific_reviews", on_delete=models.CASCADE)
     eoc_specific = models.ForeignKey(EOCSpecific, on_delete=models.CASCADE)
 
-    development_level = models.IntegerChoices("DevelopmentLevel", "1 2 3 4 5")
+    development_level = models.IntegerField(choices=DevelopmentLevels.choices)
 
     suggestion = models.TextField(null=False, blank=True)
     justification = models.TextField(null=False, blank=True)

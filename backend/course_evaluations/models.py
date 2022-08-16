@@ -80,6 +80,20 @@ class CourseEvaluation(models.Model):
         return f"{self.eoc_set.name} - {self.unit_code} ({self.created_at})"
 
 
+class DevelopmentLevels(models.IntegerChoices):
+    """
+    Foundational - Developing a foundation for university level study
+    Broad and Coherent - Sufficient capability to enter the workforce as a non-engineer
+    Advanced - Sufficient capability for professional practice as a starting engineer
+    Specialist - Selected areas of strength beyond the requirement for entering professional practice
+    """
+
+    FOUNDATIONAL = 1
+    BROAD_AND_COHERENT = 2
+    ADVANCED = 3
+    SPECIALIST = 4
+
+
 class CourseEvaluationJustification(models.Model):
     """
     A course coodinator must provide some written justification for how their course
@@ -88,6 +102,10 @@ class CourseEvaluationJustification(models.Model):
     """
 
     course_evaluation = models.ForeignKey(CourseEvaluation, on_delete=models.CASCADE)
-    eoc_specific = models.ManyToManyField(EOCSpecific, related_name="justification")
+    eoc_specifics = models.ManyToManyField(EOCSpecific, related_name="justification")
     justification = models.TextField(null=False, blank=True)
-    development_level = models.IntegerChoices("DevelopmentLevel", "1 2 3 4 5")
+    development_level = models.IntegerField(choices=DevelopmentLevels.choices)
+
+    def __str__(self):
+        eoc_specifics = ", ".join([eoc_specific.get_general_and_specific_eoc() for eoc_specific in self.eoc_specifics.all()])
+        return f"{self.course_evaluation.unit_code} - {eoc_specifics}"
