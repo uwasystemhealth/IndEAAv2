@@ -12,39 +12,37 @@ import AppContext from 'components/Context/TopLevelContext';
 import { determineIfUserIsAuthentication } from 'utils/Authentication';
 import Listings from '@/components/CourseListings/Listings';
 
-const Home: NextPage = () => {
+const StaticInformationAboutIndEAA = () => (
+  <Card>
+    <CardContent
+      sx={{
+        minHeight: '50vh',
+        textAlign: 'center',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <Box>
+        <Typography sx={{ fontSize: 36 }} color="text.secondary" gutterBottom>
+          Welcome to IndEAAv2!
+        </Typography>
+        <Typography variant="body2">
+          IndEAA (Industrial Engineer Australia Assessment) is web application that streamlines
+          course review by Industry Advisory Panels by centralising all the information that is
+          related to the review in one place. More information about IndEAA in the documentation.
+        </Typography>
+      </Box>
+    </CardContent>
+  </Card>
+);
 
+const Home: NextPage = () => {
   const { authenticationDetails, setAuthenticationDetails } = useContext(AppContext);
   const isUserAuthenticated = determineIfUserIsAuthentication(authenticationDetails.accessToken);
 
   return (
-    <Container>
-      {!isUserAuthenticated ? (
-        <Card>
-          <CardContent
-            sx={{
-              minHeight: '50vh',
-            }}
-          >
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-            >
-              <Typography sx={{ fontSize: 36 }} color="text.secondary" gutterBottom>
-                Welcome!
-              </Typography>
-              <Typography variant="body2">Please Login to continue</Typography>
-            </Box>
-          </CardContent>
-        </Card>
-      ) : (
-        <Listings />
-      )}
-    </Container>
+    <Container>{!isUserAuthenticated ? <StaticInformationAboutIndEAA /> : <Listings />}</Container>
   );
 };
 
