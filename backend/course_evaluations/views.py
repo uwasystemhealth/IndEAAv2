@@ -3,7 +3,7 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
 from course_evaluations.models import CourseEvaluation
-from course_evaluations.permissions import IsCoordinatorAllowAll
+from course_evaluations.permissions import CourseEvaluationIsCoordinatorAllowAll
 from course_evaluations.serializers import (
     CourseEvaluationDetailSerializer,
     CourseEvaluationJustificationSerializer,
@@ -19,7 +19,7 @@ class CourseEvaluationViewSet(viewsets.ModelViewSet):
     """
 
     queryset = CourseEvaluation.objects.all()
-    permission_classes = [permissions.IsAuthenticated, IsCoordinatorAllowAll]
+    permission_classes = [CourseEvaluationIsCoordinatorAllowAll]
 
     def get_serializer(self, *args, **kwargs):
         """
