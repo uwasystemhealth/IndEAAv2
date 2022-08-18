@@ -8,18 +8,35 @@ from course_evaluations.models import (
     EOCSet,
     EOCSpecific,
 )
+from documents.serializers import DocumentWriteSerializer
 
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ("id", "username", "first_name", "last_name", "email", "is_staff", "is_active", "is_superuser")
+        fields = (
+            "id",
+            "username",
+            "first_name",
+            "last_name",
+            "email",
+            "is_staff",
+            "is_active",
+            "is_superuser",
+        )
 
 
 class EOCSpecificSerializer(serializers.ModelSerializer):
     class Meta:
         model = EOCSpecific
-        fields = ("id", "number", "eoc_general", "get_general_and_specific_eoc", "description", "indicators_of_attainment")
+        fields = (
+            "id",
+            "number",
+            "eoc_general",
+            "get_general_and_specific_eoc",
+            "description",
+            "indicators_of_attainment",
+        )
 
 
 class EOCGeneralSerializer(serializers.ModelSerializer):
@@ -61,6 +78,7 @@ class CourseEvaluationDetailSerializer(serializers.ModelSerializer):
     eoc_set = EOCSetSerializer(read_only=True)
     coordinators = UserSerializer(many=True, read_only=True)
     course_evalution_justifications = CourseEvaluationJustificationSerializer(many=True, read_only=True)
+    documents = DocumentWriteSerializer(many=True, read_only=True)
 
     # Note: This is used for write, by creating the `eoc_set` relationship
     eoc_set_id = serializers.IntegerField(required=True)

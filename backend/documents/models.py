@@ -15,7 +15,7 @@ class Document(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     # Main relations
-    course_evaluation = models.ForeignKey(CourseEvaluation, on_delete=models.CASCADE)
+    course_evaluation = models.ForeignKey(CourseEvaluation, on_delete=models.CASCADE, related_name="documents")
 
     # Information about the document
     name = models.CharField(max_length=50, null=False, blank=False)

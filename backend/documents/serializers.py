@@ -10,7 +10,7 @@ from course_evaluations.models import (
 from documents.models import Document
 
 
-class DocumentSerializer(serializers.ModelSerializer):
+class DocumentWriteSerializer(serializers.ModelSerializer):
     """
     Note: It is important to understand that this serializer is only used for write operations for the most parts.
 
@@ -20,6 +20,37 @@ class DocumentSerializer(serializers.ModelSerializer):
     # Note: `read_only=False` is important to do patching and creations
     eoc_generals = serializers.PrimaryKeyRelatedField(many=True, read_only=False, queryset=EOCGeneral.objects.all())
     eoc_specifics = serializers.PrimaryKeyRelatedField(many=True, read_only=False, queryset=EOCSpecific.objects.all())
+
+    class Meta:
+        model = Document
+        fields = "__all__"
+
+
+class EOCSpecificSerializerReadOnly(serializers.ModelSerializer):
+    class Meta:
+        model = EOCSpecific
+        fields = ("id", "number", "get_general_and_specific_eoc")
+
+
+class EOCGeneralSerializerReadOnly(serializers.ModelSerializer):
+    class Meta:
+        model = EOCGeneral
+        fields = ("id", "number")
+
+
+class DocumentReadOnlySerializer(serializers.ModelSerializer):
+    """
+    Read only serializer for the Document model.
+    """
+
+    eoc_generals = EOCGeneralSerializerReadOnly(
+        many=True,
+        read_only=True,
+    )
+    eoc_specifics = EOCSpecificSerializerReadOnly(
+        many=True,
+        read_only=True,
+    )
 
     class Meta:
         model = Document
