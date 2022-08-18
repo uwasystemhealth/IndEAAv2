@@ -62,6 +62,7 @@ class CourseEvaluationDetailSerializer(serializers.ModelSerializer):
     coordinators = UserSerializer(many=True, read_only=True)
     course_evalution_justifications = CourseEvaluationJustificationSerializer(many=True, read_only=True)
 
+    # Note: This is used for write, by creating the `eoc_set` relationship
     eoc_set_id = serializers.IntegerField(required=True)
 
     class Meta:
