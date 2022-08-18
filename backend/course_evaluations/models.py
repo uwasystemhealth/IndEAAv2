@@ -50,9 +50,9 @@ class EOCSpecific(models.Model):
     eoc_general = models.ForeignKey(EOCGeneral, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.eoc_general.eoc_set.name} - {self.get_general_and_specific_eoc()}"
+        return f"{self.eoc_general.eoc_set.name} - {self.general_and_specific_eoc()}"
 
-    def get_general_and_specific_eoc(self):
+    def general_and_specific_eoc(self):
         return f"{self.eoc_general.number}.{self.number}"
 
 
@@ -107,5 +107,5 @@ class CourseEvaluationJustification(models.Model):
     development_level = models.IntegerField(choices=DevelopmentLevels.choices)
 
     def __str__(self):
-        eoc_specifics = ", ".join([eoc_specific.get_general_and_specific_eoc() for eoc_specific in self.eoc_specifics.all()])
+        eoc_specifics = ", ".join([eoc_specific.general_and_specific_eoc() for eoc_specific in self.eoc_specifics.all()])
         return f"Course Evaluation Justification ({self.course_evaluation.unit_code}) - {eoc_specifics}"

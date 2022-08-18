@@ -43,7 +43,7 @@ class EOCSpecificAdmin(admin.ModelAdmin):
         "id",
         "number",
         "eoc_general",
-        "get_general_and_specific_eoc",
+        "general_and_specific_eoc",
         "description",
     )
     list_filter = ("eoc_general",)

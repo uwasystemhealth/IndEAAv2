@@ -33,7 +33,7 @@ class EOCSpecificSerializer(serializers.ModelSerializer):
             "id",
             "number",
             "eoc_general",
-            "get_general_and_specific_eoc",
+            "general_and_specific_eoc",
             "description",
             "indicators_of_attainment",
         )
