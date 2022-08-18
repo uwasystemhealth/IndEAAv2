@@ -8,6 +8,7 @@ from rest_framework.test import APIClient
 
 from course_evaluations.models import CourseEvaluation, EOCSet
 from documents.models import Document
+from reviews.models import Review
 
 
 @pytest.fixture
@@ -145,6 +146,8 @@ def make_course_evaluation(setup_indeaa) -> CourseEvaluation:
         course_evaluation.delete()
 
 
+@pytest.fixture
+@pytest.mark.django_db
 def make_course_evaluation_document(setup_indeaa, make_course_evaluation) -> Document:
     """Make CourseEvaluation on demand inside tests"""
     created_course_evaluation_document = []
@@ -156,8 +159,8 @@ def make_course_evaluation_document(setup_indeaa, make_course_evaluation) -> Doc
         description="Test CourseEvaluation Document",
         url="https://systemhealthlab.com/",
         is_introduction=False,
-        eoc_generals=None,
-        eoc_specifics=None,
+        eoc_generals=[],
+        eoc_specifics=[],
     ):
         if course_evaluation is None:
             course_evaluation = make_course_evaluation()
@@ -185,4 +188,40 @@ def make_course_evaluation_document(setup_indeaa, make_course_evaluation) -> Doc
 
     # Teardown
     for document in created_course_evaluation_document:
+        document.delete()
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def make_course_review(setup_indeaa, make_course_evaluation, create_user) -> CourseEvaluation:
+    """Make CourseEvaluation on demand inside tests"""
+    created_course_review = []
+
+    # Create a CourseEvaluation record
+    def _make_course_review(
+        course_evaluation=None,
+        reviewer=None,
+        final_comment="Test CourseEvaluation Review",
+        date_submitted=None,
+    ):
+        if course_evaluation is None:
+            course_evaluation = make_course_evaluation()
+        if reviewer is None:
+            reviewer = create_user()
+
+        # Create the record
+        course_review = Review.objects.create(
+            course_evaluation=course_evaluation,
+            reviewer=reviewer,
+            final_comment=final_comment,
+            date_submitted=date_submitted,
+        )
+
+        return course_review
+
+    # Recommended reading: https://docs.pytest.org/en/stable/fixture.html#yield-fixtures-recommended
+    yield _make_course_review
+
+    # Teardown
+    for document in created_course_review:
         document.delete()
