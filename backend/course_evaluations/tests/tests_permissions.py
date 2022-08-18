@@ -78,3 +78,23 @@ def test_delete_view_course_evaluation_anonymous(api_client_no_auth, create_user
 
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
     assert CourseEvaluation.objects.count() == 1
+
+@pytest.mark.django_db
+def test_delete_view_course_evaluation_user_but_not_coordinator(api_client_with_credentials_return_user, create_user, make_course_evaluation):
+    """
+    GIVEN: The user is authenticated but not the coordinator
+    WHEN: I delete a course evaluation
+    THEN: The user is not authorised to use the endpoint
+    """
+    user = create_user()
+    course_evaluation = make_course_evaluation(coordinators=[user])
+
+    url = reverse(
+        "api-v1:course_evaluations:course-evaluations-detail",
+        kwargs={"pk": course_evaluation.id},
+    )
+    api_client, user = api_client_with_credentials_return_user()
+    response = api_client.delete(url)
+
+    assert response.status_code == status.HTTP_403_FORBIDDEN
+    assert CourseEvaluation.objects.count() == 1
