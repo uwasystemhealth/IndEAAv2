@@ -24,7 +24,7 @@ class Review(models.Model):
 
     final_comment = models.TextField(null=False, blank=True)
 
-    date_submitted = models.DateTimeField(null=True)
+    date_submitted = models.DateTimeField(null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
