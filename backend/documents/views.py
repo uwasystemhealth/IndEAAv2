@@ -9,7 +9,7 @@ from documents.serializers import DocumentSerializer
 # Create your views here.
 
 
-class DocumentsViewSet(viewsets.ModelViewSet):
+class CourseEvaluationDocumentViewSet(viewsets.ModelViewSet):
     """
     Viewset that handles documents
 
@@ -19,19 +19,8 @@ class DocumentsViewSet(viewsets.ModelViewSet):
     Note: A reviewer should only see documents as part of their specific endpoint. See `reviews/serializers.py` or `reviews/views.py`
     """
 
-    queryset = Document.objects.all()
     permission_classes = [DocumentCoordinatorAllowAll]
+    serializer_class = DocumentSerializer
 
-    def get_serializer(self, *args, **kwargs):
-        """ """
-        return DocumentSerializer(*args, **kwargs)
-
-    def list(self, request, *args, **kwargs):
-        """
-        This is method is not needed. We will never be using a way to list all the documents that the user can view.
-
-        If the role of the user is:
-        - Coordinator: the user should use the endpoint at `course_evaluations/views.py`
-        - Reviewer: the user should use the endpoint at `reviews/views.py`
-        """
-        return Response(status=status.HTTP_405_METHOD_NOT_ALLOWED)
+    def get_queryset(self):
+        return Document.objects.all().filter(course_evaluation=self.kwargs["course_evaluation_id"])
