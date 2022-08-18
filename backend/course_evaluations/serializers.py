@@ -8,7 +8,7 @@ from course_evaluations.models import (
     EOCSet,
     EOCSpecific,
 )
-from documents.serializers import DocumentWriteSerializer
+from documents.serializers import DocumentReadOnlySerializer
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -78,7 +78,7 @@ class CourseEvaluationDetailSerializer(serializers.ModelSerializer):
     eoc_set = EOCSetSerializer(read_only=True)
     coordinators = UserSerializer(many=True, read_only=True)
     course_evalution_justifications = CourseEvaluationJustificationSerializer(many=True, read_only=True)
-    documents = DocumentWriteSerializer(many=True, read_only=True)
+    documents = DocumentReadOnlySerializer(many=True, read_only=True)
 
     # Note: This is used for write, by creating the `eoc_set` relationship
     eoc_set_id = serializers.IntegerField(required=True)
