@@ -1,14 +1,20 @@
 from rest_framework import permissions
 
+from course_evaluations.models import CourseEvaluation
+from course_evaluations.permissions import CourseEvaluationIsCoordinatorAllowAll
 
-class DocumentCoordinatorAllowAll(permissions.BasePermission):
+
+class DocumentCoordinatorAllowAllReviewerReadOnly(CourseEvaluationIsCoordinatorAllowAll):
     """
-    Custom permission to only allow coordinators the API
+    Custom permission to Coordinators for all permissions, and read only for Reviewer
     """
 
-    def has_object_permission(self, request, view, obj):
-        """
-        A coordinator should be allowed to perform any operation
-        """
+    def has_permission(self, request, view):
 
-        return request.user in obj.course_evaluation.coordinators.all()
+        # Check whether the user has a review for the course_evaluation
+        reviews = request.user.reviews.all()
+        course_evaluation_id = view.kwargs["course_evaluation_id"]
+        if reviews.filter(course_evaluation_id=course_evaluation_id).exists():
+            return True
+
+        return super().has_permission(request, view)

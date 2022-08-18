@@ -20,6 +20,7 @@ class CourseEvaluationViewSet(viewsets.ModelViewSet):
 
     queryset = CourseEvaluation.objects.all()
     permission_classes = [
+        permissions.IsAuthenticated,
         CourseEvaluationIsCoordinatorAllowAll,
     ]
 

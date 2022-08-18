@@ -3,7 +3,7 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
 from documents.models import Document
-from documents.permissions import DocumentCoordinatorAllowAll
+from documents.permissions import DocumentCoordinatorAllowAllReviewerReadOnly
 from documents.serializers import DocumentSerializer
 
 # Create your views here.
@@ -19,7 +19,10 @@ class CourseEvaluationDocumentViewSet(viewsets.ModelViewSet):
     Note: A reviewer should only see documents as part of their specific endpoint. See `reviews/serializers.py` or `reviews/views.py`
     """
 
-    permission_classes = [DocumentCoordinatorAllowAll]
+    permission_classes = [
+        permissions.IsAuthenticated,
+        DocumentCoordinatorAllowAllReviewerReadOnly,
+    ]
     serializer_class = DocumentSerializer
 
     def get_queryset(self):

@@ -6,15 +6,6 @@ class CourseEvaluationIsCoordinatorAllowAll(permissions.BasePermission):
     Custom permission to only allow coordinators the API
     """
 
-    def has_permission(self, request, view):
-        """
-        This permission applies on request level
-        """
-        # Check if authenticated
-        if request.user is None or not request.user.is_authenticated:
-            return False
-        return True
-
     def has_object_permission(self, request, view, obj):
         """
         A coordinator should be allowed to perform any operation
