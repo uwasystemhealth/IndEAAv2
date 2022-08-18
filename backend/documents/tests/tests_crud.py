@@ -6,12 +6,13 @@ Note: Permission testing is not the focus of this test file.
 from django.urls import reverse
 from rest_framework import status
 
-from course_evaluations.models import CourseEvaluation, EOCSet
 from documents.models import Document
 
 
 def test_list_view_course_evaluation_document_as_coordinator(
-    api_client_with_credentials_return_user, make_course_evaluation, make_course_evaluation_document
+    api_client_with_credentials_return_user,
+    make_course_evaluation,
+    make_course_evaluation_document,
 ):
     """
     GIVEN: There are multiple course evaluation documents
@@ -27,7 +28,10 @@ def test_list_view_course_evaluation_document_as_coordinator(
     # This user should not be able to see this
     make_course_evaluation_document(course_evaluation=course_evaluation_2)
 
-    url = reverse("api-v1:course_evaluations:documents-list", kwargs={"course_evaluation_id": course_evaluation_1.id})
+    url = reverse(
+        "api-v1:course_evaluations:documents-list",
+        kwargs={"course_evaluation_id": course_evaluation_1.id},
+    )
     response = api_client.get(url)
 
     assert response.status_code == status.HTTP_200_OK
@@ -48,7 +52,10 @@ def test_create_view_course_evaluation_document_as_coordinator(setup_indeaa, api
     api_client, user = api_client_with_credentials_return_user()
     course_evaluation = make_course_evaluation(coordinators=[user])
 
-    url = reverse("api-v1:course_evaluations:documents-list", kwargs={"course_evaluation_id": course_evaluation.id})
+    url = reverse(
+        "api-v1:course_evaluations:documents-list",
+        kwargs={"course_evaluation_id": course_evaluation.id},
+    )
     data = {
         "eoc_generals": [],
         "eoc_specifics": [],
@@ -73,7 +80,9 @@ def test_create_view_course_evaluation_document_as_coordinator(setup_indeaa, api
 
 
 def test_update_view_course_evaluation_document_as_coordinator(
-    api_client_with_credentials_return_user, make_course_evaluation, make_course_evaluation_document
+    api_client_with_credentials_return_user,
+    make_course_evaluation,
+    make_course_evaluation_document,
 ):
     """
     GIVEN: As a coordinator of a course evaluation
@@ -84,7 +93,10 @@ def test_update_view_course_evaluation_document_as_coordinator(
     course_evaluation = make_course_evaluation(coordinators=[user])
     document = make_course_evaluation_document(course_evaluation=course_evaluation)
 
-    url = reverse("api-v1:course_evaluations:documents-detail", kwargs={"course_evaluation_id": course_evaluation.id, "pk": document.id})
+    url = reverse(
+        "api-v1:course_evaluations:documents-detail",
+        kwargs={"course_evaluation_id": course_evaluation.id, "pk": document.id},
+    )
     data = {
         "description": "New description",
     }
@@ -102,7 +114,9 @@ def test_update_view_course_evaluation_document_as_coordinator(
 
 
 def test_delete_view_course_evaluation_document_as_coordinator(
-    api_client_with_credentials_return_user, make_course_evaluation, make_course_evaluation_document
+    api_client_with_credentials_return_user,
+    make_course_evaluation,
+    make_course_evaluation_document,
 ):
     """
     GIVEN: As a coordinator of a course evaluation
@@ -113,7 +127,10 @@ def test_delete_view_course_evaluation_document_as_coordinator(
     course_evaluation = make_course_evaluation(coordinators=[user])
     document = make_course_evaluation_document(course_evaluation=course_evaluation)
 
-    url = reverse("api-v1:course_evaluations:documents-detail", kwargs={"course_evaluation_id": course_evaluation.id, "pk": document.id})
+    url = reverse(
+        "api-v1:course_evaluations:documents-detail",
+        kwargs={"course_evaluation_id": course_evaluation.id, "pk": document.id},
+    )
     response = api_client.delete(url)
 
     assert response.status_code == status.HTTP_204_NO_CONTENT

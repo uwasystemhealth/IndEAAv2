@@ -1,10 +1,7 @@
 from rest_framework import serializers
 
 from course_evaluations.models import (
-    CourseEvaluation,
-    CourseEvaluationJustification,
     EOCGeneral,
-    EOCSet,
     EOCSpecific,
 )
 from documents.models import Document

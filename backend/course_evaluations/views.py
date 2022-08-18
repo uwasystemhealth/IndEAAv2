@@ -6,7 +6,6 @@ from course_evaluations.models import CourseEvaluation
 from course_evaluations.permissions import CourseEvaluationIsCoordinatorAllowAll
 from course_evaluations.serializers import (
     CourseEvaluationDetailSerializer,
-    CourseEvaluationJustificationSerializer,
     CourseEvaluationListSerializer,
     EOCSet,
 )
@@ -65,5 +64,5 @@ class CourseEvaluationViewSet(viewsets.ModelViewSet):
         """
         Deletion of a Course Evaluation should never be allowed
         """
-        object = self.get_object()  # this is to kick off the usual object level permission
+        self.get_object()  # this is to kick off the usual object level permission
         return self.http_method_not_allowed(request, *args, **kwargs)

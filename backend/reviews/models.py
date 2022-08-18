@@ -1,8 +1,6 @@
 import uuid
 
-# Create your models here.
 from django.db import models
-from typing_extensions import Required
 
 from course_evaluations.models import CourseEvaluation, DevelopmentLevels, EOCSpecific
 from documents.models import Document
