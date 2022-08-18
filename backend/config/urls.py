@@ -19,13 +19,6 @@ api_patterns = (
                 namespace="reviews",
             ),
         ),
-        path(
-            "documents/",
-            include(
-                ("documents.urls", "documents"),
-                namespace="documents",
-            ),
-        ),
     ],
     "api",
 )
