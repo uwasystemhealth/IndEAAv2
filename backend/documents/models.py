@@ -24,8 +24,8 @@ class Document(models.Model):
 
     # Tags Equivalence
     is_introduction = models.BooleanField()
-    eoc_generals = models.ManyToManyField(EOCGeneral)
-    eoc_specifics = models.ManyToManyField(EOCSpecific)
+    eoc_generals = models.ManyToManyField(EOCGeneral, blank=True)
+    eoc_specifics = models.ManyToManyField(EOCSpecific, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
