@@ -1,8 +1,8 @@
-from typing_extensions import Required
 import uuid
 
 # Create your models here.
 from django.db import models
+from typing_extensions import Required
 
 from course_evaluations.models import CourseEvaluation, DevelopmentLevels, EOCSpecific
 from documents.models import Document
@@ -20,7 +20,7 @@ class Review(models.Model):
     # One-to-many Relationship with Course Evaluations
     course_evaluation = models.ForeignKey(CourseEvaluation, on_delete=models.CASCADE)
 
-    coordinators = models.ForeignKey("auth.User", related_name="reviews", on_delete=models.CASCADE)
+    reviewer = models.ForeignKey("auth.User", related_name="reviews", on_delete=models.CASCADE)
 
     final_comment = models.TextField(null=False, blank=True)
 
