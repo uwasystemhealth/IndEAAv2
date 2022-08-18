@@ -7,6 +7,7 @@ from django.core.management import call_command
 from rest_framework.test import APIClient
 
 from course_evaluations.models import CourseEvaluation, EOCSet
+from documents.models import Document
 
 
 @pytest.fixture
@@ -142,3 +143,46 @@ def make_course_evaluation(setup_indeaa) -> CourseEvaluation:
     # Teardown
     for course_evaluation in created_course_evaluation:
         course_evaluation.delete()
+
+
+def make_course_evaluation_document(setup_indeaa, make_course_evaluation) -> Document:
+    """Make CourseEvaluation on demand inside tests"""
+    created_course_evaluation_document = []
+
+    # Create a CourseEvaluation record
+    def _make_course_evaluation_document(
+        course_evaluation=None,
+        name="Test CourseEvaluation Document",
+        description="Test CourseEvaluation Document",
+        url="https://systemhealthlab.com/",
+        is_introduction=False,
+        eoc_generals=None,
+        eoc_specifics=None,
+    ):
+        if course_evaluation is None:
+            course_evaluation = make_course_evaluation()
+        # Create the record
+        document = Document.objects.create(
+            name=name,
+            description=description,
+            url=url,
+            is_introduction=is_introduction,
+            course_evaluation=course_evaluation,
+        )
+
+        for eoc_general in eoc_generals:
+            document.eoc_generals.add(eoc_general)
+
+        for eoc_specific in eoc_specifics:
+            document.eoc_specifics.add(eoc_specific)
+
+        created_course_evaluation_document.append(document)
+
+        return document
+
+    # Recommended reading: https://docs.pytest.org/en/stable/fixture.html#yield-fixtures-recommended
+    yield _make_course_evaluation_document
+
+    # Teardown
+    for document in created_course_evaluation_document:
+        document.delete()
