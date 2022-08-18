@@ -2,8 +2,12 @@ import uuid
 
 from django.db import models
 
-from course_evaluations.models import CourseEvaluation, DevelopmentLevels, EOCSpecific
-from documents.models import Document
+from course_evaluations.models import (
+    CourseEvaluation,
+    DevelopmentLevels,
+    Document,
+    EOCSpecific,
+)
 
 
 class Review(models.Model):

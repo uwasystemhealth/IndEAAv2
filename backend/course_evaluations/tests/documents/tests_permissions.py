@@ -5,8 +5,7 @@ import pytest
 from django.urls import reverse
 from rest_framework import status
 
-from course_evaluations.models import CourseEvaluation
-from documents.models import Document
+from course_evaluations.models import CourseEvaluation, Document
 
 
 @pytest.mark.django_db
@@ -116,7 +115,10 @@ def test_create_view_course_evaluation_documents_reviewer(api_client_with_creden
 
 @pytest.mark.django_db
 def test_update_view_course_evaluation_documents_reviewer(
-    api_client_with_credentials_return_user, make_course_evaluation_document, make_course_evaluation, make_course_review
+    api_client_with_credentials_return_user,
+    make_course_evaluation_document,
+    make_course_evaluation,
+    make_course_review,
 ):
     """
     GIVEN: The user is authenticated and is a reviewer
@@ -142,7 +144,10 @@ def test_update_view_course_evaluation_documents_reviewer(
 
 @pytest.mark.django_db
 def test_delete_view_course_evaluation_documents_reviewer(
-    api_client_with_credentials_return_user, make_course_evaluation_document, make_course_evaluation, make_course_review
+    api_client_with_credentials_return_user,
+    make_course_evaluation_document,
+    make_course_evaluation,
+    make_course_review,
 ):
     """
     GIVEN: The user is authenticated and is a reviewer

@@ -1,8 +1,10 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from course_evaluations.views import CourseEvaluationViewSet
-from documents.views import CourseEvaluationDocumentViewSet
+from course_evaluations.views import (
+    CourseEvaluationDocumentViewSet,
+    CourseEvaluationViewSet,
+)
 
 # Create a router and register our viewsets with it.
 router = DefaultRouter()

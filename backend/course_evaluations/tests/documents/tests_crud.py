@@ -6,7 +6,7 @@ Note: Permission testing is not the focus of this test file.
 from django.urls import reverse
 from rest_framework import status
 
-from documents.models import Document
+from course_evaluations.models import Document
 
 
 def test_list_view_course_evaluation_document_as_coordinator(

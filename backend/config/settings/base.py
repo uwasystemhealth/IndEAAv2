@@ -67,7 +67,6 @@ INSTALLED_APPS = [
     "commands",
     "course_evaluations",
     "reviews",
-    "documents",
     # Authentication
     "rest_framework",
     "rest_framework.authtoken",

@@ -6,8 +6,7 @@ from django.contrib.auth.models import User
 from django.core.management import call_command
 from rest_framework.test import APIClient
 
-from course_evaluations.models import CourseEvaluation, EOCSet
-from documents.models import Document
+from course_evaluations.models import CourseEvaluation, Document, EOCSet
 from reviews.models import Review
 
 
