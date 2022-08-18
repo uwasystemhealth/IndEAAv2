@@ -89,6 +89,7 @@ nav:
 - Developers:
     - Overview: developer/index.md
     - Project Structure: developer/project_structure.md
+    - Telemetry and Observability: developer/telemetry_and_observability.md
     - Frontend Specific Documentation: developer/frontend_specific_documentation.md
     - Authentication: developer/authentication.md
     - Course Evaluation: developer/course_evaluation.md
