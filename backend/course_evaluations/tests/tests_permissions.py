@@ -79,6 +79,7 @@ def test_delete_view_course_evaluation_anonymous(api_client_no_auth, create_user
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
     assert CourseEvaluation.objects.count() == 1
 
+
 @pytest.mark.django_db
 def test_delete_view_course_evaluation_user_but_not_coordinator(api_client_with_credentials_return_user, create_user, make_course_evaluation):
     """

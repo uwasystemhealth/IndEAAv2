@@ -19,7 +19,9 @@ class CourseEvaluationViewSet(viewsets.ModelViewSet):
     """
 
     queryset = CourseEvaluation.objects.all()
-    permission_classes = [CourseEvaluationIsCoordinatorAllowAll]
+    permission_classes = [
+        CourseEvaluationIsCoordinatorAllowAll,
+    ]
 
     def get_serializer(self, *args, **kwargs):
         """
@@ -62,4 +64,5 @@ class CourseEvaluationViewSet(viewsets.ModelViewSet):
         """
         Deletion of a Course Evaluation should never be allowed
         """
+        object = self.get_object()  # this is to kick off the usual object level permission
         return self.http_method_not_allowed(request, *args, **kwargs)
