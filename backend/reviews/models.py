@@ -1,3 +1,4 @@
+from typing_extensions import Required
 import uuid
 
 # Create your models here.
@@ -23,7 +24,7 @@ class Review(models.Model):
 
     final_comment = models.TextField(null=False, blank=True)
 
-    date_submitted = models.DateTimeField()
+    date_submitted = models.DateTimeField(null=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
