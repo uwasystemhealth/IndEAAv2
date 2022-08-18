@@ -25,10 +25,21 @@ class CourseEvaluationDocumentViewSet(viewsets.ModelViewSet):
     ]
 
     def get_serializer_class(self):
-        if self.action == "list":
+        if self.request.method == "GET":
             return DocumentReadOnlySerializer
         else:
             return DocumentWriteSerializer
 
     def get_queryset(self):
         return Document.objects.all().filter(course_evaluation=self.kwargs["course_evaluation_id"])
+
+    """
+    For CREATE and UPDATE, we have to force the value of 
+    `course_evaluation_id` to the url parameters (disregarding what the actual payload was)
+    """
+
+    def perform_create(self, serializer):
+        serializer.save(course_evaluation_id=self.kwargs["course_evaluation_id"])
+
+    def perform_update(self, serializer):
+        serializer.save(course_evaluation_id=self.kwargs["course_evaluation_id"])

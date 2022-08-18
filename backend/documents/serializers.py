@@ -21,6 +21,9 @@ class DocumentWriteSerializer(serializers.ModelSerializer):
     eoc_generals = serializers.PrimaryKeyRelatedField(many=True, read_only=False, queryset=EOCGeneral.objects.all())
     eoc_specifics = serializers.PrimaryKeyRelatedField(many=True, read_only=False, queryset=EOCSpecific.objects.all())
 
+    # This is not required as we will force this to a value, see `documents.views,py` for `perform_create` and `perform_update`
+    course_evaluation = serializers.CharField(required=False)
+
     class Meta:
         model = Document
         fields = "__all__"
