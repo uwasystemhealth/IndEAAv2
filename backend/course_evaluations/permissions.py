@@ -16,12 +16,15 @@ class CourseEvaluationIsCoordinatorAllowAll(permissions.BasePermission):
         return request.user in obj.coordinators.all()
 
 
-class CourseEvaluationIsCoordinatorAllowAllViaObjectReference(CourseEvaluationIsCoordinatorAllowAll):
+class CourseEvaluationIsCoordinatorAllowAllViaObjectReference(permissions.BasePermission):
     """
-    Custom permission to only allow coordinators the API (via Object Reference)
-    Similar to CourseEvaluationIsCoordinatorAllowAll
+    Custom permission to only allow coordinators the API based on the query parameters in the URL
     """
 
-    def has_object_permission(self, request, view, obj):
-        # See that the difference is that we are going to be using the course_evaluation_id in the url
-        return request.user in obj.course_evaluation.coordinators.all()
+    def has_permission(self, request, view):
+        course_evaluation_id = view.kwargs["course_evaluation_id"]
+
+        # Check whether the user has a course_evaluation that is desired
+        course_evaluations = request.user.course_evaluation_coordinator.all()
+        if course_evaluations.filter(id=course_evaluation_id).exists():
+            return True
