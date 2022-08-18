@@ -11,7 +11,7 @@ class IsReviewOwnerAllOrCoordinatorReadOnly(permissions.BasePermission):
     """
 
     def has_object_permission(self, request, view, obj):
-        if request.method is "POST":
+        if request.method in ["POST", "DELETE"]:
             # Check if coordinator
             if request.user in obj.course_evaluation.coordinators.all():
                 return True
