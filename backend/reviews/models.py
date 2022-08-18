@@ -29,6 +29,13 @@ class Review(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        # A particular reviewer and a course_evaluation can only exist as once
+        unique_together = (("course_evaluation", "reviewer"),)
+
+    def __str__(self):
+        return f"Review ({self.id}) {self.course_evaluation.id} - {self.reviewer.username}"
+
 
 class ReviewEocSpecific(models.Model):
     """
