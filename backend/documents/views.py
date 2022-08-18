@@ -2,8 +2,8 @@ from rest_framework import permissions, status, viewsets
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
+from course_evaluations.permissions import CourseEvaluationIsCoordinatorAllowAllViaObjectReference
 from documents.models import Document
-from documents.permissions import DocumentCoordinatorAllowAllReviewerReadOnly
 from documents.serializers import DocumentReadOnlySerializer, DocumentWriteSerializer
 
 # Create your views here.
@@ -21,7 +21,7 @@ class CourseEvaluationDocumentViewSet(viewsets.ModelViewSet):
 
     permission_classes = [
         permissions.IsAuthenticated,
-        DocumentCoordinatorAllowAllReviewerReadOnly,
+        CourseEvaluationIsCoordinatorAllowAllViaObjectReference
     ]
 
     def get_serializer_class(self):
