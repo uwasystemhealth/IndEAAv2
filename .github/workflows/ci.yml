@@ -60,41 +60,6 @@ jobs:
       - name: Run black
         run:  cd backend && black . && isort --check .
 
-  integration-test-docker:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v2
-      - name: Copy CI environment
-        run: cp ./docker/indeaa-ci.env .env
-      - name: Build the docker-compose
-        run: docker-compose build
-      - name: Run the integration tests
-        uses: cypress-io/github-action@v2
-        with:
-          install-command: docker-compose build
-          # API runs on port 3030
-          # Web server runs on port 3000
-          start: docker-compose up
-          # wait for all services to respond
-          wait-on: 'http://localhost:3000, http://localhost:8000'
-      # after the test run completes
-      # store videos and any screenshots
-      # NOTE: screenshots will be generated only if E2E test failed
-      # thus we store screenshots only on failures
-      # Alternative: create and commit an empty cypress/screenshots folder
-      # to always have something to upload
-      - uses: actions/upload-artifact@v1
-        if: failure()
-        with:
-          name: cypress-screenshots
-          path: cypress/screenshots
-      - uses: actions/upload-artifact@v1
-        if: always()
-        with:
-          name: cypress-videos
-          path: cypress/videos
-
   pytest_py3:
     name: "Automated Tests with Pytest"
     runs-on: ubuntu-latest
