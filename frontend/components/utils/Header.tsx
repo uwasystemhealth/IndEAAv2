@@ -75,7 +75,7 @@ const Header = () => {
             <Button
               variant="contained"
               startIcon={<ArticleIcon />}
-              href="https://indeaa-docs.systemhealthlab.com/"
+              href="https://indeaav2-docs.systemhealthlab.com/"
               target="_blank"
               color="secondary"
               sx={{ mr: 1 }}
