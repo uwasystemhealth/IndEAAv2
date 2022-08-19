@@ -50,9 +50,9 @@ class EOCSpecific(models.Model):
     eoc_general = models.ForeignKey(EOCGeneral, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.eoc_general.eoc_set.name} - {self.get_general_and_specific_eoc()}"
+        return f"{self.eoc_general.eoc_set.name} - {self.general_and_specific_eoc()}"
 
-    def get_general_and_specific_eoc(self):
+    def general_and_specific_eoc(self):
         return f"{self.eoc_general.number}.{self.number}"
 
 
@@ -72,11 +72,65 @@ class CourseEvaluation(models.Model):
     # Many-to-many Relationship with the Django User model
     # related_name: Allows to reference `CourseEvaluation` from User model
     coordinators = models.ManyToManyField("auth.User", related_name="course_evaluation_coordinator")
-
     eoc_set = models.ForeignKey(EOCSet, on_delete=models.CASCADE)
-
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return f"{self.eoc_set.name} - {self.unit_code} ({self.created_at})"
+
+
+class DevelopmentLevels(models.IntegerChoices):
+    """
+    Foundational - Developing a foundation for university level study
+    Broad and Coherent - Sufficient capability to enter the workforce as a non-engineer
+    Advanced - Sufficient capability for professional practice as a starting engineer
+    Specialist - Selected areas of strength beyond the requirement for entering professional practice
+    """
+
+    FOUNDATIONAL = 1
+    BROAD_AND_COHERENT = 2
+    ADVANCED = 3
+    SPECIALIST = 4
+
+
+class CourseEvaluationJustification(models.Model):
+    """
+    A course coodinator must provide some written justification for how their course
+    is acheiving a variety of EOCs. It may be the case that a single written justification
+    can be used for multiple different EOC specifics.
+    """
+
+    course_evaluation = models.ForeignKey(CourseEvaluation, on_delete=models.CASCADE)
+    eoc_specifics = models.ManyToManyField(EOCSpecific, related_name="justification")
+    justification = models.TextField(null=False, blank=True)
+    development_level = models.IntegerField(choices=DevelopmentLevels.choices)
+
+    def __str__(self):
+        eoc_specifics = ", ".join([eoc_specific.general_and_specific_eoc() for eoc_specific in self.eoc_specifics.all()])
+        return f"Course Evaluation Justification ({self.course_evaluation.unit_code}) - {eoc_specifics}"
+
+
+class Document(models.Model):
+    """
+    A document is a url to a resource that a reviewer will look at
+    to judge the quality of a course
+    """
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    # Main relations
+    course_evaluation = models.ForeignKey(CourseEvaluation, on_delete=models.CASCADE, related_name="documents")
+
+    # Information about the document
+    name = models.CharField(max_length=50, null=False, blank=False)
+    description = models.TextField(null=False, blank=True)
+    url = models.URLField()
+
+    # Tags Equivalence
+    is_introduction = models.BooleanField()
+    eoc_generals = models.ManyToManyField(EOCGeneral, blank=True)
+    eoc_specifics = models.ManyToManyField(EOCSpecific, blank=True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
