@@ -6,7 +6,7 @@ const Post = () => {
   const router = useRouter();
   const { id } = router.query;
 
-  return <SectionTabs courseEvaluationId={id}/>;
+  return <SectionTabs courseEvaluationId={id} />;
 };
 
 export default Post;

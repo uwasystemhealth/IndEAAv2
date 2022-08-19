@@ -5,15 +5,12 @@ import Container from '@mui/material/Container';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
-import CoordinatorList from './CoordinatorList';
 import { API_ENDPOINT, CourseEvaluationListEntry } from 'utils/api';
+import CoordinatorList from './CoordinatorList';
 import CustomTheme from '../utils/CustomTheme';
-import TabPanel, {a11yProps} from "../Custom/TabPanel"
+import TabPanel, { a11yProps } from '../Custom/TabPanel';
 
-
-function Listings() {
-
-
+const Listings = () => {
   const [tabsValue, setTabsValue] = React.useState(0);
 
   const { response, isLoading, error } = useSWRAuth(API_ENDPOINT.COURSE_EVALUATION.LIST);
@@ -24,7 +21,7 @@ function Listings() {
     setTabsValue(newValue);
   };
 
-  //under the review list branch this should be changed to something similar to courseEvaluationListEntries
+  // under the review list branch this should be changed to something similar to courseEvaluationListEntries
   const reviews: string[] = [];
 
   return (
@@ -52,6 +49,6 @@ function Listings() {
       </Box>
     </Container>
   );
-}
+};
 
 export default Listings;

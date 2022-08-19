@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useRouter } from 'next/router';
-import AppContext from "components/Context/TopLevelContext";
+import AppContext from 'components/Context/TopLevelContext';
 import { determineIfUserIsAuthentication } from 'utils/Authentication';
 
 interface Props {

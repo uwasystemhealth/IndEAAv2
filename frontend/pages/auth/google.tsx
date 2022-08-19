@@ -30,7 +30,7 @@ const Google = (props: Props) => {
       (async (code: string) => {
         try {
           const { data } = await API.CLIENT.post(API.ENDPOINT.AUTHENTICATION.GOOGLE_TOKEN, {
-            code: code,
+            code,
           });
           const { access_token: accessToken, refresh_token: refreshToken } = data;
           // Set access_token and refresh_token in localstorage.
@@ -59,22 +59,20 @@ const Google = (props: Props) => {
   }, []);
 
   return (
-    <>
-      <Box
-        sx={{
-          position: 'fixed',
-          bottom: '0',
-          right: '0',
-        }}
+    <Box
+      sx={{
+        position: 'fixed',
+        bottom: '0',
+        right: '0',
+      }}
+    >
+      <Typography
+        sx={{ justifyContent: 'flex-end' }}
+        color={state === LOGIN_STATE.ERROR ? 'error.main' : 'info.main'}
       >
-        <Typography
-          sx={{ justifyContent: 'flex-end' }}
-          color={state === LOGIN_STATE.ERROR ? 'error.main' : 'info.main'}
-        >
-          {state === LOGIN_STATE.ERROR ? loggedInErrored : 'Please wait, logging in . . .'}
-        </Typography>
-      </Box>
-    </>
+        {state === LOGIN_STATE.ERROR ? loggedInErrored : 'Please wait, logging in . . .'}
+      </Typography>
+    </Box>
   );
 };
 

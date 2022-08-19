@@ -128,14 +128,14 @@ const Login = (props: Props) => {
                     </InputAdornment>
                   ),
                 }}
-              ></TextField>
+              />
               <TextField
                 variant="outlined"
                 sx={{ marginBottom: MARGIN }}
                 fullWidth
                 label="Password"
                 id="password"
-                type={'password'}
+                type="password"
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 error={formik.touched.password && Boolean(formik.errors.password)}
@@ -147,7 +147,7 @@ const Login = (props: Props) => {
                     </InputAdornment>
                   ),
                 }}
-              ></TextField>
+              />
               <Grid container alignItems="center" justifyContent="center" direction="column">
                 <Button startIcon={<LoginIcon />} variant="contained" size="large" type="submit">
                   Login

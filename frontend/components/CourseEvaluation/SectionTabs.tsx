@@ -14,7 +14,7 @@ type Props = {
   courseEvaluationId: string;
 };
 
-function SectionTabs({ courseEvaluationId }: Props) {
+const SectionTabs = ({ courseEvaluationId }: Props) => {
   const { response, isLoading, error } = useSWRAuth(
     courseEvaluationId ? API_ENDPOINT.COURSE_EVALUATION.DETAIL(courseEvaluationId) : '',
   );
@@ -66,6 +66,6 @@ function SectionTabs({ courseEvaluationId }: Props) {
       </Box>
     </Container>
   );
-}
+};
 
 export default SectionTabs;

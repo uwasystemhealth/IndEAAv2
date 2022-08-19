@@ -8,7 +8,7 @@ import { useEffect } from 'react';
 import { AppProvider } from '@/components/Context/TopLevelContext';
 import { hotjar } from 'react-hotjar';
 
-function MyApp({ Component, pageProps }: AppProps) {
+const MyApp = ({ Component, pageProps }: AppProps) => {
   const myStyle = {
     backgroundImage: `url("${image.src}")`,
     minHeight: '100vh',
@@ -32,6 +32,6 @@ function MyApp({ Component, pageProps }: AppProps) {
       </ThemeProvider>
     </AppProvider>
   );
-}
+};
 
 export default MyApp;

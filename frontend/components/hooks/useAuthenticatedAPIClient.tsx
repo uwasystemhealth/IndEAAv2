@@ -1,9 +1,9 @@
 // This contains the custom hook for authenticated API calls
 
-import API from "utils/api";
-import { useContext } from "react";
-import AppContext from "components/Context/TopLevelContext";
-import { determineIfUserIsAuthentication } from "utils/Authentication";
+import API from 'utils/api';
+import { useContext } from 'react';
+import AppContext from 'components/Context/TopLevelContext';
+import { determineIfUserIsAuthentication } from 'utils/Authentication';
 
 const useAuthenticatedAPIClient = () => {
   // Gets the context `authentication_details` and binds that to the API client
