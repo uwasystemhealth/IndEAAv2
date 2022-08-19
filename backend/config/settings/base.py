@@ -14,11 +14,11 @@ import os
 from datetime import timedelta
 from pathlib import Path
 
+import sentry_sdk
 from corsheaders.defaults import default_headers
 from decouple import config
+from sentry_sdk.integrations.django import DjangoIntegration
 
-# import sentry_sdk
-# from sentry_sdk.integrations.django import DjangoIntegration
 from config.logs.utils import IndEAALogger
 
 ############
@@ -312,45 +312,35 @@ if ENABLE_LOG_DJANGO_QUERIES:
 ###############
 # Sentry Config
 ###############
-# USE_SENTRY = config('USE_SENTRY', default=False, cast=bool)
-# SENTRY_DSN_BACKEND = config('SENTRY_DSN_BACKEND', None)
-# SENTRY_ENV = config('SENTRY_ENV', None)
-# SENTRY_TRACE_RATE = config('SENTRY_TRACE_RATE', 0.02, cast=float)
-# SENTRY_VERSION = sentry_sdk.VERSION
-
-# SENTRY_ENDPOINTS_TO_TRACE = [
-# ]
-
-# # We only want to trace GET and POST request, not OPTIONS, which sent by the browser to check CORS settings.
-# SENTRY_HTTP_METHODS_TO_TRACE = ['GET', 'POST']
+USE_SENTRY = config("USE_SENTRY", default=False, cast=bool)
+SENTRY_DSN_BACKEND = config("SENTRY_DSN_BACKEND", None)
+SENTRY_ENV = config("SENTRY_ENV", None)
+SENTRY_TRACE_RATE = config("SENTRY_TRACE_RATE", 0.1, cast=float)
+SENTRY_VERSION = sentry_sdk.VERSION
 
 
-# def sentry_traces_sampler(sampling_context):
-#     """ Only activate trace sampler for specific endpoints """
-#     try:
-#         if (sampling_context['wsgi_environ']['PATH_INFO'] in SENTRY_ENDPOINTS_TO_TRACE) and \
-#                 (sampling_context['wsgi_environ']['REQUEST_METHOD'] in SENTRY_HTTP_METHODS_TO_TRACE):
-#             return SENTRY_TRACE_RATE
-#         return 0
-#     except Exception as exp:
-#         logger = logging.getLogger('sentry_traces_sampler')
-#         logger.error(f'Error trying to configure performance trace sampler for Sentry {exp}')
-#         return 0
+def traces_sampler(sampling_context):
+    """Only activate trace sampler for specific endpoints"""
+    ENDPOINTS_TO_IGNORE = ["/api/v1/status/"]
+    try:
+        if "wsgi_environ" in sampling_context and sampling_context["wsgi_environ"]["PATH_INFO"] not in ENDPOINTS_TO_IGNORE:
+            return SENTRY_TRACE_RATE
+        return 0
+    except Exception as exp:
+        logger = logging.getLogger("traces_sampler")
+        logger.error(f"Error trying to configure performance trace sampler for Sentry {exp}")
+        return 0
 
 
-# def sentry_before_send(event, hint):
-#     return event
-
-
-# if USE_SENTRY:
-#     sentry_sdk.init(
-#         dsn=SENTRY_DSN_BACKEND,
-#         environment=SENTRY_ENV,
-#         release=APP_VER,
-#         send_default_pii=True,
-#         integrations=[DjangoIntegration()],
-#         before_send=sentry_before_send
-#     )
+if USE_SENTRY:
+    sentry_sdk.init(
+        dsn=SENTRY_DSN_BACKEND,
+        environment=SENTRY_ENV,
+        release=APP_VER,
+        send_default_pii=True,
+        integrations=[DjangoIntegration()],
+        traces_sampler=traces_sampler,
+    )
 
 #############
 # CORS Config
