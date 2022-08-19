@@ -2,10 +2,7 @@ import { useState } from 'react';
 
 import type { NextPage } from 'next';
 
-import Head from 'next/head';
-import Image from 'next/image';
-import Link from 'next/link';
-import { Card, Button } from '@mui/material';
+import { Button } from '@mui/material';
 import styles from '../styles/Home.module.css';
 
 import BodyCard from '../components/utils/BodyCard';
@@ -15,7 +12,7 @@ import OngoingReviewsList from '../components/Reviewer/OngoingReviewsList';
 const Reviewer: NextPage = () => {
   const [showArchived, setShowArchived] = useState(false);
   const archivedButtonText = showArchived ? 'Hide Archived' : 'Show Archvied';
-  const toggleArchived = (e: any) => setShowArchived(!showArchived);
+  const toggleArchived = () => setShowArchived(!showArchived);
 
   return (
     <div className={styles.container}>

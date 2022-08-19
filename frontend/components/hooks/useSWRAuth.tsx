@@ -10,7 +10,7 @@ import { isTokenExpired } from 'utils/Authentication';
  * Note: This custom hook will get the value depending on the conditions on
  * `accessToken` and `checkTokenBeforeQuerying`
  */
-export const useSWRAuth = (url: string | null, checkTokenBeforeQuerying = true, config = {}) => {
+const useSWRAuth = (url: string | null, checkTokenBeforeQuerying = true, config = {}) => {
   const { authenticationDetails } = useContext(AppContext);
 
   const axios = useAuthenticatedAPIClient();
@@ -22,3 +22,5 @@ export const useSWRAuth = (url: string | null, checkTokenBeforeQuerying = true, 
   const swrValues = useSWR(shouldGetValue ? url : null, axios, config);
   return { ...swrValues, isLoading: !swrValues.data && !swrValues.error, response: swrValues.data };
 };
+
+export default useSWRAuth;

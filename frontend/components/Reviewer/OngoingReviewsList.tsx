@@ -1,10 +1,6 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 
-type ReviewsListProps = {
-  showArchived: boolean;
-};
-
 function getCourseEvaluations() {
   return [
     {
@@ -16,7 +12,7 @@ function getCourseEvaluations() {
   ];
 }
 
-const OngoingReviewsList = ({ showArchived }: ReviewsListProps): JSX.Element => {
+const OngoingReviewsList = (): JSX.Element => {
   const [reviews, setReviews] = useState({});
 
   useEffect(() => {
@@ -25,7 +21,7 @@ const OngoingReviewsList = ({ showArchived }: ReviewsListProps): JSX.Element => 
     setReviews(loadedReviews);
   }, []);
 
-  return <>{}</>;
+  return <div>{JSON.stringify(reviews)}</div>;
 };
 
 export default OngoingReviewsList;

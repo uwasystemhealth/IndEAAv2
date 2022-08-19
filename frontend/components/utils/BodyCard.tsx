@@ -3,8 +3,8 @@ import * as React from 'react';
 import { Card, Container } from '@mui/material';
 
 type BodyCardProps = {
-  children?: React.ReactNode;
-  header?: String;
+  children: React.ReactNode;
+  header: String;
 };
 
 const BodyCard = ({ children, header }: BodyCardProps): JSX.Element => {

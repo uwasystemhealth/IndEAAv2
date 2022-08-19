@@ -17,13 +17,13 @@ const AuthenticationGuard = (props: Props) => {
 
   //   Get token from context
   const { authenticationDetails } = useContext(AppContext);
-  const is_authenticated = determineIfUserIsAuthentication(authenticationDetails.accessToken);
+  const isAuthenticated = determineIfUserIsAuthentication(authenticationDetails.accessToken);
   //   Redirect to login page if user is not logged in (only do that when this is being run in the browser)
-  if (typeof window !== 'undefined' && !is_authenticated) {
+  if (typeof window !== 'undefined' && !isAuthenticated) {
     router.push('/login');
   }
 
-  return <div>{is_authenticated ? children : null}</div>;
+  return <div>{isAuthenticated ? children : null}</div>;
 };
 
 export default AuthenticationGuard;

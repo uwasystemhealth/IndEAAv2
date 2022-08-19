@@ -1,9 +1,8 @@
 // This file contains everything related to the Context "global state"
 
 import React, { createContext, useState, useMemo, useEffect } from 'react';
-import { API_ENDPOINT } from '../../utils/api';
+import { API_CLIENT, API_ENDPOINT } from '../../utils/api';
 import { isTokenExpired } from '../../utils/Authentication';
-import useAuthenticatedAPIClient from '../hooks/useAuthenticatedAPIClient';
 
 interface AuthenticationDetailsInterface {
   accessToken: string;
@@ -30,7 +29,6 @@ interface Props {
 
 // Component System of Provider
 export const AppProvider = ({ children }: Props) => {
-  const axios = useAuthenticatedAPIClient();
   /*
   Set the initial authentication details from the localStorages:
   - access-token
@@ -62,7 +60,7 @@ export const AppProvider = ({ children }: Props) => {
         authenticationDetails.refreshToken
       ) {
         // If it is expired, then we need to refresh the token
-        const { data: tokenData } = await axios.post(API_ENDPOINT.AUTHENTICATION.REFRESH, {
+        const { data: tokenData } = await API_CLIENT.post(API_ENDPOINT.AUTHENTICATION.REFRESH, {
           refresh: authenticationDetails.refreshToken,
         });
         // Replace the old access token with the new access token

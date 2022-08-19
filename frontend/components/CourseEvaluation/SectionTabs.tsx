@@ -3,8 +3,8 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
-import { useSWRAuth } from '@/components/hooks/useSWRAuth';
 import { API_ENDPOINT, CourseEvaluationListEntry } from 'utils/api';
+import useSWRAuth from '@/components/hooks/useSWRAuth';
 import CustomTheme from '../utils/CustomTheme';
 
 import TabPanel, { a11yProps } from '../Custom/TabPanel';
@@ -15,7 +15,7 @@ type Props = {
 };
 
 const SectionTabs = ({ courseEvaluationId }: Props) => {
-  const { response, isLoading, error } = useSWRAuth(
+  const { response } = useSWRAuth(
     courseEvaluationId ? API_ENDPOINT.COURSE_EVALUATION.DETAIL(courseEvaluationId) : '',
   );
 
@@ -54,11 +54,13 @@ const SectionTabs = ({ courseEvaluationId }: Props) => {
           sx={{ backgroundColor: CustomTheme.palette.info.main }}
         >
           {TAB_DISPLAYS.map(({ label }, index) => (
+            // eslint-disable-next-line react/no-array-index-key, react/jsx-props-no-spreading
             <Tab key={index} label={label} {...a11yProps(index)} />
           ))}
         </Tabs>
 
         {TAB_DISPLAYS.map(({ tabComponent }, index) => (
+          // eslint-disable-next-line react/no-array-index-key
           <TabPanel key={index} value={tabsValue} index={index}>
             {tabComponent}
           </TabPanel>

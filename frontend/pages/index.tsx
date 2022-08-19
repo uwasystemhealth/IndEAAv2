@@ -1,12 +1,10 @@
 import React, { useContext } from 'react';
-import { useSWRAuth } from '@/components/hooks/useSWRAuth';
 import type { NextPage } from 'next';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import Container from '@mui/material/Container';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { API_ENDPOINT } from 'utils/api';
 import AppContext from 'components/Context/TopLevelContext';
 import { determineIfUserIsAuthentication } from 'utils/Authentication';
 import Listings from '@/components/CourseListings/Listings';
@@ -37,7 +35,7 @@ const StaticInformationAboutIndEAA = () => (
 );
 
 const Home: NextPage = () => {
-  const { authenticationDetails, setAuthenticationDetails } = useContext(AppContext);
+  const { authenticationDetails } = useContext(AppContext);
   const isUserAuthenticated = determineIfUserIsAuthentication(authenticationDetails.accessToken);
 
   return (

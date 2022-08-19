@@ -23,9 +23,7 @@ import axios from 'axios';
 import { determineIfUserIsAuthentication } from 'utils/Authentication';
 import { Google } from '@mui/icons-material';
 
-type Props = {};
-
-const Login = (props: Props) => {
+const Login = () => {
   const router = useRouter();
   const { authenticationDetails, setAuthenticationDetails } = useContext(AppContext);
   const isUserAuthenticated = determineIfUserIsAuthentication(authenticationDetails.accessToken);
