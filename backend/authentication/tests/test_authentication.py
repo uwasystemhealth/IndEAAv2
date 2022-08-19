@@ -2,7 +2,7 @@ from django.urls import reverse
 from rest_framework import status
 
 
-def test_login_get_jwt_and_user_info_success(setup_indeaa, api_client):
+def test_login_username_and_password_get_jwt_and_user_info_success(setup_indeaa, api_client):
     """
     GIVEN: A user is logged with the correct admin user details
     WHEN: A POST request is made to the /api/v1/authentication/login/ endpoint
@@ -11,6 +11,26 @@ def test_login_get_jwt_and_user_info_success(setup_indeaa, api_client):
     """
     # Credentials for admin can be seen in `conftest.py`
     request = api_client.post(reverse("api-v1:authentication:rest_login"), {"username": "admin", "password": "Password123"})
+
+    # Check that the response is OK (JWT Created)
+    assert request.status_code == status.HTTP_200_OK
+    assert "access_token" in request.data
+    assert "refresh_token" in request.data
+    assert "user" in request.data
+
+    user = request.data["user"]
+    assert user["username"] == "admin"
+
+
+def test_login_email_and_password_get_jwt_and_user_info_success(setup_indeaa, api_client):
+    """
+    GIVEN: A user is logged with the correct admin user details (email and password)
+    WHEN: A POST request is made to the /api/v1/authentication/login/ endpoint
+    THEN: The response should contain a JWT and user info
+    AND: The response should not have a 'password'
+    """
+    # Credentials for admin can be seen in `conftest.py`
+    request = api_client.post(reverse("api-v1:authentication:rest_login"), {"email": "admin@admin.com", "password": "Password123"})
 
     # Check that the response is OK (JWT Created)
     assert request.status_code == status.HTTP_200_OK
