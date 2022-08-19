@@ -22,7 +22,6 @@ const OngoingReviewsList = ({ showArchived }: ReviewsListProps): JSX.Element => 
 
   useEffect(() => {
     const loadedReviews = getCourseEvaluations();
-    const reviewPro
 
     setReviews(loadedReviews);
   }, [])
