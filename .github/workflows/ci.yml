@@ -13,6 +13,21 @@ on:
         default: "warning"
 
 jobs:
+  # This build is a little redundant to `integration-test-docker` frontend build, but it is worth separating
+  # it to make it different from the docker execution
+  frontend-build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v2
+      - uses: bahmutov/npm-install@v1 # Can do caching
+        with:
+          install-command: yarn --frozen-lockfile --silent
+          working-directory: frontend
+      - name: Run Build
+        run:  yarn build
+        working-directory: frontend
+
   frontend-check:
     runs-on: ubuntu-latest
     timeout-minutes: 5
@@ -45,6 +60,16 @@ jobs:
       - name: Run black
         run:  cd backend && black . && isort --check .
 
+  integration-test-docker:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v2
+      - name: Copy CI environment
+        run: cp ./docker/indeaa-ci.env .env
+      - name: Build the docker-compose
+        run: docker-compose build
+      # TODO Issue #50
   pytest_py3:
     name: "Automated Tests with Pytest"
     runs-on: ubuntu-latest

@@ -19,7 +19,7 @@ const Reviewer: NextPage = () => {
       <BodyCard header="Review Courses">
         <div>
           <Button onClick={toggleArchived}>{archivedButtonText}</Button>
-          <OngoingReviewsList showArchived={showArchived} />
+          <OngoingReviewsList />
         </div>
       </BodyCard>
     </div>
