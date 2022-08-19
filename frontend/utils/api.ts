@@ -19,8 +19,8 @@ export const API_ENDPOINT = {
   },
   COURSE_EVALUATION: {
     LIST: '/api/v1/course-evaluations/',
-    DETAIL: (courseEvaluationId : string) => `/api/v1/course-evaluations/${courseEvaluationId}`
-  }
+    DETAIL: (courseEvaluationId: string) => `/api/v1/course-evaluations/${courseEvaluationId}`,
+  },
 };
 const API = {
   CLIENT: API_CLIENT,
@@ -46,11 +46,11 @@ export const DEFAULT_USER_API_RESPONSE: UserAPIResponse = {
 };
 
 export interface CourseEvaluationListEntry {
-  id: string
-  unit_code: string
-  description: string
-  coordinators: UserAPIResponse[]
-  created_at: string
+  id: string;
+  unit_code: string;
+  description: string;
+  coordinators: UserAPIResponse[];
+  created_at: string;
 }
 
 export const DEFAULT_COURSE_EVALUATION_LIST_ENTRY: CourseEvaluationListEntry = {
@@ -58,8 +58,5 @@ export const DEFAULT_COURSE_EVALUATION_LIST_ENTRY: CourseEvaluationListEntry = {
   unit_code: '',
   description: '',
   coordinators: [],
-  created_at: ''
-}
-
-
-
+  created_at: '',
+};

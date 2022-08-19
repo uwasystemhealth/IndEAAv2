@@ -12,15 +12,21 @@ type Props = {
   evaluation: CourseEvaluationListEntry;
 };
 
-function Overview({ evaluation }: Props) {
-
-  const dateString = evaluation.created_at?.slice(0,10)
+const Overview = ({ evaluation }: Props) => {
+  const dateString = evaluation.created_at?.slice(0, 10);
 
   return (
     <Container>
       <Grid container spacing={5}>
         <Grid item xs={12} sm={6}>
-          <Card sx={{ maxWidth: 300, backgroundColor: CustomTheme.palette.info.main, color: 'white', p: 1 }}>
+          <Card
+            sx={{
+              maxWidth: 300,
+              backgroundColor: CustomTheme.palette.info.main,
+              color: 'white',
+              p: 1,
+            }}
+          >
             <Typography variant="subtitle2">INFORMATION</Typography>
           </Card>
           <Card sx={{ height: 400, overflow: 'auto' }}>
@@ -45,14 +51,28 @@ function Overview({ evaluation }: Props) {
           </Card>
         </Grid>
         <Grid item xs={12} sm={6}>
-          <Card sx={{ maxWidth: 300, backgroundColor: CustomTheme.palette.info.main, color: 'white', p: 1 }}>
+          <Card
+            sx={{
+              maxWidth: 300,
+              backgroundColor: CustomTheme.palette.info.main,
+              color: 'white',
+              p: 1,
+            }}
+          >
             <Typography variant="subtitle2">DOCUMENTS</Typography>
           </Card>
-          <Card sx={{ minHeight: 400, overflow: 'auto' }}></Card>
+          <Card sx={{ minHeight: 400, overflow: 'auto' }} />
         </Grid>
       </Grid>
       <Box sx={{ p: 2 }}>
-        <Card sx={{ maxWidth: 300, backgroundColor: CustomTheme.palette.info.main, color: 'white', p: 1 }}>
+        <Card
+          sx={{
+            maxWidth: 300,
+            backgroundColor: CustomTheme.palette.info.main,
+            color: 'white',
+            p: 1,
+          }}
+        >
           <Typography variant="subtitle2">QUICK ACTIONS</Typography>
         </Card>
         <Card>
@@ -73,6 +93,6 @@ function Overview({ evaluation }: Props) {
       </Box>
     </Container>
   );
-}
+};
 
 export default Overview;
