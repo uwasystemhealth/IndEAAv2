@@ -4,22 +4,42 @@ import Tab from '@mui/material/Tab';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import { useSWRAuth } from '@/components/hooks/useSWRAuth';
-import { API_ENDPOINT, CourseEvaluationListEntry } from 'utils/api';
+import API, {
+  API_ENDPOINT,
+  CourseEvaluationListEntry,
+  DEFAULT_DOCUMENT_ENTRY,
+  Document,
+} from 'utils/api';
 import CustomTheme from '../utils/CustomTheme';
 
 import TabPanel, { a11yProps } from '../Custom/TabPanel';
 import Overview from './Overview';
+import { useEffect, useState } from 'react';
 
 type Props = {
   courseEvaluationId: string;
 };
 
 function SectionTabs({ courseEvaluationId }: Props) {
+  const [documents, setDocuments] = useState<Document[]>([]);
+
   const { response, isLoading, error } = useSWRAuth(
     courseEvaluationId ? API_ENDPOINT.COURSE_EVALUATION.DETAIL(courseEvaluationId) : '',
   );
 
   const evaluation = ((response?.data as unknown) || []) as CourseEvaluationListEntry;
+  evaluation.documents = documents;
+
+  useEffect(() => {
+    (async () => {
+      const { data } = await API.CLIENT.get(API_ENDPOINT.DOCUMENT.LIST, {
+        params: {
+          'Course-Evaluation-Id': evaluation.id,
+        },
+      });
+      setDocuments(((data as unknown) || []) as Document[]);
+    })();
+  }, [isLoading]);
 
   const TAB_DISPLAYS = [
     {

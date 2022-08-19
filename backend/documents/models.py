@@ -1,7 +1,7 @@
 import uuid
 from django.db import models
 
-from course_evaluations.models import EOCGeneral, EOCSpecific
+from course_evaluations.models import CourseEvaluation, EOCGeneral, EOCSpecific
 
 
 class Documents(models.Model):
@@ -12,8 +12,9 @@ class Documents(models.Model):
     link = models.URLField()
     isInIntroduction = models.BooleanField(default=False)
 
-    eocGeneral = models.ForeignKey(EOCGeneral, on_delete=models.CASCADE)
-    eocSpecific = models.ForeignKey(EOCSpecific, on_delete=models.CASCADE)
+    courseEvaluation = models.ForeignKey(CourseEvaluation, on_delete=models.CASCADE)
+    eocGeneral = models.ManyToManyField(EOCGeneral)
+    eocSpecific = models.ManyToManyField(EOCSpecific)
 
     def __str__(self) -> str:
         return f"{self.name} - {self.link}"

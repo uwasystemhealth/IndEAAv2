@@ -19,8 +19,12 @@ export const API_ENDPOINT = {
   },
   COURSE_EVALUATION: {
     LIST: '/api/v1/course-evaluations/',
-    DETAIL: (courseEvaluationId : string) => `/api/v1/course-evaluations/${courseEvaluationId}`
-  }
+    DETAIL: (courseEvaluationId: string) => `/api/v1/course-evaluations/${courseEvaluationId}`,
+  },
+  DOCUMENT: {
+    LIST: '/api/v1/documents/',
+    DETAIL: (documentId: string) => `/api/v1/course-evaluations/${documentId}`,
+  },
 };
 const API = {
   CLIENT: API_CLIENT,
@@ -46,11 +50,36 @@ export const DEFAULT_USER_API_RESPONSE: UserAPIResponse = {
 };
 
 export interface CourseEvaluationListEntry {
-  id: string
-  unit_code: string
-  description: string
-  coordinators: UserAPIResponse[]
-  created_at: string
+  id: string;
+  unit_code: string;
+  description: string;
+  coordinators: UserAPIResponse[];
+  created_at: string;
+  documents: Document[];
+}
+
+export interface Document {
+  id: string;
+  name: string;
+  description: string;
+  link: string;
+  isInIntroduction: boolean;
+  eocGeneral: EOCGeneral[];
+  eocSpecific: EOCSpecific[];
+}
+
+export interface EOCGeneral {
+  id: number;
+  number: number;
+  title: string;
+  eoc_set: number;
+}
+export interface EOCSpecific {
+  id: number;
+  number: number;
+  indicators_of_attainment: string[];
+  description: string;
+  eoc_general: number;
 }
 
 export const DEFAULT_COURSE_EVALUATION_LIST_ENTRY: CourseEvaluationListEntry = {
@@ -58,8 +87,16 @@ export const DEFAULT_COURSE_EVALUATION_LIST_ENTRY: CourseEvaluationListEntry = {
   unit_code: '',
   description: '',
   coordinators: [],
-  created_at: ''
-}
+  created_at: '',
+  documents: [],
+};
 
-
-
+export const DEFAULT_DOCUMENT_ENTRY: Document = {
+  id: '',
+  name: '',
+  description: '',
+  link: '',
+  isInIntroduction: false,
+  eocGeneral: [],
+  eocSpecific: [],
+};

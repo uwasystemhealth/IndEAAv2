@@ -1,6 +1,8 @@
+from django.http import HttpRequest
 from rest_framework import permissions, status, viewsets
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
+from course_evaluations.permissions import IsCoordinatorAllowAll
 
 from documents.models import Documents
 # from documents.permissions import IsCoordinatorAllowAll
@@ -14,7 +16,8 @@ class DocumentsViewSet(viewsets.ModelViewSet):
     """
 
     queryset = Documents.objects.all()
-    permission_classes = [permissions.IsAuthenticated]
+    # TODO: Change permission
+    permission_classes = [permissions.AllowAny]  # [permissions.IsAuthenticated, IsCoordinatorAllowAll]
 
     def get_serializer(self, *args, **kwargs):
         """
@@ -26,14 +29,16 @@ class DocumentsViewSet(viewsets.ModelViewSet):
         else:
             return DocumentsDetailSerializer(*args, **kwargs)
 
-    def list(self, request, *args, **kwargs):
+    def list(self, request: HttpRequest, *args, **kwargs):
         """
         List only the groups that the user is a coordinator
         """
         queryset = self.filter_queryset(self.get_queryset())
-        # filtered_queryset = queryset.filter(coordinators=request.user)
-        # serializer = DocumentsListSerializer(filtered_queryset, many=True)
-        serializer = DocumentsListSerializer(queryset, many=True)
+        filtered_queryset = queryset.filter(
+            courseEvaluation__id=request.GET.get("Course-Evaluation-Id"),
+            # courseEvaluation__coordinators=request.user
+        )
+        serializer = DocumentsListSerializer(filtered_queryset, many=True)
         return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):

@@ -18,7 +18,9 @@ class CourseEvaluationViewSet(viewsets.ModelViewSet):
     """
 
     queryset = CourseEvaluation.objects.all()
-    permission_classes = [permissions.IsAuthenticated, IsCoordinatorAllowAll]
+    # TODO: Change permission
+    permission_classes = [permissions.AllowAny]  # [permissions.IsAuthenticated, IsCoordinatorAllowAll]
+    # permission_classes = [permissions.IsAuthenticated, IsCoordinatorAllowAll]
 
     def get_serializer(self, *args, **kwargs):
         """
