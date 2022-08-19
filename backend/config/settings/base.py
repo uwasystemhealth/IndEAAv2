@@ -127,7 +127,14 @@ POSTGRES_PORT = config("POSTGRES_PORT", "not-set")
 POSTGRES_USER = config("POSTGRES_USER", "not-set")
 POSTGRES_PASSWORD = config("POSTGRES_PASSWORD", "not-set")
 
+
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+
 AUTHENTICATION_BACKENDS = [
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
     # `allauth` specific authentication methods, such as login by e-mail
     "allauth.account.auth_backends.AuthenticationBackend",
 ]
