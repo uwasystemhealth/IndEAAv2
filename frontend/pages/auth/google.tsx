@@ -1,12 +1,11 @@
 import AppContext from '@/components/Context/TopLevelContext';
-import { Box, Card, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/router';
 import { useState, useEffect, useContext } from 'react';
 import API from 'utils/api';
 
-type Props = {};
-
+// eslint-disable-next-line @typescript-eslint/naming-convention
 enum LOGIN_STATE {
   START,
   REQUEST,
@@ -14,9 +13,9 @@ enum LOGIN_STATE {
   SUCCESS,
 }
 
-const Google = (props: Props) => {
+const Google = () => {
   const router = useRouter();
-  const { authenticationDetails, setAuthenticationDetails } = useContext(AppContext);
+  const { setAuthenticationDetails } = useContext(AppContext);
   const [loggedInErrored, setLoggedInErrored] = useState('');
   const [state, setState] = useState(LOGIN_STATE.START);
 
@@ -27,10 +26,10 @@ const Google = (props: Props) => {
     if (code) {
       setState(LOGIN_STATE.REQUEST);
 
-      (async (code: string) => {
+      const loginWithGoogleToken = async () => {
         try {
           const { data } = await API.CLIENT.post(API.ENDPOINT.AUTHENTICATION.GOOGLE_TOKEN, {
-            code: code,
+            code,
           });
           const { access_token: accessToken, refresh_token: refreshToken } = data;
           // Set access_token and refresh_token in localstorage.
@@ -51,30 +50,30 @@ const Google = (props: Props) => {
             setLoggedInErrored('Unknown error.');
           }
         }
-      })(code);
+      };
+
+      loginWithGoogleToken();
     } else {
       setState(LOGIN_STATE.ERROR);
       setLoggedInErrored('No code received, cannot authenticate.');
     }
-  }, []);
+  }, [router, setAuthenticationDetails]);
 
   return (
-    <>
-      <Box
-        sx={{
-          position: 'fixed',
-          bottom: '0',
-          right: '0',
-        }}
+    <Box
+      sx={{
+        position: 'fixed',
+        bottom: '0',
+        right: '0',
+      }}
+    >
+      <Typography
+        sx={{ justifyContent: 'flex-end' }}
+        color={state === LOGIN_STATE.ERROR ? 'error.main' : 'info.main'}
       >
-        <Typography
-          sx={{ justifyContent: 'flex-end' }}
-          color={state === LOGIN_STATE.ERROR ? 'error.main' : 'info.main'}
-        >
-          {state === LOGIN_STATE.ERROR ? loggedInErrored : 'Please wait, logging in . . .'}
-        </Typography>
-      </Box>
-    </>
+        {state === LOGIN_STATE.ERROR ? loggedInErrored : 'Please wait, logging in . . .'}
+      </Typography>
+    </Box>
   );
 };
 

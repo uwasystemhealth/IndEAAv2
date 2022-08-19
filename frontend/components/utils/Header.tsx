@@ -9,14 +9,15 @@ import Button from '@mui/material/Button';
 import ArticleIcon from '@mui/icons-material/Article';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
+// eslint-disable-next-line import/extensions
 import SHLLogo from 'public/shl.png';
 import Link from 'next/link';
-import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
 import { useRouter } from 'next/router';
 import { useContext } from 'react';
 import AppContext from 'components/Context/TopLevelContext';
 import { determineIfUserIsAuthentication } from 'utils/Authentication';
 import API from 'utils/api';
+import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
 
 const Header = () => {
   const router = useRouter();
@@ -50,6 +51,8 @@ const Header = () => {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <Link href="/">
+            {/* NextJS automatically prefils the href for the anchor */}
+            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
             <a>
               <Box
                 sx={{

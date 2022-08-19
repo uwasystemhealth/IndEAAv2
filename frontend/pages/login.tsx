@@ -23,9 +23,7 @@ import axios from 'axios';
 import { determineIfUserIsAuthentication } from 'utils/Authentication';
 import { Google } from '@mui/icons-material';
 
-type Props = {};
-
-const Login = (props: Props) => {
+const Login = () => {
   const router = useRouter();
   const { authenticationDetails, setAuthenticationDetails } = useContext(AppContext);
   const isUserAuthenticated = determineIfUserIsAuthentication(authenticationDetails.accessToken);
@@ -128,14 +126,14 @@ const Login = (props: Props) => {
                     </InputAdornment>
                   ),
                 }}
-              ></TextField>
+              />
               <TextField
                 variant="outlined"
                 sx={{ marginBottom: MARGIN }}
                 fullWidth
                 label="Password"
                 id="password"
-                type={'password'}
+                type="password"
                 value={formik.values.password}
                 onChange={formik.handleChange}
                 error={formik.touched.password && Boolean(formik.errors.password)}
@@ -147,7 +145,7 @@ const Login = (props: Props) => {
                     </InputAdornment>
                   ),
                 }}
-              ></TextField>
+              />
               <Grid container alignItems="center" justifyContent="center" direction="column">
                 <Button startIcon={<LoginIcon />} variant="contained" size="large" type="submit">
                   Login
