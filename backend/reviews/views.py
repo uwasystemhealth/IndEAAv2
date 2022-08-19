@@ -7,8 +7,6 @@ from reviews.serializers import (
     ReviewSerializer,
 )
 
-# Create your views here.
-
 
 class ReviewsViewSet(viewsets.ModelViewSet):
     """
