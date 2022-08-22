@@ -91,14 +91,12 @@ jobs:
         if: failure()
         with:
           name: cypress-screenshots
-          path: cypress/screenshots
-          working-directory: frontend
+          path: frontend/cypress/screenshots
       - uses: actions/upload-artifact@v1
         if: always()
         with:
           name: cypress-videos
-          path: cypress/videos
-          working-directory: frontend
+          path: frontend/cypress/videos
 
   pytest_py3:
     name: "Automated Tests with Pytest"
