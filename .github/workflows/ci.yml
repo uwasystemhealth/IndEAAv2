@@ -67,15 +67,17 @@ jobs:
       - uses: actions/checkout@v2
       - name: Copy CI environment
         run: cp ./docker/indeaa-ci.env .env
+      - name: Run and build containers
+        run: docker-compose up --build
+      - name: Installation of dependencies
+        uses: bahmutov/npm-install@v1 # Can do caching
+        with:
+          install-command: yarn --frozen-lockfile --silent
+          working-directory: frontend
       - name: Run the integration tests
         uses: cypress-io/github-action@v2
         with:
-          install-command: docker-compose build
-          # API runs on port 3030
-          # Web server runs on port 3000
-          start: docker-compose up
-          # wait for all services to respond
-          wait-on: 'http://localhost:3000, http://localhost:8000'
+          working-directory: frontend
       # after the test run completes
       # store videos and any screenshots
       # NOTE: screenshots will be generated only if E2E test failed
