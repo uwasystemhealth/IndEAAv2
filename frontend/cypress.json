@@ -2,7 +2,14 @@
     "videoUploadOnPasses": false,
     "supportFile": "cypress/support/index.ts",
     "pluginsFile": "cypress/plugins/index.ts",
-    "env": {},
+    "env": {
+        "users": {
+            "admin": {
+                "email": "admin@admin.com",
+                "password": "Password123"
+            }
+        }
+    },
     "experimentalStudio": true,
     "defaultCommandTimeout": 10000
 }
