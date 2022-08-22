@@ -70,6 +70,10 @@ jobs:
         run: cp ./docker/indeaa-e2e.env .env
       - name: Run and build containers
         run: docker-compose up --build -d
+      - uses: cardinalby/export-env-action@v1
+        with:
+          envFile: 'docker/indeaa-e2e.env'
+          expand: 'true'
       - name: Run the integration tests
         uses: cypress-io/github-action@v2
         with:
