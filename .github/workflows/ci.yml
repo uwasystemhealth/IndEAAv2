@@ -66,7 +66,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Copy CI environment
-        run: cp ./docker/indeaa-ci.env .env
+        run: cp ./docker/indeaa-e2e.env .env
       - name: Run and build containers
         run: docker-compose up --build -d
       - name: Installation of dependencies
@@ -167,7 +167,7 @@ jobs:
         
       - uses: cardinalby/export-env-action@v1
         with:
-          envFile: 'docker/indeaa-ci.env'
+          envFile: 'docker/indeaa-unit.env'
           expand: 'true'
       #----------------------------------------------
       #              run test suite
