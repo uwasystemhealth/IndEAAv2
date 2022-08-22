@@ -67,8 +67,7 @@ jobs:
         run: cp ./docker/indeaa-e2e.env .env
       - name: Run and build containers
         run: docker-compose up --build -d
-      - name: Installation of dependencies
-        uses: bahmutov/npm-install@v1 # Can do caching
+      - uses: bahmutov/npm-install@v1 # Can do caching
         with:
           working-directory: frontend
       - name: Run the integration tests
