@@ -110,6 +110,7 @@ const Login = () => {
             <form onSubmit={formik.handleSubmit}>
               {LoggedInErrored && <Alert severity="error">{LoggedInErrored}</Alert>}
               <TextField
+                data-testid="email"
                 sx={{ marginTop: MARGIN, marginBottom: MARGIN }}
                 variant="outlined"
                 fullWidth
@@ -128,6 +129,7 @@ const Login = () => {
                 }}
               />
               <TextField
+                data-testid="password"
                 variant="outlined"
                 sx={{ marginBottom: MARGIN }}
                 fullWidth
@@ -147,7 +149,13 @@ const Login = () => {
                 }}
               />
               <Grid container alignItems="center" justifyContent="center" direction="column">
-                <Button startIcon={<LoginIcon />} variant="contained" size="large" type="submit">
+                <Button
+                  data-testid="submit"
+                  startIcon={<LoginIcon />}
+                  variant="contained"
+                  size="large"
+                  type="submit"
+                >
                   Login
                 </Button>
               </Grid>

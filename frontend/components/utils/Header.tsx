@@ -86,6 +86,7 @@ const Header = () => {
               Documentation
             </Button>
             <Button
+              data-testid={isUserAuthenticated ? 'logout-button' : 'login-button'}
               variant="contained"
               startIcon={isUserAuthenticated ? <LogoutIcon /> : <LoginIcon />}
               onClick={isUserAuthenticated ? handleLogout : handleLogin}
