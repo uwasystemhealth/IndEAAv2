@@ -242,3 +242,7 @@ Thumbs.db
 
 examples/**/yarn.lock
 examples/**/package-lock.json
+
+# Cypress
+frontend/cypress/screenshots
+frontend/cypress/videos
