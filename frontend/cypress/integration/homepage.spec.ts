@@ -19,3 +19,5 @@ describe('Homepage', () => {
     cy.window().its('localStorage').should('not.be.empty');
   });
 });
+
+export {};
