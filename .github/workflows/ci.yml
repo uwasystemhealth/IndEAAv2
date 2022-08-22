@@ -68,7 +68,7 @@ jobs:
       - name: Copy CI environment
         run: cp ./docker/indeaa-ci.env .env
       - name: Run and build containers
-        run: docker-compose up --build
+        run: docker-compose up --build -d
       - name: Installation of dependencies
         uses: bahmutov/npm-install@v1 # Can do caching
         with:
