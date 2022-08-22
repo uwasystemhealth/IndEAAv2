@@ -63,13 +63,13 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v2
+      - uses: bahmutov/npm-install@v1 # Can do caching
+        with:
+          working-directory: frontend
       - name: Copy CI environment
         run: cp ./docker/indeaa-e2e.env .env
       - name: Run and build containers
         run: docker-compose up --build -d
-      - uses: bahmutov/npm-install@v1 # Can do caching
-        with:
-          working-directory: frontend
       - name: Run the integration tests
         uses: cypress-io/github-action@v2
         with:
