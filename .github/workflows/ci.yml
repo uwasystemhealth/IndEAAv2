@@ -22,7 +22,6 @@ jobs:
       - uses: actions/checkout@v2
       - uses: bahmutov/npm-install@v1 # Can do caching
         with:
-          install-command: yarn --frozen-lockfile --silent
           working-directory: frontend
       - name: Run Build
         run:  yarn build
@@ -35,7 +34,6 @@ jobs:
       - uses: actions/checkout@v2
       - uses: bahmutov/npm-install@v1 # Can do caching
         with:
-          install-command: yarn --frozen-lockfile --silent
           working-directory: frontend
       - name: Run Linting
         run:  yarn lint
@@ -72,7 +70,6 @@ jobs:
       - name: Installation of dependencies
         uses: bahmutov/npm-install@v1 # Can do caching
         with:
-          install-command: yarn --frozen-lockfile --silent
           working-directory: frontend
       - name: Run the integration tests
         uses: cypress-io/github-action@v2
