@@ -41,7 +41,9 @@ services:
 
   # The backend that performs as the actual API
   backend:
-    image: docker/backend/Dockerfile
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile
     container_name: indeaa_django
     restart: unless-stopped
     env_file: .env
@@ -59,7 +61,9 @@ services:
 
   # Container that runs and performs the migration
   migrate:
-    image: docker/backend/Dockerfile
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile
     container_name: indeaa_django_migrate
     restart: on-failure
     env_file: .env
