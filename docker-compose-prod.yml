@@ -2,18 +2,14 @@
 # Used for Production
 #####################################################
 
-version: "3.8"
-
-x-interactive: &interactive
-  stdin_open: false # docker run -i
-  tty: false # docker run -t
+version: "3.3"
 
 services:
   db:
     container_name: indeaa_postgres
     image: postgres:13.5-alpine
-    restart: &restart-policy unless-stopped
-    env_file: &env-file .env
+    restart: unless-stopped
+    env_file: .env
     environment:
       TZ: Australia/Perth
     volumes:
@@ -29,8 +25,8 @@ services:
       context: .
       dockerfile: docker/frontend/Dockerfile
     container_name: indeaa_react
-    restart: *restart-policy
-    env_file: *env-file
+    restart: unless-stopped
+    env_file: .env
     ports:
       - 10024:3000
     volumes:
@@ -39,14 +35,15 @@ services:
       - /app_code/node_modules
       # Nextjs specific build
       - /app_code/.next
-    <<: *interactive
+    stdin_open: false # docker run -i
+    tty: false # docker run -t
 
   # The backend that performs as the actual API
   backend:
     image: docker/backend/Dockerfile
     container_name: indeaa_django
-    restart: *restart-policy
-    env_file: *env-file
+    restart: unless-stopped
+    env_file: .env
     environment:
       - APP_DEPLOY_TYPE=WEBWORKER
     depends_on:
@@ -54,7 +51,8 @@ services:
     volumes:
       - /opt/accesslogs/:/var/log/accesslogs/
       - /opt/static_files/:/app_code/static_files
-    <<: *interactive
+    stdin_open: false # docker run -i
+    tty: false # docker run -t
     networks:
       - internal
 
@@ -63,12 +61,13 @@ services:
     image: docker/backend/Dockerfile
     container_name: indeaa_django_migrate
     restart: on-failure
-    env_file: *env-file
+    env_file: .env
     environment:
       - APP_DEPLOY_TYPE=MIGRATE_AND_SETUP
     depends_on:
       - db
-    <<: *interactive
+    stdin_open: false # docker run -i
+    tty: false # docker run -t
     networks:
       - internal
 
