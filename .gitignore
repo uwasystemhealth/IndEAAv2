@@ -242,3 +242,7 @@ Thumbs.db
 
 examples/**/yarn.lock
 examples/**/package-lock.json
+
+# Production Data
+/data
+/opt
