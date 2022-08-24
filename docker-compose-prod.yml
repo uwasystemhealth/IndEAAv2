@@ -16,7 +16,8 @@ services:
       - ./data/docker/indeaa/postgres:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-    <<: *interactive
+    stdin_open: false # docker run -i
+    tty: false # docker run -t
     networks:
       - internal
 
