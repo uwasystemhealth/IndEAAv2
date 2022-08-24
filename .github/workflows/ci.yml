@@ -74,6 +74,8 @@ jobs:
         with:
           envFile: 'docker/indeaa-e2e.env'
           expand: 'true'
+      - name: Check docker logs
+        run: docker-compose logs
       - name: Run the integration tests
         uses: cypress-io/github-action@v3
         with:
