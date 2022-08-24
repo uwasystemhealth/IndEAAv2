@@ -17,7 +17,7 @@ services:
     environment:
       TZ: Australia/Perth
     volumes:
-      - ~/data/docker/indeaa/postgres:/var/lib/postgresql/data
+      - ./data/docker/indeaa/postgres:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     <<: *interactive
