@@ -2,7 +2,7 @@
 # Used for Production
 #####################################################
 
-version: "3.3"
+version: "3.8"
 
 x-interactive: &interactive
   stdin_open: false # docker run -i
