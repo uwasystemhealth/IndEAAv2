@@ -76,6 +76,8 @@ jobs:
           expand: 'true'
       - name: Check docker logs
         run: docker-compose logs
+      - name: Install specific Cypress version
+        run: npm install -g cypress@9.7.0
       - name: Run the integration tests
         uses: cypress-io/github-action@v3
         with:
