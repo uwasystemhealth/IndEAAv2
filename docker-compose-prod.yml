@@ -1,0 +1,82 @@
+#####################################################
+# Used for Production
+#####################################################
+
+version: "3.3"
+
+services:
+  db:
+    container_name: indeaa_postgres
+    image: postgres:13.5-alpine
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      TZ: Australia/Perth
+    volumes:
+      - ./data/docker/indeaa/postgres:/var/lib/postgresql/data
+    stdin_open: false # docker run -i
+    tty: false # docker run -t
+
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend/Dockerfile
+    container_name: indeaa_react
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - 10024:3000
+    volumes:
+      - ./frontend:/app_code
+        # Barrier for OS node modules specific
+      - /app_code/node_modules
+      # Nextjs specific build
+      - /app_code/.next
+    stdin_open: false # docker run -i
+    tty: false # docker run -t
+
+  # The backend that performs as the actual API
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile
+    container_name: indeaa_django
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - APP_DEPLOY_TYPE=WEBWORKER
+    depends_on:
+      - db
+    volumes:
+      - ./opt/accesslogs/:/var/log/accesslogs/
+      - ./opt/static_files/:/app_code/static_files
+    stdin_open: false # docker run -i
+    tty: false # docker run -t
+
+  # Container that runs and performs the migration
+  migrate:
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile
+    container_name: indeaa_django_migrate
+    restart: on-failure
+    env_file: .env
+    environment:
+      - APP_DEPLOY_TYPE=MIGRATE_AND_SETUP
+    depends_on:
+      - db
+    stdin_open: false # docker run -i
+    tty: false # docker run -t
+
+  # Nginx Container that serves up the static content of Django
+  nginx:  # nginx to serve static files
+    image: nginx:1.15-alpine
+    container_name: nginx
+    restart: always
+    ports:
+      - "10025:8000"
+    volumes:
+      - ./docker/backend/nginx/custom.conf:/etc/nginx/conf.d/default.conf
+      - ./opt/static_files:/opt/static_files
+    depends_on:
+      - backend
