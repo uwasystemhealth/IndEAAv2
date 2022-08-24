@@ -14,8 +14,6 @@ services:
       TZ: Australia/Perth
     volumes:
       - ./data/docker/indeaa/postgres:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
     stdin_open: false # docker run -i
     tty: false # docker run -t
     networks:
