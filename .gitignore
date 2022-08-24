@@ -245,3 +245,4 @@ examples/**/package-lock.json
 
 # Production Data
 /data
+/opt
