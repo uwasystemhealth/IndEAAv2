@@ -78,6 +78,22 @@ export interface CourseEvaluationDetailEntry {
   updated_at: string;
 }
 
+export const DEFAULT_COURSE_EVALUTION_DETAIL_ENTRY: CourseEvaluationDetailEntry = {
+  id: '',
+  eoc_set: {
+    id: 0,
+    name: '',
+    eoc_generals: [],
+  },
+  coordinators: [],
+  documents: [],
+  eoc_set_id: 0,
+  unit_code: '',
+  description: '',
+  created_at: '',
+  updated_at: '',
+};
+
 export interface Document {
   id: string;
   eoc_generals: DocumentEocGeneral[];

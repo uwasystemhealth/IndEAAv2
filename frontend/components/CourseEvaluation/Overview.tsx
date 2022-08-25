@@ -7,6 +7,7 @@ import Typography from '@mui/material/Typography';
 import { Button, Container, Stack } from '@mui/material';
 import { CourseEvaluationDetailEntry } from 'utils/api';
 import CustomTheme from '../utils/CustomTheme';
+import { listOfUserDisplayNames } from '../utils/generic';
 
 type Props = {
   evaluation: CourseEvaluationDetailEntry;
@@ -14,7 +15,6 @@ type Props = {
 
 const Overview = ({ evaluation }: Props) => {
   const dateString = evaluation.created_at?.slice(0, 10);
-
   return (
     <Container>
       <Grid container spacing={5}>
@@ -37,7 +37,7 @@ const Overview = ({ evaluation }: Props) => {
             <Typography sx={{ p: 1, fontWeight: 'bold' }}>
               Coordinators:
               <Typography variant="subtitle2">
-                {evaluation.coordinators?.map(({ username }) => username).join(', ')}
+                {listOfUserDisplayNames(evaluation.coordinators)}
               </Typography>
             </Typography>
             <Typography sx={{ p: 1, fontWeight: 'bold' }}>
