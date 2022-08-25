@@ -4,7 +4,7 @@ from rest_framework.response import Response
 
 from course_evaluations.models import CourseEvaluation, Document
 from course_evaluations.permissions import (
-    CourseEvaluationIsCoordinatorAllowAll,
+    CourseEvaluationIsCoordinatorAllowAllReviewerReadOnly,
     CourseEvaluationIsCoordinatorAllowAllViaObjectReference,
 )
 from course_evaluations.serializers import (
@@ -25,7 +25,7 @@ class CourseEvaluationViewSet(viewsets.ModelViewSet):
     queryset = CourseEvaluation.objects.all()
     permission_classes = [
         permissions.IsAuthenticated,
-        CourseEvaluationIsCoordinatorAllowAll,
+        CourseEvaluationIsCoordinatorAllowAllReviewerReadOnly,
     ]
 
     def get_serializer(self, *args, **kwargs):
@@ -38,14 +38,11 @@ class CourseEvaluationViewSet(viewsets.ModelViewSet):
         else:
             return CourseEvaluationDetailSerializer(*args, **kwargs)
 
-    def list(self, request, *args, **kwargs):
+    def filter_queryset(self, queryset):
         """
         List only the groups that the user is a coordinator
         """
-        queryset = self.filter_queryset(self.get_queryset())
-        filtered_queryset = queryset.filter(coordinators=request.user)
-        serializer = CourseEvaluationListSerializer(filtered_queryset, many=True)
-        return Response(serializer.data)
+        return super().filter_queryset(queryset).filter(coordinators=self.request.user)
 
     def create(self, request, *args, **kwargs):
         if "eoc_set" in request.data:

@@ -26,7 +26,7 @@ def test_list_view_course_evaluation(api_client_with_credentials_return_user, ma
     response = api_client.get(url)
 
     assert response.status_code == status.HTTP_200_OK
-    data = response.data
+    data = response.data["results"]
 
     # Check that we can find the two course evaluations
     assert len(data) == 2

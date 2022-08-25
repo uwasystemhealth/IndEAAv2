@@ -5,11 +5,11 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { Button, Container, Stack } from '@mui/material';
-import { CourseEvaluationListEntry } from 'utils/api';
+import { CourseEvaluationDetailEntry } from 'utils/api';
 import CustomTheme from '../utils/CustomTheme';
 
 type Props = {
-  evaluation: CourseEvaluationListEntry;
+  evaluation: CourseEvaluationDetailEntry;
 };
 
 const Overview = ({ evaluation }: Props) => {
@@ -30,10 +30,6 @@ const Overview = ({ evaluation }: Props) => {
             <Typography variant="subtitle2">INFORMATION</Typography>
           </Card>
           <Card sx={{ height: 400, overflow: 'auto' }}>
-            <Typography sx={{ p: 1, fontWeight: 'bold' }}>
-              Review Target Due Date:
-              <Typography variant="subtitle2">24th july 2022 (hard coded)</Typography>
-            </Typography>
             <Typography sx={{ p: 1, fontWeight: 'bold' }}>
               Course Description:
               <Typography variant="subtitle2">{evaluation.description}</Typography>

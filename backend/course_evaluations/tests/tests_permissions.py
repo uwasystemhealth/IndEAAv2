@@ -97,5 +97,6 @@ def test_delete_view_course_evaluation_user_but_not_coordinator(api_client_with_
     api_client, user = api_client_with_credentials_return_user()
     response = api_client.delete(url)
 
-    assert response.status_code == status.HTTP_403_FORBIDDEN
+    # Cannot find in the query
+    assert response.status_code == status.HTTP_404_NOT_FOUND
     assert CourseEvaluation.objects.count() == 1

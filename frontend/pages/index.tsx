@@ -10,28 +10,24 @@ import { determineIfUserIsAuthentication } from 'utils/Authentication';
 import Listings from '@/components/CourseListings/Listings';
 
 const StaticInformationAboutIndEAA = () => (
-  <Card>
-    <CardContent
-      sx={{
-        minHeight: '50vh',
-        textAlign: 'center',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <Box>
-        <Typography sx={{ fontSize: 36 }} color="text.secondary" gutterBottom>
-          Welcome to IndEAAv2!
-        </Typography>
-        <Typography variant="body2">
-          IndEAA (Industrial Engineer Australia Assessment) is web application that streamlines
-          course review by Industry Advisory Panels by centralising all the information that is
-          related to the review in one place. More information about IndEAA in the documentation.
-        </Typography>
-      </Box>
-    </CardContent>
-  </Card>
+  <Box
+    sx={{
+      display: 'flex',
+      alignItems: 'center',
+      textAlign: 'center',
+    }}
+  >
+    <Box>
+      <Typography sx={{ fontSize: 36 }} color="text.secondary" gutterBottom>
+        Welcome to IndEAAv2!
+      </Typography>
+      <Typography variant="body2">
+        IndEAA (Industrial Engineer Australia Assessment) is web application that streamlines course
+        review by Industry Advisory Panels by centralising all the information that is related to
+        the review in one place. More information about IndEAA in the documentation.
+      </Typography>
+    </Box>
+  </Box>
 );
 
 const Home: NextPage = () => {
@@ -39,7 +35,19 @@ const Home: NextPage = () => {
   const isUserAuthenticated = determineIfUserIsAuthentication(authenticationDetails.accessToken);
 
   return (
-    <Container>{!isUserAuthenticated ? <StaticInformationAboutIndEAA /> : <Listings />}</Container>
+    <Container maxWidth="xl">
+      <Card>
+        <CardContent
+          sx={{
+            minHeight: '50vh',
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          {!isUserAuthenticated ? <StaticInformationAboutIndEAA /> : <Listings />}
+        </CardContent>
+      </Card>
+    </Container>
   );
 };
 
