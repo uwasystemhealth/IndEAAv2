@@ -21,6 +21,10 @@ export const API_ENDPOINT = {
     LIST: '/api/v1/course-evaluations/',
     DETAIL: (courseEvaluationId: string) => `/api/v1/course-evaluations/${courseEvaluationId}`,
   },
+  REVIEWS: {
+    LIST: '/api/v1/reviews/',
+    DETAIL: (reviewId: string) => `/api/v1/reviews/${reviewId}`,
+  },
 };
 const API = {
   CLIENT: API_CLIENT,
@@ -45,12 +49,32 @@ export const DEFAULT_USER_API_RESPONSE: UserAPIResponse = {
   email: '',
 };
 
+export interface DjangoPagination {
+  count: number;
+  next: null | number;
+  previous: null | number;
+}
+
+export interface CourseEvaluationEntries extends DjangoPagination {
+  results: CourseEvaluationListEntry[];
+}
+
 export interface CourseEvaluationListEntry {
   id: string;
   unit_code: string;
   description: string;
-  coordinators: UserAPIResponse[];
-  created_at: string;
+  coordinators: Coordinator[];
+}
+
+export interface Coordinator {
+  id: number;
+  username: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  is_staff: boolean;
+  is_active: boolean;
+  is_superuser: boolean;
 }
 
 export const DEFAULT_COURSE_EVALUATION_LIST_ENTRY: CourseEvaluationListEntry = {
@@ -58,5 +82,41 @@ export const DEFAULT_COURSE_EVALUATION_LIST_ENTRY: CourseEvaluationListEntry = {
   unit_code: '',
   description: '',
   coordinators: [],
-  created_at: '',
 };
+
+export interface ReviewListEntries extends DjangoPagination {
+  results: ReviewListEntry[];
+}
+
+export interface ReviewListEntry {
+  id: string;
+  documents: ReviewDocument[];
+  eoc_specific_reviews: ReviewEocSpecificReview[];
+  final_comment: string;
+  date_submitted: null | string;
+  created_at: string;
+  updated_at: string;
+  course_evaluation: CourseEvaluationListEntry;
+  reviewer: number;
+}
+
+export interface ReviewDocument {
+  id: string;
+  is_viewed: boolean;
+  comment: string;
+  created_at: string;
+  updated_at: string;
+  review: string;
+  document: string;
+}
+
+export interface ReviewEocSpecificReview {
+  id: string;
+  development_level: number;
+  suggestion: string;
+  justification: string;
+  created_at: string;
+  updated_at: string;
+  review: string;
+  eoc_specific: number;
+}
