@@ -8,6 +8,7 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Link from '@mui/material/Link';
 import { ReviewListEntry } from 'utils/api';
+import ReviewProgress from '../Reviewer/ReviewProgress';
 
 type Props = {
   list: ReviewListEntry[];
@@ -75,11 +76,7 @@ const ReviewList = ({ list }: Props) => (
                   alignItems: 'center',
                 }}
               >
-                <Link href={`/course-evaluation/${reviewEntry.id}`}>
-                  <Button variant="contained" color="primary">
-                    View
-                  </Button>
-                </Link>
+                <ReviewProgress review={reviewEntry}></ReviewProgress>
               </Box>
             </Box>
           </CardContent>
