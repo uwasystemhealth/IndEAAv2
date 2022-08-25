@@ -2,24 +2,22 @@ import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
 import {
   API_ENDPOINT,
   CourseEvaluationDetailEntry,
   DEFAULT_COURSE_EVALUTION_DETAIL_ENTRY,
 } from 'utils/api';
 import useSWRAuth from '@/components/hooks/useSWRAuth';
-import CustomTheme from '../utils/CustomTheme';
+import ArticleIcon from '@mui/icons-material/Article';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import RateReviewIcon from '@mui/icons-material/RateReview';
+import CampaignIcon from '@mui/icons-material/Campaign';
 
 import TabPanel, { a11yProps } from '../Custom/TabPanel';
 import Overview from './Overview';
 import Justification from './Justification';
 import Reviews from './Reviews';
 import Documents from './Documents';
-import ArticleIcon from '@mui/icons-material/Article';
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import RateReviewIcon from '@mui/icons-material/RateReview';
-import CampaignIcon from '@mui/icons-material/Campaign';
 
 type Props = {
   courseEvaluationId: string;

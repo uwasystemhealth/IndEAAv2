@@ -7,8 +7,8 @@ import { CourseEvaluationDetailEntry } from 'utils/api';
 import CardHeader from '@mui/material/CardHeader';
 import EditIcon from '@mui/icons-material/Edit';
 import Fab from '@mui/material/Fab';
-import { listOfUserDisplayNames } from '../../utils/generic';
 import useModal from '@/components/hooks/useModal';
+import { listOfUserDisplayNames } from '../../utils/generic';
 import EditGeneralInformationModal from './EditGeneralInformationModal';
 
 type Props = {
@@ -25,7 +25,7 @@ const Overview = ({ evaluation }: Props) => {
         <EditGeneralInformationModal
           evaluation={evaluation}
           handleClose={editEvaluationModalState.handleClose}
-        ></EditGeneralInformationModal>
+        />
       )}
       <Grid container spacing={5}>
         <Grid item xs={12} sm={6}>

@@ -1,17 +1,16 @@
 import React, { useState } from 'react';
-import { API_CLIENT, API_ENDPOINT, CourseEvaluationDetailEntry } from 'utils/api';
+import { API_ENDPOINT, CourseEvaluationDetailEntry } from 'utils/api';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
 import { useSWRConfig } from 'swr';
 import Alert from '@mui/material/Alert';
+import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
 
 type Props = {
   evaluation: CourseEvaluationDetailEntry;
@@ -52,7 +51,6 @@ const EditGeneralInformationModal = (props: Props) => {
       }
     },
   });
-  console.log(formik.values.unit_code);
   return (
     <Dialog fullWidth maxWidth="xl" open onClose={handleClose}>
       <DialogTitle>Editing - {evaluation?.unit_code}</DialogTitle>
