@@ -39,8 +39,8 @@ const SectionTabs = ({ courseEvaluationId }: Props) => {
       tabComponent: <Overview evaluation={evaluation} />,
       icon: AssignmentIcon,
     },
-    { label: 'Justification', tabComponent: <Justification />, icon: CampaignIcon },
     { label: 'Documents', tabComponent: <Documents />, icon: ArticleIcon },
+    { label: 'Justification', tabComponent: <Justification />, icon: CampaignIcon },
     { label: 'Reviews', tabComponent: <Reviews />, icon: RateReviewIcon },
   ];
 
