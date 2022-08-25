@@ -33,13 +33,13 @@ class DocumentWriteSerializer(serializers.ModelSerializer):
 class EOCSpecificSerializerReadOnly(serializers.ModelSerializer):
     class Meta:
         model = EOCSpecific
-        fields = ("id", "title", "number", "general_and_specific_eoc")
+        fields = ("id", "description", "number", "general_and_specific_eoc")
 
 
 class EOCGeneralSerializerReadOnly(serializers.ModelSerializer):
     class Meta:
         model = EOCGeneral
-        fields = ("id", "description", "number")
+        fields = ("id", "title", "number")
 
 
 class DocumentReadOnlySerializer(serializers.ModelSerializer):

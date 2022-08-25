@@ -217,6 +217,41 @@ const EditGeneralInformationModal = (props: Props) => {
                 // eslint-disable-next-line react/jsx-props-no-spreading
                 <TextField {...params} fullWidth label="EOC General Tags" />
               )}
+              sx={{
+                m: 2,
+              }}
+            />
+            <Autocomplete
+              multiple
+              id="eoc_specifics"
+              options={eocSpecifics}
+              disableCloseOnSelect
+              getOptionLabel={(option) =>
+                `EOC ${option.general_and_specific_eoc} (${option.description})`
+              }
+              onChange={(e, value) => formik.setFieldValue('eoc_specifics', value)}
+              value={formik.values.eoc_specifics}
+              isOptionEqualToValue={(option, value) => option.id === value.id}
+              // eslint-disable-next-line @typescript-eslint/no-shadow
+              renderOption={(props, option, { selected }) => (
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                <li {...props}>
+                  <Checkbox
+                    icon={icon}
+                    checkedIcon={checkedIcon}
+                    style={{ marginRight: 8 }}
+                    checked={selected}
+                  />
+                  {`EOC ${option.general_and_specific_eoc} (${option.description})`}
+                </li>
+              )}
+              renderInput={(params) => (
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                <TextField {...params} fullWidth label="EOC Specific Tags" />
+              )}
+              sx={{
+                m: 2,
+              }}
             />
           </CardContent>
         </Card>
