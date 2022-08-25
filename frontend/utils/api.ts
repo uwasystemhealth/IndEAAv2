@@ -19,11 +19,11 @@ export const API_ENDPOINT = {
   },
   COURSE_EVALUATION: {
     LIST: '/api/v1/course-evaluations/',
-    DETAIL: (courseEvaluationId: string) => `/api/v1/course-evaluations/${courseEvaluationId}`,
+    DETAIL: (courseEvaluationId: string) => `/api/v1/course-evaluations/${courseEvaluationId}/`,
   },
   REVIEWS: {
     LIST: '/api/v1/reviews/',
-    DETAIL: (reviewId: string) => `/api/v1/reviews/${reviewId}`,
+    DETAIL: (reviewId: string) => `/api/v1/reviews/${reviewId}/`,
   },
 };
 const API = {
