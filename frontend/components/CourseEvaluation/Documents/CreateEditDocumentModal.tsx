@@ -52,8 +52,6 @@ const EditGeneralInformationModal = (props: Props) => {
     (previousValue, currentValue) => previousValue.concat(currentValue.eoc_specifics),
     [] as EocGeneralEocSpecific[],
   );
-  console.log(eocGenerals);
-  console.log(eocSpecifics);
   const isEditMode = Boolean(document);
 
   const axios = useAuthenticatedAPIClient();
@@ -77,10 +75,10 @@ const EditGeneralInformationModal = (props: Props) => {
       description: Yup.string().required('Required'),
       url: Yup.string().url('Invalid URL'),
       is_introduction: Yup.boolean(),
-      eoc_generals: Yup.array().of(Yup.string()),
-      eoc_specifics: Yup.array().of(Yup.string()),
     }),
     onSubmit: async (values) => {
+      console.log('submitting');
+
       const payload = {
         ...values,
         // Only need the IDs
@@ -90,13 +88,14 @@ const EditGeneralInformationModal = (props: Props) => {
       const url = isEditMode
         ? API_ENDPOINT.COURSE_EVALUATION.DOCUMENT.DETAIL(courseEvaluationId, document?.id || '')
         : API_ENDPOINT.COURSE_EVALUATION.DOCUMENT.LIST(courseEvaluationId);
+      console.log(payload);
+      console.log(url);
       try {
         if (isEditMode) {
           await axios.patch(url, payload);
         } else {
           await axios.post(url, payload);
         }
-
         // Flush SWR cache to refresh screen
         mutate(API_ENDPOINT.COURSE_EVALUATION.DETAIL(courseEvaluationId));
 
@@ -108,7 +107,6 @@ const EditGeneralInformationModal = (props: Props) => {
       }
     },
   });
-  console.log(formik.values);
   return (
     <Dialog fullWidth maxWidth="xl" open>
       <DialogTitle>

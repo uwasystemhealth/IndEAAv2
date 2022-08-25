@@ -7,9 +7,9 @@ import Stack from '@mui/material/Stack';
 import AddIcon from '@mui/icons-material/Add';
 import Grid from '@mui/material/Grid';
 import { CourseEvaluationDetailEntry, Document } from 'utils/api';
+import useModal from '@/components/hooks/useModal';
 import DocumentCard from './DocumentCard';
 import CreateEditDocumentModal from './CreateEditDocumentModal';
-import useModal from '@/components/hooks/useModal';
 
 type Props = {
   evaluation: CourseEvaluationDetailEntry;
