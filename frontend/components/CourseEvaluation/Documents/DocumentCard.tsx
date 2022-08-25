@@ -17,7 +17,7 @@ import CreateEditDocumentModal from '@/components/CourseEvaluation/Documents/Cre
 
 type Props = {
   document: Document;
-  isViewedByCoordinator: boolean;
+  isReadOnly: boolean;
 };
 
 export interface DocumentTag {
@@ -26,7 +26,7 @@ export interface DocumentTag {
   color: any;
 }
 const DocumentCard = (props: Props) => {
-  const { document, isViewedByCoordinator } = props;
+  const { document, isReadOnly } = props;
 
   const tags: DocumentTag[] = [];
 
@@ -98,7 +98,7 @@ const DocumentCard = (props: Props) => {
                 <Button startIcon={<AddIcon />} variant="outlined" color="primary">
                   View
                 </Button>
-                {isViewedByCoordinator && (
+                {!isReadOnly && (
                   <>
                     <Button
                       startIcon={<EditIcon />}
