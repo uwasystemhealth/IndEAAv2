@@ -1,5 +1,5 @@
 import React from 'react';
-import { Document } from 'utils/api';
+import { API_CLIENT, API_ENDPOINT, Document } from 'utils/api';
 import Box from '@mui/material/Box';
 
 import Grid from '@mui/material/Grid';
@@ -14,6 +14,9 @@ import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
 import useModal from '@/components/hooks/useModal';
 import CreateEditDocumentModal from '@/components/CourseEvaluation/Documents/CreateEditDocumentModal';
+import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
+import AreYouSureModalButton from '@/components/utils/AreYouSureModalButton';
+import { useSWRConfig } from 'swr';
 
 type Props = {
   document: Document;
@@ -57,6 +60,20 @@ const DocumentCard = (props: Props) => {
   const createEditDocumentModalState = useModal();
   const [documentSelected, setDocumentSelected] = React.useState<Document | undefined>(undefined);
 
+  const axios = useAuthenticatedAPIClient();
+  const { mutate } = useSWRConfig();
+
+  const handleDelete = async () => {
+    try {
+      await axios.delete(
+        API_ENDPOINT.COURSE_EVALUATION.DOCUMENT.DETAIL(document.course_evaluation, document.id),
+      );
+      mutate(API_ENDPOINT.COURSE_EVALUATION.DETAIL(document.course_evaluation));
+    } catch (error) {
+      // TODO
+      console.error(error);
+    }
+  };
   return (
     <>
       {createEditDocumentModalState.isOpen && (
@@ -111,9 +128,16 @@ const DocumentCard = (props: Props) => {
                     >
                       Edit
                     </Button>
-                    <Button startIcon={<DeleteIcon />} variant="outlined" color="error">
+                    <AreYouSureModalButton
+                      action={handleDelete}
+                      buttonProps={{
+                        variant: 'outlined',
+                        color: 'error',
+                        startIcon: <DeleteIcon />,
+                      }}
+                    >
                       Delete
-                    </Button>
+                    </AreYouSureModalButton>
                   </>
                 )}
               </Stack>
