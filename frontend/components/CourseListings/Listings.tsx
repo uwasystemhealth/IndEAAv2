@@ -9,6 +9,7 @@ import CoordinatorList from './CoordinatorList';
 import CustomTheme from '../utils/CustomTheme';
 import TabPanel, { a11yProps } from '../Custom/TabPanel';
 import ReviewList from './ReviewList';
+import roleIcons from '../utils/roleIcons';
 
 const Listings = () => {
   const [tabsValue, setTabsValue] = React.useState(0);
@@ -25,30 +26,23 @@ const Listings = () => {
   };
 
   return (
-    <Container
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <Box sx={{ backgroundColor: CustomTheme.palette.primary.light, width: '100%' }}>
-        <Tabs value={tabsValue} onChange={handleChangeTab} variant="fullWidth">
-          {courseEvaluationListEntries.length > 0 && (
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            <Tab label="COURSE EVALUATIONS" {...a11yProps(0)} />
-          )}
-          {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-          {reviewListEntries.length > 0 && <Tab label="REVIEW COURSES" {...a11yProps(1)} />}
-        </Tabs>
-        <TabPanel value={tabsValue} index={0}>
-          <CoordinatorList list={courseEvaluationListEntries} />
-        </TabPanel>
-        <TabPanel value={tabsValue} index={1}>
-          <ReviewList list={reviewListEntries} />
-        </TabPanel>
-      </Box>
+    <Container>
+      <Tabs value={tabsValue} onChange={handleChangeTab} variant="fullWidth">
+        {courseEvaluationListEntries.length > 0 && (
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          <Tab icon={<roleIcons.Coordinator />} label="Course Evaluation" {...a11yProps(0)} />
+        )}
+        {reviewListEntries.length > 0 && (
+          /* eslint-disable-next-line react/jsx-props-no-spreading */
+          <Tab icon={<roleIcons.Reviewer />} label="Review Courses" {...a11yProps(1)} />
+        )}
+      </Tabs>
+      <TabPanel value={tabsValue} index={0}>
+        <CoordinatorList list={courseEvaluationListEntries} />
+      </TabPanel>
+      <TabPanel value={tabsValue} index={1}>
+        <ReviewList list={reviewListEntries} />
+      </TabPanel>
     </Container>
   );
 };
