@@ -7,7 +7,9 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import { ReviewListEntry } from 'utils/api';
+import Grid from '@mui/material/Grid';
 import ReviewProgress from '../Reviewer/ReviewProgress';
+import { listOfUserDisplayNames, userDisplayName } from '../utils/generic';
 
 type Props = {
   list: ReviewListEntry[];
@@ -24,43 +26,37 @@ const ReviewList = ({ list }: Props) => (
     {list.map((reviewEntry) => (
       <Card key={reviewEntry.id}>
         <CardContent>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}
-          >
-            <Box>
+          <Grid container justifyContent="space-between" alignItems="center">
+            <Grid item md={7}>
               <Typography gutterBottom variant="h5" component="div">
                 {reviewEntry.course_evaluation.unit_code}
               </Typography>
               <Box
                 sx={{
                   display: 'flex',
-                  flexDirection: 'row',
                 }}
               >
                 <Typography sx={{ fontWeight: 'bold', pb: 1, pr: 1 }}>Coordinators:</Typography>
                 <Typography>
-                  {reviewEntry.course_evaluation.coordinators
-                    .map(({ username }) => username)
-                    .join(', ')}
+                  {listOfUserDisplayNames(reviewEntry.course_evaluation.coordinators)}
                 </Typography>
               </Box>
               <Typography variant="body2" color="text.secondary">
                 {reviewEntry.course_evaluation.description}
               </Typography>
-            </Box>
-            <Box
+            </Grid>
+            <Grid
+              item
+              md={5}
               sx={{
                 display: 'flex',
                 alignItems: 'center',
+                justifyContent: 'flex-end',
               }}
             >
               <ReviewProgress review={reviewEntry} />
-            </Box>
-          </Box>
+            </Grid>
+          </Grid>
         </CardContent>
       </Card>
     ))}

@@ -8,13 +8,15 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Link from '@mui/material/Link';
 import { CourseEvaluationListEntry } from 'utils/api';
+import AddIcon from '@mui/icons-material/Add';
+import { listOfUserDisplayNames } from '../utils/generic';
 
 type Props = {
   list: CourseEvaluationListEntry[];
 };
 
 const CoordinatorList = ({ list }: Props) => (
-  <Container>
+  <>
     <Box
       sx={{
         display: 'flex',
@@ -23,11 +25,8 @@ const CoordinatorList = ({ list }: Props) => (
       }}
     >
       <Stack spacing={2} direction="row">
-        <Button variant="contained" color="primary">
-          CREATE NEW EVALUATION
-        </Button>
-        <Button variant="contained" color="secondary">
-          SHOW COMPLETED
+        <Button startIcon={<AddIcon />} variant="contained" color="primary" disabled>
+          Create new Evaluation
         </Button>
       </Stack>
     </Box>
@@ -60,9 +59,7 @@ const CoordinatorList = ({ list }: Props) => (
                 >
                   <Typography sx={{ fontWeight: 'bold', pb: 1, pr: 1 }}>Coordinators:</Typography>
                   <Typography>
-                    {courseEvaluationListEntry.coordinators
-                      .map(({ username }) => username)
-                      .join(', ')}
+                    {listOfUserDisplayNames(courseEvaluationListEntry.coordinators)}
                   </Typography>
                 </Box>
                 <Typography variant="body2" color="text.secondary">
@@ -86,7 +83,7 @@ const CoordinatorList = ({ list }: Props) => (
         </Card>
       ))}
     </Box>
-  </Container>
+  </>
 );
 
 export default CoordinatorList;
