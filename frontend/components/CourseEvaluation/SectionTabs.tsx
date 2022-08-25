@@ -3,7 +3,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
-import { API_ENDPOINT, CourseEvaluationListEntry } from 'utils/api';
+import { API_ENDPOINT, CourseEvaluationDetailEntry } from 'utils/api';
 import useSWRAuth from '@/components/hooks/useSWRAuth';
 import CustomTheme from '../utils/CustomTheme';
 
@@ -19,7 +19,7 @@ const SectionTabs = ({ courseEvaluationId }: Props) => {
     courseEvaluationId ? API_ENDPOINT.COURSE_EVALUATION.DETAIL(courseEvaluationId) : '',
   );
 
-  const evaluation = ((response?.data as unknown) || []) as CourseEvaluationListEntry;
+  const evaluation = ((response?.data as unknown) || []) as CourseEvaluationDetailEntry;
 
   const TAB_DISPLAYS = [
     {

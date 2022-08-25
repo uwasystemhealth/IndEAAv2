@@ -66,6 +66,64 @@ export interface CourseEvaluationListEntry {
   coordinators: Coordinator[];
 }
 
+export interface CourseEvaluationDetailEntry {
+  id: string;
+  eoc_set: EocSet;
+  coordinators: Coordinator[];
+  documents: Document[];
+  eoc_set_id: number;
+  unit_code: string;
+  description: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface Document {
+  id: string;
+  eoc_generals: DocumentEocGeneral[];
+  eoc_specifics: DocumentEocSpecific[];
+  name: string;
+  description: string;
+  url: string;
+  is_introduction: boolean;
+  created_at: string;
+  updated_at: string;
+  course_evaluation: string;
+}
+
+export interface DocumentEocGeneral {
+  id: number;
+  number: number;
+}
+
+export interface DocumentEocSpecific {
+  id: number;
+  number: number;
+  general_and_specific_eoc: string;
+}
+
+export interface EocSet {
+  id: number;
+  eoc_generals: EocSetEocGeneral[];
+  name: string;
+}
+
+export interface EocSetEocGeneral {
+  id: number;
+  number: number;
+  title: string;
+  eoc_specifics: EocGeneralEocSpecific[];
+}
+
+export interface EocGeneralEocSpecific {
+  id: number;
+  number: number;
+  eoc_general: number;
+  general_and_specific_eoc: string;
+  description: string;
+  indicators_of_attainment: string[];
+}
+
 export interface Coordinator {
   id: number;
   username: string;
