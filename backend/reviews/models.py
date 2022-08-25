@@ -30,7 +30,7 @@ class Review(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     # One-to-many Relationship with Course Evaluations
-    course_evaluation = models.ForeignKey(CourseEvaluation, on_delete=models.CASCADE)
+    course_evaluation = models.ForeignKey(CourseEvaluation, on_delete=models.CASCADE, related_name="reviews")
 
     reviewer = models.ForeignKey("auth.User", related_name="reviews", on_delete=models.CASCADE)
 

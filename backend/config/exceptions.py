@@ -52,7 +52,7 @@ def custom_exception_handler(exc, context):
                 error = {"code": exc.status_code, "message": exc.detail, "errors": {}}
         else:
             # Should never enter this else, but just in case
-            error = {"code": exc.status_code, "message": exc.detail, "errors": {}}
+            return response
 
         # Only log as error if status code is > 500
         if getattr(exc, "status_code", None):

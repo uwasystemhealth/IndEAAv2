@@ -13,7 +13,7 @@ class CourseEvaluationIsCoordinatorAllowAllReviewerReadOnly(permissions.BasePerm
         Note: This only applies for methods that calls `.get_object()`
         see https://stackoverflow.com/questions/69959797/has-object-permission-not-working-for-detail-action-decorator
         """
-        reviewers = [user.id for user in obj.reviewers.all()]
+        reviewers = [review.reviewer for review in obj.reviews.all()]
         if request.method in permissions.SAFE_METHODS and request.user.id in reviewers:
             return True
         return request.user in obj.coordinators.all()
