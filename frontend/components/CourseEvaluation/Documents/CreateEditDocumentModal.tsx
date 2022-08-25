@@ -9,8 +9,12 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useSWRConfig } from 'swr';
+import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
 
 type Props = {
   courseEvaluationId: string;
@@ -72,14 +76,77 @@ const EditGeneralInformationModal = (props: Props) => {
     },
   });
   return (
-    <Dialog fullWidth maxWidth="xl" open onClose={handleClose}>
+    <Dialog fullWidth maxWidth="xl" open>
       <DialogTitle>{isEditMode ? 'Editting Document - ' : 'Create a new Document'}</DialogTitle>
       {error && (
         <Alert variant="filled" severity="error" sx={{ m: 2 }}>
           {error}
         </Alert>
       )}
-      <DialogContent>ABC</DialogContent>
+      <DialogContent
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 2,
+        }}
+      >
+        <Card>
+          <CardHeader
+            title="Document Details"
+            subheader="These are the basic details of the document"
+          />
+          <CardContent>
+            <Box
+              sx={{
+                display: 'flex',
+                gap: 2,
+              }}
+            >
+              <TextField
+                margin="dense"
+                id="name"
+                label="Document Name"
+                fullWidth
+                variant="outlined"
+                value={formik.values.name}
+                onChange={formik.handleChange}
+                error={Boolean(formik.errors.name)}
+                helperText={formik.errors.name}
+              />
+              <TextField
+                margin="dense"
+                id="url"
+                label="Document Link"
+                fullWidth
+                variant="outlined"
+                value={formik.values.url}
+                onChange={formik.handleChange}
+                error={Boolean(formik.errors.url)}
+                helperText={formik.errors.url}
+              />
+            </Box>
+            <TextField
+              margin="dense"
+              id="description"
+              label="Document Description"
+              fullWidth
+              variant="outlined"
+              multiline
+              value={formik.values.description}
+              onChange={formik.handleChange}
+              error={Boolean(formik.errors.description)}
+              helperText={formik.errors.description}
+            />
+          </CardContent>
+        </Card>
+        <Card>
+          <CardHeader
+            title="Document Tags"
+            subheader="These are tags that aids to connect relevant Elements of Competency (EOC) to documents"
+          />
+          <CardContent>TODO</CardContent>
+        </Card>
+      </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
         <Button onClick={() => formik.handleSubmit()}>Save</Button>
