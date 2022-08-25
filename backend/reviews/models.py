@@ -34,6 +34,9 @@ class Review(models.Model):
 
     reviewer = models.ForeignKey("auth.User", related_name="reviews", on_delete=models.CASCADE)
 
+    # Step 1 Relevant field
+    eoc_date_viewed = models.DateTimeField(null=True, blank=True)
+
     # Step 4 Relevant Fields
     final_comment = models.TextField(null=False, blank=True)
     date_submitted = models.DateTimeField(null=True, blank=True)
