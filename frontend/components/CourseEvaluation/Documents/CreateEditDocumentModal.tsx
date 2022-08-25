@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { API_ENDPOINT, CourseEvaluationDetailEntry, Document } from 'utils/api';
+import {
+  API_ENDPOINT,
+  CourseEvaluationDetailEntry,
+  DEFAULT_COURSE_EVALUTION_DETAIL_ENTRY,
+  Document,
+  EocGeneralEocSpecific,
+} from 'utils/api';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -11,13 +17,20 @@ import * as Yup from 'yup';
 import { useSWRConfig } from 'swr';
 import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
-import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import Autocomplete from '@mui/material/Autocomplete';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import useSWRAuth from '@/components/hooks/useSWRAuth';
+import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
+
+const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
+const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 type Props = {
   courseEvaluationId: string;
@@ -27,6 +40,20 @@ type Props = {
 
 const EditGeneralInformationModal = (props: Props) => {
   const { courseEvaluationId, document, handleClose } = props;
+  const { response } = useSWRAuth(
+    courseEvaluationId ? API_ENDPOINT.COURSE_EVALUATION.DETAIL(courseEvaluationId) : '',
+  );
+
+  const courseEvaluation = ((response?.data as unknown) ||
+    DEFAULT_COURSE_EVALUTION_DETAIL_ENTRY) as CourseEvaluationDetailEntry;
+
+  const eocGenerals = courseEvaluation.eoc_set.eoc_generals || [];
+  const eocSpecifics: EocGeneralEocSpecific[] = courseEvaluation.eoc_set.eoc_generals.reduce(
+    (previousValue, currentValue) => previousValue.concat(currentValue.eoc_specifics),
+    [] as EocGeneralEocSpecific[],
+  );
+  console.log(eocGenerals);
+  console.log(eocSpecifics);
   const isEditMode = Boolean(document);
 
   const axios = useAuthenticatedAPIClient();
@@ -56,6 +83,9 @@ const EditGeneralInformationModal = (props: Props) => {
     onSubmit: async (values) => {
       const payload = {
         ...values,
+        // Only need the IDs
+        eoc_generals: values.eoc_generals.map((eocGeneral) => eocGeneral.id),
+        eoc_specifics: values.eoc_specifics.map((eocSpecific) => eocSpecific.id),
       };
       const url = isEditMode
         ? API_ENDPOINT.COURSE_EVALUATION.DOCUMENT.DETAIL(courseEvaluationId, document?.id || '')
@@ -160,7 +190,35 @@ const EditGeneralInformationModal = (props: Props) => {
             title="Document Tags"
             subheader="These are tags that aids to connect relevant Elements of Competency (EOC) to documents"
           />
-          <CardContent>TODO</CardContent>
+          <CardContent>
+            <Autocomplete
+              multiple
+              id="eoc_generals"
+              options={eocGenerals}
+              disableCloseOnSelect
+              getOptionLabel={(option) => `EOC ${option.number} (${option.title})`}
+              onChange={(e, value) => formik.setFieldValue('eoc_generals', value)}
+              value={formik.values.eoc_generals}
+              isOptionEqualToValue={(option, value) => option.id === value.id}
+              // eslint-disable-next-line @typescript-eslint/no-shadow
+              renderOption={(props, option, { selected }) => (
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                <li {...props}>
+                  <Checkbox
+                    icon={icon}
+                    checkedIcon={checkedIcon}
+                    style={{ marginRight: 8 }}
+                    checked={selected}
+                  />
+                  {`EOC ${option.number} (${option.title})`}
+                </li>
+              )}
+              renderInput={(params) => (
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                <TextField {...params} fullWidth label="EOC General Tags" />
+              )}
+            />
+          </CardContent>
         </Card>
       </DialogContent>
       <DialogActions>
