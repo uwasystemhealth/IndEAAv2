@@ -52,7 +52,7 @@ const EditGeneralInformationModal = (props: Props) => {
     },
   });
   return (
-    <Dialog fullWidth maxWidth="xl" open onClose={handleClose}>
+    <Dialog fullWidth maxWidth="xl" open>
       <DialogTitle>Editing - {evaluation?.unit_code}</DialogTitle>
       {error && (
         <Alert variant="filled" severity="error" sx={{ m: 2 }}>
@@ -65,7 +65,7 @@ const EditGeneralInformationModal = (props: Props) => {
           id="unit_code"
           label="Unit Code"
           fullWidth
-          variant="standard"
+          variant="outlined"
           value={formik.values.unit_code}
           onChange={formik.handleChange}
           error={Boolean(formik.errors.unit_code)}
@@ -76,7 +76,7 @@ const EditGeneralInformationModal = (props: Props) => {
           id="description"
           label="Description"
           fullWidth
-          variant="standard"
+          variant="outlined"
           multiline
           value={formik.values.description}
           onChange={formik.handleChange}
