@@ -14,75 +14,57 @@ type Props = {
 };
 
 const ReviewList = ({ list }: Props) => (
-  <Container>
-    <Box
-      sx={{
-        display: 'flex',
-        justifyContent: 'flex-end',
-        pb: 2,
-      }}
-    >
-      <Stack spacing={2} direction="row">
-        <Button variant="contained" color="primary">
-          CREATE NEW EVALUATION
-        </Button>
-        <Button variant="contained" color="secondary">
-          SHOW COMPLETED
-        </Button>
-      </Stack>
-    </Box>
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        gap: 2,
-      }}
-    >
-      {list.map((reviewEntry) => (
-        <Card key={reviewEntry.id}>
-          <CardContent>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Box>
-                <Typography gutterBottom variant="h5" component="div">
-                  {reviewEntry.course_evaluation.unit_code}
-                </Typography>
-                <Box
-                  sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                  }}
-                >
-                  <Typography sx={{ fontWeight: 'bold', pb: 1, pr: 1 }}>Coordinators:</Typography>
-                  <Typography>
-                    {reviewEntry.course_evaluation.coordinators
-                      .map(({ username }) => username)
-                      .join(', ')}
-                  </Typography>
-                </Box>
-                <Typography variant="body2" color="text.secondary">
-                  {reviewEntry.course_evaluation.description}
-                </Typography>
-              </Box>
+  <Box
+    sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      gap: 2,
+    }}
+  >
+    {list.map((reviewEntry) => (
+      <Card key={reviewEntry.id}>
+        <CardContent>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            }}
+          >
+            <Box>
+              <Typography gutterBottom variant="h5" component="div">
+                {reviewEntry.course_evaluation.unit_code}
+              </Typography>
               <Box
                 sx={{
                   display: 'flex',
-                  alignItems: 'center',
+                  flexDirection: 'row',
                 }}
               >
-                <ReviewProgress review={reviewEntry} />
+                <Typography sx={{ fontWeight: 'bold', pb: 1, pr: 1 }}>Coordinators:</Typography>
+                <Typography>
+                  {reviewEntry.course_evaluation.coordinators
+                    .map(({ username }) => username)
+                    .join(', ')}
+                </Typography>
               </Box>
+              <Typography variant="body2" color="text.secondary">
+                {reviewEntry.course_evaluation.description}
+              </Typography>
             </Box>
-          </CardContent>
-        </Card>
-      ))}
-    </Box>
-  </Container>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+              }}
+            >
+              <ReviewProgress review={reviewEntry} />
+            </Box>
+          </Box>
+        </CardContent>
+      </Card>
+    ))}
+  </Box>
 );
 
 export default ReviewList;
