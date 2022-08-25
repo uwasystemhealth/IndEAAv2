@@ -96,9 +96,23 @@ export interface ReviewListEntry {
   date_submitted: null | string;
   created_at: string;
   updated_at: string;
+  eoc_date_viewed: null | string;
   course_evaluation: CourseEvaluationListEntry;
   reviewer: number;
 }
+
+export const DEFAULT_REVIEW_LIST_ENTRY: ReviewListEntry = {
+  id: '',
+  documents: [],
+  eoc_specific_reviews: [],
+  final_comment: '',
+  date_submitted: null,
+  created_at: '',
+  updated_at: '',
+  eoc_date_viewed: null,
+  course_evaluation: DEFAULT_COURSE_EVALUATION_LIST_ENTRY,
+  reviewer: 0,
+};
 
 export interface ReviewDocument {
   id: string;
