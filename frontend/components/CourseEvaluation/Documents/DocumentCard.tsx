@@ -1,5 +1,5 @@
 import React from 'react';
-import { API_CLIENT, API_ENDPOINT, Document } from 'utils/api';
+import { API_ENDPOINT, Document } from 'utils/api';
 import Box from '@mui/material/Box';
 
 import Grid from '@mui/material/Grid';

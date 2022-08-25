@@ -76,8 +76,6 @@ const EditGeneralInformationModal = (props: Props) => {
       is_introduction: Yup.boolean(),
     }),
     onSubmit: async (values) => {
-      console.log('submitting');
-
       const payload = {
         ...values,
         // Only need the IDs
@@ -87,8 +85,6 @@ const EditGeneralInformationModal = (props: Props) => {
       const url = isEditMode
         ? API_ENDPOINT.COURSE_EVALUATION.DOCUMENT.DETAIL(courseEvaluationId, document?.id || '')
         : API_ENDPOINT.COURSE_EVALUATION.DOCUMENT.LIST(courseEvaluationId);
-      console.log(payload);
-      console.log(url);
       try {
         if (isEditMode) {
           await axios.patch(url, payload);
