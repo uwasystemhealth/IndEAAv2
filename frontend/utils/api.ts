@@ -19,11 +19,17 @@ export const API_ENDPOINT = {
   },
   COURSE_EVALUATION: {
     LIST: '/api/v1/course-evaluations/',
-    DETAIL: (courseEvaluationId: string) => `/api/v1/course-evaluations/${courseEvaluationId}`,
+    DETAIL: (courseEvaluationId: string) => `/api/v1/course-evaluations/${courseEvaluationId}/`,
+    DOCUMENT: {
+      LIST: (courseEvaluationId: string) =>
+        `/api/v1/course-evaluations/${courseEvaluationId}/documents/`,
+      DETAIL: (courseEvaluationId: string, documentId: string) =>
+        `/api/v1/course-evaluations/${courseEvaluationId}/documents/${documentId}/`,
+    },
   },
   REVIEWS: {
     LIST: '/api/v1/reviews/',
-    DETAIL: (reviewId: string) => `/api/v1/reviews/${reviewId}`,
+    DETAIL: (reviewId: string) => `/api/v1/reviews/${reviewId}/`,
   },
 };
 const API = {
@@ -78,6 +84,22 @@ export interface CourseEvaluationDetailEntry {
   updated_at: string;
 }
 
+export const DEFAULT_COURSE_EVALUTION_DETAIL_ENTRY: CourseEvaluationDetailEntry = {
+  id: '',
+  eoc_set: {
+    id: 0,
+    name: '',
+    eoc_generals: [],
+  },
+  coordinators: [],
+  documents: [],
+  eoc_set_id: 0,
+  unit_code: '',
+  description: '',
+  created_at: '',
+  updated_at: '',
+};
+
 export interface Document {
   id: string;
   eoc_generals: DocumentEocGeneral[];
@@ -94,12 +116,14 @@ export interface Document {
 export interface DocumentEocGeneral {
   id: number;
   number: number;
+  title: string;
 }
 
 export interface DocumentEocSpecific {
   id: number;
   number: number;
   general_and_specific_eoc: string;
+  description: string;
 }
 
 export interface EocSet {

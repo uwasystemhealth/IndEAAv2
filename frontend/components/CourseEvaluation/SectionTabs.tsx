@@ -2,13 +2,22 @@ import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Container from '@mui/material/Container';
-import Box from '@mui/material/Box';
-import { API_ENDPOINT, CourseEvaluationDetailEntry } from 'utils/api';
+import {
+  API_ENDPOINT,
+  CourseEvaluationDetailEntry,
+  DEFAULT_COURSE_EVALUTION_DETAIL_ENTRY,
+} from 'utils/api';
 import useSWRAuth from '@/components/hooks/useSWRAuth';
-import CustomTheme from '../utils/CustomTheme';
+import ArticleIcon from '@mui/icons-material/Article';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import RateReviewIcon from '@mui/icons-material/RateReview';
+import CampaignIcon from '@mui/icons-material/Campaign';
 
 import TabPanel, { a11yProps } from '../Custom/TabPanel';
 import Overview from './Overview';
+import Justification from './Justification';
+import Reviews from './Reviews';
+import Documents from './Documents/Documents';
 
 type Props = {
   courseEvaluationId: string;
@@ -19,16 +28,18 @@ const SectionTabs = ({ courseEvaluationId }: Props) => {
     courseEvaluationId ? API_ENDPOINT.COURSE_EVALUATION.DETAIL(courseEvaluationId) : '',
   );
 
-  const evaluation = ((response?.data as unknown) || []) as CourseEvaluationDetailEntry;
+  const evaluation = ((response?.data as unknown) ||
+    DEFAULT_COURSE_EVALUTION_DETAIL_ENTRY) as CourseEvaluationDetailEntry;
 
   const TAB_DISPLAYS = [
     {
       label: 'Overview',
       tabComponent: <Overview evaluation={evaluation} />,
+      icon: AssignmentIcon,
     },
-    { label: 'JUSTIFICATIONS', tabComponent: 'item two' },
-    { label: 'DOCUMENTS', tabComponent: 'item three' },
-    { label: 'REVIEWS', tabComponent: 'item four' },
+    { label: 'Documents', tabComponent: <Documents evaluation={evaluation} />, icon: ArticleIcon },
+    { label: 'Justification', tabComponent: <Justification />, icon: CampaignIcon },
+    { label: 'Reviews', tabComponent: <Reviews />, icon: RateReviewIcon },
   ];
 
   const [tabsValue, setTabsValue] = React.useState(0);
@@ -38,34 +49,20 @@ const SectionTabs = ({ courseEvaluationId }: Props) => {
   };
 
   return (
-    <Container
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}
-    >
-      <Box sx={{ backgroundColor: CustomTheme.palette.primary.light, width: '100%' }}>
-        <Tabs
-          value={tabsValue}
-          onChange={handleChangeTab}
-          variant="fullWidth"
-          sx={{ backgroundColor: CustomTheme.palette.info.main }}
-        >
-          {TAB_DISPLAYS.map(({ label }, index) => (
-            // eslint-disable-next-line react/no-array-index-key, react/jsx-props-no-spreading
-            <Tab key={index} label={label} {...a11yProps(index)} />
-          ))}
-        </Tabs>
-
-        {TAB_DISPLAYS.map(({ tabComponent }, index) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <TabPanel key={index} value={tabsValue} index={index}>
-            {tabComponent}
-          </TabPanel>
+    <Container maxWidth="xl">
+      <Tabs value={tabsValue} onChange={handleChangeTab} variant="fullWidth">
+        {TAB_DISPLAYS.map(({ label, icon: Icon }, index) => (
+          // eslint-disable-next-line react/no-array-index-key, react/jsx-props-no-spreading
+          <Tab icon={<Icon />} key={index} label={label} {...a11yProps(index)} />
         ))}
-      </Box>
+      </Tabs>
+
+      {TAB_DISPLAYS.map(({ tabComponent }, index) => (
+        // eslint-disable-next-line react/no-array-index-key
+        <TabPanel key={index} value={tabsValue} index={index}>
+          {tabComponent}
+        </TabPanel>
+      ))}
     </Container>
   );
 };
