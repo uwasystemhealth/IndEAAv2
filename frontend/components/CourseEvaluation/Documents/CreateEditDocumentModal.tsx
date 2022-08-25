@@ -15,6 +15,9 @@ import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPICli
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 type Props = {
   courseEvaluationId: string;
@@ -75,9 +78,12 @@ const EditGeneralInformationModal = (props: Props) => {
       }
     },
   });
+  console.log(formik.values);
   return (
     <Dialog fullWidth maxWidth="xl" open>
-      <DialogTitle>{isEditMode ? 'Editting Document - ' : 'Create a new Document'}</DialogTitle>
+      <DialogTitle>
+        {isEditMode ? `Editting Document - ${document?.name}` : 'Create a new Document'}
+      </DialogTitle>
       {error && (
         <Alert variant="filled" severity="error" sx={{ m: 2 }}>
           {error}
@@ -136,6 +142,16 @@ const EditGeneralInformationModal = (props: Props) => {
               onChange={formik.handleChange}
               error={Boolean(formik.errors.description)}
               helperText={formik.errors.description}
+            />
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={formik.values.is_introduction}
+                  onChange={formik.handleChange}
+                  name="is_introduction"
+                />
+              }
+              label="Is this an introduction document?"
             />
           </CardContent>
         </Card>
