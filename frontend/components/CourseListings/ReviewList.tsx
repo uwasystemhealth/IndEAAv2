@@ -6,7 +6,6 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import Link from '@mui/material/Link';
 import { ReviewListEntry } from 'utils/api';
 import ReviewProgress from '../Reviewer/ReviewProgress';
 
@@ -76,7 +75,7 @@ const ReviewList = ({ list }: Props) => (
                   alignItems: 'center',
                 }}
               >
-                <ReviewProgress review={reviewEntry}></ReviewProgress>
+                <ReviewProgress review={reviewEntry} />
               </Box>
             </Box>
           </CardContent>
