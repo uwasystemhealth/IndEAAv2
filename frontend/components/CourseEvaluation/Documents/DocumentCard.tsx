@@ -112,7 +112,12 @@ const DocumentCard = (props: Props) => {
             </Grid>
             <Grid item md={3}>
               <Stack direction="column" spacing={2}>
-                <Button startIcon={<AddIcon />} variant="outlined" color="primary">
+                <Button
+                  startIcon={<AddIcon />}
+                  variant="outlined"
+                  color="primary"
+                  onClick={() => window.open(document.url)}
+                >
                   View
                 </Button>
                 {!isReadOnly && (
