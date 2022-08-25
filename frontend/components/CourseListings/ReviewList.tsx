@@ -1,15 +1,12 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import Container from '@mui/material/Container';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
 import { ReviewListEntry } from 'utils/api';
 import Grid from '@mui/material/Grid';
 import ReviewProgress from '../Reviewer/ReviewProgress';
-import { listOfUserDisplayNames, userDisplayName } from '../utils/generic';
+import { listOfUserDisplayNames } from '../utils/generic';
 
 type Props = {
   list: ReviewListEntry[];

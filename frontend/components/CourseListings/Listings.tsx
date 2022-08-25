@@ -1,12 +1,10 @@
 import React from 'react';
-import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { API_ENDPOINT, CourseEvaluationListEntry, ReviewListEntry } from 'utils/api';
 import useSWRAuth from '@/components/hooks/useSWRAuth';
 import CoordinatorList from './CoordinatorList';
-import CustomTheme from '../utils/CustomTheme';
 import TabPanel, { a11yProps } from '../Custom/TabPanel';
 import ReviewList from './ReviewList';
 import roleIcons from '../utils/roleIcons';
