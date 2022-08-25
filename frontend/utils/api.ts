@@ -116,12 +116,14 @@ export interface Document {
 export interface DocumentEocGeneral {
   id: number;
   number: number;
+  title: string;
 }
 
 export interface DocumentEocSpecific {
   id: number;
   number: number;
   general_and_specific_eoc: string;
+  description: string;
 }
 
 export interface EocSet {
