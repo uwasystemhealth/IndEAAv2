@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import AppContext from 'components/Context/TopLevelContext';
 import { determineIfUserIsAuthentication } from 'utils/Authentication';
 import Listings from '@/components/CourseListings/Listings';
+import BodyCard from '@/components/utils/BodyCard';
 
 const StaticInformationAboutIndEAA = () => (
   <Box
@@ -35,19 +36,7 @@ const Home: NextPage = () => {
   const isUserAuthenticated = determineIfUserIsAuthentication(authenticationDetails.accessToken);
 
   return (
-    <Container maxWidth="xl">
-      <Card>
-        <CardContent
-          sx={{
-            minHeight: '50vh',
-            display: 'flex',
-            justifyContent: 'center',
-          }}
-        >
-          {!isUserAuthenticated ? <StaticInformationAboutIndEAA /> : <Listings />}
-        </CardContent>
-      </Card>
-    </Container>
+    <BodyCard>{!isUserAuthenticated ? <StaticInformationAboutIndEAA /> : <Listings />}</BodyCard>
   );
 };
 
