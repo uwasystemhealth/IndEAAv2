@@ -4,7 +4,7 @@ from rest_framework.response import Response
 
 from course_evaluations.models import CourseEvaluation, Document
 from course_evaluations.permissions import (
-    CourseEvaluationIsCoordinatorAllowAll,
+    CourseEvaluationIsCoordinatorAllowAllReviewerReadOnly,
     CourseEvaluationIsCoordinatorAllowAllViaObjectReference,
 )
 from course_evaluations.serializers import (
@@ -25,7 +25,7 @@ class CourseEvaluationViewSet(viewsets.ModelViewSet):
     queryset = CourseEvaluation.objects.all()
     permission_classes = [
         permissions.IsAuthenticated,
-        CourseEvaluationIsCoordinatorAllowAll,
+        CourseEvaluationIsCoordinatorAllowAllReviewerReadOnly,
     ]
 
     def get_serializer(self, *args, **kwargs):
