@@ -17,7 +17,7 @@ import TabPanel, { a11yProps } from '../Custom/TabPanel';
 import Overview from './Overview';
 import Justification from './Justification';
 import Reviews from './Reviews';
-import Documents from './Documents';
+import Documents from './Documents/Documents';
 
 type Props = {
   courseEvaluationId: string;
@@ -37,7 +37,7 @@ const SectionTabs = ({ courseEvaluationId }: Props) => {
       tabComponent: <Overview evaluation={evaluation} />,
       icon: AssignmentIcon,
     },
-    { label: 'Documents', tabComponent: <Documents />, icon: ArticleIcon },
+    { label: 'Documents', tabComponent: <Documents evaluation={evaluation} />, icon: ArticleIcon },
     { label: 'Justification', tabComponent: <Justification />, icon: CampaignIcon },
     { label: 'Reviews', tabComponent: <Reviews />, icon: RateReviewIcon },
   ];
