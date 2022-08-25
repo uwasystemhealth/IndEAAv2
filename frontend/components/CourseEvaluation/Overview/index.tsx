@@ -8,10 +8,10 @@ import CardHeader from '@mui/material/CardHeader';
 import EditIcon from '@mui/icons-material/Edit';
 import Fab from '@mui/material/Fab';
 import useModal from '@/components/hooks/useModal';
+import Stack from '@mui/material/Stack';
 import { listOfUserDisplayNames } from '../../utils/generic';
 import EditGeneralInformationModal from './EditGeneralInformationModal';
 import DocumentCard from '../Documents/DocumentCard';
-import Stack from '@mui/material/Stack';
 
 type Props = {
   evaluation: CourseEvaluationDetailEntry;
