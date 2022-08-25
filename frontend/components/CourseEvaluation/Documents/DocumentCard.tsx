@@ -12,9 +12,12 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
+import useModal from '@/components/hooks/useModal';
+import CreateEditDocumentModal from '@/components/CourseEvaluation/Documents/CreateEditDocumentModal';
 
 type Props = {
   document: Document;
+  isViewedByCoordinator: boolean;
 };
 
 export interface DocumentTag {
@@ -23,7 +26,7 @@ export interface DocumentTag {
   color: any;
 }
 const DocumentCard = (props: Props) => {
-  const { document } = props;
+  const { document, isViewedByCoordinator } = props;
 
   const tags: DocumentTag[] = [];
 
@@ -51,47 +54,74 @@ const DocumentCard = (props: Props) => {
     });
   }
 
+  const createEditDocumentModalState = useModal();
+  const [documentSelected, setDocumentSelected] = React.useState<Document | undefined>(undefined);
+
   return (
-    <Card>
-      <CardContent>
-        <Grid container justifyContent="space-between" alignItems="center">
-          <Grid item md={8}>
-            <Typography gutterBottom variant="h5" component="div">
-              {document.name}
-            </Typography>
-            <Typography>{document.description}</Typography>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-                justifyContent: 'flex-start',
-                alignItems: 'center',
-                gap: 1,
-                mt: 1,
-              }}
-            >
-              {tags.map((tag) => (
-                <Chip key={tag.label} label={tag.label} color={tag.color} />
-              ))}
-            </Box>
+    <>
+      {createEditDocumentModalState.isOpen && (
+        <CreateEditDocumentModal
+          courseEvaluationId={document.course_evaluation}
+          handleClose={() => {
+            setDocumentSelected(undefined);
+            createEditDocumentModalState.handleClose();
+          }}
+          document={documentSelected}
+        />
+      )}
+      <Card>
+        <CardContent>
+          <Grid container justifyContent="space-between" alignItems="center">
+            <Grid item md={8}>
+              <Typography gutterBottom variant="h5" component="div">
+                {document.name}
+              </Typography>
+              <Typography>{document.description}</Typography>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                  flexWrap: 'wrap',
+                  justifyContent: 'flex-start',
+                  alignItems: 'center',
+                  gap: 1,
+                  mt: 1,
+                }}
+              >
+                {tags.map((tag) => (
+                  <Chip key={tag.label} label={tag.label} color={tag.color} />
+                ))}
+              </Box>
+            </Grid>
+            <Grid item md={3}>
+              <Stack direction="column" spacing={2}>
+                <Button startIcon={<AddIcon />} variant="outlined" color="primary">
+                  View
+                </Button>
+                {isViewedByCoordinator && (
+                  <>
+                    <Button
+                      startIcon={<EditIcon />}
+                      variant="outlined"
+                      color="secondary"
+                      onClick={() => {
+                        setDocumentSelected(document);
+                        createEditDocumentModalState.handleOpen();
+                      }}
+                    >
+                      Edit
+                    </Button>
+                    <Button startIcon={<DeleteIcon />} variant="outlined" color="error">
+                      Delete
+                    </Button>
+                  </>
+                )}
+              </Stack>
+            </Grid>
           </Grid>
-          <Grid item md={3}>
-            <Stack direction="column" spacing={2}>
-              <Button startIcon={<AddIcon />} variant="outlined" color="primary">
-                View
-              </Button>
-              <Button startIcon={<EditIcon />} variant="outlined" color="secondary">
-                Edit
-              </Button>
-              <Button startIcon={<DeleteIcon />} variant="outlined" color="error">
-                Delete
-              </Button>
-            </Stack>
-          </Grid>
-        </Grid>
-      </CardContent>
-    </Card>
+        </CardContent>
+      </Card>
+    </>
   );
 };
 

@@ -6,8 +6,10 @@ import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import AddIcon from '@mui/icons-material/Add';
 import Grid from '@mui/material/Grid';
-import { CourseEvaluationDetailEntry } from 'utils/api';
+import { CourseEvaluationDetailEntry, Document } from 'utils/api';
 import DocumentCard from './DocumentCard';
+import CreateEditDocumentModal from './CreateEditDocumentModal';
+import useModal from '@/components/hooks/useModal';
 
 type Props = {
   evaluation: CourseEvaluationDetailEntry;
@@ -15,8 +17,16 @@ type Props = {
 
 const Documents = (props: Props) => {
   const { evaluation } = props;
+
+  const createEditDocumentModalState = useModal();
   return (
     <>
+      {createEditDocumentModalState.isOpen && (
+        <CreateEditDocumentModal
+          courseEvaluationId={evaluation.id}
+          handleClose={createEditDocumentModalState.handleClose}
+        />
+      )}
       <Box
         sx={{
           display: 'flex',
@@ -25,7 +35,12 @@ const Documents = (props: Props) => {
         }}
       >
         <Stack spacing={2} direction="row">
-          <Button startIcon={<AddIcon />} variant="contained" color="primary">
+          <Button
+            startIcon={<AddIcon />}
+            variant="contained"
+            color="primary"
+            onClick={createEditDocumentModalState.handleOpen}
+          >
             Add New Document
           </Button>
         </Stack>
@@ -33,7 +48,7 @@ const Documents = (props: Props) => {
       <Grid container spacing={2}>
         {evaluation.documents.map((document) => (
           <Grid item md={4}>
-            <DocumentCard document={document} />
+            <DocumentCard document={document} isViewedByCoordinator />
           </Grid>
         ))}
       </Grid>
