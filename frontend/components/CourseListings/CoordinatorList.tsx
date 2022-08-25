@@ -10,6 +10,8 @@ import Link from '@mui/material/Link';
 import { CourseEvaluationListEntry } from 'utils/api';
 import AddIcon from '@mui/icons-material/Add';
 import { listOfUserDisplayNames } from '../utils/generic';
+import Grid from '@mui/material/Grid';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 type Props = {
   list: CourseEvaluationListEntry[];
@@ -40,14 +42,8 @@ const CoordinatorList = ({ list }: Props) => (
       {list.map((courseEvaluationListEntry) => (
         <Card key={courseEvaluationListEntry.id}>
           <CardContent>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Box>
+            <Grid container justifyContent="space-between" alignItems="center">
+              <Grid item md={8}>
                 <Typography gutterBottom variant="h5" component="div">
                   {courseEvaluationListEntry.unit_code}
                 </Typography>
@@ -62,23 +58,26 @@ const CoordinatorList = ({ list }: Props) => (
                     {listOfUserDisplayNames(courseEvaluationListEntry.coordinators)}
                   </Typography>
                 </Box>
-                <Typography variant="body2" color="text.secondary">
-                  {courseEvaluationListEntry.description}
-                </Typography>
-              </Box>
-              <Box
+              </Grid>
+              <Grid
+                item
+                md={4}
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
+                  justifyContent: 'flex-end',
                 }}
               >
                 <Link href={`/course-evaluation/${courseEvaluationListEntry.id}`}>
-                  <Button variant="contained" color="primary">
+                  <Button startIcon={<VisibilityIcon />} variant="contained" color="primary">
                     View
                   </Button>
                 </Link>
-              </Box>
-            </Box>
+              </Grid>
+            </Grid>
+            <Typography variant="body2" color="text.secondary">
+              {courseEvaluationListEntry.description}
+            </Typography>
           </CardContent>
         </Card>
       ))}
