@@ -26,7 +26,7 @@ const Listings = () => {
   };
 
   return (
-    <Container>
+    <Container maxWidth="xl">
       <Tabs value={tabsValue} onChange={handleChangeTab} variant="fullWidth">
         {courseEvaluationListEntries.length > 0 && (
           // eslint-disable-next-line react/jsx-props-no-spreading
