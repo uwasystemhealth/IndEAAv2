@@ -16,6 +16,7 @@ import { ReviewListEntry } from 'utils/api';
 import { styled } from '@mui/material/styles';
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
 import { Box } from '@mui/system';
+import { determineStepsStateOfReview } from '../utils/reviews';
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -57,9 +58,6 @@ const stepperStyle = {
     justifyContent: 'center',
     alignItems: 'center',
   },
-  // alternativeLabel: {
-  // 	color: '#FFFFFF',
-  // },
   active: {
     backgroundImage:
       'linear-gradient( 136deg, rgb(242,113,33) 0%, rgb(233,64,87) 50%, rgb(138,35,135) 100%)',
@@ -68,7 +66,6 @@ const stepperStyle = {
 };
 
 export const StepIcon = (props: { done: Boolean }) => {
-  //   const stepperClasses = useStepperStyles();
   const { done } = props;
   const icon = done ? <Done /> : <NotDone />;
   const isActiveStyle = done ? stepperStyle.active : {};
@@ -81,7 +78,6 @@ type Props = {
 };
 
 const ReviewProgress = ({ review, isCoordinator }: Props) => {
-  //   const stepperClasses = useStepperStyles();
   const router = useRouter();
 
   /**
@@ -91,27 +87,28 @@ const ReviewProgress = ({ review, isCoordinator }: Props) => {
    * 2 (Commented on an EOC Specific)
    * 3 (Submitted the review)
    */
+  const stateOfReview = determineStepsStateOfReview(review);
   const steps = [
     {
       stepName: 'Overview & Eoc',
-      done: Boolean(review.eoc_date_viewed),
+      done: stateOfReview.step1,
       stepLink: 'overview-and-eoc',
     },
     {
       stepName: 'Read Documents',
-      done: review.documents.length > 0,
+      done: stateOfReview.step2,
       stepLink: 'documents',
     },
 
     {
       stepName: 'Review Course',
-      done: review.eoc_specific_reviews.length > 0,
+      done: stateOfReview.step3,
       stepLink: 'assessment',
     },
 
     {
       stepName: 'Review & Submit',
-      done: Boolean(review.date_submitted),
+      done: stateOfReview.step4,
       stepLink: 'submit',
     },
   ];
