@@ -8,8 +8,10 @@ import CardHeader from '@mui/material/CardHeader';
 import EditIcon from '@mui/icons-material/Edit';
 import Fab from '@mui/material/Fab';
 import useModal from '@/components/hooks/useModal';
+import Stack from '@mui/material/Stack';
 import { listOfUserDisplayNames } from '../../utils/generic';
 import EditGeneralInformationModal from './EditGeneralInformationModal';
+import DocumentCard from '../Documents/DocumentCard';
 
 type Props = {
   evaluation: CourseEvaluationDetailEntry;
@@ -67,7 +69,15 @@ const Overview = ({ evaluation }: Props) => {
               title="Introduction Documents"
               subheader="These are the documents that the reviewer will see first. Tag it in the 'Documents' Section"
             />
-            <CardContent>TODO</CardContent>
+            <CardContent>
+              <Stack spacing={2}>
+                {evaluation.documents
+                  .filter((document) => document.is_introduction)
+                  .map((document) => (
+                    <DocumentCard document={document} isReadOnly={false} />
+                  ))}
+              </Stack>
+            </CardContent>
           </Card>
         </Grid>
       </Grid>
