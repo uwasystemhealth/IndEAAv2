@@ -244,5 +244,6 @@ examples/**/yarn.lock
 examples/**/package-lock.json
 
 # Production Data
+backups/
 /data
 /opt
