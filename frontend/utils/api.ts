@@ -146,6 +146,15 @@ export interface EocGeneralEocSpecific {
   general_and_specific_eoc: string;
   description: string;
   indicators_of_attainment: string[];
+  justification: Justification[];
+}
+
+export interface Justification {
+  id: number;
+  justification: string;
+  development_level: number;
+  course_evaluation: string;
+  eoc_specifics: number[];
 }
 
 export interface Coordinator {

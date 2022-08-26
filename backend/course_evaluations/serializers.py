@@ -76,7 +76,16 @@ class UserSerializer(serializers.ModelSerializer):
         )
 
 
+class CourseEvaluationJustificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CourseEvaluationJustification
+        fields = "__all__"
+
+
 class EOCSpecificSerializer(serializers.ModelSerializer):
+    # Information to be known by both coordinator and reviewer
+    justification = CourseEvaluationJustificationSerializer(many=True, read_only=True)
+
     class Meta:
         model = EOCSpecific
         fields = (
@@ -86,6 +95,7 @@ class EOCSpecificSerializer(serializers.ModelSerializer):
             "general_and_specific_eoc",
             "description",
             "indicators_of_attainment",
+            "justification",
         )
 
 
@@ -118,16 +128,9 @@ class CourseEvaluationListSerializer(serializers.ModelSerializer):
         )
 
 
-class CourseEvaluationJustificationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CourseEvaluationJustification
-        fields = "__all__"
-
-
 class CourseEvaluationDetailSerializer(serializers.ModelSerializer):
     eoc_set = EOCSetSerializer(read_only=True)
     coordinators = UserSerializer(many=True, read_only=True)
-    course_evalution_justifications = CourseEvaluationJustificationSerializer(many=True, read_only=True)
     documents = DocumentReadOnlySerializer(many=True, read_only=True)
 
     # Note: This is used for write, by creating the `eoc_set` relationship
