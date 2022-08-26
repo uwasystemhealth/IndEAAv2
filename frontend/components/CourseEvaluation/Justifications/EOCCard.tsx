@@ -16,10 +16,11 @@ import { developmentLevelToString } from '@/components/utils/eoc';
 
 type Props = {
   eocSpecific: EocGeneralEocSpecific;
+  handleSelectEOCSpecific: (eocSpecific: EocGeneralEocSpecific) => void;
 };
 
 const EOCCard = (props: Props) => {
-  const { eocSpecific } = props;
+  const { eocSpecific, handleSelectEOCSpecific } = props;
   // Business rule: There can only be one justification per EOC
   const justification = eocSpecific?.justification[0];
   const theme = useTheme();
@@ -42,7 +43,9 @@ const EOCCard = (props: Props) => {
                 startIcon={<VisibilityIcon />}
                 variant="outlined"
                 color="primary"
-                onClick={() => {}}
+                onClick={() => {
+                  handleSelectEOCSpecific(eocSpecific);
+                }}
               >
                 View
               </Button>
