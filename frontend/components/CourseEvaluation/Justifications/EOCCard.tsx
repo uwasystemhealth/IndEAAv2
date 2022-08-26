@@ -11,7 +11,8 @@ import Chip from '@mui/material/Chip';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Divider } from '@mui/material';
+import { Divider, useTheme } from '@mui/material';
+import { developmentLevelToString } from '@/components/utils/eoc';
 
 type Props = {
   eocSpecific: EocGeneralEocSpecific;
@@ -19,6 +20,10 @@ type Props = {
 
 const EOCCard = (props: Props) => {
   const { eocSpecific } = props;
+  // Business rule: There can only be one justification per EOC
+  const justification = eocSpecific?.justification[0];
+  const theme = useTheme();
+
   return (
     <Card>
       <CardContent>
@@ -44,27 +49,35 @@ const EOCCard = (props: Props) => {
             </Stack>
           </Grid>
         </Grid>
-        <Divider sx={{ m: 2 }}></Divider>
+        <Divider sx={{ m: 2 }} />
         <Box>
           <Box
             sx={{
               display: 'flex',
+              color: justification?.development_level
+                ? theme.palette.secondary.main
+                : theme.palette.error.main,
             }}
           >
             <Typography variant="body2" sx={{ fontWeight: 'bold', pb: 1, pr: 1 }} color="success">
               Your Rating:
             </Typography>
-            <Typography variant="body2">TODO</Typography>
+            <Typography variant="body2">
+              {developmentLevelToString[justification?.development_level || 0]}
+            </Typography>
           </Box>
           <Box
             sx={{
               display: 'flex',
+              color: justification?.justification
+                ? theme.palette.secondary.main
+                : theme.palette.error.main,
             }}
           >
             <Typography variant="body2" sx={{ fontWeight: 'bold', pb: 1, pr: 1 }} color="success">
-              Your Rating:
+              Your Justification:
             </Typography>
-            <Typography variant="body2">TODO</Typography>
+            <Typography variant="body2">{justification?.justification || 'None'}</Typography>
           </Box>
         </Box>
       </CardContent>
