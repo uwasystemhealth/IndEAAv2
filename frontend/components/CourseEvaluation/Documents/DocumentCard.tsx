@@ -7,16 +7,16 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
-import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
+import { useSWRConfig } from 'swr';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import useModal from '@/components/hooks/useModal';
 import CreateEditDocumentModal from '@/components/CourseEvaluation/Documents/CreateEditDocumentModal';
 import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
 import AreYouSureModalButton from '@/components/utils/AreYouSureModalButton';
-import { useSWRConfig } from 'swr';
 
 type Props = {
   document: Document;
@@ -89,7 +89,7 @@ const DocumentCard = (props: Props) => {
       <Card>
         <CardContent>
           <Grid container justifyContent="space-between" alignItems="center">
-            <Grid item md={8}>
+            <Grid item sm={8}>
               <Typography gutterBottom variant="h5" component="div">
                 {document.name}
               </Typography>
@@ -110,10 +110,10 @@ const DocumentCard = (props: Props) => {
                 ))}
               </Box>
             </Grid>
-            <Grid item md={3}>
+            <Grid item sm={3}>
               <Stack direction="column" spacing={2}>
                 <Button
-                  startIcon={<AddIcon />}
+                  startIcon={<VisibilityIcon />}
                   variant="outlined"
                   color="primary"
                   onClick={() => window.open(document.url)}
