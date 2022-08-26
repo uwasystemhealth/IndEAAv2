@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
-import {
-  API_ENDPOINT,
-  CourseEvaluationDetailEntry,
-  DEFAULT_COURSE_EVALUTION_DETAIL_ENTRY,
-  Document,
-  EocGeneralEocSpecific,
-} from 'utils/api';
+import { CourseEvaluationDetailEntry, EocGeneralEocSpecific, EocSetEocGeneral } from 'utils/api';
+import Grid from '@mui/material/Grid';
+
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -15,95 +11,65 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useSWRConfig } from 'swr';
-import Box from '@mui/material/Box';
 import Alert from '@mui/material/Alert';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Autocomplete from '@mui/material/Autocomplete';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import useSWRAuth from '@/components/hooks/useSWRAuth';
+import MenuItem from '@mui/material/MenuItem';
+import { Typography } from '@mui/material';
 import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
+import { compileAllTheEOCSpecificsOfAnEOCSet, DEVELOPMENT_LEVEL } from '@/components/utils/eoc';
+import EOCDocumentsViewer from './EOCDocumentsViewer';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 type Props = {
+  eocGeneral: EocSetEocGeneral;
   eocSpecific: EocGeneralEocSpecific;
+  courseEvaluation: CourseEvaluationDetailEntry;
   handleClose: () => void;
 };
 
-const EditGeneralInformationModal = (props: Props) => {
-  const { courseEvaluationId, document, handleClose } = props;
-  const { response } = useSWRAuth(
-    courseEvaluationId ? API_ENDPOINT.COURSE_EVALUATION.DETAIL(courseEvaluationId) : '',
-  );
+const EOCModal = (props: Props) => {
+  const { eocGeneral, eocSpecific, courseEvaluation, handleClose } = props;
+  // Business rule: There can only be one justification per EOC
+  const justification = eocSpecific?.justification[0];
 
-  const courseEvaluation = ((response?.data as unknown) ||
-    DEFAULT_COURSE_EVALUTION_DETAIL_ENTRY) as CourseEvaluationDetailEntry;
-
-  const eocGenerals = courseEvaluation.eoc_set.eoc_generals || [];
-  const eocSpecifics: EocGeneralEocSpecific[] = courseEvaluation.eoc_set.eoc_generals.reduce(
-    (previousValue, currentValue) => previousValue.concat(currentValue.eoc_specifics),
-    [] as EocGeneralEocSpecific[],
-  );
   const isEditMode = Boolean(document);
 
   const axios = useAuthenticatedAPIClient();
   const { mutate } = useSWRConfig();
   const [error, setError] = useState('');
 
+  const eocSpecifics = compileAllTheEOCSpecificsOfAnEOCSet(courseEvaluation.eoc_set);
+
   const formik = useFormik({
     initialValues: {
       /* Note: The values here should match the field name in the models
         Otherwise, make it match in `onSubmit`
       */
-      name: document?.name || '',
-      description: document?.description || '',
-      url: document?.url || '',
-      is_introduction: document?.is_introduction || false,
-      eoc_generals: document?.eoc_generals || [],
-      eoc_specifics: document?.eoc_specifics || [],
+      justification: justification?.justification || '',
+      development_level: justification?.development_level || null,
+      eoc_specifics: justification?.eoc_specifics || [],
     },
     validationSchema: Yup.object({
-      name: Yup.string().required('Required'),
-      description: Yup.string().required('Required'),
-      url: Yup.string().url('Invalid URL'),
-      is_introduction: Yup.boolean(),
+      justification: Yup.string().required('Justification is required'),
+      development_level: Yup.number().required('Development level is required'),
     }),
     onSubmit: async (values) => {
-      const payload = {
-        ...values,
-        // Only need the IDs
-        eoc_generals: values.eoc_generals.map((eocGeneral) => eocGeneral.id),
-        eoc_specifics: values.eoc_specifics.map((eocSpecific) => eocSpecific.id),
-      };
-      const url = isEditMode
-        ? API_ENDPOINT.COURSE_EVALUATION.DOCUMENT.DETAIL(courseEvaluationId, document?.id || '')
-        : API_ENDPOINT.COURSE_EVALUATION.DOCUMENT.LIST(courseEvaluationId);
-      try {
-        if (isEditMode) {
-          await axios.patch(url, payload);
-        } else {
-          await axios.post(url, payload);
-        }
-        // Flush SWR cache to refresh screen
-        mutate(API_ENDPOINT.COURSE_EVALUATION.DETAIL(courseEvaluationId));
-
-        handleClose();
-        // eslint-disable-next-line @typescript-eslint/no-shadow
-      } catch (error) {
-        // @ts-ignore
-        setError(error?.message || 'Something went wrong');
-      }
+      console.log(values);
     },
   });
   return (
     <Dialog fullWidth maxWidth="xl" open>
-      <DialogTitle>EOC Number and Description</DialogTitle>
+      <DialogTitle>
+        EOC {eocSpecific.general_and_specific_eoc} - {eocSpecific.description}
+      </DialogTitle>
       {error && (
         <Alert variant="filled" severity="error" sx={{ m: 2 }}>
           {error}
@@ -116,7 +82,110 @@ const EditGeneralInformationModal = (props: Props) => {
           gap: 2,
         }}
       >
-        ...
+        <Grid container spacing={2}>
+          <Grid item sm={12} md={6}>
+            <Card>
+              <CardHeader
+                title="Justify the EOC"
+                subheader="This is where you can select the EOC "
+              />
+              <CardContent>
+                <TextField
+                  margin="dense"
+                  id="development_level"
+                  label="Development Level"
+                  fullWidth
+                  variant="outlined"
+                  value={formik.values.development_level}
+                  onChange={formik.handleChange}
+                  error={Boolean(formik.errors.development_level)}
+                  helperText={formik.errors.development_level}
+                  select
+                >
+                  {DEVELOPMENT_LEVEL.map((obj) => (
+                    <MenuItem
+                      key={obj.value}
+                      value={obj.value}
+                      sx={{
+                        display: 'block',
+                      }}
+                    >
+                      <Typography variant="body1">
+                        Level {obj.value} - {obj.short}
+                      </Typography>
+                      <Typography variant="caption" sx={{ mt: 5 }}>
+                        {obj.meaning}
+                      </Typography>
+                    </MenuItem>
+                  ))}
+                </TextField>
+                <TextField
+                  margin="dense"
+                  id="justification"
+                  label="Justify the Development Level"
+                  fullWidth
+                  variant="outlined"
+                  value={formik.values.justification}
+                  onChange={formik.handleChange}
+                  error={Boolean(formik.errors.justification)}
+                  helperText={formik.errors.justification}
+                  multiline
+                />
+
+                <Autocomplete
+                  multiple
+                  id="eoc_specifics"
+                  options={eocSpecifics}
+                  disableCloseOnSelect
+                  getOptionLabel={(option) =>
+                    `EOC ${option.general_and_specific_eoc} (${option.description})`
+                  }
+                  // onChange={(e, value) => formik.setFieldValue('eoc_specifics', value)}
+                  // value={formik.values.eoc_specifics}
+                  isOptionEqualToValue={(option, value) => option.id === value.id}
+                  // eslint-disable-next-line @typescript-eslint/no-shadow
+                  renderOption={(props, option, { selected }) => (
+                    // eslint-disable-next-line react/jsx-props-no-spreading
+                    <li {...props}>
+                      <Checkbox
+                        icon={icon}
+                        checkedIcon={checkedIcon}
+                        style={{ marginRight: 8 }}
+                        checked={selected}
+                      />
+                      {`EOC ${option.general_and_specific_eoc} (${option.description})`}
+                    </li>
+                  )}
+                  renderInput={(params) => (
+                    <TextField
+                      margin="dense"
+                      // eslint-disable-next-line react/jsx-props-no-spreading
+                      {...params}
+                      fullWidth
+                      label="EOC of Application"
+                      helperText="This is where you select the EOCs that you want to apply the justification and development level to"
+                    />
+                  )}
+                />
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item sm={12} md={6}>
+            <Card>
+              <CardHeader
+                title="Supporting Documents"
+                subheader="This is where you can see the documents that are aligned to this EOC. This will also be shown to the reviewer."
+              />
+              <CardContent>
+                <EOCDocumentsViewer
+                  documents={courseEvaluation.documents}
+                  eocGeneralToFilter={eocGeneral}
+                  eocSpecificToFilter={eocSpecific}
+                />
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
@@ -126,6 +195,6 @@ const EditGeneralInformationModal = (props: Props) => {
   );
 };
 
-EditGeneralInformationModal.defaultProps = {};
+EOCModal.defaultProps = {};
 
-export default EditGeneralInformationModal;
+export default EOCModal;

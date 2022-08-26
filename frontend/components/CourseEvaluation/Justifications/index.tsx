@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
-import { CourseEvaluationDetailEntry, EocGeneralEocSpecific } from 'utils/api';
+import { CourseEvaluationDetailEntry, EocGeneralEocSpecific, EocSetEocGeneral } from 'utils/api';
 import useModal from '@/components/hooks/useModal';
 import EOCAccordion from './EOCAccordion';
 import EOCModal from './EOCModal';
@@ -14,6 +14,9 @@ const Justification = (props: Props) => {
 
   const eocModalState = useModal();
 
+  const [currentlySelectedEOCGeneral, setCurrentlySelectedEOCGeneral] = useState<
+    EocSetEocGeneral | undefined
+  >(undefined);
   const [currentlySelectedEOCSpecific, setCurrentlySelectedEOCSpecific] = useState<
     EocGeneralEocSpecific | undefined
   >(undefined);
@@ -23,14 +26,25 @@ const Justification = (props: Props) => {
     eocModalState.handleClose();
   };
 
-  const handleSelectEOCSpecific = (eocSpecific: EocGeneralEocSpecific) => {
-    setCurrentlySelectedEOCSpecific(eocSpecific);
-    eocModalState.handleOpen();
-  };
+  const handleSelectEOCSpecificAndGeneral =
+    (eocGeneral: EocSetEocGeneral) => (eocSpecific: EocGeneralEocSpecific) => {
+      setCurrentlySelectedEOCGeneral(eocGeneral);
+      setCurrentlySelectedEOCSpecific(eocSpecific);
+      eocModalState.handleOpen();
+    };
   return (
     <div>
       {eocModalState.isOpen && (
         <EOCModal
+          courseEvaluation={evaluation}
+          eocGeneral={
+            currentlySelectedEOCGeneral || {
+              id: 0,
+              number: 0,
+              title: '',
+              eoc_specifics: [],
+            }
+          }
           eocSpecific={
             currentlySelectedEOCSpecific || {
               description: '',
@@ -49,7 +63,7 @@ const Justification = (props: Props) => {
         <EOCAccordion
           eocGeneral={eocGeneral}
           key={eocGeneral.id}
-          handleSelectEOCSpecific={handleSelectEOCSpecific}
+          handleSelectEOCSpecificAndGeneral={handleSelectEOCSpecificAndGeneral}
         />
       ))}
     </div>

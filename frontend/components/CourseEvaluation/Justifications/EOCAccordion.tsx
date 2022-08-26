@@ -12,10 +12,12 @@ import EOCCard from './EOCCard';
 
 type Props = {
   eocGeneral: EocSetEocGeneral;
-  handleSelectEOCSpecific: (eocSpecific: EocGeneralEocSpecific) => void;
+  handleSelectEOCSpecificAndGeneral: (
+    eocGeneral: EocSetEocGeneral,
+  ) => (eocSpecific: EocGeneralEocSpecific) => void;
 };
 
-const EOCAccordion = ({ eocGeneral, handleSelectEOCSpecific }: Props) => (
+const EOCAccordion = ({ eocGeneral, handleSelectEOCSpecificAndGeneral }: Props) => (
   <Accordion>
     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
       <Typography>{`EOC ${eocGeneral.number}: ${eocGeneral.title}`}</Typography>
@@ -24,7 +26,10 @@ const EOCAccordion = ({ eocGeneral, handleSelectEOCSpecific }: Props) => (
       <Grid container spacing={2}>
         {eocGeneral.eoc_specifics.map((eocSpecific) => (
           <Grid item xs={12} md={6} key={eocSpecific.id}>
-            <EOCCard eocSpecific={eocSpecific} handleSelectEOCSpecific={handleSelectEOCSpecific} />
+            <EOCCard
+              eocSpecific={eocSpecific}
+              handleSelectEOCSpecific={handleSelectEOCSpecificAndGeneral(eocGeneral)}
+            />
           </Grid>
         ))}
       </Grid>
