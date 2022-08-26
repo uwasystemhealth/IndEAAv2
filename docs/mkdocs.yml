@@ -94,3 +94,4 @@ nav:
     - Authentication: developer/authentication.md
     - Course Evaluation: developer/course_evaluation.md
     - Automated Testing and CI: developer/automated_testing_and_ci.md
+    - Backup: developer/backup.md
