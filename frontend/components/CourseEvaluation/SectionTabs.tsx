@@ -15,7 +15,7 @@ import CampaignIcon from '@mui/icons-material/Campaign';
 
 import TabPanel, { a11yProps } from '../Custom/TabPanel';
 import Overview from './Overview';
-import Justification from './Justification';
+import Justification from './Justifications';
 import Reviews from './Reviews';
 import Documents from './Documents/Documents';
 
@@ -38,7 +38,11 @@ const SectionTabs = ({ courseEvaluationId }: Props) => {
       icon: AssignmentIcon,
     },
     { label: 'Documents', tabComponent: <Documents evaluation={evaluation} />, icon: ArticleIcon },
-    { label: 'Justification', tabComponent: <Justification />, icon: CampaignIcon },
+    {
+      label: 'Justification',
+      tabComponent: <Justification evaluation={evaluation} />,
+      icon: CampaignIcon,
+    },
     { label: 'Reviews', tabComponent: <Reviews />, icon: RateReviewIcon },
   ];
 
