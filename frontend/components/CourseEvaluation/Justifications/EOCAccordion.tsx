@@ -22,7 +22,7 @@ const EOCAccordion = ({ eocGeneral }: Props) => (
     <AccordionDetails>
       <Grid container spacing={2}>
         {eocGeneral.eoc_specifics.map((eocSpecific) => (
-          <Grid item xs={12} md={4} key={eocSpecific.id}>
+          <Grid item xs={12} md={6} key={eocSpecific.id}>
             <EOCCard eocSpecific={eocSpecific} />
           </Grid>
         ))}

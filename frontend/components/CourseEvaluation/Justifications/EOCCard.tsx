@@ -53,7 +53,6 @@ const EOCCard = (props: Props) => {
         <Box>
           <Box
             sx={{
-              display: 'flex',
               color: justification?.development_level
                 ? theme.palette.secondary.main
                 : theme.palette.error.main,
@@ -62,13 +61,12 @@ const EOCCard = (props: Props) => {
             <Typography variant="body2" sx={{ fontWeight: 'bold', pb: 1, pr: 1 }} color="success">
               Your Rating:
             </Typography>
-            <Typography variant="body2">
+            <Typography variant="body2" gutterBottom>
               {developmentLevelToString[justification?.development_level || 0]}
             </Typography>
           </Box>
           <Box
             sx={{
-              display: 'flex',
               color: justification?.justification
                 ? theme.palette.secondary.main
                 : theme.palette.error.main,
@@ -77,7 +75,9 @@ const EOCCard = (props: Props) => {
             <Typography variant="body2" sx={{ fontWeight: 'bold', pb: 1, pr: 1 }} color="success">
               Your Justification:
             </Typography>
-            <Typography variant="body2">{justification?.justification || 'None'}</Typography>
+            <Typography variant="body2" gutterBottom>
+              {justification?.justification || 'None'}
+            </Typography>
           </Box>
         </Box>
       </CardContent>
