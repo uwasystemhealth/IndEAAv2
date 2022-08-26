@@ -27,6 +27,7 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import useSWRAuth from '@/components/hooks/useSWRAuth';
 import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
+import { compileAllTheEOCSpecificsOfAnEOCSet } from '@/components/utils/eoc';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -47,10 +48,7 @@ const EditGeneralInformationModal = (props: Props) => {
     DEFAULT_COURSE_EVALUTION_DETAIL_ENTRY) as CourseEvaluationDetailEntry;
 
   const eocGenerals = courseEvaluation.eoc_set.eoc_generals || [];
-  const eocSpecifics: EocGeneralEocSpecific[] = courseEvaluation.eoc_set.eoc_generals.reduce(
-    (previousValue, currentValue) => previousValue.concat(currentValue.eoc_specifics),
-    [] as EocGeneralEocSpecific[],
-  );
+  const eocSpecifics = compileAllTheEOCSpecificsOfAnEOCSet(courseEvaluation.eoc_set);
   const isEditMode = Boolean(document);
 
   const axios = useAuthenticatedAPIClient();
