@@ -6,7 +6,7 @@ from reviews.models import Review, ReviewDocument, ReviewEocSpecific
 # Register your models here.
 @admin.register(Review)
 class ReviewAdmin(admin.ModelAdmin):
-    list_display = ("id", "course_evaluation", "final_comment", "date_submitted")
+    list_display = ("id", "course_evaluation","reviewer", "final_comment", "date_submitted")
     ordering = ("created_at",)
 
 
