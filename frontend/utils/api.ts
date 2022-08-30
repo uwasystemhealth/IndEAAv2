@@ -26,6 +26,12 @@ export const API_ENDPOINT = {
       DETAIL: (courseEvaluationId: string, documentId: string) =>
         `/api/v1/course-evaluations/${courseEvaluationId}/documents/${documentId}/`,
     },
+    JUSTIFICATION: {
+      LIST: (courseEvaluationId: string) =>
+        `/api/v1/course-evaluations/${courseEvaluationId}/justifications/`,
+      DETAIL: (courseEvaluationId: string, justificationId: number) =>
+        `/api/v1/course-evaluations/${courseEvaluationId}/justifications/${justificationId}/`,
+    },
   },
   REVIEWS: {
     LIST: '/api/v1/reviews/',
@@ -146,6 +152,15 @@ export interface EocGeneralEocSpecific {
   general_and_specific_eoc: string;
   description: string;
   indicators_of_attainment: string[];
+  justification: Justification[];
+}
+
+export interface Justification {
+  id: number;
+  justification: string;
+  development_level: number;
+  course_evaluation: string;
+  eoc_specifics: number[];
 }
 
 export interface Coordinator {

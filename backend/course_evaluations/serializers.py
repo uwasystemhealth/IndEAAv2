@@ -30,6 +30,24 @@ class DocumentWriteSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class JustificationWriteSerializer(serializers.ModelSerializer):
+    """
+    Note: It is important to understand that this serializer is only used for write operations for the most parts.
+
+    This means that and `eoc_specifics` are expecting the an id (not the EOC number)
+    """
+
+    # Note: `read_only=False` is important to do patching and creations
+    eoc_specifics = serializers.PrimaryKeyRelatedField(many=True, read_only=False, queryset=EOCSpecific.objects.all())
+
+    # This is not required as we will force this to a value, see `documents.views,py` for `perform_create` and `perform_update`
+    course_evaluation = serializers.CharField(write_only=True, required=False)
+
+    class Meta:
+        model = CourseEvaluationJustification
+        fields = "__all__"
+
+
 class EOCSpecificSerializerReadOnly(serializers.ModelSerializer):
     class Meta:
         model = EOCSpecific
@@ -76,7 +94,16 @@ class UserSerializer(serializers.ModelSerializer):
         )
 
 
+class CourseEvaluationJustificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CourseEvaluationJustification
+        fields = "__all__"
+
+
 class EOCSpecificSerializer(serializers.ModelSerializer):
+    # Information to be known by both coordinator and reviewer
+    justification = CourseEvaluationJustificationSerializer(many=True, read_only=True)
+
     class Meta:
         model = EOCSpecific
         fields = (
@@ -86,6 +113,7 @@ class EOCSpecificSerializer(serializers.ModelSerializer):
             "general_and_specific_eoc",
             "description",
             "indicators_of_attainment",
+            "justification",
         )
 
 
@@ -118,16 +146,9 @@ class CourseEvaluationListSerializer(serializers.ModelSerializer):
         )
 
 
-class CourseEvaluationJustificationSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = CourseEvaluationJustification
-        fields = "__all__"
-
-
 class CourseEvaluationDetailSerializer(serializers.ModelSerializer):
     eoc_set = EOCSetSerializer(read_only=True)
     coordinators = UserSerializer(many=True, read_only=True)
-    course_evalution_justifications = CourseEvaluationJustificationSerializer(many=True, read_only=True)
     documents = DocumentReadOnlySerializer(many=True, read_only=True)
 
     # Note: This is used for write, by creating the `eoc_set` relationship
