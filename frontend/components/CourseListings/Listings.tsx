@@ -11,6 +11,9 @@ import roleIcons from '../utils/roleIcons';
 
 const Listings = () => {
   const [tabsValue, setTabsValue] = React.useState(0);
+  const handleChangeTab = (event: React.SyntheticEvent, newValue: number) => {
+    setTabsValue(newValue);
+  };
 
   const { response: courseEvaluationResponse } = useSWRAuth(API_ENDPOINT.COURSE_EVALUATION.LIST);
   const courseEvaluationListEntries = ((courseEvaluationResponse?.data?.results as unknown) ||
@@ -18,10 +21,6 @@ const Listings = () => {
   const { response: reviewsResponse } = useSWRAuth(API_ENDPOINT.REVIEWS.LIST);
   const reviewListEntries = ((reviewsResponse?.data?.results as unknown) ||
     []) as ReviewListEntry[];
-
-  const handleChangeTab = (event: React.SyntheticEvent, newValue: number) => {
-    setTabsValue(newValue);
-  };
 
   return (
     <Container maxWidth="xl">
