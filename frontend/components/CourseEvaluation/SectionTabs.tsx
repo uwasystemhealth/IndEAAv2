@@ -7,17 +7,17 @@ import {
   CourseEvaluationDetailEntry,
   DEFAULT_COURSE_EVALUTION_DETAIL_ENTRY,
 } from 'utils/api';
-import useSWRAuth from '@/components/hooks/useSWRAuth';
 import ArticleIcon from '@mui/icons-material/Article';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import CampaignIcon from '@mui/icons-material/Campaign';
+import useSWRAuth from '@/components/hooks/useSWRAuth';
 
 import TabPanel, { a11yProps } from '../Custom/TabPanel';
 import Overview from './Overview';
 import Justification from './Justifications';
 import Reviews from './Reviews';
-import Documents from './Documents/Documents';
+import Documents from './Documents';
 
 type Props = {
   courseEvaluationId: string;
@@ -43,7 +43,7 @@ const SectionTabs = ({ courseEvaluationId }: Props) => {
       tabComponent: <Justification evaluation={evaluation} />,
       icon: CampaignIcon,
     },
-    { label: 'Reviews', tabComponent: <Reviews />, icon: RateReviewIcon },
+    { label: 'Reviews', tabComponent: <Reviews evaluation={evaluation} />, icon: RateReviewIcon },
   ];
 
   const [tabsValue, setTabsValue] = React.useState(0);

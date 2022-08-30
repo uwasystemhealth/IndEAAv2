@@ -45,22 +45,6 @@ const API = {
 };
 export default API;
 
-export interface UserAPIResponse {
-  pk: number;
-  username: string;
-  first_name: string;
-  last_name: string;
-  email: string;
-}
-
-export const DEFAULT_USER_API_RESPONSE: UserAPIResponse = {
-  pk: 0,
-  username: '',
-  first_name: '',
-  last_name: '',
-  email: '',
-};
-
 export interface DjangoPagination {
   count: number;
   next: null | number;
@@ -75,19 +59,20 @@ export interface CourseEvaluationListEntry {
   id: string;
   unit_code: string;
   description: string;
-  coordinators: Coordinator[];
+  coordinators: User[];
 }
 
 export interface CourseEvaluationDetailEntry {
   id: string;
   eoc_set: EocSet;
-  coordinators: Coordinator[];
+  coordinators: User[];
   documents: Document[];
   eoc_set_id: number;
   unit_code: string;
   description: string;
   created_at: string;
   updated_at: string;
+  reviews: ReviewListEntry[];
 }
 
 export const DEFAULT_COURSE_EVALUTION_DETAIL_ENTRY: CourseEvaluationDetailEntry = {
@@ -104,6 +89,7 @@ export const DEFAULT_COURSE_EVALUTION_DETAIL_ENTRY: CourseEvaluationDetailEntry 
   description: '',
   created_at: '',
   updated_at: '',
+  reviews: [],
 };
 
 export interface Document {
@@ -163,7 +149,7 @@ export interface Justification {
   eoc_specifics: number[];
 }
 
-export interface Coordinator {
+export interface User {
   id: number;
   username: string;
   first_name: string;
@@ -173,6 +159,17 @@ export interface Coordinator {
   is_active: boolean;
   is_superuser: boolean;
 }
+
+export const DEFAULT_USER: User = {
+  id: 0,
+  username: '',
+  first_name: '',
+  last_name: '',
+  email: '',
+  is_staff: false,
+  is_active: false,
+  is_superuser: false,
+};
 
 export const DEFAULT_COURSE_EVALUATION_LIST_ENTRY: CourseEvaluationListEntry = {
   id: '',
@@ -195,7 +192,7 @@ export interface ReviewListEntry {
   updated_at: string;
   eoc_date_viewed: null | string;
   course_evaluation: CourseEvaluationListEntry;
-  reviewer: number;
+  reviewer: User;
 }
 
 export const DEFAULT_REVIEW_LIST_ENTRY: ReviewListEntry = {
@@ -208,7 +205,7 @@ export const DEFAULT_REVIEW_LIST_ENTRY: ReviewListEntry = {
   updated_at: '',
   eoc_date_viewed: null,
   course_evaluation: DEFAULT_COURSE_EVALUATION_LIST_ENTRY,
-  reviewer: 0,
+  reviewer: DEFAULT_USER,
 };
 
 export interface ReviewDocument {

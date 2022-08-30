@@ -11,14 +11,14 @@ from course_evaluations.permissions import (
     CourseEvaluationIsCoordinatorAllowAllReviewerReadOnly,
     CourseEvaluationIsCoordinatorAllowAllViaObjectReference,
 )
-from course_evaluations.serializers import (
-    CourseEvaluationDetailSerializer,
-    CourseEvaluationListSerializer,
+from course_evaluations.serializers.custom import CourseEvaluationDetailSerializer
+from course_evaluations.serializers.documents import (
     DocumentReadOnlySerializer,
     DocumentWriteSerializer,
-    EOCSet,
-    JustificationWriteSerializer,
 )
+from course_evaluations.serializers.eoc import EOCSet
+from course_evaluations.serializers.generic import CourseEvaluationListSerializer
+from course_evaluations.serializers.justifications import JustificationWriteSerializer
 
 
 class CourseEvaluationViewSet(viewsets.ModelViewSet):
@@ -168,7 +168,8 @@ class CourseEvaluationJustificationsViewSet(viewsets.ModelViewSet):
         # Check that there exist `eoc_specifics` otherwise, delete the justification
         if "eoc_specifics" in serializer.validated_data and serializer.validated_data["eoc_specifics"]:
             self.enforce_uniqueness_of_a_justification_with_eoc_specifics(
-                serializer.validated_data["eoc_specifics"], current_justification=serializer.instance
+                serializer.validated_data["eoc_specifics"],
+                current_justification=serializer.instance,
             )
             serializer.save(course_evaluation_id=course_evaluation_id)
         else:

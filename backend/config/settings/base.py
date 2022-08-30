@@ -142,6 +142,7 @@ AUTHENTICATION_BACKENDS = [
 GOOGLE_CLIENT_ID = config("GOOGLE_CLIENT_ID", "not-set")
 GOOGLE_SECRET = config("GOOGLE_SECRET", "not-set")
 
+SOCIALACCOUNT_ADAPTER = "authentication.utils.SocialAccountAdapter"
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
         "APP": {
