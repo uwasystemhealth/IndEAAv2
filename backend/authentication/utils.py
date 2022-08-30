@@ -41,6 +41,12 @@ class SocialAccountAdapter(DefaultSocialAccountAdapter):
             # if it does, connect this new social login to the existing user
             user = email_address.user
 
+            # If the `first_name` and `last_name` fields are not set, set them to the values from social login
+            if not user.first_name and not user.last_name:
+                user.first_name = sociallogin.account.extra_data.get("given_name", "")
+                user.last_name = sociallogin.account.extra_data.get("family_name", "")
+                user.save()
+
         # if it does not, let's check first whether we can find a user with the same email address in Django User
         except EmailAddress.DoesNotExist:
             try:
