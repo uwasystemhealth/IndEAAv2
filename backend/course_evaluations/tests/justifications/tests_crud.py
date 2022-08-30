@@ -48,9 +48,9 @@ def test_create_view_course_evaluation_justification_as_coordinator(setup_indeaa
     # Just assign it to 2 different EOCs
     eoc_specifics_to_use = EOCSpecific.objects.all()[:2]
     data = {
-       "development_level": 1,
-       "justification": "New justification",
-       "eoc_specifics": [eoc_specific.id for eoc_specific in eoc_specifics_to_use],
+        "development_level": 1,
+        "justification": "New justification",
+        "eoc_specifics": [eoc_specific.id for eoc_specific in eoc_specifics_to_use],
     }
     response = api_client.post(url, data)
 
@@ -62,7 +62,10 @@ def test_create_view_course_evaluation_justification_as_coordinator(setup_indeaa
     assert justification.justification == data["justification"]
     assert justification.eoc_specifics.count() == len(data["eoc_specifics"])
 
-def test_create_view_course_evaluation_justification_as_bad_parameters(setup_indeaa, api_client_with_credentials_return_user, make_course_evaluation,make_course_evaluation_justification):
+
+def test_create_view_course_evaluation_justification_as_bad_parameters(
+    setup_indeaa, api_client_with_credentials_return_user, make_course_evaluation, make_course_evaluation_justification
+):
     """
     GIVEN: As a coordinator of a course evaluation
     WHEN:  I create a justification for the course evaluation with bad parameters
@@ -71,8 +74,11 @@ def test_create_view_course_evaluation_justification_as_bad_parameters(setup_ind
     api_client, user = api_client_with_credentials_return_user()
     course_evaluation = make_course_evaluation(coordinators=[user])
     # Setup: Create an existing justification
-    eoc_specifics_to_use = EOCSpecific.objects.all()[3:5] # These are different EOC Specifics for setup
-    make_course_evaluation_justification(course_evaluation=course_evaluation,eoc_specifics=eoc_specifics_to_use, )
+    eoc_specifics_to_use = EOCSpecific.objects.all()[3:5]  # These are different EOC Specifics for setup
+    make_course_evaluation_justification(
+        course_evaluation=course_evaluation,
+        eoc_specifics=eoc_specifics_to_use,
+    )
 
     url = reverse(
         "api-v1:course_evaluations:justifications-list",
@@ -82,19 +88,19 @@ def test_create_view_course_evaluation_justification_as_bad_parameters(setup_ind
     # Bad parameter: Existing justification
     eoc_specifics_to_use = EOCSpecific.objects.all()[2:4]
     data = {
-       "development_level": 1,
-       "justification": "New justification",
-       "eoc_specifics": [eoc_specific.id for eoc_specific in eoc_specifics_to_use],
+        "development_level": 1,
+        "justification": "New justification",
+        "eoc_specifics": [eoc_specific.id for eoc_specific in eoc_specifics_to_use],
     }
     response = api_client.post(url, data)
     assert response.status_code == status.HTTP_400_BAD_REQUEST
-    assert CourseEvaluationJustification.objects.count() == 1 # Check that the justification is not created (this is the initial creation)
-   
+    assert CourseEvaluationJustification.objects.count() == 1  # Check that the justification is not created (this is the initial creation)
+
     # Bad  parameter: No EOC Specifics
     data["eoc_specifics"] = []
     response = api_client.post(url, data)
     assert response.status_code == status.HTTP_400_BAD_REQUEST
-    assert CourseEvaluationJustification.objects.count() == 1 # Check that the justification is not created (this is the initial creation)
+    assert CourseEvaluationJustification.objects.count() == 1  # Check that the justification is not created (this is the initial creation)
 
 
 def test_update_view_course_evaluation_justification_as_coordinator(
@@ -127,6 +133,7 @@ def test_update_view_course_evaluation_justification_as_coordinator(
 
     assert response.status_code == status.HTTP_200_OK
 
+
 def test_update_view_course_evaluation_justification_as_coordinator_bad_parameter(
     api_client_with_credentials_return_user,
     make_course_evaluation,
@@ -154,6 +161,8 @@ def test_update_view_course_evaluation_justification_as_coordinator_bad_paramete
     assert response.status_code == status.HTTP_400_BAD_REQUEST
 
     assert justification_2.justification != data["justification"]
+
+
 def test_update_view_course_evaluation_justification_as_coordinator_delete_scenario(
     api_client_with_credentials_return_user,
     make_course_evaluation,

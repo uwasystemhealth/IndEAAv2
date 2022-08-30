@@ -6,7 +6,14 @@ from django.contrib.auth.models import User
 from django.core.management import call_command
 from rest_framework.test import APIClient
 
-from course_evaluations.models import CourseEvaluation, Document, EOCSet, CourseEvaluationJustification, DevelopmentLevels, EOCSpecific
+from course_evaluations.models import (
+    CourseEvaluation,
+    CourseEvaluationJustification,
+    DevelopmentLevels,
+    Document,
+    EOCSet,
+    EOCSpecific,
+)
 from reviews.models import Review
 
 
@@ -225,6 +232,7 @@ def make_course_review(setup_indeaa, make_course_evaluation, create_user) -> Rev
     for document in created_course_review:
         document.delete()
 
+
 @pytest.fixture
 @pytest.mark.django_db
 def make_course_evaluation_justification(setup_indeaa, make_course_evaluation) -> CourseEvaluationJustification:
@@ -234,8 +242,8 @@ def make_course_evaluation_justification(setup_indeaa, make_course_evaluation) -
     # Create a CourseEvaluation record
     def _make_course_evaluation_justification(
         course_evaluation=None,
-        eoc_specifics = [],
-        development_level = DevelopmentLevels.FOUNDATIONAL,
+        eoc_specifics=[],
+        development_level=DevelopmentLevels.FOUNDATIONAL,
         justification="Test CourseEvaluation Justification",
     ):
         if course_evaluation is None:
@@ -244,7 +252,7 @@ def make_course_evaluation_justification(setup_indeaa, make_course_evaluation) -
         # Create the record
         justification = CourseEvaluationJustification.objects.create(
             course_evaluation=course_evaluation,
-            development_level = development_level,
+            development_level=development_level,
             justification=justification,
         )
 
