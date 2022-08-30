@@ -151,8 +151,7 @@ jobs:
         working-directory: ${{env.working-directory}}
         run: |
           source .venv/bin/activate
-          pytest --cov-config=.coveragerc --cov . --cov-report html:coverage_html_report 
-          coverage report > ./pytest-coverage.txt
+          pytest --cov-config=.coveragerc --cov . --cov-report html:coverage_html_report  > ./pytest-coverage.txt
       - name: Comment coverage
         uses: coroo/pytest-coverage-commentator@v1.0.2
         with:
