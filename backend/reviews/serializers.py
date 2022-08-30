@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from course_evaluations.serializers import CourseEvaluationListSerializer
+from course_evaluations.serializers.generic import CourseEvaluationListSerializer
 from reviews.models import Review, ReviewDocument, ReviewEocSpecific
 
 
