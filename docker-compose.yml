@@ -28,6 +28,8 @@ services:
       dockerfile: docker/frontend/Dockerfile
     container_name: indeaa_react
     restart: *restart-policy
+    environment:
+      - SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
     env_file: *env-file
     ports:
       - 3000:3000
@@ -45,8 +47,6 @@ services:
       dockerfile: docker/backend/Dockerfile
     container_name: indeaa_django
     restart: *restart-policy
-    environment:
-      - SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
     env_file: *env-file
     depends_on:
       - db
