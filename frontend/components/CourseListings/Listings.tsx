@@ -22,6 +22,7 @@ const Listings = () => {
   const reviewListEntries = ((reviewsResponse?.data?.results as unknown) ||
     []) as ReviewListEntry[];
 
+  console.log(reviewListEntries);
   return (
     <Container maxWidth="xl">
       <Tabs value={tabsValue} onChange={handleChangeTab} variant="fullWidth">
@@ -37,7 +38,11 @@ const Listings = () => {
       <TabPanel value={tabsValue} index={0}>
         <CoordinatorList list={courseEvaluationListEntries} />
       </TabPanel>
-      <TabPanel value={tabsValue} index={1}>
+      <TabPanel
+        value={tabsValue}
+        // We The index should only be 1 if the user is multi-role
+        index={courseEvaluationListEntries.length > 0 && reviewListEntries.length > 0 ? 1 : 0}
+      >
         <ReviewList list={reviewListEntries} />
       </TabPanel>
     </Container>
