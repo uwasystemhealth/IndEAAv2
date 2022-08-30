@@ -13,11 +13,12 @@ import Alert from '@mui/material/Alert';
 import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
 
 type Props = {
+  evaluation: CourseEvaluationDetailEntry;
   handleClose: () => void;
 };
 
 const AddReviewerModal = (props: Props) => {
-  const { handleClose } = props;
+  const { evaluation, handleClose } = props;
   const axios = useAuthenticatedAPIClient();
   const { mutate } = useSWRConfig();
   const [error, setError] = useState('');
@@ -35,9 +36,13 @@ const AddReviewerModal = (props: Props) => {
     }),
     onSubmit: async (values) => {
       try {
-        console.log(values);
+        await axios.post(API_ENDPOINT.REVIEWS.LIST, {
+          email: values.email,
+          course_evaluation: evaluation.id,
+        });
+
         // Flush SWR cache to refresh screen
-        // mutate(url);
+        mutate(API_ENDPOINT.COURSE_EVALUATION.DETAIL(evaluation.id));
 
         handleClose();
         // eslint-disable-next-line @typescript-eslint/no-shadow

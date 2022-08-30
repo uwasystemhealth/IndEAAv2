@@ -8,14 +8,15 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import ReviewProgress from '@/components/Reviewer/ReviewProgress';
-import { userDisplayName } from '@/components/utils/generic';
 import Container from '@mui/material/Container';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
+import Stack from '@mui/material/Stack';
 import useModal from '@/components/hooks/useModal';
 import AddReviewerModal from './AddReviewerModal';
+import { userDisplayName } from '@/components/utils/generic';
+import ReviewProgress from '@/components/Reviewer/ReviewProgress';
 
 type Props = {
   evaluation: CourseEvaluationDetailEntry;
@@ -28,7 +29,7 @@ const Reviews = (props: Props) => {
   return (
     <>
       {addReviewerModalState.isOpen && (
-        <AddReviewerModal handleClose={addReviewerModalState.handleClose}></AddReviewerModal>
+        <AddReviewerModal evaluation={evaluation} handleClose={addReviewerModalState.handleClose} />
       )}
       <Container maxWidth="xl" sx={{ mt: 2 }}>
         <Box sx={{ display: 'flex', gap: 2, justifyContent: 'end' }}>
@@ -45,7 +46,7 @@ const Reviews = (props: Props) => {
           </Button>
         </Box>
       </Container>
-      <Container maxWidth="xl" sx={{ mt: 2 }}>
+      <Stack direction="column" spacing={2} sx={{ mt: 2 }}>
         {evaluation.reviews.map((review) => (
           <Card key={review.id}>
             <CardContent>
@@ -78,7 +79,7 @@ const Reviews = (props: Props) => {
             </CardContent>
           </Card>
         ))}
-      </Container>
+      </Stack>
     </>
   );
 };
