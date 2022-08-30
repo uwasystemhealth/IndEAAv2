@@ -49,7 +49,8 @@ const ReviewCard = (props: Props) => {
               {userDisplayName(review.reviewer)}
             </Typography>
             <Box sx={{ display: 'flex', gap: 2 }}>
-              <Button startIcon={<VisibilityIcon />} variant="outlined" color="primary">
+              {/* TODO: #19 (part 1) */}
+              <Button startIcon={<VisibilityIcon />} variant="outlined" color="primary" disabled>
                 View
               </Button>
               <AreYouSureModalButton
