@@ -1,7 +1,7 @@
 from rest_framework import permissions
 
 
-class IsReviewOwnerAllOrCoordinatorReadOnly(permissions.BasePermission):
+class IsReviewOwnerAllOrCoordinator(permissions.BasePermission):
     """
     Usecase:
     - As a coordinator, I would like to create/delete a Course Review (to indicate that someone is appointed/removed as a reviewer)

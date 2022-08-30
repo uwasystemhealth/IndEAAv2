@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 
+from reviews.permissions import IsReviewOwnerAllOrCoordinator
 from reviews.models import Review, ReviewDocument, ReviewEocSpecific
 from reviews.serializers import (
     ReviewDocumentSerializer,
@@ -15,6 +16,7 @@ class ReviewsViewSet(viewsets.ModelViewSet):
     """
 
     queryset = Review.objects.all()
+    permission_classes = [IsReviewOwnerAllOrCoordinator]
 
     def get_serializer_class(self):
         """
@@ -27,8 +29,13 @@ class ReviewsViewSet(viewsets.ModelViewSet):
     def filter_queryset(self, queryset):
         """
         List only the reviews that the user is the reviewer of
+
+        Note: For coordinators, they still need to use this view (not the detail or list views)
         """
-        return super().filter_queryset(queryset).filter(reviewer=self.request.user)
+        if self.request.method == "GET":
+            return super().filter_queryset(queryset).filter(reviewer=self.request.user)
+        else:
+            return super().filter_queryset(queryset)
 
 
 class ReviewDocumentViewSet(viewsets.ModelViewSet):
