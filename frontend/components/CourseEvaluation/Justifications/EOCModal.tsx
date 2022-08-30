@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
-import { CourseEvaluationDetailEntry, EocGeneralEocSpecific, EocSetEocGeneral } from 'utils/api';
+import {
+  API_ENDPOINT,
+  CourseEvaluationDetailEntry,
+  EocGeneralEocSpecific,
+  EocSetEocGeneral,
+  Justification,
+} from 'utils/api';
 import Grid from '@mui/material/Grid';
 
 import Button from '@mui/material/Button';
@@ -40,7 +46,9 @@ const EOCModal = (props: Props) => {
   // Business rule: There can only be one justification per EOC
   const justification = eocSpecific?.justification[0];
 
-  const isEditMode = Boolean(document);
+  // This modal can be used to create a new justification or edit an existing one.
+  // This will determine what type of request we have to do to the API.
+  const isCreateMode = !justification;
 
   const axios = useAuthenticatedAPIClient();
   const { mutate } = useSWRConfig();
@@ -69,7 +77,37 @@ const EOCModal = (props: Props) => {
       development_level: Yup.number().required('Development level is required'),
     }),
     onSubmit: async (values) => {
-      console.log(values);
+      try {
+        if (isCreateMode) {
+          await axios.post(API_ENDPOINT.COURSE_EVALUATION.JUSTIFICATION.LIST(courseEvaluation.id), {
+            ...values,
+            eoc_specifics: values.eoc_specifics.map(
+              (eocSpecificAsPayload) => eocSpecificAsPayload.id,
+            ),
+          });
+        } else {
+          await axios.patch(
+            API_ENDPOINT.COURSE_EVALUATION.JUSTIFICATION.DETAIL(
+              courseEvaluation.id,
+              (justification as Justification).id,
+            ),
+            {
+              ...values,
+              eoc_specifics: values.eoc_specifics.map(
+                (eocSpecificAsPayload) => eocSpecificAsPayload.id,
+              ),
+            },
+          );
+        }
+
+        // Update the cache
+        mutate(API_ENDPOINT.COURSE_EVALUATION.DETAIL(courseEvaluation.id));
+        handleClose();
+        // eslint-disable-next-line @typescript-eslint/no-shadow
+      } catch (error) {
+        // @ts-ignore
+        setError(error?.message || 'Something went wrong');
+      }
     },
   });
   return (
@@ -77,11 +115,6 @@ const EOCModal = (props: Props) => {
       <DialogTitle>
         EOC {eocSpecific.general_and_specific_eoc} - {eocSpecific.description}
       </DialogTitle>
-      {error && (
-        <Alert variant="filled" severity="error" sx={{ m: 2 }}>
-          {error}
-        </Alert>
-      )}
       <DialogContent
         sx={{
           display: 'flex',
@@ -89,6 +122,11 @@ const EOCModal = (props: Props) => {
           gap: 2,
         }}
       >
+        {error && (
+          <Alert variant="filled" severity="error" sx={{ m: 2 }}>
+            {error}
+          </Alert>
+        )}
         <Grid container spacing={2}>
           <Grid item sm={12} md={6}>
             <Card>
@@ -100,6 +138,7 @@ const EOCModal = (props: Props) => {
                 <TextField
                   margin="dense"
                   id="development_level"
+                  name="development_level"
                   label="Development Level"
                   fullWidth
                   variant="outlined"
