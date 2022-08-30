@@ -101,14 +101,14 @@ def test_delete_view_course_review(api_client_with_credentials_return_user, make
     """
     GIVEN: A course review is created
     WHEN: The coordinator deletes the course review
-    THEN: The course review cannot be deleted
+    THEN: The course review can be deleted
     """
     api_client, user = api_client_with_credentials_return_user()
     course_evaluation = make_course_evaluation(coordinators=[user])
     course_review_1 = make_course_review(course_evaluation=course_evaluation)
 
-    url = reverse("api-v1:course_reviews:course-evaluations-detail", kwargs={"pk": course_review_1.id})
+    url = reverse("api-v1:reviews:reviews-detail", kwargs={"pk": course_review_1.id})
     response = api_client.delete(url)
 
-    assert response.status_code == status.HTTP_405_METHOD_NOT_ALLOWED
-    assert course_review_1.objects.count() == 1
+    assert response.status_code == status.HTTP_204_NO_CONTENT
+    assert Review.objects.count() == 0
