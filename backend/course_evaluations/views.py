@@ -148,18 +148,14 @@ class CourseEvaluationJustificationsViewSet(viewsets.ModelViewSet):
     `course_evaluation_id` to the url parameters (disregarding what the actual payload was)
     """
 
-    def enforce_uniqueness_of_a_justification_with_eoc_specifics(
-        self, eoc_specifics, course_evaluation_id
-    ):
+    def enforce_uniqueness_of_a_justification_with_eoc_specifics(self, eoc_specifics):
         """
         This validation cannot be applied to the model because of the constraint on the field.
 
         This will maintain the fact that an EOC Specific can only have one justification for a course evaluation.
         """
         for eoc_specific in eoc_specifics:
-            if CourseEvaluationJustification.objects.filter(
-                eoc_specific=eoc_specific, course_evaluation_id=course_evaluation_id
-            ).exists():
+            if self.get_queryset().filter(eoc_specific=eoc_specific).exists():
                 raise ValidationError(
                     "EOC Specific {} already has a justification".format(eoc_specific)
                 )
@@ -168,7 +164,7 @@ class CourseEvaluationJustificationsViewSet(viewsets.ModelViewSet):
         course_evaluation_id = self.kwargs["course_evaluation_id"]
         if serializer.validated_data["eoc_specifics"]:
             self.enforce_uniqueness_of_a_justification_with_eoc_specifics(
-                serializer.validated_data["eoc_specifics"], course_evaluation_id
+                serializer.validated_data["eoc_specifics"]
             )
             serializer.save(course_evaluation_id=course_evaluation_id)
         else:
@@ -180,7 +176,7 @@ class CourseEvaluationJustificationsViewSet(viewsets.ModelViewSet):
         # Check that there exist `eoc_specifics` otherwise, delete the justification
         if serializer.validated_data["eoc_specifics"]:
             self.enforce_uniqueness_of_a_justification_with_eoc_specifics(
-                serializer.validated_data["eoc_specifics"], course_evaluation_id
+                serializer.validated_data["eoc_specifics"]
             )
             serializer.save(course_evaluation_id=course_evaluation_id)
         else:
