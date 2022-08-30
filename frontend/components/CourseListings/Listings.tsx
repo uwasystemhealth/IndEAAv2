@@ -22,7 +22,6 @@ const Listings = () => {
   const reviewListEntries = ((reviewsResponse?.data?.results as unknown) ||
     []) as ReviewListEntry[];
 
-  console.log(reviewListEntries);
   return (
     <Container maxWidth="xl">
       <Tabs value={tabsValue} onChange={handleChangeTab} variant="fullWidth">
