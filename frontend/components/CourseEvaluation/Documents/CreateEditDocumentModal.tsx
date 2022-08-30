@@ -4,7 +4,6 @@ import {
   CourseEvaluationDetailEntry,
   DEFAULT_COURSE_EVALUTION_DETAIL_ENTRY,
   Document,
-  EocGeneralEocSpecific,
 } from 'utils/api';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';

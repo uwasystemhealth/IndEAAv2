@@ -71,6 +71,7 @@ const DocumentCard = (props: Props) => {
       mutate(API_ENDPOINT.COURSE_EVALUATION.DETAIL(document.course_evaluation));
     } catch (error) {
       // TODO
+      // eslint-disable-next-line no-console
       console.error(error);
     }
   };

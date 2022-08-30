@@ -1,10 +1,10 @@
 import React from 'react';
 import { Document, EocGeneralEocSpecific, EocSetEocGeneral } from 'utils/api';
 import Stack from '@mui/material/Stack';
-import DocumentCard from '../Documents/DocumentCard';
 import TabPanel, { a11yProps } from '@/components/Custom/TabPanel';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import DocumentCard from '../Documents/DocumentCard';
 
 type Props = {
   documents: Document[];

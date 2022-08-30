@@ -57,6 +57,7 @@ const Login = () => {
         if (axios.isAxiosError(error) && error?.response.status === 400) {
           setLoggedInErrored('Email or password is incorrect');
         } else {
+          // eslint-disable-next-line no-console
           console.error(error);
           setLoggedInErrored('Something went wrong, please try again');
         }
