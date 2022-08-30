@@ -47,6 +47,10 @@ const EOCModal = (props: Props) => {
   const [error, setError] = useState('');
 
   const eocSpecifics = compileAllTheEOCSpecificsOfAnEOCSet(courseEvaluation.eoc_set);
+  const eocSpecificsIdAsKey = eocSpecifics.reduce((acc, eocSpecificToReduce) => {
+    acc[eocSpecificToReduce.id] = eocSpecificToReduce;
+    return acc;
+  }, {} as { [key: number]: EocGeneralEocSpecific });
 
   const formik = useFormik({
     initialValues: {
@@ -55,7 +59,10 @@ const EOCModal = (props: Props) => {
       */
       justification: justification?.justification || '',
       development_level: justification?.development_level || null,
-      eoc_specifics: justification?.eoc_specifics || [],
+      // The justification is a list of EOC specific ids, but we need to match the type to display properly in the autocomplete
+      eoc_specifics:
+        justification?.eoc_specifics?.map((eocSpecificId) => eocSpecificsIdAsKey[eocSpecificId]) ||
+        [],
     },
     validationSchema: Yup.object({
       justification: Yup.string().required('Justification is required'),
@@ -140,8 +147,8 @@ const EOCModal = (props: Props) => {
                   getOptionLabel={(option) =>
                     `EOC ${option.general_and_specific_eoc} (${option.description})`
                   }
-                  // onChange={(e, value) => formik.setFieldValue('eoc_specifics', value)}
-                  // value={formik.values.eoc_specifics}
+                  onChange={(e, value) => formik.setFieldValue('eoc_specifics', value)}
+                  value={formik.values.eoc_specifics}
                   isOptionEqualToValue={(option, value) => option.id === value.id}
                   // eslint-disable-next-line @typescript-eslint/no-shadow
                   renderOption={(props, option, { selected }) => (
