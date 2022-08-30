@@ -53,6 +53,7 @@ const ReviewCard = (props: Props) => {
                 View
               </Button>
               <AreYouSureModalButton
+                description="Are you sure you want to do this? THIS WILL DELETE ALL THE CONTENT OF THE REVIEW FOR THE REVIEWER."
                 action={handleDelete}
                 buttonProps={{
                   variant: 'outlined',
