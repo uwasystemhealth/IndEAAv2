@@ -6,7 +6,7 @@ WORKDIR /app_code
 
 # Install Dependencies
 # `rm -rf /var/lib/apt/lists/*` -> Remove cache to make image smaller
-RUN apt-get update && apt-get install --yes --no-install-recommends figlet boxes && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install --yes --no-install-recommends figlet boxes ca-certificates && rm -rf /var/lib/apt/lists/*
 
 # Generate a timestamp of when this image was created for display in the logs / as the container comes up. Used as a sanity check.
 RUN touch /app_code/build_timestamp.txt
