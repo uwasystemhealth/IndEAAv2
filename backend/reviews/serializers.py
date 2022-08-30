@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from course_evaluations.serializers.generic import CourseEvaluationListSerializer
 from reviews.models import Review, ReviewDocument, ReviewEocSpecific
+from course_evaluations.serializers.generic import UserSerializer
 
 
 class ReviewEOCSpecificSerializer(serializers.ModelSerializer):
@@ -20,6 +21,7 @@ class ReviewSerializer(serializers.ModelSerializer):
     documents = ReviewDocumentSerializer(many=True, read_only=True)
     eoc_specific_reviews = ReviewEOCSpecificSerializer(many=True, read_only=True)
     course_evaluation = CourseEvaluationListSerializer(read_only=True)
+    reviewer = UserSerializer(read_only=True)
 
     class Meta:
         model = Review

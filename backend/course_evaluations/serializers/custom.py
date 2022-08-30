@@ -11,7 +11,6 @@ from course_evaluations.serializers.eoc import EOCSetSerializer
 from course_evaluations.serializers.generic import UserSerializer
 from reviews.serializers import ReviewSerializer
 
-
 class CourseEvaluationDetailSerializer(serializers.ModelSerializer):
     eoc_set = EOCSetSerializer(read_only=True)
     coordinators = UserSerializer(many=True, read_only=True)
