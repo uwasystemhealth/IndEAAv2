@@ -33,3 +33,10 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+
+# Map files
+*.map
+# Sentry
+.sentryclirc
+# Sentry
+.sentryclirc
