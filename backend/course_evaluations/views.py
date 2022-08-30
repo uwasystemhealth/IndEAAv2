@@ -170,4 +170,4 @@ class CourseEvaluationJustificationsViewSet(viewsets.ModelViewSet):
             self.enforce_uniqueness_of_a_justification_with_eoc_specifics(serializer.validated_data["eoc_specifics"], current_justification=serializer.instance)
             serializer.save(course_evaluation_id=course_evaluation_id)
         else:
-            serializer.delete()
+            serializer.instance.delete()
