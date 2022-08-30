@@ -74,7 +74,7 @@ const ReviewCard = (props: Props) => {
               justifyContent: 'flex-end',
             }}
           >
-            <ReviewProgress review={review} />
+            <ReviewProgress review={review} isCoordinator />
           </Grid>
         </Grid>
       </CardContent>
