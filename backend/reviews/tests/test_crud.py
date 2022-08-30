@@ -3,16 +3,18 @@ This test file is focused on the crud functionality of the review
 
 Note: Permission testing is not the focus of this test file.
 """
-from datetime import datetime
 import email
-from django.urls import reverse
-from rest_framework import status
+from datetime import datetime
 
 from allauth.account.models import EmailAddress
 from django.contrib.auth.models import User
+from django.urls import reverse
+from rest_framework import status
+
 from reviews.models import Review
 
-def test_list_view_course_review(api_client_with_credentials_return_user,make_course_evaluation, make_course_review):
+
+def test_list_view_course_review(api_client_with_credentials_return_user, make_course_evaluation, make_course_review):
     """
     GIVEN: There are multiple review
     WHEN: The endpoint for the review is called
@@ -54,8 +56,8 @@ def test_create_view_course_review(setup_indeaa, api_client_with_credentials_ret
 
     url = reverse("api-v1:reviews:reviews-list")
     data = {
-       "email": "new_user@gmail.com",
-       "course_evaluation": course_evaluation.id,
+        "email": "new_user@gmail.com",
+        "course_evaluation": course_evaluation.id,
     }
     response = api_client.post(url, data)
 
@@ -71,20 +73,19 @@ def test_create_view_course_review(setup_indeaa, api_client_with_credentials_ret
     assert User.objects.filter(email=data["email"]).count() == 1
     assert EmailAddress.objects.filter(email=data["email"]).count() == 1
 
-def test_update_view_course_review(api_client_with_credentials_return_user,make_course_evaluation, make_course_review):
+
+def test_update_view_course_review(api_client_with_credentials_return_user, make_course_evaluation, make_course_review):
     """
     GIVEN: A course review is created with the user as the coordinator
-    WHEN: The coordinator updates the course review
+    WHEN: The coordinator black the course review
     THEN: The course review is updated successfully
     """
     api_client, user = api_client_with_credentials_return_user()
     course_evaluation = make_course_evaluation(coordinators=[user])
-    course_review_1 = make_course_review(course_evaluation=course_evaluation, date_submitted = datetime.today())
+    course_review_1 = make_course_review(course_evaluation=course_evaluation, date_submitted=datetime.today())
 
     url = reverse("api-v1:reviews:reviews-detail", kwargs={"pk": course_review_1.id})
-    data = {
-       "date_submitted": ""
-    }
+    data = {"date_submitted": ""}
 
     # Check the date_submitted first
     assert course_review_1.date_submitted is not None
