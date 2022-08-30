@@ -1,11 +1,13 @@
-from rest_framework import serializers
-
 from allauth.account.models import EmailAddress
 from django.contrib.auth.models import User
+from rest_framework import serializers
+
 from course_evaluations.models import CourseEvaluation
-from course_evaluations.serializers.generic import CourseEvaluationListSerializer
+from course_evaluations.serializers.generic import (
+    CourseEvaluationListSerializer,
+    UserSerializer,
+)
 from reviews.models import Review, ReviewDocument, ReviewEocSpecific
-from course_evaluations.serializers.generic import UserSerializer
 
 
 class ReviewEOCSpecificSerializer(serializers.ModelSerializer):
@@ -35,10 +37,9 @@ class ReviewCreateSerializer(serializers.ModelSerializer):
     """
     Special serializer that allows `email` as input for the `reviewer` field.
     """
+
     email = serializers.EmailField(write_only=True)
-    course_evaluation = serializers.PrimaryKeyRelatedField(
-        queryset=CourseEvaluation.objects.all(), write_only=True
-    )
+    course_evaluation = serializers.PrimaryKeyRelatedField(queryset=CourseEvaluation.objects.all(), write_only=True)
 
     class Meta:
         model = Review
@@ -58,11 +59,7 @@ class ReviewCreateSerializer(serializers.ModelSerializer):
         user = User.objects.filter(email=email).first()
         if not user:
             user = User.objects.create(username=email, email=email)
-            EmailAddress.objects.create(
-                user=user, email=email, primary=True, verified=True
-            )
+            EmailAddress.objects.create(user=user, email=email, primary=True, verified=True)
         # Serialize using the generic serializer to create the review
-        review = Review.objects.create(
-            reviewer=user, course_evaluation=course_evaluation
-        )
+        review = Review.objects.create(reviewer=user, course_evaluation=course_evaluation)
         return ReviewGenericSerializer(review)

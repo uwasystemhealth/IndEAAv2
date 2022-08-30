@@ -1,12 +1,12 @@
 from rest_framework import viewsets
 
-from reviews.permissions import IsReviewOwnerAllOrCoordinator
 from reviews.models import Review, ReviewDocument, ReviewEocSpecific
+from reviews.permissions import IsReviewOwnerAllOrCoordinator
 from reviews.serializers import (
+    ReviewCreateSerializer,
     ReviewDocumentSerializer,
     ReviewEOCSpecificSerializer,
     ReviewGenericSerializer,
-    ReviewCreateSerializer,
 )
 
 
