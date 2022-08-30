@@ -3,7 +3,6 @@ This test file is focused on the crud functionality of the review
 
 Note: Permission testing is not the focus of this test file.
 """
-import email
 from datetime import datetime
 
 from allauth.account.models import EmailAddress
