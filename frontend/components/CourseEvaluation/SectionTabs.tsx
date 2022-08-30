@@ -43,7 +43,7 @@ const SectionTabs = ({ courseEvaluationId }: Props) => {
       tabComponent: <Justification evaluation={evaluation} />,
       icon: CampaignIcon,
     },
-    { label: 'Reviews', tabComponent: <Reviews  evaluation={evaluation}/>, icon: RateReviewIcon },
+    { label: 'Reviews', tabComponent: <Reviews evaluation={evaluation} />, icon: RateReviewIcon },
   ];
 
   const [tabsValue, setTabsValue] = React.useState(0);

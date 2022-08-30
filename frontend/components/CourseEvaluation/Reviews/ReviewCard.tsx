@@ -1,6 +1,5 @@
 import React from 'react';
-import { ReviewListEntry } from 'utils/api';
-import { API_ENDPOINT, CourseEvaluationDetailEntry, ReviewListEntry } from 'utils/api';
+import { ReviewListEntry, API_ENDPOINT } from 'utils/api';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -8,18 +7,13 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import Container from '@mui/material/Container';
-import AssessmentIcon from '@mui/icons-material/Assessment';
-import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Stack from '@mui/material/Stack';
-import useModal from '@/components/hooks/useModal';
-import AddReviewerModal from './AddReviewerModal';
+import { useSWRConfig } from 'swr';
 import { userDisplayName } from '@/components/utils/generic';
 import ReviewProgress from '@/components/Reviewer/ReviewProgress';
 import AreYouSureModalButton from '@/components/utils/AreYouSureModalButton';
 import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
-import { useSWRConfig } from 'swr';
+
 type Props = {
   review: ReviewListEntry;
 };
