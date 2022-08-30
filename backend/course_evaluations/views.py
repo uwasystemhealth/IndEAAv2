@@ -149,7 +149,7 @@ class CourseEvaluationJustificationsViewSet(viewsets.ModelViewSet):
         This will maintain the fact that an EOC Specific can only have one justification for a course evaluation.
         """
         for eoc_specific in eoc_specifics:
-            if self.get_queryset().filter(eoc_specific=eoc_specific).exists():
+            if self.get_queryset().filter(eoc_specifics=eoc_specific).exists():
                 raise ValidationError("EOC Specific {} already has a justification".format(eoc_specific))
 
     def perform_create(self, serializer):

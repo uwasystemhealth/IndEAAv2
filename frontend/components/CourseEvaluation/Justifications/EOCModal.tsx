@@ -106,7 +106,16 @@ const EOCModal = (props: Props) => {
         // eslint-disable-next-line @typescript-eslint/no-shadow
       } catch (error) {
         // @ts-ignore
-        setError(error?.message || 'Something went wrong');
+        const formErrorMessages = error?.response?.data || [];
+
+        const shouldDisplayCustomMessage = formErrorMessages.length > 0;
+        // @ts-ignore
+        setError(
+          shouldDisplayCustomMessage
+            ? // @ts-ignore
+              `${error?.message}: ${formErrorMessages.join(', ')}`
+            : 'Something went wrong',
+        );
       }
     },
   });
