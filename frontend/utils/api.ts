@@ -26,6 +26,12 @@ export const API_ENDPOINT = {
       DETAIL: (courseEvaluationId: string, documentId: string) =>
         `/api/v1/course-evaluations/${courseEvaluationId}/documents/${documentId}/`,
     },
+    JUSTIFICATION: {
+      LIST: (courseEvaluationId: string) =>
+        `/api/v1/course-evaluations/${courseEvaluationId}/justifications/`,
+      DETAIL: (courseEvaluationId: string, justificationId: number) =>
+        `/api/v1/course-evaluations/${courseEvaluationId}/justifications/${justificationId}/`,
+    },
   },
   REVIEWS: {
     LIST: '/api/v1/reviews/',

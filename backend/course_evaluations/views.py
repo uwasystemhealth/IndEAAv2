@@ -2,7 +2,11 @@ from rest_framework import permissions, status, viewsets
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
-from course_evaluations.models import CourseEvaluation, Document
+from course_evaluations.models import (
+    CourseEvaluation,
+    Document,
+    CourseEvaluationJustification,
+)
 from course_evaluations.permissions import (
     CourseEvaluationIsCoordinatorAllowAllReviewerReadOnly,
     CourseEvaluationIsCoordinatorAllowAllViaObjectReference,
@@ -10,6 +14,7 @@ from course_evaluations.permissions import (
 from course_evaluations.serializers import (
     CourseEvaluationDetailSerializer,
     CourseEvaluationListSerializer,
+    JustificationWriteSerializer,
     DocumentReadOnlySerializer,
     DocumentWriteSerializer,
     EOCSet,
@@ -60,7 +65,9 @@ class CourseEvaluationViewSet(viewsets.ModelViewSet):
         serializer.save(coordinators=[request.user])
         headers = self.get_success_headers(serializer.data)
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
 
     def destroy(self, request, *args, **kwargs):
         """
@@ -92,7 +99,49 @@ class CourseEvaluationDocumentViewSet(viewsets.ModelViewSet):
             return DocumentWriteSerializer
 
     def get_queryset(self):
-        return Document.objects.all().filter(course_evaluation=self.kwargs["course_evaluation_id"])
+        return Document.objects.all().filter(
+            course_evaluation=self.kwargs["course_evaluation_id"]
+        )
+
+    """
+    For CREATE and UPDATE, we have to force the value of
+    `course_evaluation_id` to the url parameters (disregarding what the actual payload was)
+    """
+
+    def perform_create(self, serializer):
+        serializer.save(course_evaluation_id=self.kwargs["course_evaluation_id"])
+
+    def perform_update(self, serializer):
+        serializer.save(course_evaluation_id=self.kwargs["course_evaluation_id"])
+
+
+class CourseEvaluationJustificationsViewSet(viewsets.ModelViewSet):
+    """
+    Viewset that handles Justifications
+
+    Permissions:
+    - Coordinator ( CREATE, UPDATE, DELETE). Essentially for management of the Justifications for a particular course_evaluation
+
+    Note: This is only used for WRITE operations
+    """
+
+    permission_classes = [
+        permissions.IsAuthenticated,
+        CourseEvaluationIsCoordinatorAllowAllViaObjectReference,
+    ]
+
+    serializer_class = JustificationWriteSerializer
+
+    def list(self, request, *args, **kwargs):
+        raise self.http_method_not_allowed(request, *args, **kwargs)
+
+    def retrieve(self, request, *args, **kwargs):
+        raise self.http_method_not_allowed(request, *args, **kwargs)
+
+    def get_queryset(self):
+        return CourseEvaluationJustification.objects.all().filter(
+            course_evaluation=self.kwargs["course_evaluation_id"]
+        )
 
     """
     For CREATE and UPDATE, we have to force the value of
