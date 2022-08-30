@@ -4,7 +4,8 @@ from reviews.models import Review, ReviewDocument, ReviewEocSpecific
 from reviews.serializers import (
     ReviewDocumentSerializer,
     ReviewEOCSpecificSerializer,
-    ReviewSerializer,
+    ReviewGenericSerializer,
+    ReviewCreateSerializer,
 )
 
 
@@ -14,7 +15,14 @@ class ReviewsViewSet(viewsets.ModelViewSet):
     """
 
     queryset = Review.objects.all()
-    serializer_class = ReviewSerializer
+
+    def get_serializer_class(self):
+        """
+        Return the appropriate serializer class based on the request method
+        """
+        if self.request.method == "POST":
+            return ReviewCreateSerializer
+        return ReviewGenericSerializer
 
     def filter_queryset(self, queryset):
         """

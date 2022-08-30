@@ -9,13 +9,14 @@ from course_evaluations.models import CourseEvaluation
 from course_evaluations.serializers.documents import DocumentReadOnlySerializer
 from course_evaluations.serializers.eoc import EOCSetSerializer
 from course_evaluations.serializers.generic import UserSerializer
-from reviews.serializers import ReviewSerializer
+from reviews.serializers import ReviewGenericSerializer
+
 
 class CourseEvaluationDetailSerializer(serializers.ModelSerializer):
     eoc_set = EOCSetSerializer(read_only=True)
     coordinators = UserSerializer(many=True, read_only=True)
     documents = DocumentReadOnlySerializer(many=True, read_only=True)
-    reviews = ReviewSerializer(many=True, read_only=True)
+    reviews = ReviewGenericSerializer(many=True, read_only=True)
     # Note: This is used for write, by creating the `eoc_set` relationship
     eoc_set_id = serializers.IntegerField(required=True)
 
