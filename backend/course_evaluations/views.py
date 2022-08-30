@@ -4,8 +4,8 @@ from rest_framework.response import Response
 
 from course_evaluations.models import (
     CourseEvaluation,
-    Document,
     CourseEvaluationJustification,
+    Document,
 )
 from course_evaluations.permissions import (
     CourseEvaluationIsCoordinatorAllowAllReviewerReadOnly,
@@ -14,10 +14,10 @@ from course_evaluations.permissions import (
 from course_evaluations.serializers import (
     CourseEvaluationDetailSerializer,
     CourseEvaluationListSerializer,
-    JustificationWriteSerializer,
     DocumentReadOnlySerializer,
     DocumentWriteSerializer,
     EOCSet,
+    JustificationWriteSerializer,
 )
 
 
@@ -65,9 +65,7 @@ class CourseEvaluationViewSet(viewsets.ModelViewSet):
         serializer.save(coordinators=[request.user])
         headers = self.get_success_headers(serializer.data)
 
-        return Response(
-            serializer.data, status=status.HTTP_201_CREATED, headers=headers
-        )
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     def destroy(self, request, *args, **kwargs):
         """
@@ -99,9 +97,7 @@ class CourseEvaluationDocumentViewSet(viewsets.ModelViewSet):
             return DocumentWriteSerializer
 
     def get_queryset(self):
-        return Document.objects.all().filter(
-            course_evaluation=self.kwargs["course_evaluation_id"]
-        )
+        return Document.objects.all().filter(course_evaluation=self.kwargs["course_evaluation_id"])
 
     """
     For CREATE and UPDATE, we have to force the value of
@@ -139,9 +135,7 @@ class CourseEvaluationJustificationsViewSet(viewsets.ModelViewSet):
         raise self.http_method_not_allowed(request, *args, **kwargs)
 
     def get_queryset(self):
-        return CourseEvaluationJustification.objects.all().filter(
-            course_evaluation=self.kwargs["course_evaluation_id"]
-        )
+        return CourseEvaluationJustification.objects.all().filter(course_evaluation=self.kwargs["course_evaluation_id"])
 
     """
     For CREATE and UPDATE, we have to force the value of
@@ -156,16 +150,12 @@ class CourseEvaluationJustificationsViewSet(viewsets.ModelViewSet):
         """
         for eoc_specific in eoc_specifics:
             if self.get_queryset().filter(eoc_specific=eoc_specific).exists():
-                raise ValidationError(
-                    "EOC Specific {} already has a justification".format(eoc_specific)
-                )
+                raise ValidationError("EOC Specific {} already has a justification".format(eoc_specific))
 
     def perform_create(self, serializer):
         course_evaluation_id = self.kwargs["course_evaluation_id"]
         if serializer.validated_data["eoc_specifics"]:
-            self.enforce_uniqueness_of_a_justification_with_eoc_specifics(
-                serializer.validated_data["eoc_specifics"]
-            )
+            self.enforce_uniqueness_of_a_justification_with_eoc_specifics(serializer.validated_data["eoc_specifics"])
             serializer.save(course_evaluation_id=course_evaluation_id)
         else:
             raise ValidationError("EOC Specifics cannot be empty")
@@ -175,9 +165,7 @@ class CourseEvaluationJustificationsViewSet(viewsets.ModelViewSet):
 
         # Check that there exist `eoc_specifics` otherwise, delete the justification
         if serializer.validated_data["eoc_specifics"]:
-            self.enforce_uniqueness_of_a_justification_with_eoc_specifics(
-                serializer.validated_data["eoc_specifics"]
-            )
+            self.enforce_uniqueness_of_a_justification_with_eoc_specifics(serializer.validated_data["eoc_specifics"])
             serializer.save(course_evaluation_id=course_evaluation_id)
         else:
             serializer.delete()
