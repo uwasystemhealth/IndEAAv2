@@ -166,7 +166,7 @@ class CourseEvaluationJustificationsViewSet(viewsets.ModelViewSet):
         course_evaluation_id = self.kwargs["course_evaluation_id"]
 
         # Check that there exist `eoc_specifics` otherwise, delete the justification
-        if serializer.validated_data["eoc_specifics"]:
+        if "eoc_specifics" in serializer.validated_data and serializer.validated_data["eoc_specifics"]:
             self.enforce_uniqueness_of_a_justification_with_eoc_specifics(serializer.validated_data["eoc_specifics"], current_justification=serializer.instance)
             serializer.save(course_evaluation_id=course_evaluation_id)
         else:
