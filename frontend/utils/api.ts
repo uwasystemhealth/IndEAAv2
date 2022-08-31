@@ -36,6 +36,11 @@ export const API_ENDPOINT = {
   REVIEWS: {
     LIST: '/api/v1/reviews/',
     DETAIL: (reviewId: string) => `/api/v1/reviews/${reviewId}/`,
+    DOCUMENT: {
+      LIST: (reviewId: string) => `/api/v1/reviews/${reviewId}/documents/`,
+      DETAIL: (reviewId: string, reviewDocumentId: string) =>
+        `/api/v1/reviews/${reviewId}/documents/${reviewDocumentId}/`,
+    },
   },
 };
 const API = {
