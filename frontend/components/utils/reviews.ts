@@ -15,7 +15,7 @@ export const getReviewStepsWithState = (review?: ReviewListEntry) => {
       stepLink: 'documents',
       done: review ? review?.documents.length > 0 : false,
       description:
-        'This section contains all the documents related in this review. You will see also in the assessment section when reviewing specific EOCs. Please Review the following documents. These should form the basis of your assessment of how this course contributes to the attainment of the Element of Competency outlined in step 1',
+        'This section contains all the documents related in this review. You will see also in the assessment section when reviewing specific EOCs. Please review the following documents (commenting is optional). These should form the basis of your assessment of how this course contributes to the attainment of the Element of Competency outlined in step 1',
     },
 
     {
