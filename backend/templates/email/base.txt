@@ -1,0 +1,10 @@
+**Spontane Notification**
+
+{{ notification_title }}
+
+{% block email_content %}
+    {# Main email content will be inserted here #}
+{% endblock %}
+
+This is an automatically generated email. Please do not reply to this email directly.
+© Spontane

@@ -1,0 +1,9 @@
+{% extends "email/base.txt" %}
+{% block email_content %}
+This is a test email to verify that alerts from the Spontane  will continue to function, usually following a release.
+
+Please do not reply.
+
+Username: {{username}}
+Datetime: {{current_datetime}}
+{% endblock %}

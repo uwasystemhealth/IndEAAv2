@@ -1,0 +1,99 @@
+#####################################################
+# Used for Local Dev Only
+#####################################################
+
+version: "3.8"
+
+x-interactive: &interactive
+  stdin_open: true # docker run -i
+  tty: true # docker run -t
+
+services:
+  db:
+    container_name: indeaa_postgres
+    image: postgres:13.5-alpine
+    restart: &restart-policy unless-stopped
+    env_file: &env-file .env
+    environment:
+      TZ: Australia/Perth
+    volumes:
+      - ~/docker/indeaa/postgres:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    <<: *interactive
+
+  frontend:
+    build:
+      context: .
+      dockerfile: docker/frontend/Dockerfile
+      args:
+        - NODE_ENV=development
+        - SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN
+    container_name: indeaa_react
+    restart: *restart-policy
+    env_file: *env-file
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend:/app_code
+        # Barrier for OS node modules specific
+      - /app_code/node_modules
+      # Nextjs specific build
+      - /app_code/.next
+    <<: *interactive
+
+  backend:
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile
+    container_name: indeaa_django
+    restart: *restart-policy
+    env_file: *env-file
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app_code
+    <<: *interactive
+
+  docs:
+    container_name: indeaa_docs
+    build:
+      context: .
+      dockerfile: docker/docs/Dockerfile
+    restart: *restart-policy
+    env_file: *env-file
+    ports:
+      - "18100:8000"
+    volumes:
+      - ./docs:/docs
+    <<: *interactive
+
+  # Used for Local development only
+  mailhog:
+    container_name: indeaa_mailhog
+    image: mailhog/mailhog:v1.0.1
+    restart: *restart-policy
+    env_file: *env-file
+    ports:
+      - "11003:8025"
+      - "1025:1025"
+    logging:
+      driver: none # Disable logging to console due to amount of logging noise it generates in docker-compose logs
+
+  # Database Admin/UI
+  pgadmin:
+    container_name: indeaa_pgadmin
+    build:
+      context: ./docker/pgadmin/
+      dockerfile: Dockerfile
+    restart: *restart-policy
+    env_file: *env-file
+    depends_on:
+      - db
+    ports:
+      - "11004:80"
+    logging:
+      driver: none # Disable logging to console due to amount of logging noise it generates in docker-compose logs
+    <<: *interactive

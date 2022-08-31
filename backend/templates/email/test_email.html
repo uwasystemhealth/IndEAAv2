@@ -1,0 +1,36 @@
+{% extends "email/base.html" %} {% block email_content %}
+<tr>
+  <td class="outage-title">
+    <p>{{title}}</p>
+  </td>
+</tr>
+<tr>
+  <td></td>
+</tr>
+<tr style="min-height: 300px; height: 100%">
+  <td colspan="3">
+    <table class="table">
+      <tbody>
+        <tr>
+          <td>
+            <p>
+              This is a test email to verify that alerts from the Spontane will
+              continue to function, usually following a release.
+              <br /><br />
+              Please do not reply.
+            </p>
+
+            <p></p>
+            <p>
+              Username: {{username}} <br />
+              Datetime: {{current_datetime}}
+            </p>
+          </td>
+
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+  </td>
+</tr>
+{% endblock %}

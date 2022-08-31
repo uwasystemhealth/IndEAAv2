@@ -1,0 +1,6 @@
+[report]
+omit =
+    ./conftest.py
+    ./config/asgi.py
+    ./config/wsgi.py
+    ./manage.py
