@@ -3,6 +3,7 @@ import React from 'react';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
 import { getReviewStepsWithState } from '@/components/utils/reviews';
+import Container from '@mui/material/Container';
 
 type Props = {
   stepIndex: number;
@@ -12,12 +13,14 @@ const AboutStepCard = (props: Props) => {
   const { stepIndex } = props;
   const stepDetails = getReviewStepsWithState()[stepIndex];
   return (
-    <Card sx={{ m: 2 }}>
-      <CardHeader
-        title={`Step ${stepDetails.stepNo}: ${stepDetails.stepName}`}
-        subheader={stepDetails.description}
-      />
-    </Card>
+    <Container maxWidth="xl" sx={{ mt: 2, mb: 2 }}>
+      <Card>
+        <CardHeader
+          title={`Step ${stepDetails.stepNo}: ${stepDetails.stepName}`}
+          subheader={stepDetails.description}
+        />
+      </Card>
+    </Container>
   );
 };
 

@@ -9,9 +9,9 @@ import useSWRAuth from './useSWRAuth';
 /**
  * Helper hook that pulls out the course evaluation id from the url and returns the SWR value for it
  */
-const useCourseEvaluation = () => {
+const useCourseEvaluation = (overwriteCourseEvalutionId?: string) => {
   const router = useRouter();
-  const courseEvaluationId = (router.query?.id || '') as string;
+  const courseEvaluationId = (overwriteCourseEvalutionId || router.query?.id || '') as string;
 
   const swrResult = useSWRAuth(
     courseEvaluationId ? API_ENDPOINT.COURSE_EVALUATION.DETAIL(courseEvaluationId) : '',

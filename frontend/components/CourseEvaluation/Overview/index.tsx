@@ -47,7 +47,7 @@ const Overview = ({ evaluation }: Props) => {
             />
             <CardContent>
               <Typography sx={{ p: 1, fontWeight: 'bold' }}>Course Description:</Typography>
-              <Typography sx={{ p: 1 }} component="span" variant="subtitle2">
+              <Typography sx={{ p: 1 }} variant="subtitle2">
                 {evaluation.description}
               </Typography>
               <Typography sx={{ p: 1, fontWeight: 'bold' }}>
