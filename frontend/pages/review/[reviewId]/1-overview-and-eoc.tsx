@@ -14,6 +14,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { listOfUserDisplayNames } from '@/components/utils/generic';
 import EOCAccordion from '@/components/CourseEvaluation/Justifications/EOCAccordion';
+import EOCAccordionForRefresher from '@/components/Reviewer/OverviewAndEOC/EOCAccordionForRefresher';
 
 const OverviewAndEOC = () => {
   const { courseReview } = useCourseReview();
@@ -63,6 +64,12 @@ const OverviewAndEOC = () => {
           />
           <CardContent>
             <Container maxWidth="xl">
+              {courseEvaluation.eoc_set.eoc_generals.map((eocGeneral) => (
+                <EOCAccordionForRefresher
+                  key={eocGeneral.id}
+                  eocGeneral={eocGeneral}
+                ></EOCAccordionForRefresher>
+              ))}
             </Container>
           </CardContent>
         </Card>
