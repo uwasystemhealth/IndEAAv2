@@ -16,7 +16,7 @@ import { ReviewListEntry } from 'utils/api';
 import { styled } from '@mui/material/styles';
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
 import { Box } from '@mui/system';
-import { determineStepsStateOfReview } from '../utils/reviews';
+import { determineStepsStateOfReview, getReviewStepsWithState } from '../utils/reviews';
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -87,40 +87,14 @@ const ReviewProgress = ({ review, isCoordinator }: Props) => {
    * 2 (Commented on an EOC Specific)
    * 3 (Submitted the review)
    */
-  const stateOfReview = determineStepsStateOfReview(review);
-  const steps = [
-    {
-      stepName: 'Overview & Eoc',
-      done: stateOfReview.step1,
-      stepLink: 'overview-and-eoc',
-    },
-    {
-      stepName: 'Read Documents',
-      done: stateOfReview.step2,
-      stepLink: 'documents',
-    },
-
-    {
-      stepName: 'Review Course',
-      done: stateOfReview.step3,
-      stepLink: 'assessment',
-    },
-
-    {
-      stepName: 'Review & Submit',
-      done: stateOfReview.step4,
-      stepLink: 'submit',
-    },
-  ];
+  const steps = getReviewStepsWithState(review);
   return (
     <Stepper alternativeLabel nonLinear connector={<ColorlibConnector />}>
-      {steps.map(({ stepName, done = false, stepLink }, index) => (
+      {steps.map(({ stepName, done = false, fullLink }) => (
         <Step key={stepName} active={done}>
           <StepButton
             icon={StepIcon({ done })}
-            onClick={() =>
-              !isCoordinator && router.push(`/review/${review.id}/${index + 1}-${stepLink}`)
-            }
+            onClick={() => !isCoordinator && router.push(fullLink)}
           >
             {stepName}
           </StepButton>
