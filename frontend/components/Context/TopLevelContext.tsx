@@ -69,6 +69,11 @@ export const AppProvider = ({ children }: Props) => {
           accessToken: tokenData.access,
           refreshToken: initialAuthenticationDetails.refreshToken,
         });
+      } else if (
+        initialAuthenticationDetails.accessToken &&
+        initialAuthenticationDetails.refreshToken
+      ) {
+        setAuthenticationDetails(initialAuthenticationDetails);
       }
     };
     attemptToReauthenticate();
