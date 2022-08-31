@@ -6,6 +6,10 @@ const nextConfig = {
   eslint: {
     dirs: ['.'], // Run ESLint on all folders within /src. Used by 'yarn lint' command
   },
+  // https://nextjs.org/docs/messages/react-hydration-error
+  compiler: {
+    styledComponents: true,
+  },
 };
 
 const sentryWebpackPluginOptions = {
