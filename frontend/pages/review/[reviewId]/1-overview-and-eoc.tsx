@@ -32,16 +32,18 @@ const OverviewAndEOC = () => {
   const axios = useAuthenticatedAPIClient();
   const { mutate } = useSWRConfig();
   const handleSubmit = async () => {
-    try {
-      const url = API_ENDPOINT.REVIEWS.DETAIL(courseReview.id);
-      await axios.patch(url, {
-        eoc_date_viewed: new Date(),
-      });
-      mutate(url);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
-      // TODO: Display error in a more user-friendly way
+    if (!courseReview.eoc_date_viewed) {
+      try {
+        const url = API_ENDPOINT.REVIEWS.DETAIL(courseReview.id);
+        await axios.patch(url, {
+          eoc_date_viewed: new Date(),
+        });
+        mutate(url);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(error);
+        // TODO: Display error in a more user-friendly way
+      }
     }
   };
   return (
