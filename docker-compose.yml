@@ -26,10 +26,10 @@ services:
     build:
       context: .
       dockerfile: docker/frontend/Dockerfile
+      args:
+        - SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN
     container_name: indeaa_react
     restart: *restart-policy
-    environment:
-      - SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
     env_file: *env-file
     ports:
       - 3000:3000
