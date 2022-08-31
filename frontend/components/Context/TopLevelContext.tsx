@@ -32,13 +32,6 @@ interface Props {
 
 // Component System of Provider
 export const AppProvider = ({ children }: Props) => {
-  /*
-  Set the initial authentication details from the localStorages:
-  - access-token
-  - refresh-token
-
-  Note: Only do this when it is client-side
-  */
   // Authentication States
   const [authenticationDetails, setAuthenticationDetails] = useState({
     accessToken: '',
@@ -47,7 +40,10 @@ export const AppProvider = ({ children }: Props) => {
 
   useEffect(() => {
     /*
-      On mount of this try to authenticate the user
+      On mount of this try to authenticate the user by setting the initial authentication details from the localStorages:
+        - access-token
+        - refresh-token
+      Note: Only do this when it is client-side
     */
     // Get from the localStorage
     const accessToken = localStorage.getItem('access-token') || '';
