@@ -11,6 +11,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
+import Avatar from '@mui/material/Avatar';
 import { useSWRConfig } from 'swr';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import CommentIcon from '@mui/icons-material/Comment';
@@ -27,6 +28,7 @@ type Props = {
 };
 
 export interface DocumentTag {
+  avatarContent: React.ReactNode;
   label: string;
   // TODO: add color type
   color: any;
@@ -42,13 +44,15 @@ const DocumentCard = (props: Props) => {
   const tags: DocumentTag[] = [];
   document.eoc_generals.forEach((eoc) => {
     tags.push({
-      label: `EOC ${eoc.number}`,
+      avatarContent: <Avatar>{eoc.number}</Avatar>,
+      label: `EOC`,
       color: 'primary',
     });
   });
   document.eoc_specifics.forEach((eoc) => {
     tags.push({
-      label: `EOC ${eoc.general_and_specific_eoc}`,
+      avatarContent: <Avatar>{eoc.general_and_specific_eoc}</Avatar>,
+      label: `EOC`,
       color: 'secondary',
     });
   });
@@ -59,6 +63,7 @@ const DocumentCard = (props: Props) => {
   if (document.is_introduction) {
     // Add to the beginning
     tags.unshift({
+      avatarContent: <Avatar>I</Avatar>,
       label: 'Introduction',
       color: 'info',
     });
@@ -126,7 +131,13 @@ const DocumentCard = (props: Props) => {
                 }}
               >
                 {tags.map((tag) => (
-                  <Chip key={tag.label} label={tag.label} color={tag.color} />
+                  <Chip
+                    key={tag.label}
+                    label={tag.label}
+                    avatar={tag.avatarContent}
+                    color={tag.color}
+                    size="small"
+                  />
                 ))}
               </Box>
             </Grid>
