@@ -27,7 +27,6 @@ services:
     ports:
       - 10024:3000
     volumes:
-      - ./frontend:/app_code
         # Barrier for OS node modules specific
       - /app_code/node_modules
       # Nextjs specific build
