@@ -24,6 +24,7 @@ COPY /.env /app_code/.env
 RUN yarn install --frozen-lockfile
 
 ARG SENTRY_AUTH_TOKEN
+ARG NODE_ENV
 # Build the application
 # Note: This will replace the environment variables with "build-time" variables
 RUN printenv && yarn build

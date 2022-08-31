@@ -27,6 +27,7 @@ services:
       context: .
       dockerfile: docker/frontend/Dockerfile
       args:
+        - NODE_ENV=development
         - SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN
     container_name: indeaa_react
     restart: *restart-policy
