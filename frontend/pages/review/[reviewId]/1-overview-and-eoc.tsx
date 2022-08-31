@@ -1,8 +1,18 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
+import useCourseReview from '@/components/hooks/useCourseReview';
+import AboutStepCard from '@/components/Reviewer/AboutStepCard';
+import ReviewProgress from '@/components/Reviewer/ReviewProgress';
+import BodyCard from '@/components/utils/BodyCard';
 
-type Props = {};
+const OverviewAndEOC = () => {
+  const { courseReview } = useCourseReview();
 
-const OverviewAndEOC = (props: Props) => <div>OverviewAndEOC</div>;
+  return (
+    <BodyCard>
+      <ReviewProgress review={courseReview} />
+      <AboutStepCard stepIndex={0} />
+    </BodyCard>
+  );
+};
 
 export default OverviewAndEOC;

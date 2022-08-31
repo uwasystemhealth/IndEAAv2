@@ -1,9 +1,17 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+import useCourseReview from '@/components/hooks/useCourseReview';
+import AboutStepCard from '@/components/Reviewer/AboutStepCard';
+import ReviewProgress from '@/components/Reviewer/ReviewProgress';
+import BodyCard from '@/components/utils/BodyCard';
 
-import React from 'react';
+const Assessment = () => {
+  const { courseReview } = useCourseReview();
 
-type Props = {};
-
-const Assessment = (props: Props) => <div>Assessment</div>;
+  return (
+    <BodyCard>
+      <ReviewProgress review={courseReview} />
+      <AboutStepCard stepIndex={2} />
+    </BodyCard>
+  );
+};
 
 export default Assessment;
