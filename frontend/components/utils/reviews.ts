@@ -34,17 +34,23 @@ export const getReviewStepsWithState = (review?: ReviewListEntry) => {
     },
   ];
 
-  // Processing of navigation
-  const configWithDeterminedData = initialConfig.map((step, index) => {
-    const nextStep = initialConfig[index + 1];
-    const prevStep = initialConfig[index - 1];
+  const configWithFullLink = initialConfig.map((step, index) => {
     const stepNo = index + 1;
     return {
       stepNo,
       ...step,
       fullLink: `/review/${review?.id}/${stepNo}-${step.stepLink}`,
-      nextStep: nextStep ? nextStep.stepLink : null,
-      prevStep: prevStep ? prevStep.stepLink : null,
+    };
+  });
+
+  // Processing of navigation
+  const configWithDeterminedData = configWithFullLink.map((step, index) => {
+    const nextStep = configWithFullLink[index + 1];
+    const prevStep = configWithFullLink[index - 1];
+    return {
+      ...step,
+      nextStep: nextStep ? nextStep.fullLink : null,
+      prevStep: prevStep ? prevStep.fullLink : null,
     };
   });
 

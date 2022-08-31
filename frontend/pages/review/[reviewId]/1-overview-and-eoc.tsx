@@ -1,23 +1,32 @@
 import React from 'react';
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardHeader from '@mui/material/CardHeader';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { Box } from '@mui/system';
+import Button from '@mui/material/Button';
+import NavigateNextIcon from '@mui/icons-material/NavigateNext';
+import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
 import useCourseReview from '@/components/hooks/useCourseReview';
 import AboutStepCard from '@/components/Reviewer/AboutStepCard';
 import ReviewProgress from '@/components/Reviewer/ReviewProgress';
 import BodyCard from '@/components/utils/BodyCard';
 import useCourseEvaluation from '@/components/hooks/useCourseEvaluation';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import DocumentCard from '@/components/CourseEvaluation/Documents/DocumentCard';
-import CardHeader from '@mui/material/CardHeader';
-import Grid from '@mui/material/Grid';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import { listOfUserDisplayNames } from '@/components/utils/generic';
 import EOCAccordionForRefresher from '@/components/Reviewer/OverviewAndEOC/EOCAccordionForRefresher';
+import ReviewerBottomNavigation from '@/components/Reviewer/ReviewerBottomNavigation';
+import { getReviewStepsWithState } from '@/components/utils/reviews';
 
 const OverviewAndEOC = () => {
   const { courseReview } = useCourseReview();
   const { courseEvaluation } = useCourseEvaluation(courseReview.course_evaluation.id);
 
+  const STEP_INDEX = 0;
+  const stepDetails = getReviewStepsWithState(courseReview)[STEP_INDEX];
+  console.log(stepDetails);
   return (
     <BodyCard>
       <ReviewProgress review={courseReview} />
@@ -69,6 +78,7 @@ const OverviewAndEOC = () => {
           </CardContent>
         </Card>
       </Container>
+      <ReviewerBottomNavigation nextLink={stepDetails.nextStep}></ReviewerBottomNavigation>
     </BodyCard>
   );
 };
