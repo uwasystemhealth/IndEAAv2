@@ -5,15 +5,15 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width,initial-scale=1" name="viewport"/>
-<link href="../images/shl.png" rel="icon"/>
+<link href="../../images/shl.png" rel="icon"/>
 <meta content="mkdocs-1.3.1, mkdocs-material-8.4.2" name="generator"/>
-<title>Overview - IndEAAv2 Technical Documentation</title>
-<link href="../assets/stylesheets/main.69437709.min.css" rel="stylesheet"/>
-<link href="../assets/stylesheets/palette.cbb835fc.min.css" rel="stylesheet"/>
+<title>Automated Testing and CI - IndEAAv2 Technical Documentation</title>
+<link href="../../assets/stylesheets/main.69437709.min.css" rel="stylesheet"/>
+<link href="../../assets/stylesheets/palette.cbb835fc.min.css" rel="stylesheet"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
 <link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
 <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
-<script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+<script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
 </head>
 <body data-md-color-accent="" data-md-color-primary="orange" data-md-color-scheme="default" dir="ltr">
 <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
@@ -21,7 +21,7 @@
 <input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
 <label class="md-overlay" for="__drawer"></label>
 <div data-md-component="skip">
-<a class="md-skip" href="#developer-documentation">
+<a class="md-skip" href="#automated-testing-and-ci">
           Skip to content
         </a>
 </div>
@@ -29,8 +29,8 @@
 </div>
 <header class="md-header" data-md-component="header">
 <nav aria-label="Header" class="md-header__inner md-grid">
-<a aria-label="IndEAAv2 Technical Documentation" class="md-header__button md-logo" data-md-component="logo" href=".." title="IndEAAv2 Technical Documentation">
-<img alt="logo" src="../images/shl.png"/>
+<a aria-label="IndEAAv2 Technical Documentation" class="md-header__button md-logo" data-md-component="logo" href="../.." title="IndEAAv2 Technical Documentation">
+<img alt="logo" src="../../images/shl.png"/>
 </a>
 <label class="md-header__button md-icon" for="__drawer">
 <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>
@@ -45,7 +45,7 @@
 <div class="md-header__topic" data-md-component="header-topic">
 <span class="md-ellipsis">
             
-              Overview
+              Automated Testing and CI
             
           </span>
 </div>
@@ -108,12 +108,12 @@
 <div class="md-tabs__inner md-grid">
 <ul class="md-tabs__list">
 <li class="md-tabs__item">
-<a class="md-tabs__link" href="..">
+<a class="md-tabs__link" href="../..">
       Overview
     </a>
 </li>
 <li class="md-tabs__item">
-<a class="md-tabs__link md-tabs__link--active" href="./">
+<a class="md-tabs__link md-tabs__link--active" href="../">
         Developers
       </a>
 </li>
@@ -127,8 +127,8 @@
 <div class="md-sidebar__inner">
 <nav aria-label="Navigation" class="md-nav md-nav--primary md-nav--lifted" data-md-level="0">
 <label class="md-nav__title" for="__drawer">
-<a aria-label="IndEAAv2 Technical Documentation" class="md-nav__button md-logo" data-md-component="logo" href=".." title="IndEAAv2 Technical Documentation">
-<img alt="logo" src="../images/shl.png"/>
+<a aria-label="IndEAAv2 Technical Documentation" class="md-nav__button md-logo" data-md-component="logo" href="../.." title="IndEAAv2 Technical Documentation">
+<img alt="logo" src="../../images/shl.png"/>
 </a>
     IndEAAv2 Technical Documentation
   </label>
@@ -144,7 +144,7 @@
 </div>
 <ul class="md-nav__list" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="..">
+<a class="md-nav__link" href="../..">
         Overview
       </a>
 </li>
@@ -160,14 +160,44 @@
           Developers
         </label>
 <ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../">
+        Overview
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../project_structure/">
+        Project Structure
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../telemetry_and_observability/">
+        Telemetry and Observability
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../frontend_specific_documentation/">
+        Frontend Specific Documentation
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../authentication/">
+        Authentication
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../course_evaluation/">
+        Course Evaluation
+      </a>
+</li>
 <li class="md-nav__item md-nav__item--active">
 <input class="md-nav__toggle md-toggle" data-md-toggle="toc" id="__toc" type="checkbox"/>
 <label class="md-nav__link md-nav__link--active" for="__toc">
-          Overview
+          Automated Testing and CI
           <span class="md-nav__icon md-icon"></span>
 </label>
 <a class="md-nav__link md-nav__link--active" href="./">
-        Overview
+        Automated Testing and CI
       </a>
 <nav aria-label="Table of contents" class="md-nav md-nav--secondary">
 <label class="md-nav__title" for="__toc">
@@ -176,45 +206,53 @@
     </label>
 <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#execution">
-    Execution
+<a class="md-nav__link" href="#automated-testing">
+    Automated Testing
+  </a>
+<nav aria-label="Automated Testing" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#backend-pytest-unit-testing">
+    Backend: Pytest (Unit Testing)
+  </a>
+<nav aria-label="Backend: Pytest (Unit Testing)" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#running-test">
+    Running Test
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#pytest-fixture-conftestpy">
+    Pytest Fixture conftest.py
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#why-not-just-use-the-default-django-tests">
+    Why not just use the default Django Tests?
   </a>
 </li>
 </ul>
 </nav>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="project_structure/">
-        Project Structure
-      </a>
+<a class="md-nav__link" href="#frontend-cypress-e2e-testing">
+    Frontend: Cypress (E2E Testing)
+  </a>
+</li>
+</ul>
+</nav>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="telemetry_and_observability/">
-        Telemetry and Observability
-      </a>
+<a class="md-nav__link" href="#continuous-integration-github-actions">
+    Continuous Integration - Github Actions
+  </a>
+</li>
+</ul>
+</nav>
 </li>
 <li class="md-nav__item">
-<a class="md-nav__link" href="frontend_specific_documentation/">
-        Frontend Specific Documentation
-      </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="authentication/">
-        Authentication
-      </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="course_evaluation/">
-        Course Evaluation
-      </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="automated_testing_and_ci/">
-        Automated Testing and CI
-      </a>
-</li>
-<li class="md-nav__item">
-<a class="md-nav__link" href="backup/">
+<a class="md-nav__link" href="../backup/">
         Backup
       </a>
 </li>
@@ -236,8 +274,46 @@
     </label>
 <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
 <li class="md-nav__item">
-<a class="md-nav__link" href="#execution">
-    Execution
+<a class="md-nav__link" href="#automated-testing">
+    Automated Testing
+  </a>
+<nav aria-label="Automated Testing" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#backend-pytest-unit-testing">
+    Backend: Pytest (Unit Testing)
+  </a>
+<nav aria-label="Backend: Pytest (Unit Testing)" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#running-test">
+    Running Test
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#pytest-fixture-conftestpy">
+    Pytest Fixture conftest.py
+  </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#why-not-just-use-the-default-django-tests">
+    Why not just use the default Django Tests?
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#frontend-cypress-e2e-testing">
+    Frontend: Cypress (E2E Testing)
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#continuous-integration-github-actions">
+    Continuous Integration - Github Actions
   </a>
 </li>
 </ul>
@@ -247,29 +323,68 @@
 </div>
 <div class="md-content" data-md-component="content">
 <article class="md-content__inner md-typeset">
-<a class="md-content__button md-icon" href="https://github.com/uwasystemhealth/IndEAAv2/edit/main/docs/docs/developer/index.md" title="Edit this page">
+<a class="md-content__button md-icon" href="https://github.com/uwasystemhealth/IndEAAv2/edit/main/docs/docs/developer/automated_testing_and_ci.md" title="Edit this page">
 <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"></path></svg>
 </a>
-<h1 id="developer-documentation">Developer Documentation<a class="headerlink" href="#developer-documentation" title="Permanent link">¶</a></h1>
-<h2 id="execution">Execution<a class="headerlink" href="#execution" title="Permanent link">¶</a></h2>
-<p>Make sure you have docker installed.</p>
-<p>To start the application.</p>
+<h1 id="automated-testing-and-ci">Automated Testing and CI<a class="headerlink" href="#automated-testing-and-ci" title="Permanent link">¶</a></h1>
+<p>Automated testing help us to ensure that our code is working as expected. Continuous Integration (CI) is a process that helps us to ensure that our code is working as expected by running our automated testing on events such as pull requests and code commits.</p>
+<h2 id="automated-testing">Automated Testing<a class="headerlink" href="#automated-testing" title="Permanent link">¶</a></h2>
+<h3 id="backend-pytest-unit-testing">Backend: Pytest (Unit Testing)<a class="headerlink" href="#backend-pytest-unit-testing" title="Permanent link">¶</a></h3>
+<p>We use <a href="https://docs.pytest.org/en/7.1.x/">pytest</a> for our tests with <a href="https://pytest-django.readthedocs.io/en/latest/">pytest-django</a> as a plugin.</p>
+<h4 id="running-test">Running Test<a class="headerlink" href="#running-test" title="Permanent link">¶</a></h4>
 <ol>
-<li>Copy <code>docker/indeaa-local.env</code> to <code>.env</code> (in the root folder)</li>
-<li>run <code>docker-compose up</code></li>
+<li>Go inside the container <code>docker exec -it indeaa_django bash</code> or <code>docker-compose exec -it backend bash</code></li>
+<li>Run pytest <code>py.test</code> or <code>pytest</code>.</li>
 </ol>
-<p>This command should setup the containers (it will take sometime if this is the first time you ran that command). Then you can start development.</p>
-<details class="warning" open="open">
-<summary>Google Authentication?</summary>
-<p>You will need to create an OAuth 2.0 client in Google Cloud and provide the details in the <code>.env</code> file. See <a href="authentication/#google-oauth-setup">Authentication</a> for more details</p>
+<details class="info" open="open">
+<summary>Manual Testing Debugging</summary>
+<p>You can add <code>breakpoint()</code> in your code and attach a terminal to the instance <code>docker attach indeaa_django</code>.</p>
 </details>
+<details class="info" open="open">
+<summary>Running only a specific test</summary>
+<p>If you only want to run a specific test, use the below syntax
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code>py.test course_evaluations/ # Runs all test within the folder
+py.test course_evaluations/test_crud.py # Runs the test in the file
+py.test course_evaluations/test_crud.py::test_list_view_course_evaluation # Run the specific function you want
+</code></pre></div></td></tr></table></div></p>
+</details>
+<h4 id="pytest-fixture-conftestpy">Pytest Fixture <code>conftest.py</code><a class="headerlink" href="#pytest-fixture-conftestpy" title="Permanent link">¶</a></h4>
+<p>You will notice that the test will use <code>conftest.py</code>. The syntax is a little weird at first, the fixture becomes parameters in tests that needs it.</p>
+<details class="example" open="open">
+<summary>Test that uses a conftest</summary>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">def</span> <span class="nf">test_list_view_course_evaluation</span><span class="p">(</span><span class="n">api_client_with_credentials_return_user</span><span class="p">,</span> <span class="n">make_course_evaluation</span><span class="p">):</span>
+    <span class="n">api_client</span><span class="p">,</span> <span class="n">user</span> <span class="o">=</span> <span class="n">api_client_with_credentials_return_user</span><span class="p">()</span>
+    <span class="n">course_evaluation_1</span> <span class="o">=</span> <span class="n">make_course_evaluation</span><span class="p">(</span><span class="n">coordinators</span><span class="o">=</span><span class="p">[</span><span class="n">user</span><span class="p">])</span>
+    <span class="n">course_evaluation_2</span> <span class="o">=</span> <span class="n">make_course_evaluation</span><span class="p">(</span><span class="n">coordinators</span><span class="o">=</span><span class="p">[</span><span class="n">user</span><span class="p">])</span>
+    <span class="o">...</span>
+</code></pre></div></td></tr></table></div>
+<p><code>api_client_with_credentials_return_user</code> and <code>make_course_evaluation</code> are function that can bhe seen in <code>conftest.py</code>. This is accessible because of the command called <code>@pytest.fixture</code>. </p>
+<p>Also notice function such as <code>make_course_evaluation</code>. It has an interesting structure where it does a <code>yield _make_course_evaluation</code>. We are essentially creating a wrapper function that allows us to bind the teardown with that function.</p>
+</details>
+<h4 id="why-not-just-use-the-default-django-tests">Why not just use the default Django Tests?<a class="headerlink" href="#why-not-just-use-the-default-django-tests" title="Permanent link">¶</a></h4>
+<p>The <a href="https://docs.pytest.org/en/7.0.x/reference/plugin_list.html">pytest ecosystem</a> is bigger. Harder to get used to at first, but it is quite worth it because you can do cool examples like <a href="https://docs.pytest.org/en/6.2.x/parametrize.html#pytest-mark-parametrize-parametrizing-test-functions">parametrised tests</a> (checkout this link) that are more readable and maintainable.</p>
+<h3 id="frontend-cypress-e2e-testing">Frontend: Cypress (E2E Testing)<a class="headerlink" href="#frontend-cypress-e2e-testing" title="Permanent link">¶</a></h3>
+<p>TODO Issue <a href="https://github.com/uwasystemhealth/IndEAAv2/issues/50">#50</a></p>
+<h2 id="continuous-integration-github-actions">Continuous Integration - Github Actions<a class="headerlink" href="#continuous-integration-github-actions" title="Permanent link">¶</a></h2>
+<p>We use <a href="https://github.com/features/actions">github actions</a> for our continuous integration. All the code being used for github actions can be seen in <code>.github/workflows/ci.yml</code>. This is the Continuous integration that runs for every commit on a pull request.</p>
+<p>We run a couple of things as part of our CI:</p>
+<ul>
+<li>Automated Testing eg <code>pytest_py3</code>, <code>integration-test-docker</code></li>
+<li>Automated Linting and Formatting eg <code>frontend-check</code> and <code>backend-check</code></li>
+</ul>
 </article>
 </div>
 </div>
 </main>
 <footer class="md-footer">
 <nav aria-label="Footer" class="md-footer__inner md-grid">
-<a aria-label="Previous: Overview" class="md-footer__link md-footer__link--prev" href=".." rel="prev">
+<a aria-label="Previous: Course Evaluation" class="md-footer__link md-footer__link--prev" href="../course_evaluation/" rel="prev">
 <div class="md-footer__button md-icon">
 <svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
 </div>
@@ -278,17 +393,17 @@
 <span class="md-footer__direction">
                 Previous
               </span>
-              Overview
+              Course Evaluation
             </div>
 </div>
 </a>
-<a aria-label="Next: Project Structure" class="md-footer__link md-footer__link--next" href="project_structure/" rel="next">
+<a aria-label="Next: Backup" class="md-footer__link md-footer__link--next" href="../backup/" rel="next">
 <div class="md-footer__title">
 <div class="md-ellipsis">
 <span class="md-footer__direction">
                 Next
               </span>
-              Project Structure
+              Backup
             </div>
 </div>
 <div class="md-footer__button md-icon">
@@ -339,8 +454,8 @@
 <div class="md-dialog" data-md-component="dialog">
 <div class="md-dialog__inner md-typeset"></div>
 </div>
-<script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs"], "search": "../assets/javascripts/workers/search.ecf98df9.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
-<script src="../assets/javascripts/bundle.9c69f0bc.min.js"></script>
+<script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs"], "search": "../../assets/javascripts/workers/search.ecf98df9.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+<script src="../../assets/javascripts/bundle.9c69f0bc.min.js"></script>
 <script src="https://unpkg.com/mermaid@8.8.2/dist/mermaid.min.js"></script>
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
