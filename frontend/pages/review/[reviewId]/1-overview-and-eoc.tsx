@@ -5,10 +5,8 @@ import CardHeader from '@mui/material/CardHeader';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { Box } from '@mui/system';
-import Button from '@mui/material/Button';
-import NavigateNextIcon from '@mui/icons-material/NavigateNext';
-import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore';
+import { API_ENDPOINT } from 'utils/api';
+import { useSWRConfig } from 'swr';
 import useCourseReview from '@/components/hooks/useCourseReview';
 import AboutStepCard from '@/components/Reviewer/AboutStepCard';
 import ReviewProgress from '@/components/Reviewer/ReviewProgress';
@@ -20,8 +18,6 @@ import EOCAccordionForRefresher from '@/components/Reviewer/OverviewAndEOC/EOCAc
 import ReviewerBottomNavigation from '@/components/Reviewer/ReviewerBottomNavigation';
 import { getReviewStepsWithState } from '@/components/utils/reviews';
 import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
-import { API_ENDPOINT } from 'utils/api';
-import { useSWRConfig } from 'swr';
 
 const OverviewAndEOC = () => {
   const { courseReview } = useCourseReview();
