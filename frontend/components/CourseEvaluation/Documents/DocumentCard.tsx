@@ -97,9 +97,21 @@ const DocumentCard = (props: Props) => {
   /**
    * Section here: Reviewer View (isReadOnly = false)
    */
+  const urlToMutate = API_ENDPOINT.REVIEWS.DETAIL(reviewId || '');
+
+  /**
+   * Special Rule: If the document is not yet created, but a "add comment has been done", then the document shall be marked as "created"
+   * This makes it easier as a developer as we will not have to differentiate logic whenever adding a comment.
+   */
+  const handleCreateReviewDocument = async (reviewIdForReviewDocumentToBelong: string) => {
+    await axios.post(API_ENDPOINT.REVIEWS.DOCUMENT.LIST(reviewIdForReviewDocumentToBelong), {
+      is_viewed: true,
+      document: document.id,
+    });
+    mutate(urlToMutate);
+  };
 
   const handleTogglingOfDocumentView = async () => {
-    const urlToMutate = API_ENDPOINT.REVIEWS.DETAIL(reviewId || '');
     if (reviewDocument?.id) {
       // Edit Mode
       await axios.patch(
@@ -111,11 +123,7 @@ const DocumentCard = (props: Props) => {
       mutate(urlToMutate);
     } else if (reviewId) {
       // Create Mode
-      await axios.post(API_ENDPOINT.REVIEWS.DOCUMENT.LIST(reviewId), {
-        is_viewed: true,
-        document: document.id,
-      });
-      mutate(urlToMutate);
+      await handleCreateReviewDocument(reviewId);
     } else {
       // This should not be used if there is no reviewId
       throw new Error('Invalid state');
