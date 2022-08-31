@@ -1,4 +1,4 @@
-import { Typography, Box } from '@mui/material';
+import { Box } from '@mui/material';
 
 interface TabPanelProps {
   children: React.ReactNode;
@@ -25,11 +25,7 @@ const TabPanel = (props: TabPanelProps) => {
       // eslint-disable-next-line react/jsx-props-no-spreading
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 };

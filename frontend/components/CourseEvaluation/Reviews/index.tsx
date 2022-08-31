@@ -42,7 +42,7 @@ const Reviews = (props: Props) => {
       </Container>
       <Stack direction="column" spacing={2} sx={{ mt: 2 }}>
         {evaluation.reviews.map((review) => (
-          <ReviewCard review={review} />
+          <ReviewCard key={review.id} review={review} />
         ))}
       </Stack>
     </>
