@@ -3,9 +3,8 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Grid from '@mui/material/Grid';
 import React, { useState } from 'react';
-import { EocGeneralEocSpecific, EocSetEocGeneral } from 'utils/api';
+import { EocSetEocGeneral } from 'utils/api';
 import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
@@ -13,9 +12,6 @@ import TabPanel from '@mui/lab/TabPanel';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import Divider from '@mui/material/Divider';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
 
 type Props = {
   eocGeneral: EocSetEocGeneral;

@@ -16,7 +16,7 @@ import { ReviewListEntry } from 'utils/api';
 import { styled } from '@mui/material/styles';
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector';
 import { Box } from '@mui/system';
-import { determineStepsStateOfReview, getReviewStepsWithState } from '../utils/reviews';
+import { getReviewStepsWithState } from '../utils/reviews';
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {

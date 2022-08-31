@@ -6,14 +6,12 @@ import BodyCard from '@/components/utils/BodyCard';
 import useCourseEvaluation from '@/components/hooks/useCourseEvaluation';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import Stack from '@mui/material/Stack';
 import DocumentCard from '@/components/CourseEvaluation/Documents/DocumentCard';
 import CardHeader from '@mui/material/CardHeader';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { listOfUserDisplayNames } from '@/components/utils/generic';
-import EOCAccordion from '@/components/CourseEvaluation/Justifications/EOCAccordion';
 import EOCAccordionForRefresher from '@/components/Reviewer/OverviewAndEOC/EOCAccordionForRefresher';
 
 const OverviewAndEOC = () => {
@@ -65,10 +63,7 @@ const OverviewAndEOC = () => {
           <CardContent>
             <Container maxWidth="xl">
               {courseEvaluation.eoc_set.eoc_generals.map((eocGeneral) => (
-                <EOCAccordionForRefresher
-                  key={eocGeneral.id}
-                  eocGeneral={eocGeneral}
-                ></EOCAccordionForRefresher>
+                <EOCAccordionForRefresher key={eocGeneral.id} eocGeneral={eocGeneral} />
               ))}
             </Container>
           </CardContent>
