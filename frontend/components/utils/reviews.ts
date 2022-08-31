@@ -49,8 +49,8 @@ export const getReviewStepsWithState = (review?: ReviewListEntry) => {
     const prevStep = configWithFullLink[index - 1];
     return {
       ...step,
-      nextStep: nextStep ? nextStep.fullLink : null,
-      prevStep: prevStep ? prevStep.fullLink : null,
+      nextStep: nextStep ? nextStep.fullLink : undefined,
+      prevStep: prevStep ? prevStep.fullLink : undefined,
     };
   });
 

@@ -19,6 +19,9 @@ import { listOfUserDisplayNames } from '@/components/utils/generic';
 import EOCAccordionForRefresher from '@/components/Reviewer/OverviewAndEOC/EOCAccordionForRefresher';
 import ReviewerBottomNavigation from '@/components/Reviewer/ReviewerBottomNavigation';
 import { getReviewStepsWithState } from '@/components/utils/reviews';
+import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
+import { API_ENDPOINT } from 'utils/api';
+import { useSWRConfig } from 'swr';
 
 const OverviewAndEOC = () => {
   const { courseReview } = useCourseReview();
@@ -26,7 +29,25 @@ const OverviewAndEOC = () => {
 
   const STEP_INDEX = 0;
   const stepDetails = getReviewStepsWithState(courseReview)[STEP_INDEX];
-  console.log(stepDetails);
+
+  /**
+   * When we finish on this page, there should be an API interaction to update that the user has started the review
+   */
+  const axios = useAuthenticatedAPIClient();
+  const { mutate } = useSWRConfig();
+  const handleSubmit = async () => {
+    try {
+      const url = API_ENDPOINT.REVIEWS.DETAIL(courseReview.id);
+      await axios.patch(url, {
+        eoc_date_viewed: new Date(),
+      });
+      mutate(url);
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+      // TODO: Display error in a more user-friendly way
+    }
+  };
   return (
     <BodyCard>
       <ReviewProgress review={courseReview} />
@@ -78,7 +99,7 @@ const OverviewAndEOC = () => {
           </CardContent>
         </Card>
       </Container>
-      <ReviewerBottomNavigation nextLink={stepDetails.nextStep}></ReviewerBottomNavigation>
+      <ReviewerBottomNavigation nextLink={stepDetails.nextStep} handleSubmit={handleSubmit} />
     </BodyCard>
   );
 };
