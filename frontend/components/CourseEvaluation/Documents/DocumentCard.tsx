@@ -1,5 +1,5 @@
 import React from 'react';
-import { API_ENDPOINT, Document } from 'utils/api';
+import { API_ENDPOINT, Document, ReviewDocument } from 'utils/api';
 import Box from '@mui/material/Box';
 
 import Grid from '@mui/material/Grid';
@@ -13,6 +13,8 @@ import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
 import { useSWRConfig } from 'swr';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import CommentIcon from '@mui/icons-material/Comment';
+import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import useModal from '@/components/hooks/useModal';
 import CreateEditDocumentModal from '@/components/CourseEvaluation/Documents/CreateEditDocumentModal';
 import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
@@ -21,6 +23,7 @@ import AreYouSureModalButton from '@/components/utils/AreYouSureModalButton';
 type Props = {
   document: Document;
   isReadOnly: boolean;
+  reviewDocument?: ReviewDocument;
 };
 
 export interface DocumentTag {
@@ -29,10 +32,14 @@ export interface DocumentTag {
   color: any;
 }
 const DocumentCard = (props: Props) => {
-  const { document, isReadOnly } = props;
+  const { document, isReadOnly, reviewDocument } = props;
+  const axios = useAuthenticatedAPIClient();
+  const { mutate } = useSWRConfig();
 
+  /**
+   * Section here is for document display
+   */
   const tags: DocumentTag[] = [];
-
   document.eoc_generals.forEach((eoc) => {
     tags.push({
       label: `EOC ${eoc.number}`,
@@ -57,12 +64,11 @@ const DocumentCard = (props: Props) => {
     });
   }
 
+  /**
+   * Section here: Coordinator View (isReadOnly = true)
+   */
   const createEditDocumentModalState = useModal();
   const [documentSelected, setDocumentSelected] = React.useState<Document | undefined>(undefined);
-
-  const axios = useAuthenticatedAPIClient();
-  const { mutate } = useSWRConfig();
-
   const handleDelete = async () => {
     try {
       await axios.delete(
@@ -75,6 +81,19 @@ const DocumentCard = (props: Props) => {
       console.error(error);
     }
   };
+
+  /**
+   * Section here: Reviewer View (isReadOnly = false)
+   */
+
+  const handleTogglingOfDocumentView = () => {
+    if (reviewDocument?.id) {
+      // Edit Mode
+    } else {
+      // Create Mode
+    }
+  };
+
   return (
     <>
       {createEditDocumentModalState.isOpen && (
@@ -90,7 +109,7 @@ const DocumentCard = (props: Props) => {
       <Card>
         <CardContent>
           <Grid container justifyContent="space-between" alignItems="center">
-            <Grid item sm={8}>
+            <Grid item sm={7}>
               <Typography gutterBottom variant="h5" component="div">
                 {document.name}
               </Typography>
@@ -111,7 +130,7 @@ const DocumentCard = (props: Props) => {
                 ))}
               </Box>
             </Grid>
-            <Grid item sm={3}>
+            <Grid item sm={5}>
               <Stack direction="column" spacing={2}>
                 <Button
                   startIcon={<VisibilityIcon />}
@@ -121,7 +140,26 @@ const DocumentCard = (props: Props) => {
                 >
                   View
                 </Button>
-                {!isReadOnly && (
+                {isReadOnly ? (
+                  <>
+                    <Button
+                      startIcon={<BookmarkAddedIcon />}
+                      variant={reviewDocument?.is_viewed ? 'contained' : 'outlined'}
+                      color="secondary"
+                      onClick={handleTogglingOfDocumentView}
+                    >
+                      {reviewDocument?.is_viewed ? 'Mark as Unviewed' : 'Mark as Viewed'}
+                    </Button>
+                    <Button
+                      startIcon={<CommentIcon />}
+                      variant="outlined"
+                      color="secondary"
+                      onClick={() => {}}
+                    >
+                      Comment
+                    </Button>
+                  </>
+                ) : (
                   <>
                     <Button
                       startIcon={<EditIcon />}
@@ -153,6 +191,10 @@ const DocumentCard = (props: Props) => {
       </Card>
     </>
   );
+};
+
+DocumentCard.defaultProps = {
+  reviewDocument: undefined,
 };
 
 export default DocumentCard;

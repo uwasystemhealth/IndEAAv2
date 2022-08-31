@@ -22,11 +22,16 @@ const Documents = () => {
       <ReviewProgress review={courseReview} />
       <AboutStepCard stepIndex={STEP_INDEX} />
       <Grid container spacing={2}>
-        {courseEvaluation.documents.map((document) => (
-          <Grid item sm={12} md={4} key={document.id}>
-            <DocumentCard document={document} isReadOnly />
-          </Grid>
-        ))}
+        {courseEvaluation.documents.map((document) => {
+          const reviewDocument = courseReview.documents.find(
+            (currentDocumentInIteration) => currentDocumentInIteration.document === document.id,
+          );
+          return (
+            <Grid item sm={12} md={4} key={document.id}>
+              <DocumentCard document={document} isReadOnly reviewDocument={reviewDocument} />
+            </Grid>
+          );
+        })}
       </Grid>
       <ReviewerBottomNavigation
         previousLink={stepDetails.prevStep}
