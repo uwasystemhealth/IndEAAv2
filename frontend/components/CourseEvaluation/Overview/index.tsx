@@ -46,19 +46,19 @@ const Overview = ({ evaluation }: Props) => {
               }
             />
             <CardContent>
-              <Typography sx={{ p: 1, fontWeight: 'bold' }}>
-                Course Description:
-                <Typography variant="subtitle2">{evaluation.description}</Typography>
+              <Typography sx={{ p: 1, fontWeight: 'bold' }}>Course Description:</Typography>
+              <Typography sx={{ p: 1 }} component="span" variant="subtitle2">
+                {evaluation.description}
               </Typography>
               <Typography sx={{ p: 1, fontWeight: 'bold' }}>
                 Coordinators:
-                <Typography variant="subtitle2">
+                <Typography sx={{ p: 1 }} component="span" variant="subtitle2">
                   {listOfUserDisplayNames(evaluation.coordinators)}
                 </Typography>
               </Typography>
-              <Typography sx={{ p: 1, fontWeight: 'bold' }}>
-                Date Started:
-                <Typography variant="subtitle2">{dateString}</Typography>
+              <Typography sx={{ p: 1, fontWeight: 'bold' }}>Date Started:</Typography>
+              <Typography sx={{ p: 1 }} component="span" variant="subtitle2">
+                {dateString}
               </Typography>
             </CardContent>
           </Card>
@@ -74,7 +74,7 @@ const Overview = ({ evaluation }: Props) => {
                 {evaluation.documents
                   .filter((document) => document.is_introduction)
                   .map((document) => (
-                    <DocumentCard document={document} isReadOnly={false} />
+                    <DocumentCard key={document.id} document={document} isReadOnly={false} />
                   ))}
               </Stack>
             </CardContent>

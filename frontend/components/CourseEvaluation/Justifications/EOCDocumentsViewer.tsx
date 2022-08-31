@@ -43,14 +43,14 @@ const EOCDocumentsViewer = (props: Props) => {
       <TabPanel value={tabsValue} index={0}>
         <Stack spacing={2}>
           {documentsMatchingEOCGeneral.map((document) => (
-            <DocumentCard document={document} isReadOnly={false} />
+            <DocumentCard key={document.id} document={document} isReadOnly={false} />
           ))}
         </Stack>
       </TabPanel>
       <TabPanel value={tabsValue} index={1}>
         <Stack spacing={2}>
           {documentsMatchingEOCSpecific.map((document) => (
-            <DocumentCard document={document} isReadOnly={false} />
+            <DocumentCard key={document.id} document={document} isReadOnly={false} />
           ))}
         </Stack>
       </TabPanel>
