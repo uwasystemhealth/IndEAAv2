@@ -19,7 +19,10 @@ const initialAuthenticationDetails: AuthenticationDetailsInterface = {
 };
 
 const AppContext = createContext<ContextProps>({
-  authenticationDetails: initialAuthenticationDetails,
+  authenticationDetails: {
+    accessToken: '',
+    refreshToken: '',
+  },
   setAuthenticationDetails: () => {},
 });
 
@@ -36,7 +39,16 @@ export const AppProvider = ({ children }: Props) => {
 
   Note: Only do this when it is client-side
   */
-  if (typeof document !== 'undefined') {
+  // Authentication States
+  const [authenticationDetails, setAuthenticationDetails] = useState({
+    accessToken: '',
+    refreshToken: '',
+  });
+
+  useEffect(() => {
+    /*
+      On mount of this try to authenticate the user
+    */
     // Get from the localStorage
     const accessToken = localStorage.getItem('access-token') || '';
     const refreshToken = localStorage.getItem('refresh-token') || '';
@@ -44,30 +56,22 @@ export const AppProvider = ({ children }: Props) => {
     // Set the initial authentication details
     initialAuthenticationDetails.accessToken = accessToken;
     initialAuthenticationDetails.refreshToken = refreshToken;
-  }
 
-  // Authentication States
-  const [authenticationDetails, setAuthenticationDetails] = useState(initialAuthenticationDetails);
-
-  useEffect(() => {
-    /*
-        On mount of this component it will check whether this is a new user, or a user that we have to reauthenticate
-       */
     const attemptToReauthenticate = async () => {
       if (
         // Refresh the token every time when expired
-        isTokenExpired(authenticationDetails.accessToken) &&
-        authenticationDetails.refreshToken
+        isTokenExpired(initialAuthenticationDetails.accessToken) &&
+        initialAuthenticationDetails.refreshToken
       ) {
         // If it is expired, then we need to refresh the token
         const { data: tokenData } = await API_CLIENT.post(API_ENDPOINT.AUTHENTICATION.REFRESH, {
-          refresh: authenticationDetails.refreshToken,
+          refresh: initialAuthenticationDetails.refreshToken,
         });
         // Replace the old access token with the new access token
         localStorage.setItem('access-token', tokenData.accessToken);
         setAuthenticationDetails({
           accessToken: tokenData.access,
-          refreshToken: authenticationDetails.refreshToken,
+          refreshToken: initialAuthenticationDetails.refreshToken,
         });
       }
     };
