@@ -2,48 +2,42 @@ import * as React from 'react';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Container from '@mui/material/Container';
-import {
-  API_ENDPOINT,
-  CourseEvaluationDetailEntry,
-  DEFAULT_COURSE_EVALUTION_DETAIL_ENTRY,
-} from 'utils/api';
 import ArticleIcon from '@mui/icons-material/Article';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import CampaignIcon from '@mui/icons-material/Campaign';
-import useSWRAuth from '@/components/hooks/useSWRAuth';
 
 import TabPanel, { a11yProps } from '../Custom/TabPanel';
 import Overview from './Overview';
 import Justification from './Justifications';
 import Reviews from './Reviews';
 import Documents from './Documents';
+import useCourseEvaluation from '../hooks/useCourseEvaluation';
 
-type Props = {
-  courseEvaluationId: string;
-};
-
-const SectionTabs = ({ courseEvaluationId }: Props) => {
-  const { response } = useSWRAuth(
-    courseEvaluationId ? API_ENDPOINT.COURSE_EVALUATION.DETAIL(courseEvaluationId) : '',
-  );
-
-  const evaluation = ((response?.data as unknown) ||
-    DEFAULT_COURSE_EVALUTION_DETAIL_ENTRY) as CourseEvaluationDetailEntry;
+const SectionTabs = () => {
+  const { courseEvaluation } = useCourseEvaluation();
 
   const TAB_DISPLAYS = [
     {
       label: 'Overview',
-      tabComponent: <Overview evaluation={evaluation} />,
+      tabComponent: <Overview evaluation={courseEvaluation} />,
       icon: AssignmentIcon,
     },
-    { label: 'Documents', tabComponent: <Documents evaluation={evaluation} />, icon: ArticleIcon },
+    {
+      label: 'Documents',
+      tabComponent: <Documents evaluation={courseEvaluation} />,
+      icon: ArticleIcon,
+    },
     {
       label: 'Justification',
-      tabComponent: <Justification evaluation={evaluation} />,
+      tabComponent: <Justification evaluation={courseEvaluation} />,
       icon: CampaignIcon,
     },
-    { label: 'Reviews', tabComponent: <Reviews evaluation={evaluation} />, icon: RateReviewIcon },
+    {
+      label: 'Reviews',
+      tabComponent: <Reviews evaluation={courseEvaluation} />,
+      icon: RateReviewIcon,
+    },
   ];
 
   const [tabsValue, setTabsValue] = React.useState(0);

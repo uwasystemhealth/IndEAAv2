@@ -1,10 +1,5 @@
 import React, { useState } from 'react';
-import {
-  API_ENDPOINT,
-  CourseEvaluationDetailEntry,
-  DEFAULT_COURSE_EVALUTION_DETAIL_ENTRY,
-  Document,
-} from 'utils/api';
+import { API_ENDPOINT, Document } from 'utils/api';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -24,14 +19,15 @@ import Checkbox from '@mui/material/Checkbox';
 import Autocomplete from '@mui/material/Autocomplete';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import useSWRAuth from '@/components/hooks/useSWRAuth';
 import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
 import { compileAllTheEOCSpecificsOfAnEOCSet } from '@/components/utils/eoc';
+import useCourseEvaluation from '@/components/hooks/useCourseEvaluation';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 type Props = {
+  // The reason why we cannot just use `document.courseEvaluation` is that we may use `create` functionality which means we don't have the course evaluation id.
   courseEvaluationId: string;
   document?: Document;
   handleClose: () => void;
@@ -39,12 +35,7 @@ type Props = {
 
 const EditGeneralInformationModal = (props: Props) => {
   const { courseEvaluationId, document, handleClose } = props;
-  const { response } = useSWRAuth(
-    courseEvaluationId ? API_ENDPOINT.COURSE_EVALUATION.DETAIL(courseEvaluationId) : '',
-  );
-
-  const courseEvaluation = ((response?.data as unknown) ||
-    DEFAULT_COURSE_EVALUTION_DETAIL_ENTRY) as CourseEvaluationDetailEntry;
+  const { courseEvaluation } = useCourseEvaluation();
 
   const eocGenerals = courseEvaluation.eoc_set.eoc_generals || [];
   const eocSpecifics = compileAllTheEOCSpecificsOfAnEOCSet(courseEvaluation.eoc_set);
