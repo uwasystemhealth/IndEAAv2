@@ -24,17 +24,21 @@ import AreYouSureModalButton from '@/components/utils/AreYouSureModalButton';
 type Props = {
   document: Document;
   isReadOnly: boolean;
+
+  // These two props should be passed in if `isReadOnly` is true.
+  reviewId?: string;
   reviewDocument?: ReviewDocument;
 };
 
 export interface DocumentTag {
+  key: string | number;
   avatarContent: React.ReactNode;
   label: string;
   // TODO: add color type
   color: any;
 }
 const DocumentCard = (props: Props) => {
-  const { document, isReadOnly, reviewDocument } = props;
+  const { document, isReadOnly, reviewDocument, reviewId } = props;
   const axios = useAuthenticatedAPIClient();
   const { mutate } = useSWRConfig();
 
@@ -44,6 +48,7 @@ const DocumentCard = (props: Props) => {
   const tags: DocumentTag[] = [];
   document.eoc_generals.forEach((eoc) => {
     tags.push({
+      key: eoc.number,
       avatarContent: <Avatar>{eoc.number}</Avatar>,
       label: `EOC`,
       color: 'primary',
@@ -51,6 +56,7 @@ const DocumentCard = (props: Props) => {
   });
   document.eoc_specifics.forEach((eoc) => {
     tags.push({
+      key: eoc.general_and_specific_eoc,
       avatarContent: <Avatar>{eoc.general_and_specific_eoc}</Avatar>,
       label: `EOC`,
       color: 'secondary',
@@ -63,6 +69,7 @@ const DocumentCard = (props: Props) => {
   if (document.is_introduction) {
     // Add to the beginning
     tags.unshift({
+      key: 'introduction',
       avatarContent: <Avatar>I</Avatar>,
       label: 'Introduction',
       color: 'info',
@@ -91,11 +98,27 @@ const DocumentCard = (props: Props) => {
    * Section here: Reviewer View (isReadOnly = false)
    */
 
-  const handleTogglingOfDocumentView = () => {
+  const handleTogglingOfDocumentView = async () => {
+    const urlToMutate = API_ENDPOINT.REVIEWS.DETAIL(reviewId || '');
     if (reviewDocument?.id) {
       // Edit Mode
-    } else {
+      await axios.patch(
+        API_ENDPOINT.REVIEWS.DOCUMENT.DETAIL(reviewDocument.review, reviewDocument.id),
+        {
+          is_viewed: !reviewDocument.is_viewed,
+        },
+      );
+      mutate(urlToMutate);
+    } else if (reviewId) {
       // Create Mode
+      await axios.post(API_ENDPOINT.REVIEWS.DOCUMENT.LIST(reviewId), {
+        is_viewed: true,
+        document: document.id,
+      });
+      mutate(urlToMutate);
+    } else {
+      // This should not be used if there is no reviewId
+      throw new Error('Invalid state');
     }
   };
 
@@ -132,7 +155,7 @@ const DocumentCard = (props: Props) => {
               >
                 {tags.map((tag) => (
                   <Chip
-                    key={tag.label}
+                    key={tag.key}
                     label={tag.label}
                     avatar={tag.avatarContent}
                     color={tag.color}
@@ -205,6 +228,7 @@ const DocumentCard = (props: Props) => {
 };
 
 DocumentCard.defaultProps = {
+  reviewId: undefined,
   reviewDocument: undefined,
 };
 
