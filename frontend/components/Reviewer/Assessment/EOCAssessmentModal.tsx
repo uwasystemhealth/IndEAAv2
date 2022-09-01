@@ -5,6 +5,7 @@ import {
   EocGeneralEocSpecific,
   EocSetEocGeneral,
   Justification,
+  ReviewListEntry,
 } from 'utils/api';
 import Grid from '@mui/material/Grid';
 
@@ -29,7 +30,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { Typography } from '@mui/material';
 import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
 import { compileAllTheEOCSpecificsOfAnEOCSet, DEVELOPMENT_LEVEL } from '@/components/utils/eoc';
-import EOCDocumentsViewer from './EOCDocumentsViewer';
+import EOCDocumentsViewer from '@/components/CourseEvaluation/Justifications/EOCDocumentsViewer';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -39,10 +40,12 @@ type Props = {
   eocSpecific: EocGeneralEocSpecific;
   courseEvaluation: CourseEvaluationDetailEntry;
   handleClose: () => void;
+
+  review: ReviewListEntry;
 };
 
-const EOCModal = (props: Props) => {
-  const { eocGeneral, eocSpecific, courseEvaluation, handleClose } = props;
+const EOCAsessmentModal = (props: Props) => {
+  const { eocGeneral, eocSpecific, courseEvaluation, handleClose, review } = props;
   // Business rule: There can only be one justification per EOC
   const justification = eocSpecific?.justification[0];
 
@@ -54,12 +57,6 @@ const EOCModal = (props: Props) => {
   const { mutate } = useSWRConfig();
   const [error, setError] = useState('');
 
-  const eocSpecifics = compileAllTheEOCSpecificsOfAnEOCSet(courseEvaluation.eoc_set);
-  const eocSpecificsIdAsKey = eocSpecifics.reduce((acc, eocSpecificToReduce) => {
-    acc[eocSpecificToReduce.id] = eocSpecificToReduce;
-    return acc;
-  }, {} as { [key: number]: EocGeneralEocSpecific });
-
   const formik = useFormik({
     initialValues: {
       /* Note: The values here should match the field name in the models
@@ -67,56 +64,13 @@ const EOCModal = (props: Props) => {
       */
       justification: justification?.justification || '',
       development_level: justification?.development_level || null,
-      // The justification is a list of EOC specific ids, but we need to match the type to display properly in the autocomplete
-      eoc_specifics:
-        justification?.eoc_specifics?.map((eocSpecificId) => eocSpecificsIdAsKey[eocSpecificId]) ||
-        [],
     },
     validationSchema: Yup.object({
       justification: Yup.string().required('Justification is required'),
       development_level: Yup.number().required('Development level is required'),
     }),
     onSubmit: async (values) => {
-      try {
-        if (isCreateMode) {
-          await axios.post(API_ENDPOINT.COURSE_EVALUATION.JUSTIFICATION.LIST(courseEvaluation.id), {
-            ...values,
-            eoc_specifics: values.eoc_specifics.map(
-              (eocSpecificAsPayload) => eocSpecificAsPayload.id,
-            ),
-          });
-        } else {
-          await axios.patch(
-            API_ENDPOINT.COURSE_EVALUATION.JUSTIFICATION.DETAIL(
-              courseEvaluation.id,
-              (justification as Justification).id,
-            ),
-            {
-              ...values,
-              eoc_specifics: values.eoc_specifics.map(
-                (eocSpecificAsPayload) => eocSpecificAsPayload.id,
-              ),
-            },
-          );
-        }
-
-        // Update the cache
-        mutate(API_ENDPOINT.COURSE_EVALUATION.DETAIL(courseEvaluation.id));
-        handleClose();
-        // eslint-disable-next-line @typescript-eslint/no-shadow
-      } catch (error) {
-        // @ts-ignore
-        const formErrorMessages = error?.response?.data || [];
-
-        const shouldDisplayCustomMessage = formErrorMessages.length > 0;
-        // @ts-ignore
-        setError(
-          shouldDisplayCustomMessage
-            ? // @ts-ignore
-              `${error?.message}: ${formErrorMessages.join(', ')}`
-            : 'Something went wrong',
-        );
-      }
+      console.log(values);
     },
   });
   return (
@@ -131,17 +85,28 @@ const EOCModal = (props: Props) => {
           gap: 2,
         }}
       >
-        {error && (
-          <Alert variant="filled" severity="error" sx={{ m: 2 }}>
-            {error}
-          </Alert>
-        )}
         <Grid container spacing={2}>
-          <Grid item sm={12} md={6}>
+          <Grid
+            item
+            sm={12}
+            md={6}
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 2,
+            }}
+          >
             <Card>
               <CardHeader
-                title="Justify the EOC"
-                subheader="This is where you can select the EOC "
+                title="Background Information"
+                subheader="This is where you can see information about the EOC and the coordinator's justification"
+              />
+              <CardContent>ABC</CardContent>
+            </Card>
+            <Card>
+              <CardHeader
+                title="Assess the EOC"
+                subheader="This is where you assess the EOC with your justification."
               />
               <CardContent>
                 <TextField
@@ -186,42 +151,6 @@ const EOCModal = (props: Props) => {
                   helperText={formik.errors.justification}
                   multiline
                 />
-
-                <Autocomplete
-                  multiple
-                  id="eoc_specifics"
-                  options={eocSpecifics}
-                  disableCloseOnSelect
-                  getOptionLabel={(option) =>
-                    `EOC ${option.general_and_specific_eoc} (${option.description})`
-                  }
-                  onChange={(e, value) => formik.setFieldValue('eoc_specifics', value)}
-                  value={formik.values.eoc_specifics}
-                  isOptionEqualToValue={(option, value) => option.id === value.id}
-                  // eslint-disable-next-line @typescript-eslint/no-shadow
-                  renderOption={(props, option, { selected }) => (
-                    // eslint-disable-next-line react/jsx-props-no-spreading
-                    <li {...props}>
-                      <Checkbox
-                        icon={icon}
-                        checkedIcon={checkedIcon}
-                        style={{ marginRight: 8 }}
-                        checked={selected}
-                      />
-                      {`EOC ${option.general_and_specific_eoc} (${option.description})`}
-                    </li>
-                  )}
-                  renderInput={(params) => (
-                    <TextField
-                      margin="dense"
-                      // eslint-disable-next-line react/jsx-props-no-spreading
-                      {...params}
-                      fullWidth
-                      label="EOC of Application"
-                      helperText="This is where you select the EOCs that you want to apply the justification and development level to"
-                    />
-                  )}
-                />
               </CardContent>
             </Card>
           </Grid>
@@ -229,14 +158,15 @@ const EOCModal = (props: Props) => {
             <Card>
               <CardHeader
                 title="Supporting Documents"
-                subheader="This is where you can see the documents that are aligned to this EOC. This will also be shown to the reviewer."
+                subheader="This is where you can see the documents that are aligned to this EOC. Use this to assess rate the EOC."
               />
               <CardContent>
                 <EOCDocumentsViewer
                   documents={courseEvaluation.documents}
                   eocGeneralToFilter={eocGeneral}
                   eocSpecificToFilter={eocSpecific}
-                  isReadOnly={false}
+                  isReadOnly
+                  review={review}
                 />
               </CardContent>
             </Card>
@@ -251,6 +181,4 @@ const EOCModal = (props: Props) => {
   );
 };
 
-EOCModal.defaultProps = {};
-
-export default EOCModal;
+export default EOCAsessmentModal;
