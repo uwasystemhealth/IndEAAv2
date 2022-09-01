@@ -6,7 +6,6 @@ Note: Permission testing is not the focus of this test file.
 from django.urls import reverse
 from rest_framework import status
 
-from course_evaluations.models import CourseEvaluationJustification, EOCSpecific
 from reviews.models import ReviewDocument
 
 
