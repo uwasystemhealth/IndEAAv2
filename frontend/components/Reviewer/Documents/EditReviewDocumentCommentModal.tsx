@@ -10,6 +10,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { useSWRConfig } from 'swr';
 import Alert from '@mui/material/Alert';
+import Grid from '@mui/material/Grid';
 import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
 
 type Props = {
@@ -77,25 +78,34 @@ const EditReviewDocumentCommentModal = (props: Props) => {
           {error}
         </Alert>
       )}
-      <DialogContent
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
-        }}
-      >
-        <TextField
-          margin="dense"
-          id="comment"
-          label="Document comment"
-          fullWidth
-          variant="outlined"
-          multiline
-          value={formik.values.comment}
-          onChange={formik.handleChange}
-          error={Boolean(formik.errors.comment)}
-          helperText={formik.errors.comment}
-        />
+      <DialogContent>
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={4}>
+            <TextField
+              margin="dense"
+              id="comment"
+              label="Document comment"
+              fullWidth
+              variant="outlined"
+              multiline
+              value={formik.values.comment}
+              onChange={formik.handleChange}
+              error={Boolean(formik.errors.comment)}
+              helperText={formik.errors.comment}
+            />
+          </Grid>
+          <Grid item xs={12} md={8}>
+            <iframe
+              src={document.url}
+              frameBorder="10"
+              title="Document preview"
+              style={{
+                height: '80vh',
+                width: '100%',
+              }}
+            />
+          </Grid>
+        </Grid>
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
