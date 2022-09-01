@@ -29,8 +29,15 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import MenuItem from '@mui/material/MenuItem';
 import { Typography } from '@mui/material';
 import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
-import { compileAllTheEOCSpecificsOfAnEOCSet, DEVELOPMENT_LEVEL } from '@/components/utils/eoc';
+import {
+  compileAllTheEOCSpecificsOfAnEOCSet,
+  developmentLevelToString,
+  DEVELOPMENT_LEVEL,
+} from '@/components/utils/eoc';
 import EOCDocumentsViewer from '@/components/CourseEvaluation/Justifications/EOCDocumentsViewer';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import Divider from '@mui/material/Divider';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -133,7 +140,34 @@ const EOCAsessmentModal = (props: Props) => {
                 title="Background Information"
                 subheader="This is where you can see information about the EOC and the coordinator's justification"
               />
-              <CardContent>ABC</CardContent>
+              <CardContent>
+                <Typography
+                  variant="body2"
+                  sx={{ fontWeight: 'bold', pb: 1, pr: 1 }}
+                  color="success"
+                >
+                  Justification of Coordinators
+                </Typography>
+                <Typography variant="body2" gutterBottom>
+                  {coordinatorJustification.justification}
+                </Typography>
+                <Divider sx={{ m: 2 }} />
+                <Typography
+                  variant="body2"
+                  sx={{ fontWeight: 'bold', pb: 1, pr: 1 }}
+                  color="success"
+                >
+                  Indicators of Attainment
+                </Typography>
+                <Typography variant="body2" gutterBottom>
+                  {eocSpecific.indicators_of_attainment.map((indicator, indicatorIndex) => (
+                    // eslint-disable-next-line react/no-array-index-key
+                    <ListItem key={indicatorIndex} sx={{ display: 'list-item' }}>
+                      {indicator}
+                    </ListItem>
+                  ))}
+                </Typography>
+              </CardContent>
             </Card>
             <Card>
               <CardHeader
