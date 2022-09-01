@@ -61,6 +61,7 @@ const Assessment = () => {
             eocGeneral={eocGeneral}
             key={eocGeneral.id}
             handleSelectEOCSpecificAndGeneral={handleSelectEOCSpecificAndGeneral}
+            review={courseReview}
           />
         ))}
       </Container>
