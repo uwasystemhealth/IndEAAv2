@@ -28,6 +28,7 @@ import Divider from '@mui/material/Divider';
 import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
 import { DEVELOPMENT_LEVEL } from '@/components/utils/eoc';
 import EOCDocumentsViewer from '@/components/CourseEvaluation/Justifications/EOCDocumentsViewer';
+import { getReviewerAssessment } from '@/components/utils/reviews';
 
 type Props = {
   eocGeneral: EocSetEocGeneral;
@@ -42,9 +43,7 @@ const EOCAsessmentModal = (props: Props) => {
   const { eocGeneral, eocSpecific, courseEvaluation, handleClose, review } = props;
   // Business rule: There can only be one justification per EOC
   const coordinatorJustification = eocSpecific?.justification[0];
-  const reviewerAssessment = review.eoc_specific_reviews.find(
-    (eocSpecificReview) => eocSpecificReview.eoc_specific === eocSpecific.id,
-  );
+  const reviewerAssessment = getReviewerAssessment(review, eocSpecific);
 
   // This modal can be used to create a new justification or edit an existing one.
   // This will determine what type of request we have to do to the API.

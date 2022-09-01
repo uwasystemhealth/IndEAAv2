@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import { ReviewListEntry } from 'utils/api';
+import { EocGeneralEocSpecific, ReviewListEntry } from 'utils/api';
 
 export const getReviewStepsWithState = (review?: ReviewListEntry) => {
   const initialConfig = [
@@ -56,3 +56,11 @@ export const getReviewStepsWithState = (review?: ReviewListEntry) => {
 
   return configWithDeterminedData;
 };
+
+export const getReviewerAssessment = (
+  review: ReviewListEntry,
+  eocSpecific: EocGeneralEocSpecific,
+) =>
+  review.eoc_specific_reviews.find(
+    (eocSpecificReview) => eocSpecificReview.eoc_specific === eocSpecific.id,
+  );
