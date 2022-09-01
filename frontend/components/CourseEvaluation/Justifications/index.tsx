@@ -27,11 +27,6 @@ const Justification = (props: Props) => {
     EocGeneralEocSpecific | undefined
   >(undefined);
 
-  const handleClose = () => {
-    setCurrentlySelectedEOCSpecific(undefined);
-    eocModalState.handleClose();
-  };
-
   const handleSelectEOCSpecificAndGeneral =
     (eocGeneral: EocSetEocGeneral) => (eocSpecific: EocGeneralEocSpecific) => {
       setCurrentlySelectedEOCGeneral(eocGeneral);
@@ -45,7 +40,7 @@ const Justification = (props: Props) => {
           courseEvaluation={evaluation}
           eocGeneral={currentlySelectedEOCGeneral || DEFAULT_EOC_SET_EOC_GENERAL}
           eocSpecific={currentlySelectedEOCSpecific || DEFAULT_EOC_GENERAL_EOC_SPECIFIC}
-          handleClose={handleClose}
+          handleClose={eocModalState.handleClose}
         />
       )}
       {evaluation.eoc_set.eoc_generals.map((eocGeneral) => (
