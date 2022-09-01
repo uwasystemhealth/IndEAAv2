@@ -80,7 +80,6 @@ const DocumentCard = (props: Props) => {
    * Section here: Coordinator View (isReadOnly = true)
    */
   const createEditDocumentModalState = useModal();
-  const [documentSelected, setDocumentSelected] = React.useState<Document | undefined>(undefined);
   const handleDelete = async () => {
     try {
       await axios.delete(
@@ -128,11 +127,8 @@ const DocumentCard = (props: Props) => {
       {createEditDocumentModalState.isOpen && (
         <CreateEditDocumentModal
           courseEvaluationId={document.course_evaluation}
-          handleClose={() => {
-            setDocumentSelected(undefined);
-            createEditDocumentModalState.handleClose();
-          }}
-          document={documentSelected}
+          handleClose={createEditDocumentModalState.handleClose}
+          document={document}
         />
       )}
       <Card>
@@ -200,10 +196,7 @@ const DocumentCard = (props: Props) => {
                       startIcon={<EditIcon />}
                       variant="outlined"
                       color="secondary"
-                      onClick={() => {
-                        setDocumentSelected(document);
-                        createEditDocumentModalState.handleOpen();
-                      }}
+                      onClick={createEditDocumentModalState.handleOpen}
                     >
                       Edit
                     </Button>
