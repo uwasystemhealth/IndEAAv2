@@ -23,16 +23,13 @@ const Documents = () => {
       <Container maxWidth="xl" sx={{ mt: 2, mb: 2 }}>
         <Grid container spacing={2}>
           {courseEvaluation.documents.map((document) => {
-            const reviewDocument = courseReview.documents.find(
-              (currentDocumentInIteration) => currentDocumentInIteration.document === document.id,
-            );
+            
             return (
               <Grid item sm={12} md={4} key={document.id}>
                 <DocumentCard
                   document={document}
                   isReadOnly
-                  reviewId={courseReview.id}
-                  reviewDocument={reviewDocument}
+                  review={courseReview}
                 />
               </Grid>
             );
