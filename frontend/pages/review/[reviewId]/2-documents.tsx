@@ -9,6 +9,7 @@ import { getReviewStepsWithState } from '@/components/utils/reviews';
 import useModal from '@/components/hooks/useModal';
 import DocumentCard from '@/components/CourseEvaluation/Documents/DocumentCard';
 import useCourseEvaluation from '@/components/hooks/useCourseEvaluation';
+import Container from '@mui/material/Container';
 
 const Documents = () => {
   const { courseReview } = useCourseReview();
@@ -21,23 +22,25 @@ const Documents = () => {
     <BodyCard>
       <ReviewProgress review={courseReview} />
       <AboutStepCard stepIndex={STEP_INDEX} />
-      <Grid container spacing={2}>
-        {courseEvaluation.documents.map((document) => {
-          const reviewDocument = courseReview.documents.find(
-            (currentDocumentInIteration) => currentDocumentInIteration.document === document.id,
-          );
-          return (
-            <Grid item sm={12} md={4} key={document.id}>
-              <DocumentCard
-                document={document}
-                isReadOnly
-                reviewId={courseReview.id}
-                reviewDocument={reviewDocument}
-              />
-            </Grid>
-          );
-        })}
-      </Grid>
+      <Container maxWidth="xl">
+        <Grid container spacing={2}>
+          {courseEvaluation.documents.map((document) => {
+            const reviewDocument = courseReview.documents.find(
+              (currentDocumentInIteration) => currentDocumentInIteration.document === document.id,
+            );
+            return (
+              <Grid item sm={12} md={4} key={document.id}>
+                <DocumentCard
+                  document={document}
+                  isReadOnly
+                  reviewId={courseReview.id}
+                  reviewDocument={reviewDocument}
+                />
+              </Grid>
+            );
+          })}
+        </Grid>
+      </Container>
       <ReviewerBottomNavigation
         previousLink={stepDetails.prevStep}
         nextLink={stepDetails.nextStep}
