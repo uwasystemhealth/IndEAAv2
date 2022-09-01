@@ -18,7 +18,6 @@ type Props = {
 const Justification = (props: Props) => {
   const { evaluation } = props;
 
-  
   /**
    * State handlers for selected EOC
    */

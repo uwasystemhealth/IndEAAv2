@@ -4,7 +4,6 @@ import {
   CourseEvaluationDetailEntry,
   EocGeneralEocSpecific,
   EocSetEocGeneral,
-  Justification,
   ReviewListEntry,
 } from 'utils/api';
 import Grid from '@mui/material/Grid';
@@ -22,25 +21,13 @@ import Alert from '@mui/material/Alert';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
-import Checkbox from '@mui/material/Checkbox';
-import Autocomplete from '@mui/material/Autocomplete';
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import MenuItem from '@mui/material/MenuItem';
 import { Typography } from '@mui/material';
-import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
-import {
-  compileAllTheEOCSpecificsOfAnEOCSet,
-  developmentLevelToString,
-  DEVELOPMENT_LEVEL,
-} from '@/components/utils/eoc';
-import EOCDocumentsViewer from '@/components/CourseEvaluation/Justifications/EOCDocumentsViewer';
-import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import Divider from '@mui/material/Divider';
-
-const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-const checkedIcon = <CheckBoxIcon fontSize="small" />;
+import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
+import { DEVELOPMENT_LEVEL } from '@/components/utils/eoc';
+import EOCDocumentsViewer from '@/components/CourseEvaluation/Justifications/EOCDocumentsViewer';
 
 type Props = {
   eocGeneral: EocSetEocGeneral;
