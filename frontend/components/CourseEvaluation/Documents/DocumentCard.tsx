@@ -104,11 +104,13 @@ const DocumentCard = (props: Props) => {
    * This makes it easier as a developer as we will not have to differentiate logic whenever adding a comment.
    */
   const handleCreateReviewDocument = async (reviewIdForReviewDocumentToBelong: string) => {
-    await axios.post(API_ENDPOINT.REVIEWS.DOCUMENT.LIST(reviewIdForReviewDocumentToBelong), {
-      is_viewed: true,
-      document: document.id,
-    });
-    mutate(urlToMutate);
+    if (!reviewDocument?.id) {
+      await axios.post(API_ENDPOINT.REVIEWS.DOCUMENT.LIST(reviewIdForReviewDocumentToBelong), {
+        is_viewed: true,
+        document: document.id,
+      });
+      mutate(urlToMutate);
+    }
   };
 
   const handleTogglingOfDocumentView = async () => {
