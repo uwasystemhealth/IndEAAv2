@@ -33,7 +33,7 @@ type Props = {
 
 export interface DocumentTag {
   key: string | number;
-  avatarContent: React.ReactNode;
+  avatarContent: React.ReactElement;
   label: string;
   // TODO: add color type
   color: any;
