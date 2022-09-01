@@ -136,6 +136,13 @@ export interface EocSetEocGeneral {
   eoc_specifics: EocGeneralEocSpecific[];
 }
 
+export const DEFAULT_EOC_SET_EOC_GENERAL: EocSetEocGeneral = {
+  id: 0,
+  number: 0,
+  title: '',
+  eoc_specifics: [],
+};
+
 export interface EocGeneralEocSpecific {
   id: number;
   number: number;
@@ -145,6 +152,16 @@ export interface EocGeneralEocSpecific {
   indicators_of_attainment: string[];
   justification: Justification[];
 }
+
+export const DEFAULT_EOC_GENERAL_EOC_SPECIFIC: EocGeneralEocSpecific = {
+  description: '',
+  eoc_general: 0,
+  general_and_specific_eoc: '',
+  number: 0,
+  id: 0,
+  justification: [],
+  indicators_of_attainment: [],
+};
 
 export interface Justification {
   id: number;

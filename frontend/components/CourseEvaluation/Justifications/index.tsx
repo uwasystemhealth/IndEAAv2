@@ -1,6 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from 'react';
-import { CourseEvaluationDetailEntry, EocGeneralEocSpecific, EocSetEocGeneral } from 'utils/api';
+import {
+  CourseEvaluationDetailEntry,
+  DEFAULT_EOC_GENERAL_EOC_SPECIFIC,
+  DEFAULT_EOC_SET_EOC_GENERAL,
+  EocGeneralEocSpecific,
+  EocSetEocGeneral,
+} from 'utils/api';
 import useModal from '@/components/hooks/useModal';
 import EOCAccordion from './EOCAccordion';
 import EOCModal from './EOCModal';
@@ -37,25 +43,8 @@ const Justification = (props: Props) => {
       {eocModalState.isOpen && (
         <EOCModal
           courseEvaluation={evaluation}
-          eocGeneral={
-            currentlySelectedEOCGeneral || {
-              id: 0,
-              number: 0,
-              title: '',
-              eoc_specifics: [],
-            }
-          }
-          eocSpecific={
-            currentlySelectedEOCSpecific || {
-              description: '',
-              eoc_general: 0,
-              general_and_specific_eoc: '',
-              number: 0,
-              id: 0,
-              justification: [],
-              indicators_of_attainment: [],
-            }
-          }
+          eocGeneral={currentlySelectedEOCGeneral || DEFAULT_EOC_SET_EOC_GENERAL}
+          eocSpecific={currentlySelectedEOCSpecific || DEFAULT_EOC_GENERAL_EOC_SPECIFIC}
           handleClose={handleClose}
         />
       )}
