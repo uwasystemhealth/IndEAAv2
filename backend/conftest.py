@@ -14,7 +14,7 @@ from course_evaluations.models import (
     EOCSet,
     EOCSpecific,
 )
-from reviews.models import Review
+from reviews.models import Review, ReviewDocument
 
 
 @pytest.fixture
@@ -273,3 +273,37 @@ def make_course_evaluation_justification(setup_indeaa, make_course_evaluation) -
     # Teardown
     for justification in created_course_evaluation_justification:
         justification.delete()
+
+
+# Wrapper for ReviewDocument
+@pytest.fixture
+@pytest.mark.django_db
+def make_review_document(setup_indeaa, make_course_review, make_course_evaluation_document) -> ReviewDocument:
+    """Make ReviewDocument on demand inside tests"""
+    created_review_document: list[ReviewDocument] = []
+
+    # Create a ReviewDocument record
+    def _make_review_document(review=None, document=None, is_viewed=False, comment="Test comment"):
+        if review is None:
+            review = make_course_review()
+        if document is None:
+            document = make_course_evaluation_document()
+
+        # Create the record
+        review_document = ReviewDocument.objects.create(
+            review=review,
+            document=document,
+            is_viewed=is_viewed,
+            comment=comment,
+        )
+
+        created_review_document.append(review_document)
+
+        return review_document
+
+    # Recommended reading: https://docs.pytest.org/en/stable/fixture.html#yield-fixtures-recommended
+    yield _make_review_document
+
+    # Teardown
+    for review_document in created_review_document:
+        review_document.delete()
