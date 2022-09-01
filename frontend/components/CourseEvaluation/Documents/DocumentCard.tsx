@@ -20,6 +20,7 @@ import useModal from '@/components/hooks/useModal';
 import CreateEditDocumentModal from '@/components/CourseEvaluation/Documents/CreateEditDocumentModal';
 import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
 import AreYouSureModalButton from '@/components/utils/AreYouSureModalButton';
+import EditReviewDocumentCommentModal from '@/components/Reviewer/Documents/EditReviewDocumentCommentModal';
 
 type Props = {
   document: Document;
@@ -96,10 +97,12 @@ const DocumentCard = (props: Props) => {
   /**
    * Section here: Reviewer View (isReadOnly = false)
    */
+  const editReviewDocumentCommentModalState = useModal();
   const urlToMutate = API_ENDPOINT.REVIEWS.DETAIL(reviewId || '');
+  const isEditMode = reviewDocument?.id;
 
   const handleTogglingOfDocumentView = async () => {
-    if (reviewDocument?.id) {
+    if (isEditMode) {
       // Edit Mode
       await axios.patch(
         API_ENDPOINT.REVIEWS.DOCUMENT.DETAIL(reviewDocument.review, reviewDocument.id),
@@ -129,6 +132,14 @@ const DocumentCard = (props: Props) => {
           courseEvaluationId={document.course_evaluation}
           handleClose={createEditDocumentModalState.handleClose}
           document={document}
+        />
+      )}
+      {editReviewDocumentCommentModalState.isOpen && reviewId && (
+        <EditReviewDocumentCommentModal
+          handleClose={editReviewDocumentCommentModalState.handleClose}
+          document={document}
+          reviewDocument={reviewDocument}
+          reviewId={reviewId}
         />
       )}
       <Card>
@@ -183,11 +194,11 @@ const DocumentCard = (props: Props) => {
                     </Button>
                     <Button
                       startIcon={<CommentIcon />}
-                      variant="outlined"
+                      variant={reviewDocument?.comment ? 'contained' : 'outlined'}
                       color="secondary"
-                      onClick={() => {}}
+                      onClick={editReviewDocumentCommentModalState.handleOpen}
                     >
-                      Comment
+                      {reviewDocument?.comment ? 'Edit Comment' : 'Add Comment'}
                     </Button>
                   </>
                 ) : (
