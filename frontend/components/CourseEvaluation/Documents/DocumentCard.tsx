@@ -65,7 +65,7 @@ const DocumentCard = (props: Props) => {
   });
 
   // Sort tags by label
-  tags.sort((a, b) => a.label.localeCompare(b.label));
+  tags.sort((a, b) => String(a.key).localeCompare(String(b.key)));
 
   if (document.is_introduction) {
     // Add to the beginning
