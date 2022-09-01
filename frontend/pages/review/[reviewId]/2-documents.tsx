@@ -1,15 +1,13 @@
 import Grid from '@mui/material/Grid';
-import { CourseEvaluationDetailEntry } from 'utils/api';
+import Container from '@mui/material/Container';
 import useCourseReview from '@/components/hooks/useCourseReview';
 import AboutStepCard from '@/components/Reviewer/AboutStepCard';
 import ReviewerBottomNavigation from '@/components/Reviewer/ReviewerBottomNavigation';
 import ReviewProgress from '@/components/Reviewer/ReviewProgress';
 import BodyCard from '@/components/utils/BodyCard';
 import { getReviewStepsWithState } from '@/components/utils/reviews';
-import useModal from '@/components/hooks/useModal';
 import DocumentCard from '@/components/CourseEvaluation/Documents/DocumentCard';
 import useCourseEvaluation from '@/components/hooks/useCourseEvaluation';
-import Container from '@mui/material/Container';
 
 const Documents = () => {
   const { courseReview } = useCourseReview();
