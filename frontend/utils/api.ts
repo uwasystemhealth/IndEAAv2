@@ -41,6 +41,11 @@ export const API_ENDPOINT = {
       DETAIL: (reviewId: string, reviewDocumentId: string) =>
         `/api/v1/reviews/${reviewId}/documents/${reviewDocumentId}/`,
     },
+    EOC: {
+      LIST: (reviewId: string) => `/api/v1/reviews/${reviewId}/eocs/`,
+      DETAIL: (reviewId: string, reviewerAssessmentId: string) =>
+        `/api/v1/reviews/${reviewId}/eocs/${reviewerAssessmentId}/`,
+    },
   },
 };
 const API = {

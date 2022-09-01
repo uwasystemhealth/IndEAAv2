@@ -47,11 +47,14 @@ type Props = {
 const EOCAsessmentModal = (props: Props) => {
   const { eocGeneral, eocSpecific, courseEvaluation, handleClose, review } = props;
   // Business rule: There can only be one justification per EOC
-  const justification = eocSpecific?.justification[0];
+  const coordinatorJustification = eocSpecific?.justification[0];
+  const reviewerAssessment = review.eoc_specific_reviews.find(
+    (eocSpecificReview) => eocSpecificReview.eoc_specific === eocSpecific.id,
+  );
 
   // This modal can be used to create a new justification or edit an existing one.
   // This will determine what type of request we have to do to the API.
-  const isCreateMode = !justification;
+  const isEditMode = reviewerAssessment;
 
   const axios = useAuthenticatedAPIClient();
   const { mutate } = useSWRConfig();
@@ -62,15 +65,39 @@ const EOCAsessmentModal = (props: Props) => {
       /* Note: The values here should match the field name in the models
         Otherwise, make it match in `onSubmit`
       */
-      justification: justification?.justification || '',
-      development_level: justification?.development_level || null,
+      justification: reviewerAssessment?.justification || '',
+      development_level: reviewerAssessment?.development_level || null,
+      suggestion: reviewerAssessment?.suggestion || '',
     },
     validationSchema: Yup.object({
       justification: Yup.string().required('Justification is required'),
       development_level: Yup.number().required('Development level is required'),
+      suggestion: Yup.string().required('Suggestion is required'),
     }),
     onSubmit: async (values) => {
-      console.log(values);
+      try {
+        if (isEditMode) {
+          await axios.patch(
+            API_ENDPOINT.REVIEWS.EOC.DETAIL(review.id, reviewerAssessment.id),
+            values,
+          );
+        } else if (review?.id) {
+          await axios.post(API_ENDPOINT.REVIEWS.EOC.LIST(review.id), {
+            ...values,
+            eoc_specific: eocSpecific.id,
+          });
+        } else {
+          // This should not be used if there is no reviewId
+          throw new Error('Invalid state');
+        }
+        const urlToMutate = API_ENDPOINT.REVIEWS.DETAIL(review?.id || '');
+        mutate(urlToMutate);
+        handleClose();
+        // eslint-disable-next-line @typescript-eslint/no-shadow
+      } catch (error) {
+        // @ts-ignore
+        setError(error?.message || 'Something went wrong');
+      }
     },
   });
   return (
@@ -85,6 +112,11 @@ const EOCAsessmentModal = (props: Props) => {
           gap: 2,
         }}
       >
+        {error && (
+          <Alert variant="filled" severity="error" sx={{ m: 2 }}>
+            {error}
+          </Alert>
+        )}
         <Grid container spacing={2}>
           <Grid
             item
@@ -149,6 +181,18 @@ const EOCAsessmentModal = (props: Props) => {
                   onChange={formik.handleChange}
                   error={Boolean(formik.errors.justification)}
                   helperText={formik.errors.justification}
+                  multiline
+                />
+                <TextField
+                  margin="dense"
+                  id="suggestion"
+                  label="Suggestion for Improvement"
+                  fullWidth
+                  variant="outlined"
+                  value={formik.values.suggestion}
+                  onChange={formik.handleChange}
+                  error={Boolean(formik.errors.suggestion)}
+                  helperText={formik.errors.suggestion}
                   multiline
                 />
               </CardContent>
