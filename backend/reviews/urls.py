@@ -1,7 +1,11 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from reviews.views import ReviewsViewSet, ReviewDocumentViewSet, ReviewEocSpecificViewSet
+from reviews.views import (
+    ReviewDocumentViewSet,
+    ReviewEocSpecificViewSet,
+    ReviewsViewSet,
+)
 
 # Create a router and register our viewsets with it.
 router = DefaultRouter()

@@ -57,7 +57,7 @@ class ReviewDocumentViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         raise self.http_method_not_allowed(request, *args, **kwargs)
-    
+
     def perform_create(self, serializer):
         serializer.save(review_id=self.kwargs["review_id"])
 
@@ -76,16 +76,14 @@ class ReviewEocSpecificViewSet(viewsets.ModelViewSet):
     serializer_class = ReviewEOCSpecificSerializer
     permission_classes = [permissions.IsAuthenticated, IsReviewOwnerAllOrCoordinatorViaObjectReference]
 
-
     def list(self, request, *args, **kwargs):
         raise self.http_method_not_allowed(request, *args, **kwargs)
 
     def retrieve(self, request, *args, **kwargs):
         raise self.http_method_not_allowed(request, *args, **kwargs)
-    
+
     def perform_create(self, serializer):
         serializer.save(review_id=self.kwargs["review_id"])
 
     def perform_update(self, serializer):
         serializer.save(review_id=self.kwargs["review_id"])
-

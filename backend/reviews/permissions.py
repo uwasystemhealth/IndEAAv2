@@ -19,6 +19,7 @@ class IsReviewOwnerAllOrCoordinator(permissions.BasePermission):
         # Reviewer in this context is the associated reviewer in the object
         return request.user == obj.reviewer
 
+
 class IsReviewOwnerAllOrCoordinatorViaObjectReference(permissions.BasePermission):
     """
     Custom version of `IsReviewOwnerAllOrCoordinator` to allow the specific reviewer
