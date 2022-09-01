@@ -22,18 +22,11 @@ const Documents = () => {
       <AboutStepCard stepIndex={STEP_INDEX} />
       <Container maxWidth="xl" sx={{ mt: 2, mb: 2 }}>
         <Grid container spacing={2}>
-          {courseEvaluation.documents.map((document) => {
-            
-            return (
-              <Grid item sm={12} md={4} key={document.id}>
-                <DocumentCard
-                  document={document}
-                  isReadOnly
-                  review={courseReview}
-                />
-              </Grid>
-            );
-          })}
+          {courseEvaluation.documents.map((document) => (
+            <Grid item sm={12} md={4} key={document.id}>
+              <DocumentCard document={document} isReadOnly review={courseReview} />
+            </Grid>
+          ))}
         </Grid>
       </Container>
       <ReviewerBottomNavigation
