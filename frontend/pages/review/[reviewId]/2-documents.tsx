@@ -22,7 +22,7 @@ const Documents = () => {
     <BodyCard>
       <ReviewProgress review={courseReview} />
       <AboutStepCard stepIndex={STEP_INDEX} />
-      <Container maxWidth="xl">
+      <Container maxWidth="xl" sx={{ mt: 2, mb: 2 }}>
         <Grid container spacing={2}>
           {courseEvaluation.documents.map((document) => {
             const reviewDocument = courseReview.documents.find(
