@@ -33,11 +33,11 @@ const EOCCard = (props: Props) => {
 
   const developmentLevel = isReviewerDisplay
     ? reviewerAssessment?.development_level || 0
-    : coordinatorJustification.development_level || 0;
+    : coordinatorJustification?.development_level || 0;
 
   const justificationText = isReviewerDisplay
     ? reviewerAssessment?.justification
-    : coordinatorJustification.justification;
+    : coordinatorJustification?.justification;
 
   return (
     <Card>
