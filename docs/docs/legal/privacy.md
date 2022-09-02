@@ -1,8 +1,12 @@
 # Information we collect
 
+## Email Login
+
+When you log in to our site using an email address and password, we store your email address which is used for account management only
+
 ## Google OAuth
 
-When you log in to our site, we store your Google account's email address, which is used for account management purposes only.
+When you log in to our site using Google login, we store your Google account username, Google account id, first name, last name, and email address which are used for account management only.
 
 ## Hotjar
 
