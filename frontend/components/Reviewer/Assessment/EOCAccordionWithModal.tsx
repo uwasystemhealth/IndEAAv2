@@ -15,10 +15,12 @@ import useModal from '@/components/hooks/useModal';
 interface EOCAccordionWithModalType {
   courseEvaluation: CourseEvaluationDetailEntry;
   courseReview: ReviewListEntry;
+
+  isReadOnly?: boolean;
 }
 
 const EOCAccordionWithModal = (props: EOCAccordionWithModalType) => {
-  const { courseEvaluation, courseReview } = props;
+  const { courseEvaluation, courseReview, isReadOnly } = props;
 
   /**
    * State handlers for selected EOC
@@ -48,6 +50,7 @@ const EOCAccordionWithModal = (props: EOCAccordionWithModalType) => {
           eocSpecific={currentlySelectedEOCSpecific || DEFAULT_EOC_GENERAL_EOC_SPECIFIC}
           handleClose={eocModalState.handleClose}
           review={courseReview}
+          isReadOnly={isReadOnly}
         />
       )}
 
@@ -63,6 +66,10 @@ const EOCAccordionWithModal = (props: EOCAccordionWithModalType) => {
       </Container>
     </>
   );
+};
+
+EOCAccordionWithModal.defaultProps = {
+  isReadOnly: false,
 };
 
 export default EOCAccordionWithModal;

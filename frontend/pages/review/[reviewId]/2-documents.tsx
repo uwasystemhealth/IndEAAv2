@@ -24,7 +24,12 @@ const Documents = () => {
         <Grid container spacing={2}>
           {courseEvaluation.documents.map((document) => (
             <Grid item sm={12} md={4} key={document.id}>
-              <DocumentCard document={document} isReadOnly review={courseReview} />
+              <DocumentCard
+                document={document}
+                isReadOnly={false}
+                isReviewer
+                review={courseReview}
+              />
             </Grid>
           ))}
         </Grid>

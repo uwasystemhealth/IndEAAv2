@@ -37,10 +37,11 @@ type Props = {
   handleClose: () => void;
 
   review: ReviewListEntry;
+  isReadOnly?: boolean;
 };
 
 const EOCAsessmentModal = (props: Props) => {
-  const { eocGeneral, eocSpecific, courseEvaluation, handleClose, review } = props;
+  const { eocGeneral, eocSpecific, courseEvaluation, handleClose, review, isReadOnly } = props;
   // Business rule: There can only be one justification per EOC
   const coordinatorJustification = eocSpecific?.justification[0];
   const reviewerAssessment = getReviewerAssessment(review, eocSpecific);
@@ -174,6 +175,7 @@ const EOCAsessmentModal = (props: Props) => {
                   error={Boolean(formik.errors.development_level)}
                   helperText={formik.errors.development_level}
                   select
+                  disabled={isReadOnly}
                 >
                   {DEVELOPMENT_LEVEL.map((obj) => (
                     <MenuItem
@@ -203,6 +205,7 @@ const EOCAsessmentModal = (props: Props) => {
                   error={Boolean(formik.errors.justification)}
                   helperText={formik.errors.justification}
                   multiline
+                  disabled={isReadOnly}
                 />
                 <TextField
                   margin="dense"
@@ -215,6 +218,7 @@ const EOCAsessmentModal = (props: Props) => {
                   error={Boolean(formik.errors.suggestion)}
                   helperText={formik.errors.suggestion}
                   multiline
+                  disabled={isReadOnly}
                 />
               </CardContent>
             </Card>
@@ -230,7 +234,7 @@ const EOCAsessmentModal = (props: Props) => {
                   documents={courseEvaluation.documents}
                   eocGeneralToFilter={eocGeneral}
                   eocSpecificToFilter={eocSpecific}
-                  isReadOnly
+                  isReadOnly={isReadOnly}
                   review={review}
                 />
               </CardContent>
@@ -240,10 +244,14 @@ const EOCAsessmentModal = (props: Props) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={() => formik.handleSubmit()}>Save</Button>
+        {!isReadOnly && <Button onClick={() => formik.handleSubmit()}>Save</Button>}
       </DialogActions>
     </Dialog>
   );
+};
+
+EOCAsessmentModal.defaultProps = {
+  isReadOnly: false,
 };
 
 export default EOCAsessmentModal;

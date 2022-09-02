@@ -8,7 +8,7 @@ import DocumentCard from '../Documents/DocumentCard';
 
 type Props = {
   documents: Document[];
-  isReadOnly: boolean;
+  isReadOnly?: boolean;
 
   // These are used to filter the documents being processed.
   eocGeneralToFilter: EocSetEocGeneral;
@@ -51,6 +51,7 @@ const EOCDocumentsViewer = (props: Props) => {
               key={document.id}
               document={document}
               isReadOnly={isReadOnly}
+              isReviewer={Boolean(review)}
               review={review}
             />
           ))}
@@ -63,6 +64,7 @@ const EOCDocumentsViewer = (props: Props) => {
               key={document.id}
               document={document}
               isReadOnly={isReadOnly}
+              isReviewer={Boolean(review)}
               review={review}
             />
           ))}
@@ -74,6 +76,7 @@ const EOCDocumentsViewer = (props: Props) => {
 
 EOCDocumentsViewer.defaultProps = {
   review: undefined,
+  isReadOnly: false,
 };
 
 export default EOCDocumentsViewer;

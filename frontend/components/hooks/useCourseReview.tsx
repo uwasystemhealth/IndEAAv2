@@ -15,7 +15,7 @@ const useCourseReview = (redirectIfDone = true) => {
     DEFAULT_REVIEW_LIST_ENTRY) as ReviewListEntry;
 
   if (courseReview.date_submitted && redirectIfDone) {
-    router.push(`/`);
+    router.push(`/review/${reviewId}/5-finish`);
   }
 
   return { courseReview, swr: swrResult };

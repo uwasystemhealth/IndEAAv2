@@ -74,7 +74,7 @@ const OverviewAndEOC = () => {
                   .filter((document) => document.is_introduction)
                   .map((document) => (
                     <Grid item key={document.id} xs={12} sm={6}>
-                      <DocumentCard document={document} isReadOnly />
+                      <DocumentCard document={document} isReadOnly={false} isReviewer />
                     </Grid>
                   ))}
               </Grid>
