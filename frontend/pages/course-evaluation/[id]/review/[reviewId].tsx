@@ -4,7 +4,6 @@ import BodyCard from '@/components/utils/BodyCard';
 import useCourseReview from '@/components/hooks/useCourseReview';
 import useCourseEvaluation from '@/components/hooks/useCourseEvaluation';
 import ReviewSummarySubmissionContent from '@/components/Reviewer/Submit/ReviewSummarySubmissionContent';
-import Typography from '@mui/material/Typography';
 import { userDisplayName } from '@/components/utils/generic';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -36,7 +35,7 @@ const Summary = () => {
         <Card>
           <CardHeader title={`Review by: ${userDisplayName(courseReview.reviewer)}`} />
           <CardContent> Below is the summary of what the reviewer has put in.</CardContent>
-          <CardActions></CardActions>
+          <CardActions />
         </Card>
       </Container>
       <ReviewSummarySubmissionContent

@@ -50,7 +50,9 @@ const ReviewCard = (props: Props) => {
                 variant="outlined"
                 color="primary"
                 onClick={() => {
-                  router.push(`/course-evaluation/${review.course_evaluation.id}/review/${review.id}`);
+                  router.push(
+                    `/course-evaluation/${review.course_evaluation.id}/review/${review.id}`,
+                  );
                 }}
               >
                 View
