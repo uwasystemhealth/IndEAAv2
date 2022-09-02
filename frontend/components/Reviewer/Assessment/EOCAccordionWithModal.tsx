@@ -15,7 +15,7 @@ import useModal from '@/components/hooks/useModal';
 interface EOCAccordionWithModalType {
   courseEvaluation: CourseEvaluationDetailEntry;
   courseReview: ReviewListEntry;
-  
+
   isReadOnly?: boolean;
 }
 

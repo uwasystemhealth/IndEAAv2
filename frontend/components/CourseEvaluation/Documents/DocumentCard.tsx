@@ -27,7 +27,7 @@ type Props = {
   isReadOnly?: boolean;
   isReviewer: boolean;
 
-  // These two props should be passed in if `isReadOnly` is true.
+  // These two props should be passed in if `isReviewer` is true.
   review?: ReviewListEntry;
 };
 
@@ -82,7 +82,7 @@ const DocumentCard = (props: Props) => {
   }
 
   /**
-   * Section here: Coordinator View (isReadOnly = true)
+   * Section here: Coordinator View (isReviewer = true)
    */
   const createEditDocumentModalState = useModal();
   const handleDelete = async () => {
@@ -99,7 +99,7 @@ const DocumentCard = (props: Props) => {
   };
 
   /**
-   * Section here: Reviewer View (isReadOnly = false)
+   * Section here: Reviewer View (isReviewer = false)
    */
   const editReviewDocumentCommentModalState = useModal();
   const urlToMutate = API_ENDPOINT.REVIEWS.DETAIL(review?.id || '');
