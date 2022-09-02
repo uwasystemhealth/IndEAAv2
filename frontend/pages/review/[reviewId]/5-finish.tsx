@@ -4,6 +4,7 @@ import BodyCard from '@/components/utils/BodyCard';
 import useCourseReview from '@/components/hooks/useCourseReview';
 import useCourseEvaluation from '@/components/hooks/useCourseEvaluation';
 import ReviewSummarySubmissionContent from '@/components/Reviewer/Submit/ReviewSummarySubmissionContent';
+import AboutStepCard from '@/components/Reviewer/AboutStepCard';
 
 const Finish = () => {
   const { courseReview } = useCourseReview(false);
@@ -13,6 +14,10 @@ const Finish = () => {
 
   return (
     <BodyCard>
+      <AboutStepCard
+        title="5 - Finish"
+        subheader="You have completed submission for this review. See below for your review. If there is something wrong here, please contact the coordinator of this course evaluation"
+      />
       <ReviewSummarySubmissionContent
         allSteps={allSteps}
         courseReview={courseReview}
