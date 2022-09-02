@@ -399,3 +399,10 @@ EMAIL_ADDRESS_FROM = config("EMAIL_ADDRESS_FROM", "noreply-indeaa@systemhealthla
 
 # This string is prefixed to the beginning of every email (subject).
 EMAIL_SUBJECT_PREFIX = f"[IndEAA {APP_ENV}] "
+
+###################
+# Use HTTPS headers
+###################
+
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
