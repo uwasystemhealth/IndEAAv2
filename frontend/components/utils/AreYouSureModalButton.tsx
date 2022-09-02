@@ -8,7 +8,7 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 
-type Props = {
+export type Props = {
   title?: string;
   description?: string;
   action: any;

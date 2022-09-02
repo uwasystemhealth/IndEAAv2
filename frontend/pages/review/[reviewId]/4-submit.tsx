@@ -145,6 +145,11 @@ const Submit = () => {
         previousLink={stepDetails.prevStep}
         nextLink={stepDetails.nextStep}
         handleSubmit={formik.handleSubmit}
+        modalConfirmation={{
+          title: 'Submit Review',
+          description:
+            'Are you sure you want to submit the review? Once you have submitted, you cannot edit the review. If you want to edit it, then you have to contact the coordinators or administrators.',
+        }}
       />
     </BodyCard>
   );
