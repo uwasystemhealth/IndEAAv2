@@ -135,7 +135,8 @@ const EOCAsessmentModal = (props: Props) => {
                   Justification of Coordinators
                 </Typography>
                 <Typography variant="body2" gutterBottom>
-                  {coordinatorJustification.justification}
+                  {coordinatorJustification?.justification ||
+                    'The coordinator has not provided any justification'}
                 </Typography>
                 <Divider sx={{ m: 2 }} />
                 <Typography
