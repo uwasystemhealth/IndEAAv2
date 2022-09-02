@@ -147,7 +147,7 @@ const Submit = () => {
         modalConfirmation={{
           title: 'Submit Review',
           description:
-            'Are you sure you want to submit the review? Once you have submitted, you cannot edit the review. If you want to edit it, then you have to contact the coordinators or administrators.',
+            'You are about to submit a review. Upon submission of a review, you will lose the ability to edit your review. If you have to edit a review, you will have to contact the coordinator of this unit.',
         }}
       />
     </BodyCard>
