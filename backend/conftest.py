@@ -6,8 +6,15 @@ from django.contrib.auth.models import User
 from django.core.management import call_command
 from rest_framework.test import APIClient
 
-from course_evaluations.models import CourseEvaluation, Document, EOCSet
-from reviews.models import Review
+from course_evaluations.models import (
+    CourseEvaluation,
+    CourseEvaluationJustification,
+    DevelopmentLevels,
+    Document,
+    EOCSet,
+    EOCSpecific,
+)
+from reviews.models import Review, ReviewDocument
 
 
 @pytest.fixture
@@ -192,11 +199,11 @@ def make_course_evaluation_document(setup_indeaa, make_course_evaluation) -> Doc
 
 @pytest.fixture
 @pytest.mark.django_db
-def make_course_review(setup_indeaa, make_course_evaluation, create_user) -> CourseEvaluation:
-    """Make CourseEvaluation on demand inside tests"""
+def make_course_review(setup_indeaa, make_course_evaluation, create_user) -> Review:
+    """Make CourseEvaluation Review on demand inside tests"""
     created_course_review = []
 
-    # Create a CourseEvaluation record
+    # Create a CourseEvaluation Review record
     def _make_course_review(
         course_evaluation=None,
         reviewer=None,
@@ -224,3 +231,79 @@ def make_course_review(setup_indeaa, make_course_evaluation, create_user) -> Cou
     # Teardown
     for document in created_course_review:
         document.delete()
+
+
+@pytest.fixture
+@pytest.mark.django_db
+def make_course_evaluation_justification(setup_indeaa, make_course_evaluation) -> CourseEvaluationJustification:
+    """Make CourseEvaluation on demand inside tests"""
+    created_course_evaluation_justification = []
+
+    # Create a CourseEvaluation record
+    def _make_course_evaluation_justification(
+        course_evaluation=None,
+        eoc_specifics=[],
+        development_level=DevelopmentLevels.FOUNDATIONAL,
+        justification="Test CourseEvaluation Justification",
+    ):
+        if course_evaluation is None:
+            course_evaluation = make_course_evaluation()
+
+        # Create the record
+        justification = CourseEvaluationJustification.objects.create(
+            course_evaluation=course_evaluation,
+            development_level=development_level,
+            justification=justification,
+        )
+
+        if not eoc_specifics:
+            # Default EOC Specific
+            eoc_specifics = [EOCSpecific.objects.first()]
+
+        for eoc_specific in eoc_specifics:
+            justification.eoc_specifics.add(eoc_specific)
+
+        created_course_evaluation_justification.append(justification)
+
+        return justification
+
+    # Recommended reading: https://docs.pytest.org/en/stable/fixture.html#yield-fixtures-recommended
+    yield _make_course_evaluation_justification
+
+    # Teardown
+    for justification in created_course_evaluation_justification:
+        justification.delete()
+
+
+# Wrapper for ReviewDocument
+@pytest.fixture
+@pytest.mark.django_db
+def make_review_document(setup_indeaa, make_course_review, make_course_evaluation_document) -> ReviewDocument:
+    """Make ReviewDocument on demand inside tests"""
+    created_review_document: list[ReviewDocument] = []
+
+    # Create a ReviewDocument record
+    def _make_review_document(review=None, document=None, is_viewed=False, comment="Test comment"):
+        if review is None:
+            review = make_course_review()
+        if document is None:
+            document = make_course_evaluation_document()
+
+        # Create the record
+        review_document = ReviewDocument.objects.create(
+            review=review,
+            document=document,
+            is_viewed=is_viewed,
+            comment=comment,
+        )
+
+        created_review_document.append(review_document)
+
+        return review_document
+
+    # Recommended reading: https://docs.pytest.org/en/stable/fixture.html#yield-fixtures-recommended
+    yield _make_review_document
+
+    # Teardown
+    for review_document in created_review_document:
+        review_document.delete()

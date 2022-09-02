@@ -1,20 +1,23 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import Container from '@mui/material/Container';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
-import Link from '@mui/material/Link';
+import Link from 'next/link';
 import { CourseEvaluationListEntry } from 'utils/api';
+import AddIcon from '@mui/icons-material/Add';
+import Grid from '@mui/material/Grid';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { listOfUserDisplayNames } from '../utils/generic';
 
 type Props = {
   list: CourseEvaluationListEntry[];
 };
 
 const CoordinatorList = ({ list }: Props) => (
-  <Container>
+  <>
     <Box
       sx={{
         display: 'flex',
@@ -23,11 +26,8 @@ const CoordinatorList = ({ list }: Props) => (
       }}
     >
       <Stack spacing={2} direction="row">
-        <Button variant="contained" color="primary">
-          CREATE NEW EVALUATION
-        </Button>
-        <Button variant="contained" color="secondary">
-          SHOW COMPLETED
+        <Button startIcon={<AddIcon />} variant="contained" color="primary" disabled>
+          Create new Evaluation
         </Button>
       </Stack>
     </Box>
@@ -41,14 +41,8 @@ const CoordinatorList = ({ list }: Props) => (
       {list.map((courseEvaluationListEntry) => (
         <Card key={courseEvaluationListEntry.id}>
           <CardContent>
-            <Box
-              sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}
-            >
-              <Box>
+            <Grid container justifyContent="space-between" alignItems="center">
+              <Grid item md={8}>
                 <Typography gutterBottom variant="h5" component="div">
                   {courseEvaluationListEntry.unit_code}
                 </Typography>
@@ -60,33 +54,34 @@ const CoordinatorList = ({ list }: Props) => (
                 >
                   <Typography sx={{ fontWeight: 'bold', pb: 1, pr: 1 }}>Coordinators:</Typography>
                   <Typography>
-                    {courseEvaluationListEntry.coordinators
-                      .map(({ username }) => username)
-                      .join(', ')}
+                    {listOfUserDisplayNames(courseEvaluationListEntry.coordinators)}
                   </Typography>
                 </Box>
-                <Typography variant="body2" color="text.secondary">
-                  {courseEvaluationListEntry.description}
-                </Typography>
-              </Box>
-              <Box
+              </Grid>
+              <Grid
+                item
+                md={4}
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
+                  justifyContent: 'flex-end',
                 }}
               >
                 <Link href={`/course-evaluation/${courseEvaluationListEntry.id}`}>
-                  <Button variant="contained" color="primary">
+                  <Button startIcon={<VisibilityIcon />} variant="contained" color="primary">
                     View
                   </Button>
                 </Link>
-              </Box>
-            </Box>
+              </Grid>
+            </Grid>
+            <Typography variant="body2" color="text.secondary">
+              {courseEvaluationListEntry.description}
+            </Typography>
           </CardContent>
         </Card>
       ))}
     </Box>
-  </Container>
+  </>
 );
 
 export default CoordinatorList;

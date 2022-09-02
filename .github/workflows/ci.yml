@@ -27,6 +27,8 @@ jobs:
       - name: Run Build
         run:  yarn build
         working-directory: frontend
+        env:
+          SENTRY_AUTH_TOKEN: ${{secrets.SENTRY_AUTH_TOKEN}}
 
   frontend-check:
     runs-on: ubuntu-latest
@@ -69,6 +71,8 @@ jobs:
         run: cp ./docker/indeaa-ci.env .env
       - name: Build the docker-compose
         run: docker-compose build
+        env:
+          SENTRY_AUTH_TOKEN: ${{secrets.SENTRY_AUTH_TOKEN}}
       # TODO Issue #50
   pytest_py3:
     name: "Automated Tests with Pytest"

@@ -9,6 +9,7 @@ The following libraries are to be aware of as it is extensively used in the fron
 - [ReactJS](https://reactjs.org/)
 - [NextJS](https://nextjs.org/): a library that handle SSR, and a more opinionated version of React that creates a lot of tooling
 
+
 ### Routing
 - [NextJS Routing](https://nextjs.org/docs/basic-features/pages): NextJS handling
 
@@ -19,6 +20,12 @@ The following libraries are to be aware of as it is extensively used in the fron
     To be added, an Authentication Provider will be created to handle the authentication of the user.
 ### Component System and Design
 - [Material UI v5](https://mui.com/): React library that is inline with [Google Material Design](https://material.io/design)
+
+???+ info "SSR with Material UI"
+    Note, while NextJS is a good framework, it also introduces as some extra issues that we might need to be aware of:
+
+    - [React Hydration Error](https://nextjs.org/docs/messages/react-hydration-error)
+    - [MUI Server-side Rendering](https://mui.com/material-ui/guides/server-rendering/)
 
 ### API Integration
 - [Axios](https://github.com/axios/axios): used for making HTTP requests to the backend

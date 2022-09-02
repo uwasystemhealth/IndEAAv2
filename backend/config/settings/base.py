@@ -142,6 +142,7 @@ AUTHENTICATION_BACKENDS = [
 GOOGLE_CLIENT_ID = config("GOOGLE_CLIENT_ID", "not-set")
 GOOGLE_SECRET = config("GOOGLE_SECRET", "not-set")
 
+SOCIALACCOUNT_ADAPTER = "authentication.utils.SocialAccountAdapter"
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
         "APP": {
@@ -398,3 +399,11 @@ EMAIL_ADDRESS_FROM = config("EMAIL_ADDRESS_FROM", "noreply-indeaa@systemhealthla
 
 # This string is prefixed to the beginning of every email (subject).
 EMAIL_SUBJECT_PREFIX = f"[IndEAA {APP_ENV}] "
+
+###################
+# Use HTTPS headers
+###################
+
+# https://stackoverflow.com/questions/62047354/build-absolute-uri-with-https-behind-reverse-proxy
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
