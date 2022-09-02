@@ -1,7 +1,17 @@
 /* eslint-disable import/prefer-default-export */
 import { EocGeneralEocSpecific, ReviewListEntry } from 'utils/api';
 
-export const getReviewStepsWithState = (review?: ReviewListEntry) => {
+export interface ReviewStepWithStateType {
+  nextStep: string | undefined;
+  prevStep: string | undefined;
+  fullLink: string;
+  stepName: string;
+  stepLink: string;
+  done: boolean;
+  description: string;
+  stepNo: number;
+}
+export const getReviewStepsWithState = (review?: ReviewListEntry): ReviewStepWithStateType[] => {
   const initialConfig = [
     {
       stepName: 'Overview & Elements of Competency',

@@ -7,14 +7,14 @@ import Grid from '@mui/material/Grid';
 import React, { ReactNode, useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { API_ENDPOINT } from 'utils/api';
+import { API_ENDPOINT, CourseEvaluationDetailEntry, ReviewListEntry } from 'utils/api';
 import TextField from '@mui/material/TextField';
 import { useSWRConfig } from 'swr';
 import Alert from '@mui/material/Alert';
 import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
 import EOCAccordionWithModal from '@/components/Reviewer/Assessment/EOCAccordionWithModal';
 import SimplifiedDocumentCard from '@/components/Reviewer/Submit/SimplifiedDocumentCard';
-import { getReviewStepsWithState } from '@/components/utils/reviews';
+import { getReviewStepsWithState, ReviewStepWithStateType } from '@/components/utils/reviews';
 import BodyCard from '@/components/utils/BodyCard';
 import ReviewProgress from '@/components/Reviewer/ReviewProgress';
 import ReviewerBottomNavigation from '@/components/Reviewer/ReviewerBottomNavigation';
@@ -42,9 +42,9 @@ const Submit = () => {
   const allSteps = getReviewStepsWithState(courseReview);
   const stepDetails = allSteps[STEP_INDEX];
 
+  const [error, setError] = useState('');
   const axios = useAuthenticatedAPIClient();
   const { mutate } = useSWRConfig();
-  const [error, setError] = useState('');
 
   // An object with key as the step number, value as whether it is done
   const formik = useFormik({
@@ -91,36 +91,18 @@ const Submit = () => {
     } else {
       setError('');
     }
-  }, [formik.errors]);
+  }, [formik.errors, setError]);
 
   return (
     <BodyCard>
       <ReviewProgress review={courseReview} />
       <AboutStepCard stepIndex={STEP_INDEX} />
-      <StepWrapper cardTitle={`Step 1 - ${allSteps[0].stepName}`}>
-        {courseReview.eoc_date_viewed ? (
-          <Typography color="secondary.main">
-            You have read and confirmed that you have understood the elements of competencies.
-          </Typography>
-        ) : (
-          <Typography color="error.main">
-            You have not yet read and confirmed that you have understood the elements of
-            competencies.
-          </Typography>
-        )}
-      </StepWrapper>
-      <StepWrapper cardTitle={`Step 2 - ${allSteps[1].stepName}`}>
-        <Grid container spacing={2}>
-          {courseEvaluation.documents.map((document) => (
-            <Grid item sm={12} md={4} key={document.id}>
-              <SimplifiedDocumentCard document={document} review={courseReview} />
-            </Grid>
-          ))}
-        </Grid>
-      </StepWrapper>
-      <StepWrapper cardTitle={`Step 3 - ${allSteps[2].stepName}`}>
-        <EOCAccordionWithModal courseEvaluation={courseEvaluation} courseReview={courseReview} />
-      </StepWrapper>
+      <ReviewSummarySubmissionContent
+        allSteps={allSteps}
+        courseReview={courseReview}
+        courseEvaluation={courseEvaluation}
+        displayLastStep={false}
+      />
       <StepWrapper cardTitle={`Step 4 - ${allSteps[3].stepName}`}>
         <TextField
           margin="dense"
@@ -155,3 +137,60 @@ const Submit = () => {
 };
 
 export default Submit;
+
+interface ReviewSummarySubmissionContentType {
+  allSteps: ReviewStepWithStateType[];
+  courseReview: ReviewListEntry;
+  courseEvaluation: CourseEvaluationDetailEntry;
+  isReadOnly?: boolean;
+}
+const ReviewSummarySubmissionContent = (props: ReviewSummarySubmissionContentType) => {
+  const { allSteps, courseReview, courseEvaluation, isReadOnly } = props;
+
+  return (
+    <>
+      <StepWrapper cardTitle={`Step 1 - ${allSteps[0].stepName}`}>
+        {courseReview.eoc_date_viewed ? (
+          <Typography color="secondary.main">
+            You have read and confirmed that you have understood the elements of competencies.
+          </Typography>
+        ) : (
+          <Typography color="error.main">
+            You have not yet read and confirmed that you have understood the elements of
+            competencies.
+          </Typography>
+        )}
+      </StepWrapper>
+      <StepWrapper cardTitle={`Step 2 - ${allSteps[1].stepName}`}>
+        <Grid container spacing={2}>
+          {courseEvaluation.documents.map((document) => (
+            <Grid item sm={12} md={4} key={document.id}>
+              <SimplifiedDocumentCard document={document} review={courseReview} />
+            </Grid>
+          ))}
+        </Grid>
+      </StepWrapper>
+      <StepWrapper cardTitle={`Step 3 - ${allSteps[2].stepName}`}>
+        <EOCAccordionWithModal courseEvaluation={courseEvaluation} courseReview={courseReview} />
+      </StepWrapper>
+      {!isReadOnly && (
+        <StepWrapper cardTitle={`Step 4 - ${allSteps[3].stepName}`}>
+          <TextField
+            margin="dense"
+            id="final_comment"
+            label="Final Comment"
+            fullWidth
+            variant="outlined"
+            multiline
+            disabled
+            value={courseReview.final_comment}
+          />
+        </StepWrapper>
+      )}
+    </>
+  );
+};
+
+ReviewSummarySubmissionContent.defaultProps = {
+  isReadOnly: true,
+};
