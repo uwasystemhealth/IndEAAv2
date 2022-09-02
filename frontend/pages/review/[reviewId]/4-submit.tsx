@@ -1,27 +1,26 @@
-import useCourseEvaluation from '@/components/hooks/useCourseEvaluation';
-import useCourseReview from '@/components/hooks/useCourseReview';
-import AboutStepCard from '@/components/Reviewer/AboutStepCard';
-import ReviewerBottomNavigation from '@/components/Reviewer/ReviewerBottomNavigation';
-import ReviewProgress from '@/components/Reviewer/ReviewProgress';
-import BodyCard from '@/components/utils/BodyCard';
-import { getReviewStepsWithState } from '@/components/utils/reviews';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import DocumentCard from '@/components/CourseEvaluation/Documents/DocumentCard';
-import SimplifiedDocumentCard from '@/components/Reviewer/Submit/SimplifiedDocumentCard';
 import React, { ReactNode, useEffect, useState } from 'react';
-import EOCAccordionWithModal from '@/components/Reviewer/Assessment/EOCAccordionWithModal';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { API_ENDPOINT } from 'utils/api';
 import TextField from '@mui/material/TextField';
-import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
 import { useSWRConfig } from 'swr';
 import Alert from '@mui/material/Alert';
+import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
+import EOCAccordionWithModal from '@/components/Reviewer/Assessment/EOCAccordionWithModal';
+import SimplifiedDocumentCard from '@/components/Reviewer/Submit/SimplifiedDocumentCard';
+import { getReviewStepsWithState } from '@/components/utils/reviews';
+import BodyCard from '@/components/utils/BodyCard';
+import ReviewProgress from '@/components/Reviewer/ReviewProgress';
+import ReviewerBottomNavigation from '@/components/Reviewer/ReviewerBottomNavigation';
+import AboutStepCard from '@/components/Reviewer/AboutStepCard';
+import useCourseReview from '@/components/hooks/useCourseReview';
+import useCourseEvaluation from '@/components/hooks/useCourseEvaluation';
 
 const StepWrapper = (props: { children: ReactNode; cardTitle: string }) => {
   const { children, cardTitle } = props;
