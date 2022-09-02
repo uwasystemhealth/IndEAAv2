@@ -74,7 +74,7 @@ const EOCCard = (props: Props) => {
               color: developmentLevel ? theme.palette.secondary.main : theme.palette.error.main,
             }}
           >
-            <Typography variant="body2" sx={{ fontWeight: 'bold', pb: 1, pr: 1 }} color="success">
+            <Typography variant="body2" sx={{ fontWeight: 'bold', pb: 1, pr: 1 }}>
               Your Rating:
             </Typography>
             <Typography variant="body2" gutterBottom>
@@ -86,7 +86,7 @@ const EOCCard = (props: Props) => {
               color: justificationText ? theme.palette.secondary.main : theme.palette.error.main,
             }}
           >
-            <Typography variant="body2" sx={{ fontWeight: 'bold', pb: 1, pr: 1 }} color="success">
+            <Typography variant="body2" sx={{ fontWeight: 'bold', pb: 1, pr: 1 }}>
               Your Justification:
             </Typography>
             <Typography variant="body2" gutterBottom>
@@ -101,7 +101,7 @@ const EOCCard = (props: Props) => {
                   : theme.palette.error.main,
               }}
             >
-              <Typography variant="body2" sx={{ fontWeight: 'bold', pb: 1, pr: 1 }} color="success">
+              <Typography variant="body2" sx={{ fontWeight: 'bold', pb: 1, pr: 1 }}>
                 Your Suggestion
               </Typography>
               <Typography variant="body2" gutterBottom>
