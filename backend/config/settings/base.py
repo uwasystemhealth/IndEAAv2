@@ -404,5 +404,6 @@ EMAIL_SUBJECT_PREFIX = f"[IndEAA {APP_ENV}] "
 # Use HTTPS headers
 ###################
 
+# https://stackoverflow.com/questions/62047354/build-absolute-uri-with-https-behind-reverse-proxy
 USE_X_FORWARDED_HOST = True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
