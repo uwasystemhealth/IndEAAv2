@@ -21,9 +21,9 @@ router.register(
 )
 
 router.register(
-    r"(?P<review_id>[^/.]+)/eoc",
+    r"(?P<review_id>[^/.]+)/eocs",
     ReviewEocSpecificViewSet,
-    basename="eoc",
+    basename="eocs",
 )
 
 router.register(r"", ReviewsViewSet, basename="reviews")

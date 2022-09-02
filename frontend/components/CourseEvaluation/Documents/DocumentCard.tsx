@@ -1,5 +1,5 @@
 import React from 'react';
-import { API_ENDPOINT, Document, ReviewDocument } from 'utils/api';
+import { API_ENDPOINT, Document, ReviewListEntry } from 'utils/api';
 import Box from '@mui/material/Box';
 
 import Grid from '@mui/material/Grid';
@@ -27,8 +27,7 @@ type Props = {
   isReadOnly: boolean;
 
   // These two props should be passed in if `isReadOnly` is true.
-  reviewId?: string;
-  reviewDocument?: ReviewDocument;
+  review?: ReviewListEntry;
 };
 
 export interface DocumentTag {
@@ -39,9 +38,13 @@ export interface DocumentTag {
   color: any;
 }
 const DocumentCard = (props: Props) => {
-  const { document, isReadOnly, reviewDocument, reviewId } = props;
+  const { document, isReadOnly, review } = props;
   const axios = useAuthenticatedAPIClient();
   const { mutate } = useSWRConfig();
+
+  const reviewDocument = review?.documents.find(
+    (currentDocumentInIteration) => currentDocumentInIteration.document === document.id,
+  );
 
   /**
    * Section here is for document display
@@ -65,7 +68,7 @@ const DocumentCard = (props: Props) => {
   });
 
   // Sort tags by label
-  tags.sort((a, b) => a.label.localeCompare(b.label));
+  tags.sort((a, b) => String(a.key).localeCompare(String(b.key)));
 
   if (document.is_introduction) {
     // Add to the beginning
@@ -98,7 +101,7 @@ const DocumentCard = (props: Props) => {
    * Section here: Reviewer View (isReadOnly = false)
    */
   const editReviewDocumentCommentModalState = useModal();
-  const urlToMutate = API_ENDPOINT.REVIEWS.DETAIL(reviewId || '');
+  const urlToMutate = API_ENDPOINT.REVIEWS.DETAIL(review?.id || '');
   const isEditMode = reviewDocument?.id;
 
   const handleTogglingOfDocumentView = async () => {
@@ -111,10 +114,10 @@ const DocumentCard = (props: Props) => {
         },
       );
       mutate(urlToMutate);
-    } else if (reviewId) {
+    } else if (review?.id) {
       // Create Mode
       // Note: reason why `reviewDocument.review` is that it is undefined if the object is not created yet
-      await axios.post(API_ENDPOINT.REVIEWS.DOCUMENT.LIST(reviewId), {
+      await axios.post(API_ENDPOINT.REVIEWS.DOCUMENT.LIST(review?.id), {
         is_viewed: true,
         document: document.id,
       });
@@ -134,12 +137,12 @@ const DocumentCard = (props: Props) => {
           document={document}
         />
       )}
-      {editReviewDocumentCommentModalState.isOpen && reviewId && (
+      {editReviewDocumentCommentModalState.isOpen && review?.id && (
         <EditReviewDocumentCommentModal
           handleClose={editReviewDocumentCommentModalState.handleClose}
           document={document}
           reviewDocument={reviewDocument}
-          reviewId={reviewId}
+          reviewId={review?.id}
         />
       )}
       <Card>
@@ -233,8 +236,7 @@ const DocumentCard = (props: Props) => {
 };
 
 DocumentCard.defaultProps = {
-  reviewId: undefined,
-  reviewDocument: undefined,
+  review: undefined,
 };
 
 export default DocumentCard;

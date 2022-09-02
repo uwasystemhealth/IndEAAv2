@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Grid from '@mui/material/Grid';
 import React from 'react';
-import { EocGeneralEocSpecific, EocSetEocGeneral } from 'utils/api';
+import { EocGeneralEocSpecific, EocSetEocGeneral, ReviewListEntry } from 'utils/api';
 import EOCCard from './EOCCard';
 
 type Props = {
@@ -13,9 +13,12 @@ type Props = {
   handleSelectEOCSpecificAndGeneral: (
     eocGeneral: EocSetEocGeneral,
   ) => (eocSpecific: EocGeneralEocSpecific) => void;
+
+  // This is useful for Reviewer
+  review?: ReviewListEntry;
 };
 
-const EOCAccordion = ({ eocGeneral, handleSelectEOCSpecificAndGeneral }: Props) => (
+const EOCAccordion = ({ eocGeneral, handleSelectEOCSpecificAndGeneral, review }: Props) => (
   <Accordion>
     <AccordionSummary expandIcon={<ExpandMoreIcon />}>
       <Typography>{`EOC ${eocGeneral.number}: ${eocGeneral.title}`}</Typography>
@@ -27,6 +30,7 @@ const EOCAccordion = ({ eocGeneral, handleSelectEOCSpecificAndGeneral }: Props) 
             <EOCCard
               eocSpecific={eocSpecific}
               handleSelectEOCSpecific={handleSelectEOCSpecificAndGeneral(eocGeneral)}
+              review={review}
             />
           </Grid>
         ))}
@@ -34,5 +38,9 @@ const EOCAccordion = ({ eocGeneral, handleSelectEOCSpecificAndGeneral }: Props) 
     </AccordionDetails>
   </Accordion>
 );
+
+EOCAccordion.defaultProps = {
+  review: undefined,
+};
 
 export default EOCAccordion;
