@@ -24,7 +24,8 @@ import EditReviewDocumentCommentModal from '@/components/Reviewer/Documents/Edit
 
 type Props = {
   document: Document;
-  isReadOnly: boolean;
+  isReadOnly?: boolean;
+  isReviewer: boolean;
 
   // These two props should be passed in if `isReadOnly` is true.
   review?: ReviewListEntry;
@@ -38,7 +39,7 @@ export interface DocumentTag {
   color: any;
 }
 const DocumentCard = (props: Props) => {
-  const { document, isReadOnly, review } = props;
+  const { document, isReadOnly, review, isReviewer } = props;
   const axios = useAuthenticatedAPIClient();
   const { mutate } = useSWRConfig();
 
@@ -185,7 +186,7 @@ const DocumentCard = (props: Props) => {
                 >
                   View
                 </Button>
-                {isReadOnly ? (
+                {isReviewer && !isReadOnly && (
                   <>
                     <Button
                       startIcon={<BookmarkAddedIcon />}
@@ -204,7 +205,8 @@ const DocumentCard = (props: Props) => {
                       {reviewDocument?.comment ? 'Edit Comment' : 'Add Comment'}
                     </Button>
                   </>
-                ) : (
+                )}
+                {!isReviewer && !isReadOnly && (
                   <>
                     <Button
                       startIcon={<EditIcon />}
@@ -237,6 +239,7 @@ const DocumentCard = (props: Props) => {
 
 DocumentCard.defaultProps = {
   review: undefined,
+  isReadOnly: false,
 };
 
 export default DocumentCard;

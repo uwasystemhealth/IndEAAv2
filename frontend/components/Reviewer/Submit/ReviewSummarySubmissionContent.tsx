@@ -41,7 +41,7 @@ const ReviewSummarySubmissionContent = (props: ReviewSummarySubmissionContentTyp
         </Grid>
       </StepWrapper>
       <StepWrapper cardTitle={`Step 3 - ${allSteps[2].stepName}`}>
-        <EOCAccordionWithModal courseEvaluation={courseEvaluation} courseReview={courseReview} />
+        <EOCAccordionWithModal courseEvaluation={courseEvaluation} courseReview={courseReview} isReadOnly/>
       </StepWrapper>
       {isReadOnly && (
         <StepWrapper cardTitle={`Step 4 - ${allSteps[3].stepName}`}>
