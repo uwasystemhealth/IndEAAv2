@@ -7,8 +7,8 @@ import { CourseEvaluationDetailEntry } from 'utils/api';
 import CardHeader from '@mui/material/CardHeader';
 import EditIcon from '@mui/icons-material/Edit';
 import Fab from '@mui/material/Fab';
-import useModal from '@/components/hooks/useModal';
 import Stack from '@mui/material/Stack';
+import useModal from '@/components/hooks/useModal';
 import { listOfUserDisplayNames } from '../../utils/generic';
 import EditGeneralInformationModal from './EditGeneralInformationModal';
 import DocumentCard from '../Documents/DocumentCard';
@@ -74,7 +74,12 @@ const Overview = ({ evaluation }: Props) => {
                 {evaluation.documents
                   .filter((document) => document.is_introduction)
                   .map((document) => (
-                    <DocumentCard key={document.id} document={document} isReadOnly={false} />
+                    <DocumentCard
+                      key={document.id}
+                      document={document}
+                      isReadOnly={false}
+                      isReviewer={false}
+                    />
                   ))}
               </Stack>
             </CardContent>
