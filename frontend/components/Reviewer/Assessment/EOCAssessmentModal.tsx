@@ -244,7 +244,7 @@ const EOCAsessmentModal = (props: Props) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={() => formik.handleSubmit()}>Save</Button>
+        {!isReadOnly && <Button onClick={() => formik.handleSubmit()}>Save</Button>}
       </DialogActions>
     </Dialog>
   );
