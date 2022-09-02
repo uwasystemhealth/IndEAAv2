@@ -13,6 +13,7 @@ import { userDisplayName } from '@/components/utils/generic';
 import ReviewProgress from '@/components/Reviewer/ReviewProgress';
 import AreYouSureModalButton from '@/components/utils/AreYouSureModalButton';
 import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
+import { useRouter } from 'next/router';
 
 type Props = {
   review: ReviewListEntry;
@@ -23,6 +24,7 @@ const ReviewCard = (props: Props) => {
 
   const axios = useAuthenticatedAPIClient();
   const { mutate } = useSWRConfig();
+  const router = useRouter();
 
   const handleDelete = async () => {
     try {
@@ -43,8 +45,16 @@ const ReviewCard = (props: Props) => {
               {userDisplayName(review.reviewer)}
             </Typography>
             <Box sx={{ display: 'flex', gap: 2 }}>
-              {/* TODO: #19 (part 1) */}
-              <Button startIcon={<VisibilityIcon />} variant="outlined" color="primary" disabled>
+              <Button
+                startIcon={<VisibilityIcon />}
+                variant="outlined"
+                color="primary"
+                onClick={() => {
+                  router.push(
+                    `/course-evaluation/${review.course_evaluation.id}/review/${review.id}`,
+                  );
+                }}
+              >
                 View
               </Button>
               <AreYouSureModalButton
