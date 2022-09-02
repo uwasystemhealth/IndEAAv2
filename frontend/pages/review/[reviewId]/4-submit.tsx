@@ -13,7 +13,14 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import DocumentCard from '@/components/CourseEvaluation/Documents/DocumentCard';
 import SimplifiedDocumentCard from '@/components/Reviewer/Submit/SimplifiedDocumentCard';
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
+import EOCAccordionWithModal from '@/components/Reviewer/Assessment/EOCAccordionWithModal';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { API_ENDPOINT } from 'utils/api';
+import TextField from '@mui/material/TextField';
+import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
+import { useSWRConfig } from 'swr';
 
 const StepWrapper = (props: { children: ReactNode; cardTitle: string }) => {
   const { children, cardTitle } = props;
@@ -34,7 +41,54 @@ const Submit = () => {
   const STEP_INDEX = 3;
   const allSteps = getReviewStepsWithState(courseReview);
   const stepDetails = allSteps[STEP_INDEX];
-  const handleSubmit = () => {};
+
+  const axios = useAuthenticatedAPIClient();
+  const { mutate } = useSWRConfig();
+  const [error, setError] = useState('');
+
+  // An object with key as the step number, value as whether it is done
+  const stepsDoneObject = allSteps.reduce((acc, curr) => {
+    acc[`step${curr.stepNo}`] = curr.done;
+    return acc;
+  }, {} as { [key: string]: boolean });
+  const formik = useFormik({
+    initialValues: {
+      /* Note: The values here should match the field name in the models
+        Otherwise, make it match in `onSubmit`
+      */
+      ...stepsDoneObject,
+      final_comment: '',
+    },
+    validationSchema: Yup.object({
+      final_comment: Yup.string().required('Required'),
+    }),
+    onSubmit: async (values) => {
+      try {
+        const url = API_ENDPOINT.REVIEWS.DETAIL(courseReview.id);
+        await axios.patch(url, {
+          final_comment: values.final_comment,
+          date_submitted: new Date(),
+        });
+
+        // Flush SWR cache to refresh screen
+        mutate(url);
+
+        // eslint-disable-next-line @typescript-eslint/no-shadow
+      } catch (error) {
+        // @ts-ignore
+        setError(error?.message || 'Something went wrong');
+      }
+    },
+  });
+
+  useEffect(() => {
+    if (formik.errors) {
+      const allString = Object.values(formik.errors).join('. ');
+      setError(allString);
+    } else {
+      setError('');
+    }
+  }, [formik.errors]);
 
   return (
     <BodyCard>
@@ -61,10 +115,27 @@ const Submit = () => {
           ))}
         </Grid>
       </StepWrapper>
+      <StepWrapper cardTitle={`Step 3 - ${allSteps[2].stepName}`}>
+        <EOCAccordionWithModal courseEvaluation={courseEvaluation} courseReview={courseReview} />
+      </StepWrapper>
+      <StepWrapper cardTitle={`Step 4 - ${allSteps[3].stepName}`}>
+        <TextField
+          margin="dense"
+          id="final_comment"
+          label="Final Comment"
+          fullWidth
+          variant="outlined"
+          multiline
+          value={formik.values.final_comment}
+          onChange={formik.handleChange}
+          error={Boolean(formik.errors.final_comment)}
+          helperText={formik.errors.final_comment}
+        />
+      </StepWrapper>
       <ReviewerBottomNavigation
         previousLink={stepDetails.prevStep}
         nextLink={stepDetails.nextStep}
-        handleSubmit={handleSubmit}
+        handleSubmit={formik.handleSubmit}
       />
     </BodyCard>
   );
