@@ -21,6 +21,7 @@ import { API_ENDPOINT } from 'utils/api';
 import TextField from '@mui/material/TextField';
 import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
 import { useSWRConfig } from 'swr';
+import Alert from '@mui/material/Alert';
 
 const StepWrapper = (props: { children: ReactNode; cardTitle: string }) => {
   const { children, cardTitle } = props;
@@ -47,20 +48,22 @@ const Submit = () => {
   const [error, setError] = useState('');
 
   // An object with key as the step number, value as whether it is done
-  const stepsDoneObject = allSteps.reduce((acc, curr) => {
-    acc[`step${curr.stepNo}`] = curr.done;
-    return acc;
-  }, {} as { [key: string]: boolean });
   const formik = useFormik({
     initialValues: {
       /* Note: The values here should match the field name in the models
         Otherwise, make it match in `onSubmit`
       */
-      ...stepsDoneObject,
-      final_comment: '',
+      step1: allSteps[0].done,
+      step2: allSteps[1].done,
+      step3: allSteps[2].done,
+      final_comment: courseReview.final_comment || '',
     },
     validationSchema: Yup.object({
-      final_comment: Yup.string().required('Required'),
+      // Step should be true
+      step1: Yup.boolean().oneOf([true], 'Step 1 - Please confirm the step is done'),
+      step2: Yup.boolean().oneOf([true], 'Step 2 - Please mark atleast one document as viewed.'),
+      step3: Yup.boolean().oneOf([true], 'Step 3 - Please provide atleast one assessment.'),
+      final_comment: Yup.string().required('Final comment is required'),
     }),
     onSubmit: async (values) => {
       try {
@@ -79,6 +82,7 @@ const Submit = () => {
         setError(error?.message || 'Something went wrong');
       }
     },
+    enableReinitialize: true,
   });
 
   useEffect(() => {
@@ -132,6 +136,11 @@ const Submit = () => {
           helperText={formik.errors.final_comment}
         />
       </StepWrapper>
+      {error && (
+        <Alert variant="filled" severity="error" sx={{ m: 2 }}>
+          {error}
+        </Alert>
+      )}
       <ReviewerBottomNavigation
         previousLink={stepDetails.prevStep}
         nextLink={stepDetails.nextStep}
