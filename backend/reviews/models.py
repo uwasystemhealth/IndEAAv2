@@ -85,8 +85,8 @@ class ReviewEocSpecific(models.Model):
 
     # Step 3 Relevant Fields
     development_level = models.IntegerField(choices=DevelopmentLevels.choices)
-    suggestion = models.TextField(null=False, blank=True)
     justification = models.TextField(null=False, blank=True)
+    suggestion = models.TextField(null=False, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

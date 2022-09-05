@@ -48,7 +48,7 @@ const Documents = (props: Props) => {
       <Grid container spacing={2}>
         {evaluation.documents.map((document) => (
           <Grid item md={4} key={document.id}>
-            <DocumentCard document={document} isReadOnly={false} />
+            <DocumentCard document={document} isReadOnly={false} isReviewer={false} />
           </Grid>
         ))}
       </Grid>
