@@ -17,14 +17,22 @@ import useCourseReview from '@/components/hooks/useCourseReview';
 import useCourseEvaluation from '@/components/hooks/useCourseEvaluation';
 import StepWrapper from '@/components/Reviewer/Submit/StepWrapper';
 import ReviewSummarySubmissionContent from '@/components/Reviewer/Submit/ReviewSummarySubmissionContent';
+import usePageTitle from '@/components/hooks/usePageTitle';
+import EvaluationHeader from '@/components/Custom/EvaluationHeader';
 
 const Submit = () => {
   const { courseReview } = useCourseReview();
+<<<<<<< HEAD
   
   // set document title to unit code
   useEffect(() => {
     document.title = courseReview.course_evaluation.unit_code + " Review";
   }, [courseReview.course_evaluation.unit_code]);
+=======
+
+  usePageTitle(`${courseReview.course_evaluation.unit_code} Review`);
+
+>>>>>>> develop
   const { courseEvaluation } = useCourseEvaluation(courseReview.course_evaluation.id);
 
   const STEP_INDEX = 3;
@@ -41,14 +49,12 @@ const Submit = () => {
       /* Note: The values here should match the field name in the models
         Otherwise, make it match in `onSubmit`
       */
-      step1: allSteps[0].done,
       step2: allSteps[1].done,
       step3: allSteps[2].done,
       final_comment: courseReview.final_comment || '',
     },
     validationSchema: Yup.object({
       // Step should be true
-      step1: Yup.boolean().oneOf([true], 'Step 1 - Please confirm the step is done'),
       step2: Yup.boolean().oneOf([true], 'Step 2 - Please mark atleast one document as viewed.'),
       step3: Yup.boolean().oneOf([true], 'Step 3 - Please provide atleast one assessment.'),
       final_comment: Yup.string().required('Final comment is required'),
@@ -84,6 +90,7 @@ const Submit = () => {
 
   return (
     <BodyCard>
+      <EvaluationHeader title={courseEvaluation.unit_code} />
       <ReviewProgress review={courseReview} />
       <AboutStepCard stepIndex={STEP_INDEX} />
       <ReviewSummarySubmissionContent
@@ -92,7 +99,7 @@ const Submit = () => {
         courseEvaluation={courseEvaluation}
         isReadOnly={false}
       />
-      <StepWrapper cardTitle={`Step 4 - ${allSteps[3].stepName}`}>
+      <StepWrapper cardTitle={`${allSteps[3].stepName}`}>
         <TextField
           margin="dense"
           id="final_comment"
