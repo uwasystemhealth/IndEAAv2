@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
@@ -21,11 +21,16 @@ import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPICli
 
 const OverviewAndEOC = () => {
   const { courseReview } = useCourseReview();
+
+  // set document title to unit code
+  useEffect(() => {
+    document.title = courseReview.course_evaluation.unit_code;
+  }, []);
+
   const { courseEvaluation } = useCourseEvaluation(courseReview.course_evaluation.id);
 
   const STEP_INDEX = 0;
   const stepDetails = getReviewStepsWithState(courseReview)[STEP_INDEX];
-
   /**
    * When we finish on this page, there should be an API interaction to update that the user has started the review
    */
