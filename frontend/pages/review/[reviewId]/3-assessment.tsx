@@ -8,6 +8,7 @@ import ReviewProgress from '@/components/Reviewer/ReviewProgress';
 import BodyCard from '@/components/utils/BodyCard';
 import { getReviewStepsWithState } from '@/components/utils/reviews';
 import EOCAccordionWithModal from '@/components/Reviewer/Assessment/EOCAccordionWithModal';
+import usePageTitle from '@/components/hooks/usePageTitle';
 
 const Assessment = () => {
   const { courseReview } = useCourseReview();
@@ -15,11 +16,8 @@ const Assessment = () => {
 
   const STEP_INDEX = 2;
   const stepDetails = getReviewStepsWithState(courseReview)[STEP_INDEX];
-  
-  // set document title to unit code
-  useEffect(() => {
-    document.title = courseReview.course_evaluation.unit_code + " Review";
-  }, [courseReview.course_evaluation.unit_code]);
+
+  usePageTitle(courseEvaluation.unit_code + " Review");  
 
   return (
     <BodyCard>

@@ -5,15 +5,13 @@ import useCourseReview from '@/components/hooks/useCourseReview';
 import useCourseEvaluation from '@/components/hooks/useCourseEvaluation';
 import ReviewSummarySubmissionContent from '@/components/Reviewer/Submit/ReviewSummarySubmissionContent';
 import AboutStepCard from '@/components/Reviewer/AboutStepCard';
+import usePageTitle from '@/components/hooks/usePageTitle';
 
 const Finish = () => {
   const { courseReview } = useCourseReview(false);
   const { courseEvaluation } = useCourseEvaluation(courseReview.course_evaluation.id);
-
-  // set document title to unit code
-  useEffect(() => {
-    document.title = courseReview.course_evaluation.unit_code + " Review";
-  }, [courseReview.course_evaluation.unit_code]);
+  
+  usePageTitle(courseEvaluation.unit_code + " Review");
 
   const allSteps = getReviewStepsWithState(courseReview);
 

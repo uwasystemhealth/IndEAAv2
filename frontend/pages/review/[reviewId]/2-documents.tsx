@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
@@ -7,24 +7,26 @@ import AboutStepCard from '@/components/Reviewer/AboutStepCard';
 import ReviewerBottomNavigation from '@/components/Reviewer/ReviewerBottomNavigation';
 import ReviewProgress from '@/components/Reviewer/ReviewProgress';
 import BodyCard from '@/components/utils/BodyCard';
+import CardHeader from '@mui/material/CardHeader';
 import { getReviewStepsWithState } from '@/components/utils/reviews';
 import DocumentCard from '@/components/CourseEvaluation/Documents/DocumentCard';
 import useCourseEvaluation from '@/components/hooks/useCourseEvaluation';
+import usePageTitle from '@/components/hooks/usePageTitle';
 
 const Documents = () => {
   const { courseReview } = useCourseReview();
-    
-  // set document title to unit code
-  useEffect(() => {
-    document.title = courseReview.course_evaluation.unit_code + " Review";
-  }, [courseReview.course_evaluation.unit_code]);
   const { courseEvaluation } = useCourseEvaluation(courseReview.course_evaluation.id);
+  
+  usePageTitle(courseEvaluation.unit_code + " Review");
 
   const STEP_INDEX = 1;
   const stepDetails = getReviewStepsWithState(courseReview)[STEP_INDEX];
 
   return (
     <BodyCard>
+      <Container sx={{ textAlign: 'center' }}>
+        <CardHeader title={courseEvaluation.unit_code} />
+      </Container>
       <ReviewProgress review={courseReview} />
       <AboutStepCard stepIndex={STEP_INDEX} />
       <Container maxWidth="xl" sx={{ mt: 2, mb: 2 }}>

@@ -15,14 +15,13 @@ import useCourseReview from '@/components/hooks/useCourseReview';
 import useCourseEvaluation from '@/components/hooks/useCourseEvaluation';
 import StepWrapper from '@/components/Reviewer/Submit/StepWrapper';
 import ReviewSummarySubmissionContent from '@/components/Reviewer/Submit/ReviewSummarySubmissionContent';
+import usePageTitle from '@/components/hooks/usePageTitle';
 
 const Submit = () => {
   const { courseReview } = useCourseReview();
-  
-  // set document title to unit code
-  useEffect(() => {
-    document.title = courseReview.course_evaluation.unit_code + " Review";
-  }, [courseReview.course_evaluation.unit_code]);
+
+  usePageTitle(courseReview.course_evaluation.unit_code + " Review");
+
   const { courseEvaluation } = useCourseEvaluation(courseReview.course_evaluation.id);
 
   const STEP_INDEX = 3;

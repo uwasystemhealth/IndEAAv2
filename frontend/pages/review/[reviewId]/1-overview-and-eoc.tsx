@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
@@ -18,16 +18,14 @@ import EOCAccordionForRefresher from '@/components/Reviewer/OverviewAndEOC/EOCAc
 import ReviewerBottomNavigation from '@/components/Reviewer/ReviewerBottomNavigation';
 import { getReviewStepsWithState } from '@/components/utils/reviews';
 import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
+import usePageTitle from '@/components/hooks/usePageTitle';
 
 const OverviewAndEOC = () => {
   const { courseReview } = useCourseReview();
-
-  // set document title to unit code
-  useEffect(() => {
-    document.title = courseReview.course_evaluation.unit_code + " Review";
-  }, [courseReview.course_evaluation.unit_code]);
-
+  const [course, setCourse] = useState("");
   const { courseEvaluation } = useCourseEvaluation(courseReview.course_evaluation.id);
+
+  usePageTitle(courseEvaluation.unit_code + " Review");
 
   const STEP_INDEX = 0;
   const stepDetails = getReviewStepsWithState(courseReview)[STEP_INDEX];
@@ -53,6 +51,9 @@ const OverviewAndEOC = () => {
   };
   return (
     <BodyCard>
+      <Container sx={{ textAlign: 'center' }}>
+        <CardHeader title={course} />
+      </Container>
       <ReviewProgress review={courseReview} />
       <AboutStepCard stepIndex={0} />
       <Container maxWidth="xl" sx={{ mt: 2, mb: 2 }}>
