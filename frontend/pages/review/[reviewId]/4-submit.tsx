@@ -34,14 +34,12 @@ const Submit = () => {
       /* Note: The values here should match the field name in the models
         Otherwise, make it match in `onSubmit`
       */
-      step1: allSteps[0].done,
       step2: allSteps[1].done,
       step3: allSteps[2].done,
       final_comment: courseReview.final_comment || '',
     },
     validationSchema: Yup.object({
       // Step should be true
-      step1: Yup.boolean().oneOf([true], 'Step 1 - Please confirm the step is done'),
       step2: Yup.boolean().oneOf([true], 'Step 2 - Please mark atleast one document as viewed.'),
       step3: Yup.boolean().oneOf([true], 'Step 3 - Please provide atleast one assessment.'),
       final_comment: Yup.string().required('Final comment is required'),
@@ -85,7 +83,7 @@ const Submit = () => {
         courseEvaluation={courseEvaluation}
         isReadOnly={false}
       />
-      <StepWrapper cardTitle={`Step 3 - ${allSteps[3].stepName}`}>
+      <StepWrapper cardTitle={`${allSteps[3].stepName}`}>
         <TextField
           margin="dense"
           id="final_comment"

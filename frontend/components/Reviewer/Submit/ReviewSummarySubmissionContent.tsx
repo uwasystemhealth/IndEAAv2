@@ -18,7 +18,7 @@ const ReviewSummarySubmissionContent = (props: ReviewSummarySubmissionContentTyp
 
   return (
     <>
-      <StepWrapper cardTitle={`Step 1 - ${allSteps[1].stepName}`}>
+      <StepWrapper cardTitle={`${allSteps[1].stepName}`}>
         <Grid container spacing={2}>
           {courseEvaluation.documents.map((document) => (
             <Grid item sm={12} md={4} key={document.id}>
@@ -27,7 +27,7 @@ const ReviewSummarySubmissionContent = (props: ReviewSummarySubmissionContentTyp
           ))}
         </Grid>
       </StepWrapper>
-      <StepWrapper cardTitle={`Step 2 - ${allSteps[2].stepName}`}>
+      <StepWrapper cardTitle={`${allSteps[2].stepName}`}>
         <EOCAccordionWithModal
           courseEvaluation={courseEvaluation}
           courseReview={courseReview}
@@ -35,7 +35,7 @@ const ReviewSummarySubmissionContent = (props: ReviewSummarySubmissionContentTyp
         />
       </StepWrapper>
       {isReadOnly && (
-        <StepWrapper cardTitle={`Step 3 - ${allSteps[3].stepName}`}>
+        <StepWrapper cardTitle={`${allSteps[3].stepName}`}>
           <TextField
             margin="dense"
             id="final_comment"
