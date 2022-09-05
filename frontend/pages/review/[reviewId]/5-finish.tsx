@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { getReviewStepsWithState } from '@/components/utils/reviews';
 import BodyCard from '@/components/utils/BodyCard';
 import useCourseReview from '@/components/hooks/useCourseReview';
@@ -9,6 +9,11 @@ import AboutStepCard from '@/components/Reviewer/AboutStepCard';
 const Finish = () => {
   const { courseReview } = useCourseReview(false);
   const { courseEvaluation } = useCourseEvaluation(courseReview.course_evaluation.id);
+
+  // set document title to unit code
+  useEffect(() => {
+    document.title = courseReview.course_evaluation.unit_code + " Review";
+  }, [courseReview.course_evaluation.unit_code]);
 
   const allSteps = getReviewStepsWithState(courseReview);
 
