@@ -1,3 +1,5 @@
+import React, { useEffect } from 'react';
+
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import useCourseReview from '@/components/hooks/useCourseReview';
@@ -11,6 +13,11 @@ import useCourseEvaluation from '@/components/hooks/useCourseEvaluation';
 
 const Documents = () => {
   const { courseReview } = useCourseReview();
+    
+  // set document title to unit code
+  useEffect(() => {
+    document.title = courseReview.course_evaluation.unit_code + " Review";
+  }, [courseReview.course_evaluation.unit_code]);
   const { courseEvaluation } = useCourseEvaluation(courseReview.course_evaluation.id);
 
   const STEP_INDEX = 1;
