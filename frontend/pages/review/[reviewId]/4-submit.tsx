@@ -15,9 +15,14 @@ import useCourseReview from '@/components/hooks/useCourseReview';
 import useCourseEvaluation from '@/components/hooks/useCourseEvaluation';
 import StepWrapper from '@/components/Reviewer/Submit/StepWrapper';
 import ReviewSummarySubmissionContent from '@/components/Reviewer/Submit/ReviewSummarySubmissionContent';
+import usePageTitle from '@/components/hooks/usePageTitle';
+import EvaluationHeader from '@/components/Custom/EvaluationHeader';
 
 const Submit = () => {
   const { courseReview } = useCourseReview();
+
+  usePageTitle(`${courseReview.course_evaluation.unit_code} Review`);
+
   const { courseEvaluation } = useCourseEvaluation(courseReview.course_evaluation.id);
 
   const STEP_INDEX = 3;
@@ -75,6 +80,7 @@ const Submit = () => {
 
   return (
     <BodyCard>
+      <EvaluationHeader title={courseEvaluation.unit_code} />
       <ReviewProgress review={courseReview} />
       <AboutStepCard stepIndex={STEP_INDEX} />
       <ReviewSummarySubmissionContent
