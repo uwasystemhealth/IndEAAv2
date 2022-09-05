@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-import React, { useEffect } from 'react';
-
-=======
 import React from 'react';
->>>>>>> develop
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
 import useCourseReview from '@/components/hooks/useCourseReview';
@@ -19,11 +14,6 @@ import EvaluationHeader from '@/components/Custom/EvaluationHeader';
 
 const Documents = () => {
   const { courseReview } = useCourseReview();
-    
-  // set document title to unit code
-  useEffect(() => {
-    document.title = courseReview.course_evaluation.unit_code + " Review";
-  }, [courseReview.course_evaluation.unit_code]);
   const { courseEvaluation } = useCourseEvaluation(courseReview.course_evaluation.id);
 
   usePageTitle(`${courseEvaluation.unit_code} Review`);
