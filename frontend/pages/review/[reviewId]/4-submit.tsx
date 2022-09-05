@@ -1,5 +1,3 @@
-import React, { useEffect } from 'react'
-
 import React, { useEffect, useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -22,17 +20,9 @@ import EvaluationHeader from '@/components/Custom/EvaluationHeader';
 
 const Submit = () => {
   const { courseReview } = useCourseReview();
-<<<<<<< HEAD
-  
-  // set document title to unit code
-  useEffect(() => {
-    document.title = courseReview.course_evaluation.unit_code + " Review";
-  }, [courseReview.course_evaluation.unit_code]);
-=======
 
   usePageTitle(`${courseReview.course_evaluation.unit_code} Review`);
 
->>>>>>> develop
   const { courseEvaluation } = useCourseEvaluation(courseReview.course_evaluation.id);
 
   const STEP_INDEX = 3;
