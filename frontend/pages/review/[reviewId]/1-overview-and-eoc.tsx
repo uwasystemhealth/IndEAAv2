@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
@@ -23,12 +23,6 @@ import EvaluationHeader from '@/components/Custom/EvaluationHeader';
 
 const OverviewAndEOC = () => {
   const { courseReview } = useCourseReview();
-
-  // set document title to unit code
-  useEffect(() => {
-    document.title = courseReview.course_evaluation.unit_code + " Review";
-  }, [courseReview.course_evaluation.unit_code]);
-
   const { courseEvaluation } = useCourseEvaluation(courseReview.course_evaluation.id);
 
   usePageTitle(`${courseEvaluation.unit_code} Review`);
