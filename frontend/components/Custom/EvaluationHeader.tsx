@@ -1,15 +1,14 @@
-
 import Container from '@mui/material/Container';
 import CardHeader from '@mui/material/CardHeader';
 
 interface EvaluationHeaderProps {
-    title: string;
+  title: string;
 }
 
-const EvaluationHeader = (props: EvaluationHeaderProps) => {
-    return (<Container sx={{ textAlign: 'center' }}>
-                <CardHeader title={props.title} />
-            </Container>);
-}
+const EvaluationHeader = ({ title }: EvaluationHeaderProps) => (
+  <Container sx={{ textAlign: 'center' }}>
+    <CardHeader title={title} />
+  </Container>
+);
 
 export default EvaluationHeader;

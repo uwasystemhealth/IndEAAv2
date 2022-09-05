@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardHeader from '@mui/material/CardHeader';
@@ -25,7 +25,7 @@ const OverviewAndEOC = () => {
   const { courseReview } = useCourseReview();
   const { courseEvaluation } = useCourseEvaluation(courseReview.course_evaluation.id);
 
-  usePageTitle(courseEvaluation.unit_code + " Review");
+  usePageTitle(`${courseEvaluation.unit_code} Review`);
 
   const STEP_INDEX = 0;
   const stepDetails = getReviewStepsWithState(courseReview)[STEP_INDEX];
@@ -51,7 +51,7 @@ const OverviewAndEOC = () => {
   };
   return (
     <BodyCard>
-      <EvaluationHeader title={courseEvaluation.unit_code}/>
+      <EvaluationHeader title={courseEvaluation.unit_code} />
       <ReviewProgress review={courseReview} />
       <AboutStepCard stepIndex={0} />
       <Container maxWidth="xl" sx={{ mt: 2, mb: 2 }}>

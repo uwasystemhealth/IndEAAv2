@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-
+import React from 'react';
 import useCourseEvaluation from '@/components/hooks/useCourseEvaluation';
 import useCourseReview from '@/components/hooks/useCourseReview';
 import AboutStepCard from '@/components/Reviewer/AboutStepCard';
@@ -9,8 +8,6 @@ import BodyCard from '@/components/utils/BodyCard';
 import { getReviewStepsWithState } from '@/components/utils/reviews';
 import EOCAccordionWithModal from '@/components/Reviewer/Assessment/EOCAccordionWithModal';
 import usePageTitle from '@/components/hooks/usePageTitle';
-import Container from '@mui/material/Container';
-import CardHeader from '@mui/material/CardHeader';
 import EvaluationHeader from '@/components/Custom/EvaluationHeader';
 
 const Assessment = () => {
@@ -20,11 +17,11 @@ const Assessment = () => {
   const STEP_INDEX = 2;
   const stepDetails = getReviewStepsWithState(courseReview)[STEP_INDEX];
 
-  usePageTitle(courseEvaluation.unit_code + " Review");  
+  usePageTitle(`${courseEvaluation.unit_code} Review`);
 
   return (
     <BodyCard>
-      <EvaluationHeader title={courseEvaluation.unit_code}/>
+      <EvaluationHeader title={courseEvaluation.unit_code} />
       <ReviewProgress review={courseReview} />
       <AboutStepCard stepIndex={STEP_INDEX} />
       <EOCAccordionWithModal courseEvaluation={courseEvaluation} courseReview={courseReview} />
