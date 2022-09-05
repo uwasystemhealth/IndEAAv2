@@ -44,7 +44,7 @@ class CourseEvaluationViewSet(viewsets.ModelViewSet):
             return CourseEvaluationDetailSerializer(*args, **kwargs)
 
     def filter_queryset(self, queryset):
-        # Filter to make sure that actions that is not retrieving is subject to filter 
+        # Filter to make sure that actions that is not retrieving is subject to filter
         if self.action == "retrieve":
             return super().filter_queryset(queryset)
         else:
