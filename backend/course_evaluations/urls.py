@@ -26,7 +26,7 @@ router.register(
 )
 
 router.register(
-    r"download/(?P<course_evaluation_id>[^/.]+)",
+    r"(?P<course_evaluation_id>[^/.]+)/download",
     CourseEvaluationGenerateReport,
     basename="download",
 )
