@@ -12,6 +12,7 @@ import { getReviewStepsWithState } from '@/components/utils/reviews';
 import DocumentCard from '@/components/CourseEvaluation/Documents/DocumentCard';
 import useCourseEvaluation from '@/components/hooks/useCourseEvaluation';
 import usePageTitle from '@/components/hooks/usePageTitle';
+import EvaluationHeader from '@/components/Custom/EvaluationHeader';
 
 const Documents = () => {
   const { courseReview } = useCourseReview();
@@ -24,9 +25,7 @@ const Documents = () => {
 
   return (
     <BodyCard>
-      <Container sx={{ textAlign: 'center' }}>
-        <CardHeader title={courseEvaluation.unit_code} />
-      </Container>
+      <EvaluationHeader title={courseEvaluation.unit_code}/>
       <ReviewProgress review={courseReview} />
       <AboutStepCard stepIndex={STEP_INDEX} />
       <Container maxWidth="xl" sx={{ mt: 2, mb: 2 }}>

@@ -16,6 +16,9 @@ import useCourseEvaluation from '@/components/hooks/useCourseEvaluation';
 import StepWrapper from '@/components/Reviewer/Submit/StepWrapper';
 import ReviewSummarySubmissionContent from '@/components/Reviewer/Submit/ReviewSummarySubmissionContent';
 import usePageTitle from '@/components/hooks/usePageTitle';
+import Container from '@mui/material/Container';
+import CardHeader from '@mui/material/CardHeader';
+import EvaluationHeader from '@/components/Custom/EvaluationHeader';
 
 const Submit = () => {
   const { courseReview } = useCourseReview();
@@ -81,6 +84,10 @@ const Submit = () => {
 
   return (
     <BodyCard>
+      <EvaluationHeader title={courseEvaluation.unit_code}/>
+      <Container sx={{ textAlign: 'center' }}>
+        <CardHeader title={courseEvaluation.unit_code} />
+      </Container>
       <ReviewProgress review={courseReview} />
       <AboutStepCard stepIndex={STEP_INDEX} />
       <ReviewSummarySubmissionContent

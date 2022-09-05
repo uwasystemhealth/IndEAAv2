@@ -9,6 +9,9 @@ import BodyCard from '@/components/utils/BodyCard';
 import { getReviewStepsWithState } from '@/components/utils/reviews';
 import EOCAccordionWithModal from '@/components/Reviewer/Assessment/EOCAccordionWithModal';
 import usePageTitle from '@/components/hooks/usePageTitle';
+import Container from '@mui/material/Container';
+import CardHeader from '@mui/material/CardHeader';
+import EvaluationHeader from '@/components/Custom/EvaluationHeader';
 
 const Assessment = () => {
   const { courseReview } = useCourseReview();
@@ -21,6 +24,7 @@ const Assessment = () => {
 
   return (
     <BodyCard>
+      <EvaluationHeader title={courseEvaluation.unit_code}/>
       <ReviewProgress review={courseReview} />
       <AboutStepCard stepIndex={STEP_INDEX} />
       <EOCAccordionWithModal courseEvaluation={courseEvaluation} courseReview={courseReview} />
