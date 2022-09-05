@@ -85,7 +85,7 @@ const Submit = () => {
         courseEvaluation={courseEvaluation}
         isReadOnly={false}
       />
-      <StepWrapper cardTitle={`Step 4 - ${allSteps[3].stepName}`}>
+      <StepWrapper cardTitle={`Step 3 - ${allSteps[3].stepName}`}>
         <TextField
           margin="dense"
           id="final_comment"
