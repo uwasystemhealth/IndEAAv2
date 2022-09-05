@@ -85,9 +85,6 @@ const Submit = () => {
   return (
     <BodyCard>
       <EvaluationHeader title={courseEvaluation.unit_code}/>
-      <Container sx={{ textAlign: 'center' }}>
-        <CardHeader title={courseEvaluation.unit_code} />
-      </Container>
       <ReviewProgress review={courseReview} />
       <AboutStepCard stepIndex={STEP_INDEX} />
       <ReviewSummarySubmissionContent
