@@ -48,16 +48,16 @@ const ReviewerBottomNavigation = (props: Props) => {
           Previous
         </Button>
       )}
-      {nextLink ? (
+      {nextLink && modalConfirmation ? (
         <Button endIcon={<NavigateNextIcon />} variant="contained" onClick={handleNext}>
-          Next
+          {nextLink ? 'Next' : 'Submit'}
         </Button>
       ) : (
         <AreYouSureButton
           buttonProps={{ endIcon: <NavigateNextIcon />, variant: 'contained' }}
           action={handleNext}
           // eslint-disable-next-line react/jsx-props-no-spreading
-          {...(modalConfirmation || {})}
+          {...modalConfirmation}
         >
           Submit
         </AreYouSureButton>
