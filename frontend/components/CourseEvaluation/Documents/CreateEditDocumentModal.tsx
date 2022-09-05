@@ -103,8 +103,7 @@ const EditGeneralInformationModal = (props: Props) => {
       <DialogContent>
         <Card
           sx={{
-            mt: 2,
-            mb: 2,
+            m: 2,
           }}
         >
           <CardHeader
@@ -167,8 +166,7 @@ const EditGeneralInformationModal = (props: Props) => {
         </Card>
         <Card
           sx={{
-            mt: 2,
-            mb: 2,
+            m: 2,
           }}
         >
           <CardHeader
