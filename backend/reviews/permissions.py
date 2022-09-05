@@ -18,3 +18,17 @@ class IsReviewOwnerAllOrCoordinator(permissions.BasePermission):
 
         # Reviewer in this context is the associated reviewer in the object
         return request.user == obj.reviewer
+
+
+class IsReviewOwnerAllOrCoordinatorViaObjectReference(permissions.BasePermission):
+    """
+    Custom version of `IsReviewOwnerAllOrCoordinator` to allow the specific reviewer
+    """
+
+    def has_object_permission(self, request, view, obj):
+        # A coordinator can do anything
+        if request.user in obj.review.course_evaluation.coordinators.all():
+            return True
+
+        # Reviewer in this context is the associated reviewer in the object
+        return request.user == obj.review.reviewer

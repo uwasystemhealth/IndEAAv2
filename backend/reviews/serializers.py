@@ -14,12 +14,16 @@ class ReviewEOCSpecificSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReviewEocSpecific
         fields = "__all__"
+        # Not required to have review_id (inferred from URL)
+        extra_kwargs = {"review": {"required": False}}
 
 
 class ReviewDocumentSerializer(serializers.ModelSerializer):
     class Meta:
         model = ReviewDocument
         fields = "__all__"
+        # Not required to have review_id (inferred from URL)
+        extra_kwargs = {"review": {"required": False}}
 
 
 class ReviewGenericSerializer(serializers.ModelSerializer):

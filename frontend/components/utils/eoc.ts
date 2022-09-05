@@ -29,7 +29,9 @@ export const developmentLevelToString: { [key: number]: string } = DEVELOPMENT_L
     ...accumulator,
     [currentIndex + 1]: `Level ${currentIndex + 1} - ${currentValue.short}`,
   }),
-  {},
+  {
+    0: 'None',
+  },
 );
 
 /**

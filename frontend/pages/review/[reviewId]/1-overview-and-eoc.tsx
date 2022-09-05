@@ -18,34 +18,40 @@ import EOCAccordionForRefresher from '@/components/Reviewer/OverviewAndEOC/EOCAc
 import ReviewerBottomNavigation from '@/components/Reviewer/ReviewerBottomNavigation';
 import { getReviewStepsWithState } from '@/components/utils/reviews';
 import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
+import usePageTitle from '@/components/hooks/usePageTitle';
+import EvaluationHeader from '@/components/Custom/EvaluationHeader';
 
 const OverviewAndEOC = () => {
   const { courseReview } = useCourseReview();
   const { courseEvaluation } = useCourseEvaluation(courseReview.course_evaluation.id);
 
+  usePageTitle(`${courseEvaluation.unit_code} Review`);
+
   const STEP_INDEX = 0;
   const stepDetails = getReviewStepsWithState(courseReview)[STEP_INDEX];
-
   /**
    * When we finish on this page, there should be an API interaction to update that the user has started the review
    */
   const axios = useAuthenticatedAPIClient();
   const { mutate } = useSWRConfig();
   const handleSubmit = async () => {
-    try {
-      const url = API_ENDPOINT.REVIEWS.DETAIL(courseReview.id);
-      await axios.patch(url, {
-        eoc_date_viewed: new Date(),
-      });
-      mutate(url);
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
-      // TODO: Display error in a more user-friendly way
+    if (!courseReview.eoc_date_viewed) {
+      try {
+        const url = API_ENDPOINT.REVIEWS.DETAIL(courseReview.id);
+        await axios.patch(url, {
+          eoc_date_viewed: new Date(),
+        });
+        mutate(url);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(error);
+        // TODO: Display error in a more user-friendly way
+      }
     }
   };
   return (
     <BodyCard>
+      <EvaluationHeader title={courseEvaluation.unit_code} />
       <ReviewProgress review={courseReview} />
       <AboutStepCard stepIndex={0} />
       <Container maxWidth="xl" sx={{ mt: 2, mb: 2 }}>
@@ -72,7 +78,7 @@ const OverviewAndEOC = () => {
                   .filter((document) => document.is_introduction)
                   .map((document) => (
                     <Grid item key={document.id} xs={12} sm={6}>
-                      <DocumentCard document={document} isReadOnly />
+                      <DocumentCard document={document} isReadOnly={false} isReviewer />
                     </Grid>
                   ))}
               </Grid>
