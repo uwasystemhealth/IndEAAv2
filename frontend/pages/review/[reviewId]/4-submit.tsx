@@ -10,8 +10,8 @@ const Submit = () => {
   
   // set document title to unit code
   useEffect(() => {
-    document.title = courseReview.course_evaluation.unit_code;
-  }, []);
+    document.title = courseReview.course_evaluation.unit_code + " Review";
+  }, [courseReview.course_evaluation.unit_code]);
 
   return (
     <BodyCard>
