@@ -24,12 +24,11 @@ class CourseEvaluationDetailSerializer(serializers.ModelSerializer):
         model = CourseEvaluation
         fields = "__all__"
 
-    """
-    We need to make sure that the `justifications` in EOC of this unit always matches the `course_evaluation_id`
-    when being read
-    """
-
     def get_eoc_set_serialized_data(self, instance):
+        """
+        We need to make sure that the `justifications` in EOC of this unit always matches the `course_evaluation_id`
+        when being read. Context allows passing through nested serializer
+        """
         serializer_context = {
             **self.context,
             "course_evaluation_id": instance.id,
