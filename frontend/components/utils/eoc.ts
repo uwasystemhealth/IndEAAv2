@@ -1,5 +1,6 @@
 import { EocGeneralEocSpecific, EocSet } from 'utils/api';
 
+// TODO: Issue #5 (remove this to be configurable)
 export const DEVELOPMENT_LEVEL = [
   {
     value: 1,
