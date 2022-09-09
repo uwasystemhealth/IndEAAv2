@@ -243,7 +243,7 @@ def make_course_evaluation_justification(setup_indeaa, make_course_evaluation) -
     def _make_course_evaluation_justification(
         course_evaluation=None,
         eoc_specifics=[],
-        development_level=DevelopmentLevels.FOUNDATIONAL,
+        development_level=DevelopmentLevels.ENGINEERING_FUNDAMENTALS,
         justification="Test CourseEvaluation Justification",
     ):
         if course_evaluation is None:
