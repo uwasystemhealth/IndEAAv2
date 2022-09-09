@@ -1,25 +1,24 @@
 import { EocGeneralEocSpecific, EocSet } from 'utils/api';
 
+// TODO: Issue #5 (remove this to be configurable)
 export const DEVELOPMENT_LEVEL = [
   {
     value: 1,
-    short: 'Foundational',
-    meaning: 'Developing a foundation for university level study',
+    short: 'Engineering Fundamentals',
+    meaning:
+      'Building a foundation of knowledge and skills for studying engineering.  Students solve problems that are clearly defined, with all or most information provided.',
   },
   {
     value: 2,
-    short: 'Broad and Coherent',
-    meaning: 'Sufficient capability to enter the workforce as a non-engineer',
+    short: 'Engineering Applications and Analysis',
+    meaning:
+      'Integrating elements of the discipline.  Students apply engineering fundamentals to more complex problems that are less-well defined.',
   },
   {
     value: 3,
-    short: 'Advanced',
-    meaning: 'Sufficient capability for professional practice as a starting engineer',
-  },
-  {
-    value: 4,
-    short: 'Specialist',
-    meaning: 'Selected areas of strength beyond the requirement for entering professional practice',
+    short: 'Engineering Practice',
+    meaning:
+      'Carrying out engineering work to a professional standard.  Students exercise independent judgement to solve open-ended or ill-defined problems. These problems include advanced technical content, and/or contextual elements beyond technical engineering. ',
   },
 ];
 

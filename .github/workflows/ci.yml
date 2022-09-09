@@ -60,7 +60,7 @@ jobs:
           linters: flake8
           run: flake8 --exclude=migrations --max-line-length 150 --ignore=F405,F403" backend/ # run flake8 to source files
       - name: Run black
-        run:  cd backend && black . && isort --check .
+        run:  cd backend && black . --check && isort --check .
 
   integration-test-docker:
     runs-on: ubuntu-latest

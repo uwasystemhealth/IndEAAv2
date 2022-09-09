@@ -82,16 +82,13 @@ class CourseEvaluation(models.Model):
 
 class DevelopmentLevels(models.IntegerChoices):
     """
-    Foundational - Developing a foundation for university level study
-    Broad and Coherent - Sufficient capability to enter the workforce as a non-engineer
-    Advanced - Sufficient capability for professional practice as a starting engineer
-    Specialist - Selected areas of strength beyond the requirement for entering professional practice
+    Note: This is bound to change.
+    See Issue #5
     """
 
-    FOUNDATIONAL = 1
-    BROAD_AND_COHERENT = 2
-    ADVANCED = 3
-    SPECIALIST = 4
+    ENGINEERING_FUNDAMENTALS = 1
+    ENGINEERING_APPLICATIONS_AND_ANALYSIS = 2
+    ENGINEERING_PRACTICE = 3
 
 
 class CourseEvaluationJustification(models.Model):
