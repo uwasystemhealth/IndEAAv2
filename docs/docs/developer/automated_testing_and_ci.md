@@ -55,9 +55,6 @@ For the specific commands, see the `package.json` script section.
 #### Pro Tip: Cypress Studio
 You can write tests by recording your action such as typing and clicking. Read more about [Cypress studio](https://docs.cypress.io/guides/references/cypress-studio) here. Please modularise and clean the test after using the recorder to make it easier to maintain.
 
-???+ info "Cypress Version"
-    The cypress version is set to 9.7.0 because Cypress studio is an amazing tool that is removed in version 10. This is to be reconsidered by the Cypress team.
-
 ## Continuous Integration - Github Actions
 
 We use [github actions](https://github.com/features/actions) for our continuous integration. All the code being used for github actions can be seen in `.github/workflows/ci.yml`. This is the Continuous integration that runs for every commit on a pull request.
