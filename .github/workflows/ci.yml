@@ -79,7 +79,7 @@ jobs:
         with:
           working-directory: frontend
       - name: Run the integration tests
-        run: cd frontend && yarn --frozen-lockfile && yarn cypress:run
+        run: cd frontend && yarn --frozen-lockfile && yarn global add cypress@10.8.0 && yarn cypress:run
       # after the test run completes
       # store videos and any screenshots
       # NOTE: screenshots will be generated only if E2E test failed
