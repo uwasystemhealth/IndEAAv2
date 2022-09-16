@@ -75,11 +75,8 @@ jobs:
           expand: 'true'
       - name: Check docker logs
         run: docker-compose -f docker-compose-ci.yml logs
-      - uses: bahmutov/npm-install@v1 # Can do caching
-        with:
-          working-directory: frontend
       - name: Run the integration tests
-        run: cd frontend && yarn cypress:run
+        run: cd frontend && yarn install --frozen-lockfile && yarn cypress:run
       # after the test run completes
       # store videos and any screenshots
       # NOTE: screenshots will be generated only if E2E test failed
