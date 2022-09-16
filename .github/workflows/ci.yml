@@ -71,13 +71,13 @@ jobs:
         with:
           envFile: 'docker/indeaa-e2e.env'
           expand: 'true'
+      - uses: bahmutov/npm-install@v1 # Can do caching
+        with:
+          working-directory: frontend
       - name: Run and build containers
         run: docker-compose up --build -d
       - name: Check docker logs
         run: docker-compose logs
-      - uses: bahmutov/npm-install@v1 # Can do caching
-        with:
-          working-directory: frontend
       - name: Run the integration tests
         uses: cypress-io/github-action@v4.2.0
         with:
