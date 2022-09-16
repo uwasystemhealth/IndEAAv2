@@ -67,19 +67,19 @@ jobs:
       - uses: actions/checkout@v2
       - name: Copy CI environment
         run: cp ./docker/indeaa-e2e.env .env
-      # - name: Run and build containers
-      #   run: docker-compose -f docker-compose-ci.yml up --build -d
       - uses: cardinalby/export-env-action@v1
         with:
           envFile: 'docker/indeaa-e2e.env'
           expand: 'true'
       - name: Check docker logs
         run: docker-compose -f docker-compose-ci.yml logs
-      - uses: bahmutov/npm-install@v1 # Can do caching
-        with:
-          working-directory: frontend
       - name: Run the integration tests
-        run: cd frontend && yarn --frozen-lockfile && yarn global add cypress@10.8.0 && yarn cypress:run
+        uses: cypress-io/github-action@v4.2.0
+        with:
+          install-command: yarn --frozen-lockfile --silent
+          build: docker-compose -f docker-compose-ci.yml up --build -d
+          working-directory: frontend
+          wait-on: 'http://localhost:8000/admin'
       # after the test run completes
       # store videos and any screenshots
       # NOTE: screenshots will be generated only if E2E test failed
