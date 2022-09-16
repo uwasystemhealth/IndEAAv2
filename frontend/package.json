@@ -16,10 +16,14 @@
     "cypress:run:ci": "cypress run"
   },
   "dependencies": {
+    "@emotion/cache": "11.9.3",
     "@emotion/react": "^11.9.3",
+    "@emotion/server": "^11.10.0",
     "@emotion/styled": "^11.9.3",
     "@mui/icons-material": "^5.8.4",
+    "@mui/lab": "^5.0.0-alpha.97",
     "@mui/material": "^5.8.5",
+    "@sentry/nextjs": "^7.11.1",
     "axios": "^0.27.2",
     "formik": "^2.2.9",
     "next": "12.1.6",

@@ -2,18 +2,23 @@ from rest_framework import permissions, status, viewsets
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
-from course_evaluations.models import CourseEvaluation, Document
+from course_evaluations.models import (
+    CourseEvaluation,
+    CourseEvaluationJustification,
+    Document,
+)
 from course_evaluations.permissions import (
-    CourseEvaluationIsCoordinatorAllowAll,
+    CourseEvaluationIsCoordinatorAllowAllReviewerReadOnly,
     CourseEvaluationIsCoordinatorAllowAllViaObjectReference,
 )
-from course_evaluations.serializers import (
-    CourseEvaluationDetailSerializer,
-    CourseEvaluationListSerializer,
+from course_evaluations.serializers.custom import CourseEvaluationDetailSerializer
+from course_evaluations.serializers.documents import (
     DocumentReadOnlySerializer,
     DocumentWriteSerializer,
-    EOCSet,
 )
+from course_evaluations.serializers.eoc import EOCSet
+from course_evaluations.serializers.generic import CourseEvaluationListSerializer
+from course_evaluations.serializers.justifications import JustificationWriteSerializer
 
 
 class CourseEvaluationViewSet(viewsets.ModelViewSet):
@@ -25,7 +30,7 @@ class CourseEvaluationViewSet(viewsets.ModelViewSet):
     queryset = CourseEvaluation.objects.all()
     permission_classes = [
         permissions.IsAuthenticated,
-        CourseEvaluationIsCoordinatorAllowAll,
+        CourseEvaluationIsCoordinatorAllowAllReviewerReadOnly,
     ]
 
     def get_serializer(self, *args, **kwargs):
@@ -38,14 +43,12 @@ class CourseEvaluationViewSet(viewsets.ModelViewSet):
         else:
             return CourseEvaluationDetailSerializer(*args, **kwargs)
 
-    def list(self, request, *args, **kwargs):
-        """
-        List only the groups that the user is a coordinator
-        """
-        queryset = self.filter_queryset(self.get_queryset())
-        filtered_queryset = queryset.filter(coordinators=request.user)
-        serializer = CourseEvaluationListSerializer(filtered_queryset, many=True)
-        return Response(serializer.data)
+    def filter_queryset(self, queryset):
+        # Filter to make sure that actions that is not retrieving is subject to filter
+        if self.action == "retrieve":
+            return super().filter_queryset(queryset)
+        else:
+            return super().filter_queryset(queryset).filter(coordinators=self.request.user)
 
     def create(self, request, *args, **kwargs):
         if "eoc_set" in request.data:
@@ -107,3 +110,68 @@ class CourseEvaluationDocumentViewSet(viewsets.ModelViewSet):
 
     def perform_update(self, serializer):
         serializer.save(course_evaluation_id=self.kwargs["course_evaluation_id"])
+
+
+class CourseEvaluationJustificationsViewSet(viewsets.ModelViewSet):
+    """
+    Viewset that handles Justifications
+
+    Permissions:
+    - Coordinator ( CREATE, UPDATE, DELETE). Essentially for management of the Justifications for a particular course_evaluation
+
+    Note: This is only used for WRITE operations
+    """
+
+    permission_classes = [
+        permissions.IsAuthenticated,
+        CourseEvaluationIsCoordinatorAllowAllViaObjectReference,
+    ]
+
+    serializer_class = JustificationWriteSerializer
+
+    def list(self, request, *args, **kwargs):
+        raise self.http_method_not_allowed(request, *args, **kwargs)
+
+    def retrieve(self, request, *args, **kwargs):
+        raise self.http_method_not_allowed(request, *args, **kwargs)
+
+    def get_queryset(self):
+        return CourseEvaluationJustification.objects.all().filter(course_evaluation=self.kwargs["course_evaluation_id"])
+
+    """
+    For CREATE and UPDATE, we have to force the value of
+    `course_evaluation_id` to the url parameters (disregarding what the actual payload was)
+    """
+
+    def enforce_uniqueness_of_a_justification_with_eoc_specifics(self, eoc_specifics, current_justification=None):
+        """
+        This validation cannot be applied to the model because of the constraint on the field.
+
+        This will maintain the fact that an EOC Specific can only have one justification for a course evaluation.
+        """
+        for eoc_specific in eoc_specifics:
+            # We are excluding the current justification from the query (because it is the justification that is being updated)
+            justification_id = current_justification.id if current_justification else None
+            if self.get_queryset().filter(eoc_specifics=eoc_specific).exclude(id=justification_id).exists():
+                raise ValidationError("EOC Specific {} already has a justification".format(eoc_specific))
+
+    def perform_create(self, serializer):
+        course_evaluation_id = self.kwargs["course_evaluation_id"]
+        if serializer.validated_data["eoc_specifics"]:
+            self.enforce_uniqueness_of_a_justification_with_eoc_specifics(serializer.validated_data["eoc_specifics"])
+            serializer.save(course_evaluation_id=course_evaluation_id)
+        else:
+            raise ValidationError("EOC Specifics cannot be empty")
+
+    def perform_update(self, serializer):
+        course_evaluation_id = self.kwargs["course_evaluation_id"]
+
+        # Check that there exist `eoc_specifics` otherwise, delete the justification
+        if "eoc_specifics" in serializer.validated_data and serializer.validated_data["eoc_specifics"]:
+            self.enforce_uniqueness_of_a_justification_with_eoc_specifics(
+                serializer.validated_data["eoc_specifics"],
+                current_justification=serializer.instance,
+            )
+            serializer.save(course_evaluation_id=course_evaluation_id)
+        else:
+            serializer.instance.delete()

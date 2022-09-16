@@ -3,6 +3,7 @@ from django.contrib import admin
 from course_evaluations.models import (
     CourseEvaluation,
     CourseEvaluationJustification,
+    Document,
     EOCGeneral,
     EOCSet,
     EOCSpecific,
@@ -69,3 +70,16 @@ class CourseEvaluationAdmin(admin.ModelAdmin):
     ordering = ("created_at",)
 
     filter_horizontal = ("coordinators",)
+
+
+@admin.register(Document)
+class DocumentAdmin(admin.ModelAdmin):
+    list_display = ("id", "course_evaluation", "name", "url")
+    list_filter = ("course_evaluation", "is_introduction")
+    search_fields = ("id", "name", "description")
+    ordering = ("id",)
+
+    filter_horizontal = (
+        "eoc_generals",
+        "eoc_specifics",
+    )

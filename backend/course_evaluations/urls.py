@@ -3,6 +3,7 @@ from rest_framework.routers import DefaultRouter
 
 from course_evaluations.views import (
     CourseEvaluationDocumentViewSet,
+    CourseEvaluationJustificationsViewSet,
     CourseEvaluationViewSet,
 )
 
@@ -16,6 +17,11 @@ router.register(
     r"(?P<course_evaluation_id>[^/.]+)/documents",
     CourseEvaluationDocumentViewSet,
     basename="documents",
+)
+router.register(
+    r"(?P<course_evaluation_id>[^/.]+)/justifications",
+    CourseEvaluationJustificationsViewSet,
+    basename="justifications",
 )
 
 router.register(r"", CourseEvaluationViewSet, basename="course-evaluations")

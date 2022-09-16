@@ -18,6 +18,7 @@ import AppContext from 'components/Context/TopLevelContext';
 import { determineIfUserIsAuthentication } from 'utils/Authentication';
 import API from 'utils/api';
 import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
+import Fab from '@mui/material/Fab';
 
 const Header = () => {
   const router = useRouter();
@@ -81,20 +82,35 @@ const Header = () => {
               href="https://indeaav2-docs.systemhealthlab.com/"
               target="_blank"
               color="secondary"
-              sx={{ mr: 1 }}
+              sx={{ mr: 1, display: { xs: 'none', md: 'inherit' } }}
             >
               Documentation
             </Button>
+            <Fab
+              href="https://indeaav2-docs.systemhealthlab.com/"
+              target="_blank"
+              color="secondary"
+              sx={{ mr: 1, display: { xs: 'inherit', md: 'none' } }}
+            >
+              <ArticleIcon />
+            </Fab>
             <Button
               data-testid={isUserAuthenticated ? 'logout-button' : 'login-button'}
               variant="contained"
               startIcon={isUserAuthenticated ? <LogoutIcon /> : <LoginIcon />}
               onClick={isUserAuthenticated ? handleLogout : handleLogin}
               color="secondary"
-              sx={{ mr: 1 }}
+              sx={{ mr: 1, display: { xs: 'none', md: 'inherit' } }}
             >
               {isUserAuthenticated ? 'Logout' : 'Login'}
             </Button>
+            <Fab
+              onClick={isUserAuthenticated ? handleLogout : handleLogin}
+              color="secondary"
+              sx={{ mr: 1, display: { xs: 'inherit', md: 'none' } }}
+            >
+              {isUserAuthenticated ? <LogoutIcon /> : <LoginIcon />}
+            </Fab>
           </Box>
         </Toolbar>
       </Container>

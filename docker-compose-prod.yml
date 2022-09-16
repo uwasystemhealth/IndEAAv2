@@ -21,17 +21,14 @@ services:
     build:
       context: .
       dockerfile: docker/frontend/Dockerfile
+      args:
+        - NODE_ENV=production
+        - SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
     container_name: indeaa_react
     restart: unless-stopped
     env_file: .env
     ports:
       - 10024:3000
-    volumes:
-      - ./frontend:/app_code
-        # Barrier for OS node modules specific
-      - /app_code/node_modules
-      # Nextjs specific build
-      - /app_code/.next
     stdin_open: false # docker run -i
     tty: false # docker run -t
 

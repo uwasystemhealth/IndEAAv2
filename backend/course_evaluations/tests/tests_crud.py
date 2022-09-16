@@ -26,7 +26,7 @@ def test_list_view_course_evaluation(api_client_with_credentials_return_user, ma
     response = api_client.get(url)
 
     assert response.status_code == status.HTTP_200_OK
-    data = response.data
+    data = response.data["results"]
 
     # Check that we can find the two course evaluations
     assert len(data) == 2
@@ -49,6 +49,49 @@ def test_list_view_course_evaluation(api_client_with_credentials_return_user, ma
     # Check that there are certain fields that does not exist
     assert "eoc_set" not in course_evaluation_from_endpoint
     assert "eoc_set_id" not in course_evaluation_from_endpoint
+
+
+def test_detail_view_course_evaluation_coordinator(api_client_with_credentials_return_user, make_course_evaluation):
+    """
+    GIVEN: There are is a course evaluation assigned to the user as a coordinator
+    WHEN: The endpoint for the course evaluation is called
+    THEN: The course evaluation data is returned successfully
+    """
+    api_client, user = api_client_with_credentials_return_user()
+    course_evaluation = make_course_evaluation(coordinators=[user])
+
+    url = reverse("api-v1:course_evaluations:course-evaluations-detail", kwargs={"pk": course_evaluation.id})
+    response = api_client.get(url)
+
+    assert response.status_code == status.HTTP_200_OK
+    data = response.data
+
+    # Check the content of one of the course_evaluation
+    assert data["id"] == str(course_evaluation.id)
+    assert data["unit_code"] == course_evaluation.unit_code
+    assert data["description"] == course_evaluation.description
+
+
+def test_detail_view_course_evaluation_reviewer(api_client_with_credentials_return_user, make_course_evaluation, make_course_review):
+    """
+    GIVEN: There are is a course evaluation assigned to the user as a reviewer
+    WHEN: The endpoint for the course evaluation is called
+    THEN: The course evaluation data is returned successfully
+    """
+    api_client, user = api_client_with_credentials_return_user()
+    course_evaluation = make_course_evaluation()
+    make_course_review(course_evaluation=course_evaluation, reviewer=user)
+
+    url = reverse("api-v1:course_evaluations:course-evaluations-detail", kwargs={"pk": course_evaluation.id})
+    response = api_client.get(url)
+
+    assert response.status_code == status.HTTP_200_OK
+    data = response.data
+
+    # Check the content of one of the course_evaluation
+    assert data["id"] == str(course_evaluation.id)
+    assert data["unit_code"] == course_evaluation.unit_code
+    assert data["description"] == course_evaluation.description
 
 
 def test_create_view_course_evaluation(setup_indeaa, api_client_with_credentials_return_user):
