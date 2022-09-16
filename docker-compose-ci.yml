@@ -1,5 +1,8 @@
 #####################################################
 # Used for CI
+# Difference between local and this: 
+# 1. Only services required for execution is started
+# 2. Volumes not used for development are not mounted (especially frontend)
 #####################################################
 
 version: "3.8"
