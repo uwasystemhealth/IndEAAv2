@@ -80,8 +80,6 @@ jobs:
           working-directory: frontend
       - name: Run the integration tests
         run: yarn cypress:run
-        with:
-          working-directory: frontend
       # after the test run completes
       # store videos and any screenshots
       # NOTE: screenshots will be generated only if E2E test failed
