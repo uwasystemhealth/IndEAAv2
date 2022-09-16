@@ -71,6 +71,7 @@ jobs:
         with:
           envFile: 'docker/indeaa-e2e.env'
           expand: 'true'
+      # Be aware, you need `NODE_ENV=development` to install dev dependencies
       - uses: bahmutov/npm-install@v1 # Can do caching
         with:
           working-directory: frontend
