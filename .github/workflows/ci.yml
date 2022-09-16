@@ -75,12 +75,13 @@ jobs:
           expand: 'true'
       - name: Check docker logs
         run: docker-compose -f docker-compose-ci.yml logs
-      - name: Run the integration tests
-        uses: cypress-io/github-action@v4.2.0
+      - uses: bahmutov/npm-install@v1 # Can do caching
         with:
-          install-command: yarn --frozen-lockfile --silent
           working-directory: frontend
-          wait-on: 'http://localhost:8000/admin'
+      - name: Run the integration tests
+        run: yarn cypress:run
+        with:
+          working-directory: frontend
       # after the test run completes
       # store videos and any screenshots
       # NOTE: screenshots will be generated only if E2E test failed
