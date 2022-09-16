@@ -11,8 +11,8 @@
     "test": "jest --watch",
     "test:ci": "jest --ci",
     "cypress": "yarn cypress:open",
-    "cypress:open": "cypress open --project . --env BASE_URL=http://localhost:3000",
-    "cypress:run": "cypress run --env BASE_URL=http://localhost:3000",
+    "cypress:open": "export CYPRESS_BASE_URL=http://localhost:3000 && cypress open --project .",
+    "cypress:run": "export CYPRESS_BASE_URL=http://localhost:3000 && cypress run",
     "cypress:run:ci": "cypress run"
   },
   "dependencies": {
