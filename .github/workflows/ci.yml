@@ -67,29 +67,29 @@ jobs:
       - uses: actions/checkout@v2
       - name: Copy CI environment
         run: cp ./docker/indeaa-e2e.env .env
-      - name: Run and build containers
-        run: docker-compose up --build -d
-      - uses: cardinalby/export-env-action@v1
-        with:
-          envFile: 'docker/indeaa-e2e.env'
-          expand: 'true'
-      - name: Check docker logs
-        run: docker-compose logs
-      - name: Run the integration tests
-        uses: cypress-io/github-action@v4.2.0
-        with:
-          install-command: yarn --frozen-lockfile --silent
-          working-directory: frontend
-          wait-on: 'http://localhost:8000/admin'
-      # after the test run completes
-      # store videos and any screenshots
-      # NOTE: screenshots will be generated only if E2E test failed
-      # thus we store screenshots only on failures
-      # Alternative: create and commit an empty cypress/screenshots folder
-      # to always have something to upload
-      - name: Check docker logs
-        run: docker-compose logs
-        if: always()
+      # - name: Run and build containers
+      #   run: docker-compose up --build -d
+      # - uses: cardinalby/export-env-action@v1
+      #   with:
+      #     envFile: 'docker/indeaa-e2e.env'
+      #     expand: 'true'
+      # - name: Check docker logs
+      #   run: docker-compose logs
+      # - name: Run the integration tests
+      #   uses: cypress-io/github-action@v4.2.0
+      #   with:
+      #     install-command: yarn --frozen-lockfile --silent
+      #     working-directory: frontend
+      #     wait-on: 'http://localhost:8000/admin'
+      # # after the test run completes
+      # # store videos and any screenshots
+      # # NOTE: screenshots will be generated only if E2E test failed
+      # # thus we store screenshots only on failures
+      # # Alternative: create and commit an empty cypress/screenshots folder
+      # # to always have something to upload
+      # - name: Check docker logs
+      #   run: docker-compose logs
+      #   if: always()
       - uses: actions/upload-artifact@v1
         if: failure()
         with:
