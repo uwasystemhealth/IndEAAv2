@@ -71,13 +71,14 @@ jobs:
         with:
           envFile: 'docker/indeaa-e2e.env'
           expand: 'true'
+      # - name: Run and build containers
+      #   run: docker-compose -f docker-compose-ci.yml up --build -d
       - name: Check docker logs
         run: docker-compose -f docker-compose-ci.yml logs
       - name: Run the integration tests
         uses: cypress-io/github-action@v4.2.0
         with:
           install-command: yarn --frozen-lockfile --silent
-          build: docker-compose -f docker-compose-ci.yml up --build -d
           working-directory: frontend
           wait-on: 'http://localhost:8000/admin'
       # after the test run completes
