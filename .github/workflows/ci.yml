@@ -71,8 +71,8 @@ jobs:
         with:
           envFile: 'docker/indeaa-e2e.env'
           expand: 'true'
-      # - name: Run and build containers
-      #   run: docker-compose -f docker-compose-ci.yml up --build -d
+      - name: Run and build containers
+        run: docker-compose -f docker-compose-ci.yml up --build -d
       - name: Check docker logs
         run: docker-compose -f docker-compose-ci.yml logs
       - name: Run the integration tests
