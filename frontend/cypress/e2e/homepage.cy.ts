@@ -6,7 +6,7 @@ describe('Homepage', () => {
     // Just make sure we are logged out
     logOutByLocalStorage();
 
-    cy.visit(`${Cypress.env('BASE_URL')}/`);
+    cy.visit(`/`);
 
     // Navigate to Login page
     cy.get('[data-testid="login-button"]').click();

@@ -6,7 +6,7 @@ export const loginWithEmailAndPassword = (email: string, password: string) => {
 
 export const loginPresetUser = (user = 'admin', startLoadInLoginPage = true) => {
   if (startLoadInLoginPage) {
-    cy.visit(`${Cypress.env('BASE_URL')}/login`);
+    cy.visit(`/login`);
   }
   const { email, password } = Cypress.env('users')[user];
   loginWithEmailAndPassword(email, password);
