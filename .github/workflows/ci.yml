@@ -79,7 +79,7 @@ jobs:
       - name: Check docker logs
         run: docker-compose logs
       - name: Run the integration tests
-        uses: cypress-io/github-action@v3
+        uses: cypress-io/github-action@v4.2.0
         with:
           working-directory: frontend
           wait-on: 'http://localhost:8000/admin'
