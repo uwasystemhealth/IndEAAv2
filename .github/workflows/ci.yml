@@ -68,13 +68,13 @@ jobs:
       - name: Copy CI environment
         run: cp ./docker/indeaa-e2e.env .env
       - name: Run and build containers
-        run: docker-compose up --build -d
+        run: docker-compose -f docker-compose-ci.yml up --build -d
       - uses: cardinalby/export-env-action@v1
         with:
           envFile: 'docker/indeaa-e2e.env'
           expand: 'true'
       - name: Check docker logs
-        run: docker-compose logs
+        run: docker-compose -f docker-compose-ci.yml logs
       - name: Run the integration tests
         uses: cypress-io/github-action@v4.2.0
         with:
@@ -88,7 +88,7 @@ jobs:
       # Alternative: create and commit an empty cypress/screenshots folder
       # to always have something to upload
       - name: Check docker logs
-        run: docker-compose logs
+        run: docker-compose -f docker-compose-ci.yml logs
         if: always()
       - uses: actions/upload-artifact@v1
         if: failure()
