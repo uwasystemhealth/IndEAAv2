@@ -42,8 +42,18 @@ You will notice that the test will use `conftest.py`. The syntax is a little wei
 The [pytest ecosystem](https://docs.pytest.org/en/7.0.x/reference/plugin_list.html) is bigger. Harder to get used to at first, but it is quite worth it because you can do cool examples like [parametrised tests](https://docs.pytest.org/en/6.2.x/parametrize.html#pytest-mark-parametrize-parametrizing-test-functions) (checkout this link) that are more readable and maintainable.
 
 ### Frontend: Cypress (E2E Testing)
-TODO Issue [#50](https://github.com/uwasystemhealth/IndEAAv2/issues/50)
+We use [Cypress](https://www.cypress.io/) for E2E testing.
 
+#### Running the test.
+There are two ways to run the test. Firstly navigate to the `frontend` folder:
+
+1. Run tests via the the Cypress IDE: `yarn cypress:open`
+2. Run tests via the CLI: `yarn cypress:run`
+
+For the specific commands, see the `package.json` script section.
+
+#### Pro Tip: Cypress Studio
+You can write tests by recording your action such as typing and clicking. Read more about [Cypress studio](https://docs.cypress.io/guides/references/cypress-studio) here. Please modularise and clean the test after using the recorder to make it easier to maintain.
 
 ## Continuous Integration - Github Actions
 

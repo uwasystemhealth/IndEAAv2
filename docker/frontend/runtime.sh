@@ -56,9 +56,9 @@ if [ "${APP_ENV^^}" = "LOCAL" ]; then
 fi
 
 # ====================================================================================
-# Run inbuilt NextJS server if ENV is LOCAL
+# Run inbuilt NextJS server if ENV is LOCAL and (E2E - temporarily)
 # ====================================================================================
-if [ "${APP_ENV^^}" = "LOCAL" ]; then
+if [ "${APP_ENV^^}" = "LOCAL" ] || [ "${APP_ENV^^}" = "E2E" ]; then
     # Using standard NODE_ENV value
     export NODE_ENV=development
     # Run Development server

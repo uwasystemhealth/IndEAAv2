@@ -11,8 +11,8 @@
     "test": "jest --watch",
     "test:ci": "jest --ci",
     "cypress": "yarn cypress:open",
-    "cypress:open": "export cypress_url=http://localhost:3000 && cypress open --project .",
-    "cypress:run": "cypress run --env url=http://localhost:3000",
+    "cypress:open": "export CYPRESS_BASE_URL=http://localhost:3000 && cypress open --project .",
+    "cypress:run": "export CYPRESS_BASE_URL=http://localhost:3000 && cypress run",
     "cypress:run:ci": "cypress run"
   },
   "dependencies": {
@@ -45,7 +45,7 @@
     "@types/react-dom": "18.0.5",
     "@typescript-eslint/eslint-plugin": "^5.13.0",
     "@typescript-eslint/parser": "^5.0.0",
-    "cypress": "10.1.0",
+    "cypress": "^10.8.0",
     "eslint": "^8.2.0",
     "eslint-config-airbnb": "19.0.4",
     "eslint-config-airbnb-typescript": "17.0.0",
