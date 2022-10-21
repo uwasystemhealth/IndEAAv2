@@ -1,5 +1,9 @@
+from django.template.loader import render_to_string
+from django.forms.models import model_to_dict
+from django.shortcuts import render
+import imp
 import time
-from typing import List
+from typing import Any, Dict, List
 
 import pandoc
 from django.contrib.auth.models import User
@@ -26,6 +30,7 @@ from course_evaluations.serializers.documents import (
 from course_evaluations.serializers.eoc import EOCSet
 from course_evaluations.serializers.generic import CourseEvaluationListSerializer
 from course_evaluations.serializers.justifications import JustificationWriteSerializer
+from reviews.models import Review, ReviewDocument, ReviewEocSpecific
 
 
 class CourseEvaluationViewSet(viewsets.ModelViewSet):
@@ -206,21 +211,26 @@ class CourseEvaluationGenerateReport(viewsets.ReadOnlyModelViewSet):
 
         course_evaluation: CourseEvaluation = self.get_queryset().first()
 
-        md = generate_report_md(course_evaluation)
+        obj = CourseEvaluationDetailSerializer(course_evaluation).data
 
-        print(md)
+        # print(Document.objects.filter(course_evaluation=course_evaluation.id))
+        md = render_to_string('report/report.md', obj)
+        # md = generate_report_md(course_evaluation)
 
-        doc = pandoc.read(md, format="markdown")
+        # print(md)
 
-        file = pandoc.write(doc,
-                            format="docx",
-                            # file="output.docx",
-                            options={"--reference-doc=/app_code/config/custom-reference.docx"})
+        # doc = pandoc.read(md, format="markdown")
 
-        response = HttpResponse(file, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-        response['Content-Length'] = len(file)
-        response['Content-Disposition'] = 'attachment; filename="somefile.docx"'
-        return response
+        # file = pandoc.write(doc,
+        #                     format="docx",
+        #                     # file="output.docx",
+        #                     options={"--reference-doc=/app_code/config/custom-reference.docx"})
+
+        # response = HttpResponse(file, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+        # response['Content-Length'] = len(file)
+        # response['Content-Disposition'] = 'attachment; filename="somefile.docx"'
+        # return response
+        return HttpResponse(md, content_type='text/plain')
 
     def get_queryset(self):
         return CourseEvaluation.objects.all().filter(id=self.kwargs["course_evaluation_id"])
@@ -237,7 +247,7 @@ def document_to_md(documents: List[Document]) -> str:
     documents_str = ""
     for document in documents:
         documents_str += f"""
-### Document: {document.name}
+# Document: {document.name}
 
 > {document.description or 'Document has no description'}
 
@@ -280,11 +290,11 @@ Reviewers:
 
 {reviewers_str}
 
-## Elements of Competencies
+# Elements of Competencies
 
 // TODO
 
-## Documents Attached are:
+# Documents Attached are:
 
 {document_to_md(course_evaluation.documents.all())}
 
