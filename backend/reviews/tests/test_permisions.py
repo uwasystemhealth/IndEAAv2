@@ -1,11 +1,5 @@
-from datetime import datetime
-
-from allauth.account.models import EmailAddress
-from django.contrib.auth.models import User
 from django.urls import reverse
 from rest_framework import status
-
-from reviews.models import Review
 
 
 def test_coordinators_get_method(api_client_with_credentials_return_user, make_course_evaluation, make_course_review):
