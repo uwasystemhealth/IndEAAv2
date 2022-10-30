@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('reviews', '0004_alter_review_course_evaluation'),
+        ("reviews", "0004_alter_review_course_evaluation"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='revieweocspecific',
-            name='development_level',
-            field=models.IntegerField(choices=[(1, 'Engineering Fundamentals'), (2, 'Engineering Applications And Analysis'), (3, 'Engineering Practice')]),
+            model_name="revieweocspecific",
+            name="development_level",
+            field=models.IntegerField(
+                choices=[(1, "Engineering Fundamentals"), (2, "Engineering Applications And Analysis"), (3, "Engineering Practice")]
+            ),
         ),
     ]
