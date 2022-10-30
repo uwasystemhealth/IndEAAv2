@@ -22,7 +22,6 @@ jobs:
       - uses: actions/checkout@v2
       - uses: bahmutov/npm-install@v1 # Can do caching
         with:
-          install-command: yarn --frozen-lockfile --silent
           working-directory: frontend
       - name: Run Build
         run:  yarn build
@@ -37,7 +36,6 @@ jobs:
       - uses: actions/checkout@v2
       - uses: bahmutov/npm-install@v1 # Can do caching
         with:
-          install-command: yarn --frozen-lockfile --silent
           working-directory: frontend
       - name: Run Linting
         run:  yarn lint
@@ -60,7 +58,7 @@ jobs:
           linters: flake8
           run: flake8 --exclude=migrations --max-line-length 150 --ignore=F405,F403" backend/ # run flake8 to source files
       - name: Run black
-        run:  cd backend && black . && isort --check .
+        run:  cd backend && black . --check && isort --check .
 
   integration-test-docker:
     runs-on: ubuntu-latest
@@ -68,12 +66,44 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Copy CI environment
-        run: cp ./docker/indeaa-ci.env .env
-      - name: Build the docker-compose
-        run: docker-compose build
-        env:
-          SENTRY_AUTH_TOKEN: ${{secrets.SENTRY_AUTH_TOKEN}}
-      # TODO Issue #50
+        run: cp ./docker/indeaa-e2e.env .env
+      - uses: cardinalby/export-env-action@v1
+        with:
+          envFile: 'docker/indeaa-e2e.env'
+          expand: 'true'
+      # Be aware, you need `NODE_ENV=development` to install dev dependencies
+      - uses: bahmutov/npm-install@v1 # Can do caching
+        with:
+          working-directory: frontend
+      - name: Run and build containers
+        run: docker-compose up --build -d
+      - name: Check docker logs
+        run: docker-compose logs
+      - name: Run the integration tests
+        uses: cypress-io/github-action@v4.2.0
+        with:
+          working-directory: frontend
+          wait-on: 'http://localhost:8000/admin'
+      # after the test run completes
+      # store videos and any screenshots
+      # NOTE: screenshots will be generated only if E2E test failed
+      # thus we store screenshots only on failures
+      # Alternative: create and commit an empty cypress/screenshots folder
+      # to always have something to upload
+      - name: Check docker logs
+        run: docker-compose logs
+        if: always()
+      - uses: actions/upload-artifact@v1
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: frontend/cypress/screenshots
+      - uses: actions/upload-artifact@v1
+        if: always()
+        with:
+          name: cypress-videos
+          path: frontend/cypress/videos
+
   pytest_py3:
     name: "Automated Tests with Pytest"
     runs-on: ubuntu-latest
@@ -146,7 +176,7 @@ jobs:
         
       - uses: cardinalby/export-env-action@v1
         with:
-          envFile: 'docker/indeaa-ci.env'
+          envFile: 'docker/indeaa-unit.env'
           expand: 'true'
       #----------------------------------------------
       #              run test suite

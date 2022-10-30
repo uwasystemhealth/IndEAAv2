@@ -64,7 +64,10 @@ def test_create_view_course_evaluation_justification_as_coordinator(setup_indeaa
 
 
 def test_create_view_course_evaluation_justification_as_bad_parameters(
-    setup_indeaa, api_client_with_credentials_return_user, make_course_evaluation, make_course_evaluation_justification
+    setup_indeaa,
+    api_client_with_credentials_return_user,
+    make_course_evaluation,
+    make_course_evaluation_justification,
 ):
     """
     GIVEN: As a coordinator of a course evaluation
@@ -187,3 +190,58 @@ def test_update_view_course_evaluation_justification_as_coordinator_delete_scena
     response = api_client.patch(url, data)
     assert response.status_code == status.HTTP_200_OK
     assert CourseEvaluationJustification.objects.count() == 0
+
+
+def test_justification_of_course_evaluation_is_distinct_to_the_unit_of_its_eoc_specifics(
+    api_client_with_credentials_return_user,
+    make_course_evaluation,
+    make_course_evaluation_justification,
+):
+    """
+    GIVEN: As a coordinator of a course evaluation
+    WHEN: I create a justification for the course evaluation with an EOC Specific
+    THEN: The justification should only show in the course evaluation I added the justification to
+    AND:  Not in the course evaluation where I did not add the justification
+    """
+    api_client, user = api_client_with_credentials_return_user()
+    course_evaluation_1 = make_course_evaluation(coordinators=[user])
+    course_evaluation_2 = make_course_evaluation(coordinators=[user])
+
+    # The Specific EOC
+    sample_eoc = EOCSpecific.objects.first()
+    justification = make_course_evaluation_justification(course_evaluation=course_evaluation_1, eoc_specifics=[sample_eoc])
+
+    # Check that the justification is only in the course evaluation 1
+    url = reverse(
+        "api-v1:course_evaluations:course-evaluations-detail",
+        kwargs={"pk": course_evaluation_1.id},
+    )
+    response = api_client.get(url)
+    assert response.status_code == status.HTTP_200_OK
+
+    # Find the Sample EOC Specific in the response
+
+    def find_specific_eoc_in_response(response):
+        for eoc_general in response.data["eoc_set"]["eoc_generals"]:
+            for eoc_specific in eoc_general["eoc_specifics"]:
+                if eoc_specific["id"] == sample_eoc.id:
+                    return eoc_specific
+        return None
+
+    eoc_specific_found = find_specific_eoc_in_response(response)
+
+    # Make sure that the first justification of that EOC matches
+    eoc_specific_found["justification"][0]["justification"] == justification.justification
+
+    # Check the other course evaluation
+    url = reverse(
+        "api-v1:course_evaluations:course-evaluations-detail",
+        kwargs={"pk": course_evaluation_2.id},
+    )
+    response = api_client.get(url)
+    assert response.status_code == status.HTTP_200_OK
+
+    eoc_specific_found = find_specific_eoc_in_response(response)
+
+    # Make sure there is no justification
+    assert eoc_specific_found["justification"] == []
