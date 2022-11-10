@@ -22,7 +22,7 @@ from course_evaluations.permissions import (
     CourseEvaluationIsCoordinatorAllowAllReviewerReadOnly,
     CourseEvaluationIsCoordinatorAllowAllViaObjectReference,
 )
-from course_evaluations.serializers.custom import CourseEvaluationDetailSerializer
+from course_evaluations.serializers.custom import CourseEvaluationDetailSerializer, CourseEvaluationReportSerializer
 from course_evaluations.serializers.documents import (
     DocumentReadOnlySerializer,
     DocumentWriteSerializer,
@@ -208,29 +208,32 @@ class CourseEvaluationGenerateReport(viewsets.ReadOnlyModelViewSet):
         """
         List only the groups that the user is a coordinator
         """
+        PLAIN_TEXT = 1  # TODO: REMOVE
 
+        # TODO: GET THE RIGHT COURSE EVALUATION FROM THE ID.
         course_evaluation: CourseEvaluation = self.get_queryset().first()
 
-        obj = CourseEvaluationDetailSerializer(course_evaluation).data
+        obj = CourseEvaluationReportSerializer(course_evaluation).data
 
-        # print(Document.objects.filter(course_evaluation=course_evaluation.id))
         md = render_to_string('report/report.md', obj)
-        # md = generate_report_md(course_evaluation)
 
-        # print(md)
+        if PLAIN_TEXT:
+            from pprint import pprint
+            pprint(obj)
+            # print(Document.objects.filter(course_evaluation=course_evaluation.id))
+            return HttpResponse(md, content_type='text/plain')
+        else:
+            doc = pandoc.read(md, format="markdown")
 
-        # doc = pandoc.read(md, format="markdown")
+            file = pandoc.write(doc,
+                                format="docx",
+                                # file="output.docx",
+                                options={"--reference-doc=/app_code/config/custom-reference.docx"})
 
-        # file = pandoc.write(doc,
-        #                     format="docx",
-        #                     # file="output.docx",
-        #                     options={"--reference-doc=/app_code/config/custom-reference.docx"})
-
-        # response = HttpResponse(file, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-        # response['Content-Length'] = len(file)
-        # response['Content-Disposition'] = 'attachment; filename="somefile.docx"'
-        # return response
-        return HttpResponse(md, content_type='text/plain')
+            response = HttpResponse(file, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+            response['Content-Length'] = len(file)
+            response['Content-Disposition'] = 'attachment; filename="somefile.docx"'
+            return response
 
     def get_queryset(self):
         return CourseEvaluation.objects.all().filter(id=self.kwargs["course_evaluation_id"])
