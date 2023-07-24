@@ -5,7 +5,7 @@ import imp
 import time
 from typing import Any, Dict, List
 
-import pypandoc
+import pandoc
 from django.contrib.auth.models import User
 from django.db.models.query import QuerySet
 from django.http import HttpResponse
@@ -224,7 +224,7 @@ class CourseEvaluationGenerateReport(viewsets.ReadOnlyModelViewSet):
             # print(Document.objects.filter(course_evaluation=course_evaluation.id))
             return HttpResponse(md, content_type='text/plain')
         else:
-            output = pypandoc.convert_text(md, 'docx', format='md', extra_args=['--reference-doc=/app_code/config/custom-reference.docx'])
+            output = pandoc.convert_text(md, 'docx', format='md', extra_args=['--reference-doc=/app_code/config/custom-reference.docx'])
             
             response = HttpResponse(output, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
             response['Content-Length'] = len(output)
