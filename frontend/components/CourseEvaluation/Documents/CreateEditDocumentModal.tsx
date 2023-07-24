@@ -100,14 +100,12 @@ const EditGeneralInformationModal = (props: Props) => {
           {error}
         </Alert>
       )}
-      <DialogContent
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 2,
-        }}
-      >
-        <Card>
+      <DialogContent>
+        <Card
+          sx={{
+            m: 2,
+          }}
+        >
           <CardHeader
             title="Document Details"
             subheader="These are the basic details of the document"
@@ -166,7 +164,11 @@ const EditGeneralInformationModal = (props: Props) => {
             />
           </CardContent>
         </Card>
-        <Card>
+        <Card
+          sx={{
+            m: 2,
+          }}
+        >
           <CardHeader
             title="Document Tags"
             subheader="These are tags that aids to connect relevant Elements of Competency (EOC) to documents"
