@@ -5,7 +5,7 @@ import imp
 import time
 from typing import Any, Dict, List
 
-import pandoc
+import pypandoc
 from django.contrib.auth.models import User
 from django.db.models.query import QuerySet
 from django.http import HttpResponse
@@ -224,17 +224,13 @@ class CourseEvaluationGenerateReport(viewsets.ReadOnlyModelViewSet):
             # print(Document.objects.filter(course_evaluation=course_evaluation.id))
             return HttpResponse(md, content_type='text/plain')
         else:
-            doc = pandoc.read(md, format="markdown")
-
-            file = pandoc.write(doc,
-                                format="docx",
-                                # file="output.docx",
-                                options={"--reference-doc=/app_code/config/custom-reference.docx"})
-
-            response = HttpResponse(file, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-            response['Content-Length'] = len(file)
+            output = pypandoc.convert_text(md, 'docx', format='md', extra_args=['--reference-doc=/app_code/config/custom-reference.docx'])
+            
+            response = HttpResponse(output, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
+            response['Content-Length'] = len(output)
             response['Content-Disposition'] = 'attachment; filename="somefile.docx"'
             return response
+
 
     def get_queryset(self):
         return CourseEvaluation.objects.all().filter(id=self.kwargs["course_evaluation_id"])

@@ -1,4 +1,4 @@
-import pandoc
+import pypandoc
 
 md = """
 # Hello world
@@ -10,7 +10,8 @@ EA
 > Test
 """
 
-doc = pandoc.read(md, format="markdown")
+output = pypandoc.convert_text(md, 'docx', format='md', extra_args=['--reference-doc=/app_code/config/custom-reference.docx'])
 
-pandoc.write(doc, format="docx", file="test.docx", options={"--reference-doc=/app_code/config/custom-reference.docx"})
-# print(pandoc.write(doc, format="docx"))
+# Write the output to a file
+with open('test.docx', 'wb') as f:
+    f.write(output)
