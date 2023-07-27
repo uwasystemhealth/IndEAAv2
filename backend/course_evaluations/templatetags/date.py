@@ -20,17 +20,3 @@ def fromisoformat(datestring: str) -> datetime:
         datetime: datetime object representing datestring
     """
     return datetime.fromisoformat(datestring)
-
-
-@register.filter
-@stringfilter
-def md_newline(string: str) -> str:
-    """adds backslash to line endings so they render as newlines in markdown
-
-    Args:
-        string (str): input string which contains '\n' line endings
-
-    Returns:
-        str: string formatted to contain backslash at every newline.
-    """
-    return '\\\n'.join(string.split('\n'))

@@ -49,8 +49,3 @@ class DocumentReadOnlySerializer(serializers.ModelSerializer):
     class Meta:
         model = Document
         fields = "__all__"
-
-# class DocumentReportReadOnlySerializer(serializers.ModelSerializer):
-#     """
-
-#     """
