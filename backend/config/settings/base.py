@@ -238,8 +238,6 @@ STATICFILES_DIRS = (os.path.join(PROJECT_ROOT, "static"),)
 #############################
 # JWT & Rest Framework Config
 #############################
-REST_USE_JWT = True
-
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=365 * 3),
@@ -247,8 +245,11 @@ SIMPLE_JWT = {
 
 # Configuration for modifying the Serialisers for authentication
 # https://dj-rest-auth.readthedocs.io/en/latest/configuration.html#configuration
-JWT_AUTH_COOKIE = "access-token"
-JWT_AUTH_REFRESH_COOKIE = "refresh-token"
+REST_AUTH = {
+    "USE_JWT": True,
+    "JWT_AUTH_HTTPONLY": False,
+}
+
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),

@@ -23,7 +23,7 @@ const Google = () => {
     const pageURLParams = new URL(window.location.href).search;
     const code = new URLSearchParams(pageURLParams).get('code');
 
-    if (code) {
+    if (code && ![LOGIN_STATE.REQUEST, LOGIN_STATE.SUCCESS].includes(state)) {
       setState(LOGIN_STATE.REQUEST);
 
       const loginWithGoogleToken = async () => {
@@ -31,7 +31,7 @@ const Google = () => {
           const { data } = await API.CLIENT.post(API.ENDPOINT.AUTHENTICATION.GOOGLE_TOKEN, {
             code,
           });
-          const { access_token: accessToken, refresh_token: refreshToken } = data;
+          const { access: accessToken, refresh: refreshToken } = data;
           // Set access_token and refresh_token in localstorage.
           localStorage.setItem('access-token', accessToken);
           localStorage.setItem('refresh-token', refreshToken);
