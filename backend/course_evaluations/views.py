@@ -24,7 +24,6 @@ from course_evaluations.permissions import (
 )
 from course_evaluations.serializers.custom import (
     CourseEvaluationDetailSerializer,
-    CourseEvaluationReportSerializer,
 )
 from course_evaluations.serializers.documents import (
     DocumentReadOnlySerializer,
@@ -232,43 +231,39 @@ class CourseEvaluationGenerateReport(viewsets.ReadOnlyModelViewSet):
         raise self.http_method_not_allowed(request, *args, **kwargs)
 
     def list(self, request, *args, **kwargs):
-        """
-        List only the groups that the user is a coordinator
-        """
-        PLAIN_TEXT = 0  # TODO: REMOVE
+        course_evaluation: CourseEvaluation = CourseEvaluation.objects.get(
+            id=self.kwargs["course_evaluation_id"]
+        )
 
-        # TODO: GET THE RIGHT COURSE EVALUATION FROM THE ID.
-        course_evaluation: CourseEvaluation = self.get_queryset().first()
+        serialized_data = CourseEvaluationDetailSerializer(course_evaluation).data
 
-        obj = CourseEvaluationReportSerializer(course_evaluation).data
+        template_data={
+            **serialized_data,
+        }
 
-        md = render_to_string("report/report.md", obj)
+        md = render_to_string("report/report.md", template_data)
 
-        if PLAIN_TEXT:
-            from pprint import pprint
-
-            pprint(obj)
-            # print(Document.objects.filter(course_evaluation=course_evaluation.id))
-            return HttpResponse(md, content_type="text/plain")
-        else:
-            output_file = f"/tmp/{course_evaluation.id}"
-            pypandoc.convert_text(
-                md,
-                "docx",
-                format="md",
-                extra_args=["--reference-doc=/app_code/config/custom-reference.docx", "--toc"],
-                outputfile=output_file,
+        output_file = f"/tmp/{course_evaluation.id}"
+        pypandoc.convert_text(
+            md,
+            "docx",
+            format="md",
+            extra_args=[
+                "--reference-doc=/app_code/config/custom-reference.docx",
+                "--toc",
+            ],
+            outputfile=output_file,
+        )
+        with open(output_file, "rb") as f:
+            file_content = f.read()
+            response = HttpResponse(
+                file_content,
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
             )
-            with open(output_file, "rb") as f:
-                file_content = f.read()
-                response = HttpResponse(
-                    file_content,
-                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-                )
-                response["Content-Length"] = len(file_content)
-                filename = f"indeaav2-report-{course_evaluation.unit_code}.docx"
-                response["Content-Disposition"] = f"attachment; filename={filename}"
-                return response
+            response["Content-Length"] = len(file_content)
+            filename = f"indeaav2-report-{course_evaluation.unit_code}.docx"
+            response["Content-Disposition"] = f"attachment; filename={filename}"
+            return response
 
     def get_queryset(self):
         return CourseEvaluation.objects.all().filter(
