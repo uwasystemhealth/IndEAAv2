@@ -81,7 +81,7 @@ class ReviewEocSpecific(models.Model):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     review = models.ForeignKey(Review, null=True, related_name="eoc_specific_reviews", on_delete=models.CASCADE)
-    eoc_specific = models.ForeignKey(EOCSpecific, on_delete=models.CASCADE)
+    eoc_specific = models.ForeignKey(EOCSpecific, on_delete=models.CASCADE, related_name="eoc_specific_reviews")
 
     # Step 3 Relevant Fields
     development_level = models.IntegerField(choices=DevelopmentLevels.choices)

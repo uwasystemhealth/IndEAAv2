@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
-import { CourseEvaluationDetailEntry } from 'utils/api';
+import { API_ENDPOINT, CONFIGS, CourseEvaluationDetailEntry } from 'utils/api';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
@@ -35,8 +35,16 @@ const Reviews = (props: Props) => {
           >
             Add Reviewer
           </Button>
-          <Button startIcon={<AssessmentIcon />} variant="contained" color="secondary" disabled>
-            View Compiled Report
+          <Button
+            startIcon={<AssessmentIcon />}
+            variant="contained"
+            color="secondary"
+            href={`${CONFIGS.baseURL}${API_ENDPOINT.COURSE_EVALUATION.DETAIL(
+              evaluation.id,
+            )}download`}
+            target="_blank"
+          >
+            Download Compiled Report
           </Button>
         </Box>
       </Container>

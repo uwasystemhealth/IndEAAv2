@@ -32,13 +32,13 @@ class EOCSetSerializer(serializers.ModelSerializer):
                 filtered_justifications = instance.justification.filter(course_evaluation_id=course_evaluation_id)
                 return CourseEvaluationJustificationSerializer(filtered_justifications, many=True).data
 
-        eoc_specifics = EOCSpecificSerializer(many=True, read_only=True, source="eocspecific_set")
+        eoc_specifics = EOCSpecificSerializer(many=True, read_only=True)
 
         class Meta:
             model = EOCGeneral
             fields = ("id", "number", "title", "eoc_specifics")
 
-    eoc_generals = EOCGeneralSerializer(many=True, read_only=True, source="eocgeneral_set")
+    eoc_generals = EOCGeneralSerializer(many=True, read_only=True)
 
     class Meta:
         model = EOCSet

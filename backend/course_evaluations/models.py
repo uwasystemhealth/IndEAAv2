@@ -28,7 +28,7 @@ class EOCGeneral(models.Model):
 
     number = models.IntegerField()
     title = models.CharField(max_length=100)
-    eoc_set = models.ForeignKey(EOCSet, on_delete=models.CASCADE)
+    eoc_set = models.ForeignKey(EOCSet, on_delete=models.CASCADE, related_name="eoc_generals")
 
     def __str__(self):
         return f"{self.eoc_set.name} - {self.number} ({self.title})"
@@ -47,7 +47,7 @@ class EOCSpecific(models.Model):
     number = models.IntegerField()
     indicators_of_attainment = ArrayField(models.TextField(null=False, blank=True), null=True)
     description = models.TextField(null=False, blank=True)
-    eoc_general = models.ForeignKey(EOCGeneral, on_delete=models.CASCADE)
+    eoc_general = models.ForeignKey(EOCGeneral, on_delete=models.CASCADE, related_name="eoc_specifics")
 
     def __str__(self):
         return f"{self.eoc_general.eoc_set.name} - {self.general_and_specific_eoc()}"

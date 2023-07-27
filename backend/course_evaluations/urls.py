@@ -3,6 +3,7 @@ from rest_framework.routers import DefaultRouter
 
 from course_evaluations.views import (
     CourseEvaluationDocumentViewSet,
+    CourseEvaluationGenerateReport,
     CourseEvaluationJustificationsViewSet,
     CourseEvaluationViewSet,
 )
@@ -24,6 +25,11 @@ router.register(
     basename="justifications",
 )
 
+router.register(
+    r"(?P<course_evaluation_id>[^/.]+)/download",
+    CourseEvaluationGenerateReport,
+    basename="download",
+)
 router.register(r"", CourseEvaluationViewSet, basename="course-evaluations")
 
 # The API URLs are now determined automatically by the router.

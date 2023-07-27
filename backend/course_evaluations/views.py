@@ -1,3 +1,6 @@
+import pypandoc
+from django.http import HttpResponse
+from django.template.loader import render_to_string
 from rest_framework import permissions, status, viewsets
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
@@ -5,6 +8,7 @@ from rest_framework.response import Response
 from course_evaluations.models import (
     CourseEvaluation,
     CourseEvaluationJustification,
+    DevelopmentLevels,
     Document,
 )
 from course_evaluations.permissions import (
@@ -115,10 +119,8 @@ class CourseEvaluationDocumentViewSet(viewsets.ModelViewSet):
 class CourseEvaluationJustificationsViewSet(viewsets.ModelViewSet):
     """
     Viewset that handles Justifications
-
     Permissions:
     - Coordinator ( CREATE, UPDATE, DELETE). Essentially for management of the Justifications for a particular course_evaluation
-
     Note: This is only used for WRITE operations
     """
 
@@ -146,7 +148,6 @@ class CourseEvaluationJustificationsViewSet(viewsets.ModelViewSet):
     def enforce_uniqueness_of_a_justification_with_eoc_specifics(self, eoc_specifics, current_justification=None):
         """
         This validation cannot be applied to the model because of the constraint on the field.
-
         This will maintain the fact that an EOC Specific can only have one justification for a course evaluation.
         """
         for eoc_specific in eoc_specifics:
@@ -175,3 +176,61 @@ class CourseEvaluationJustificationsViewSet(viewsets.ModelViewSet):
             serializer.save(course_evaluation_id=course_evaluation_id)
         else:
             serializer.instance.delete()
+
+
+"""
+FILE EXPORT
+"""
+
+STORAGE_DIRECTORY = "/tmp"
+
+
+class CourseEvaluationGenerateReport(viewsets.ReadOnlyModelViewSet):
+    permission_classes = [
+        permissions.IsAuthenticated,
+        CourseEvaluationIsCoordinatorAllowAllViaObjectReference,
+    ]
+
+    serializer_class = DocumentReadOnlySerializer
+
+    def retrieve(self, request, *args, **kwargs):
+        raise self.http_method_not_allowed(request, *args, **kwargs)
+
+    def list(self, request, *args, **kwargs):
+        course_evaluation: CourseEvaluation = CourseEvaluation.objects.get(id=self.kwargs["course_evaluation_id"])
+
+        serialized_data = CourseEvaluationDetailSerializer(course_evaluation).data
+        template_data = {
+            **serialized_data,
+            "course_evaluation": course_evaluation,
+            # We can calculate the highest level of EOC here by the maximum integer defined in DevelopmentLevels
+            # choice[0] is the integer representation
+            "highest_level_of_eoc": max([choice[0] for choice in DevelopmentLevels.choices]),
+        }
+
+        md = render_to_string("report/report.md", template_data)
+
+        output_file = f"/tmp/{course_evaluation.id}"
+        pypandoc.convert_text(
+            md,
+            "docx",
+            format="md",
+            extra_args=[
+                "--reference-doc=/app_code/config/custom-reference.docx",
+                "--toc",
+            ],
+            outputfile=output_file,
+        )
+        with open(output_file, "rb") as f:
+            file_content = f.read()
+            response = HttpResponse(
+                file_content,
+                "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            )
+            response["Content-Length"] = len(file_content)
+            filename = f"indeaav2-report-{course_evaluation.unit_code}.docx"
+            response["Content-Disposition"] = f"attachment; filename={filename}"
+            return response
+
+    def get_queryset(self):
+        return CourseEvaluation.objects.all().filter(id=self.kwargs["course_evaluation_id"])
