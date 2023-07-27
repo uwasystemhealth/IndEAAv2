@@ -256,7 +256,7 @@ class CourseEvaluationGenerateReport(viewsets.ReadOnlyModelViewSet):
                 md,
                 "docx",
                 format="md",
-                extra_args=["--reference-doc=/app_code/config/custom-reference.docx"],
+                extra_args=["--reference-doc=/app_code/config/custom-reference.docx", "--toc"],
                 outputfile=output_file,
             )
             with open(output_file, "rb") as f:
