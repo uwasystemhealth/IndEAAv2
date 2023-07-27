@@ -4,13 +4,12 @@ These serializers are separated due to the amount of imports it uses
 The problem of putting these serializers into the usual files is "Circular Import". Hence it is separated
 """
 from rest_framework import serializers
-from config.settings.base import DATETIME_FORMAT
 
 from course_evaluations.models import CourseEvaluation
 from course_evaluations.serializers.documents import DocumentReadOnlySerializer
 from course_evaluations.serializers.eoc import EOCSetSerializer
 from course_evaluations.serializers.generic import UserSerializer
-from reviews.serializers import ReviewGenericSerializer, ReviewReportGenericSerializer
+from reviews.serializers import ReviewGenericSerializer
 
 
 class CourseEvaluationDetailSerializer(serializers.ModelSerializer):

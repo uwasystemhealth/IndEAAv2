@@ -1,13 +1,6 @@
 from django.template.loader import render_to_string
-from django.forms.models import model_to_dict
-from django.shortcuts import render
-import imp
-import time
-from typing import Any, Dict, List
 
 import pypandoc
-from django.contrib.auth.models import User
-from django.db.models.query import QuerySet
 from django.http import HttpResponse
 from rest_framework import permissions, status, viewsets
 from rest_framework.exceptions import ValidationError
@@ -33,7 +26,6 @@ from course_evaluations.serializers.documents import (
 from course_evaluations.serializers.eoc import EOCSet
 from course_evaluations.serializers.generic import CourseEvaluationListSerializer
 from course_evaluations.serializers.justifications import JustificationWriteSerializer
-from reviews.models import Review, ReviewDocument, ReviewEocSpecific
 
 
 class CourseEvaluationViewSet(viewsets.ModelViewSet):
@@ -201,8 +193,7 @@ class CourseEvaluationJustificationsViewSet(viewsets.ModelViewSet):
 
         # Check that there exist `eoc_specifics` otherwise, delete the justification
         if (
-            "eoc_specifics" in serializer.validated_data
-            and serializer.validated_data["eoc_specifics"]
+            "eoc_specifics" in serializer.validated_data and serializer.validated_data["eoc_specifics"]
         ):
             self.enforce_uniqueness_of_a_justification_with_eoc_specifics(
                 serializer.validated_data["eoc_specifics"],
