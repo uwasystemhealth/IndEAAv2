@@ -1,7 +1,6 @@
-from django.template.loader import render_to_string
-
 import pypandoc
 from django.http import HttpResponse
+from django.template.loader import render_to_string
 from rest_framework import permissions, status, viewsets
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
@@ -9,16 +8,14 @@ from rest_framework.response import Response
 from course_evaluations.models import (
     CourseEvaluation,
     CourseEvaluationJustification,
-    Document,
     DevelopmentLevels,
+    Document,
 )
 from course_evaluations.permissions import (
     CourseEvaluationIsCoordinatorAllowAllReviewerReadOnly,
     CourseEvaluationIsCoordinatorAllowAllViaObjectReference,
 )
-from course_evaluations.serializers.custom import (
-    CourseEvaluationDetailSerializer,
-)
+from course_evaluations.serializers.custom import CourseEvaluationDetailSerializer
 from course_evaluations.serializers.documents import (
     DocumentReadOnlySerializer,
     DocumentWriteSerializer,
@@ -55,9 +52,7 @@ class CourseEvaluationViewSet(viewsets.ModelViewSet):
         if self.action == "retrieve":
             return super().filter_queryset(queryset)
         else:
-            return (
-                super().filter_queryset(queryset).filter(coordinators=self.request.user)
-            )
+            return super().filter_queryset(queryset).filter(coordinators=self.request.user)
 
     def create(self, request, *args, **kwargs):
         if "eoc_set" in request.data:
@@ -75,9 +70,7 @@ class CourseEvaluationViewSet(viewsets.ModelViewSet):
         serializer.save(coordinators=[request.user])
         headers = self.get_success_headers(serializer.data)
 
-        return Response(
-            serializer.data, status=status.HTTP_201_CREATED, headers=headers
-        )
+        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
 
     def destroy(self, request, *args, **kwargs):
         """
@@ -109,9 +102,7 @@ class CourseEvaluationDocumentViewSet(viewsets.ModelViewSet):
             return DocumentWriteSerializer
 
     def get_queryset(self):
-        return Document.objects.all().filter(
-            course_evaluation=self.kwargs["course_evaluation_id"]
-        )
+        return Document.objects.all().filter(course_evaluation=self.kwargs["course_evaluation_id"])
 
     """
     For CREATE and UPDATE, we have to force the value of
@@ -147,43 +138,28 @@ class CourseEvaluationJustificationsViewSet(viewsets.ModelViewSet):
         raise self.http_method_not_allowed(request, *args, **kwargs)
 
     def get_queryset(self):
-        return CourseEvaluationJustification.objects.all().filter(
-            course_evaluation=self.kwargs["course_evaluation_id"]
-        )
+        return CourseEvaluationJustification.objects.all().filter(course_evaluation=self.kwargs["course_evaluation_id"])
 
     """
     For CREATE and UPDATE, we have to force the value of
     `course_evaluation_id` to the url parameters (disregarding what the actual payload was)
     """
 
-    def enforce_uniqueness_of_a_justification_with_eoc_specifics(
-        self, eoc_specifics, current_justification=None
-    ):
+    def enforce_uniqueness_of_a_justification_with_eoc_specifics(self, eoc_specifics, current_justification=None):
         """
         This validation cannot be applied to the model because of the constraint on the field.
         This will maintain the fact that an EOC Specific can only have one justification for a course evaluation.
         """
         for eoc_specific in eoc_specifics:
             # We are excluding the current justification from the query (because it is the justification that is being updated)
-            justification_id = (
-                current_justification.id if current_justification else None
-            )
-            if (
-                self.get_queryset()
-                .filter(eoc_specifics=eoc_specific)
-                .exclude(id=justification_id)
-                .exists()
-            ):
-                raise ValidationError(
-                    "EOC Specific {} already has a justification".format(eoc_specific)
-                )
+            justification_id = current_justification.id if current_justification else None
+            if self.get_queryset().filter(eoc_specifics=eoc_specific).exclude(id=justification_id).exists():
+                raise ValidationError("EOC Specific {} already has a justification".format(eoc_specific))
 
     def perform_create(self, serializer):
         course_evaluation_id = self.kwargs["course_evaluation_id"]
         if serializer.validated_data["eoc_specifics"]:
-            self.enforce_uniqueness_of_a_justification_with_eoc_specifics(
-                serializer.validated_data["eoc_specifics"]
-            )
+            self.enforce_uniqueness_of_a_justification_with_eoc_specifics(serializer.validated_data["eoc_specifics"])
             serializer.save(course_evaluation_id=course_evaluation_id)
         else:
             raise ValidationError("EOC Specifics cannot be empty")
@@ -192,9 +168,7 @@ class CourseEvaluationJustificationsViewSet(viewsets.ModelViewSet):
         course_evaluation_id = self.kwargs["course_evaluation_id"]
 
         # Check that there exist `eoc_specifics` otherwise, delete the justification
-        if (
-            "eoc_specifics" in serializer.validated_data and serializer.validated_data["eoc_specifics"]
-        ):
+        if "eoc_specifics" in serializer.validated_data and serializer.validated_data["eoc_specifics"]:
             self.enforce_uniqueness_of_a_justification_with_eoc_specifics(
                 serializer.validated_data["eoc_specifics"],
                 current_justification=serializer.instance,
@@ -223,9 +197,7 @@ class CourseEvaluationGenerateReport(viewsets.ReadOnlyModelViewSet):
         raise self.http_method_not_allowed(request, *args, **kwargs)
 
     def list(self, request, *args, **kwargs):
-        course_evaluation: CourseEvaluation = CourseEvaluation.objects.get(
-            id=self.kwargs["course_evaluation_id"]
-        )
+        course_evaluation: CourseEvaluation = CourseEvaluation.objects.get(id=self.kwargs["course_evaluation_id"])
 
         serialized_data = CourseEvaluationDetailSerializer(course_evaluation).data
         template_data = {
@@ -233,9 +205,7 @@ class CourseEvaluationGenerateReport(viewsets.ReadOnlyModelViewSet):
             "course_evaluation": course_evaluation,
             # We can calculate the highest level of EOC here by the maximum integer defined in DevelopmentLevels
             # choice[0] is the integer representation
-            "highest_level_of_eoc": max(
-                [choice[0] for choice in DevelopmentLevels.choices]
-            ),
+            "highest_level_of_eoc": max([choice[0] for choice in DevelopmentLevels.choices]),
         }
 
         md = render_to_string("report/report.md", template_data)
@@ -263,6 +233,4 @@ class CourseEvaluationGenerateReport(viewsets.ReadOnlyModelViewSet):
             return response
 
     def get_queryset(self):
-        return CourseEvaluation.objects.all().filter(
-            id=self.kwargs["course_evaluation_id"]
-        )
+        return CourseEvaluation.objects.all().filter(id=self.kwargs["course_evaluation_id"])
