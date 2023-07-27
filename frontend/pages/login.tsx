@@ -41,7 +41,7 @@ const Login = () => {
     onSubmit: async (values) => {
       try {
         const { data } = await API.CLIENT.post(API.ENDPOINT.AUTHENTICATION.LOGIN, values);
-        const { access_token: accessToken, refresh_token: refreshToken } = data;
+        const { access: accessToken, refresh: refreshToken } = data;
         // Set access_token and refresh_token in localstorage
         localStorage.setItem('access-token', accessToken);
         localStorage.setItem('refresh-token', refreshToken);
