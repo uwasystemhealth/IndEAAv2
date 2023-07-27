@@ -17,6 +17,7 @@ from course_evaluations.models import (
     CourseEvaluation,
     CourseEvaluationJustification,
     Document,
+    DevelopmentLevels,
 )
 from course_evaluations.permissions import (
     CourseEvaluationIsCoordinatorAllowAllReviewerReadOnly,
@@ -236,9 +237,14 @@ class CourseEvaluationGenerateReport(viewsets.ReadOnlyModelViewSet):
         )
 
         serialized_data = CourseEvaluationDetailSerializer(course_evaluation).data
-
-        template_data={
+        template_data = {
             **serialized_data,
+            "course_evaluation": course_evaluation,
+            # We can calculate the highest level of EOC here by the maximum integer defined in DevelopmentLevels
+            # choice[0] is the integer representation
+            "highest_level_of_eoc": max(
+                [choice[0] for choice in DevelopmentLevels.choices]
+            ),
         }
 
         md = render_to_string("report/report.md", template_data)
