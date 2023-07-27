@@ -22,7 +22,10 @@ from course_evaluations.permissions import (
     CourseEvaluationIsCoordinatorAllowAllReviewerReadOnly,
     CourseEvaluationIsCoordinatorAllowAllViaObjectReference,
 )
-from course_evaluations.serializers.custom import CourseEvaluationDetailSerializer, CourseEvaluationReportSerializer
+from course_evaluations.serializers.custom import (
+    CourseEvaluationDetailSerializer,
+    CourseEvaluationReportSerializer,
+)
 from course_evaluations.serializers.documents import (
     DocumentReadOnlySerializer,
     DocumentWriteSerializer,
@@ -60,7 +63,9 @@ class CourseEvaluationViewSet(viewsets.ModelViewSet):
         if self.action == "retrieve":
             return super().filter_queryset(queryset)
         else:
-            return super().filter_queryset(queryset).filter(coordinators=self.request.user)
+            return (
+                super().filter_queryset(queryset).filter(coordinators=self.request.user)
+            )
 
     def create(self, request, *args, **kwargs):
         if "eoc_set" in request.data:
@@ -78,7 +83,9 @@ class CourseEvaluationViewSet(viewsets.ModelViewSet):
         serializer.save(coordinators=[request.user])
         headers = self.get_success_headers(serializer.data)
 
-        return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        return Response(
+            serializer.data, status=status.HTTP_201_CREATED, headers=headers
+        )
 
     def destroy(self, request, *args, **kwargs):
         """
@@ -110,7 +117,9 @@ class CourseEvaluationDocumentViewSet(viewsets.ModelViewSet):
             return DocumentWriteSerializer
 
     def get_queryset(self):
-        return Document.objects.all().filter(course_evaluation=self.kwargs["course_evaluation_id"])
+        return Document.objects.all().filter(
+            course_evaluation=self.kwargs["course_evaluation_id"]
+        )
 
     """
     For CREATE and UPDATE, we have to force the value of
@@ -146,28 +155,43 @@ class CourseEvaluationJustificationsViewSet(viewsets.ModelViewSet):
         raise self.http_method_not_allowed(request, *args, **kwargs)
 
     def get_queryset(self):
-        return CourseEvaluationJustification.objects.all().filter(course_evaluation=self.kwargs["course_evaluation_id"])
+        return CourseEvaluationJustification.objects.all().filter(
+            course_evaluation=self.kwargs["course_evaluation_id"]
+        )
 
     """
     For CREATE and UPDATE, we have to force the value of
     `course_evaluation_id` to the url parameters (disregarding what the actual payload was)
     """
 
-    def enforce_uniqueness_of_a_justification_with_eoc_specifics(self, eoc_specifics, current_justification=None):
+    def enforce_uniqueness_of_a_justification_with_eoc_specifics(
+        self, eoc_specifics, current_justification=None
+    ):
         """
         This validation cannot be applied to the model because of the constraint on the field.
         This will maintain the fact that an EOC Specific can only have one justification for a course evaluation.
         """
         for eoc_specific in eoc_specifics:
             # We are excluding the current justification from the query (because it is the justification that is being updated)
-            justification_id = current_justification.id if current_justification else None
-            if self.get_queryset().filter(eoc_specifics=eoc_specific).exclude(id=justification_id).exists():
-                raise ValidationError("EOC Specific {} already has a justification".format(eoc_specific))
+            justification_id = (
+                current_justification.id if current_justification else None
+            )
+            if (
+                self.get_queryset()
+                .filter(eoc_specifics=eoc_specific)
+                .exclude(id=justification_id)
+                .exists()
+            ):
+                raise ValidationError(
+                    "EOC Specific {} already has a justification".format(eoc_specific)
+                )
 
     def perform_create(self, serializer):
         course_evaluation_id = self.kwargs["course_evaluation_id"]
         if serializer.validated_data["eoc_specifics"]:
-            self.enforce_uniqueness_of_a_justification_with_eoc_specifics(serializer.validated_data["eoc_specifics"])
+            self.enforce_uniqueness_of_a_justification_with_eoc_specifics(
+                serializer.validated_data["eoc_specifics"]
+            )
             serializer.save(course_evaluation_id=course_evaluation_id)
         else:
             raise ValidationError("EOC Specifics cannot be empty")
@@ -176,7 +200,10 @@ class CourseEvaluationJustificationsViewSet(viewsets.ModelViewSet):
         course_evaluation_id = self.kwargs["course_evaluation_id"]
 
         # Check that there exist `eoc_specifics` otherwise, delete the justification
-        if "eoc_specifics" in serializer.validated_data and serializer.validated_data["eoc_specifics"]:
+        if (
+            "eoc_specifics" in serializer.validated_data
+            and serializer.validated_data["eoc_specifics"]
+        ):
             self.enforce_uniqueness_of_a_justification_with_eoc_specifics(
                 serializer.validated_data["eoc_specifics"],
                 current_justification=serializer.instance,
@@ -194,7 +221,6 @@ STORAGE_DIRECTORY = "/tmp"
 
 
 class CourseEvaluationGenerateReport(viewsets.ReadOnlyModelViewSet):
-
     permission_classes = [
         permissions.IsAuthenticated,
         CourseEvaluationIsCoordinatorAllowAllViaObjectReference,
@@ -209,37 +235,55 @@ class CourseEvaluationGenerateReport(viewsets.ReadOnlyModelViewSet):
         """
         List only the groups that the user is a coordinator
         """
-        PLAIN_TEXT = 1  # TODO: REMOVE
+        PLAIN_TEXT = 0  # TODO: REMOVE
 
         # TODO: GET THE RIGHT COURSE EVALUATION FROM THE ID.
         course_evaluation: CourseEvaluation = self.get_queryset().first()
 
         obj = CourseEvaluationReportSerializer(course_evaluation).data
 
-        md = render_to_string('report/report.md', obj)
+        md = render_to_string("report/report.md", obj)
 
         if PLAIN_TEXT:
             from pprint import pprint
+
             pprint(obj)
             # print(Document.objects.filter(course_evaluation=course_evaluation.id))
-            return HttpResponse(md, content_type='text/plain')
+            return HttpResponse(md, content_type="text/plain")
         else:
-            output = pypandoc.convert_text(md, 'docx', format='md', extra_args=['--reference-doc=/app_code/config/custom-reference.docx'])
-            
-            response = HttpResponse(output, 'application/vnd.openxmlformats-officedocument.wordprocessingml.document')
-            response['Content-Length'] = len(output)
-            response['Content-Disposition'] = 'attachment; filename="somefile.docx"'
-            return response
-
+            output_file = f"/tmp/{course_evaluation.id}"
+            pypandoc.convert_text(
+                md,
+                "docx",
+                format="md",
+                extra_args=["--reference-doc=/app_code/config/custom-reference.docx"],
+                outputfile=output_file,
+            )
+            with open(output_file, "rb") as f:
+                file_content = f.read()
+                response = HttpResponse(
+                    file_content,
+                    "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                )
+                response["Content-Length"] = len(file_content)
+                filename = f"indeaav2-report-{course_evaluation.unit_code}.docx"
+                response["Content-Disposition"] = f"attachment; filename={filename}"
+                return response
 
     def get_queryset(self):
-        return CourseEvaluation.objects.all().filter(id=self.kwargs["course_evaluation_id"])
+        return CourseEvaluation.objects.all().filter(
+            id=self.kwargs["course_evaluation_id"]
+        )
 
 
 def userlist_to_md(users: List[User]) -> str:
     users_str = ""
     for user in users:
-        users_str += f"- {user.username} <{user.email}>\n" if user.username else f"- {user.email}\n"
+        users_str += (
+            f"- {user.username} <{user.email}>\n"
+            if user.username
+            else f"- {user.email}\n"
+        )
     return users_str
 
 
@@ -255,7 +299,7 @@ def document_to_md(documents: List[Document]) -> str:
         if document.url:
             documents_str += f"Link: [Click here]({document.url})\n\n"
         else:
-            documents_str += 'Document has no link\n\n'
+            documents_str += "Document has no link\n\n"
 
         documents_str += f"EOC generals: {', '.join(map(str,document.eoc_generals.values_list('number',flat=True)))}\n\n"
         documents_str += f"EOC specifics: {', '.join([eoc.general_and_specific_eoc() for eoc in document.eoc_specifics.all()])}\n\n"
@@ -266,12 +310,15 @@ def document_to_md(documents: List[Document]) -> str:
 
 def generate_report_md(course_evaluation: CourseEvaluation) -> str:
     coordinators: QuerySet = course_evaluation.coordinators.all()
-    reviewers: QuerySet = User.objects.filter(pk__in=course_evaluation.reviews.values_list('reviewer'))
+    reviewers: QuerySet = User.objects.filter(
+        pk__in=course_evaluation.reviews.values_list("reviewer")
+    )
 
     coordinators_str = userlist_to_md(coordinators.all())
     reviewers_str = userlist_to_md(reviewers.all())
 
-    return (f"""
+    return (
+        f"""
 ---
 title: Course Evaluation Report - {course_evaluation.unit_code}
 abstract: This is the course evaluation report that encompasses the reviews of the unit towards the Elements of Competencies.
@@ -302,35 +349,34 @@ Reviewers:
 
 // TODO: This needs to be changed with the EOC stuff later
 """
-
-            # {course_evaluation.eoc.map(remarks =>`
-            # ## Justification for EOC: {remarks.eocNumber.join(', ')}
-            # Development Level: {remarks.developmentLevel ? `{remarks.developmentLevel} - {DEVELOPMENT_LEVEL[remarks.developmentLevel - 1].short}` :
-            #       'Coordinator has not rated the development Level'}
-            # Justification:
-            # > {remarks.justification}
-            # `).join('\n')}
-            # # Review
-            # {reviews.map(review =>`
-            # ## Review of {review.user_id.name}
-            # Read the Development Levels on: {review.step1DevelopmentLevels || 'Reviewer has not confirmed reading the development levels'}
-            # ### General Comment
-            # > {review.step4ReviewComment || 'Reviewer has no general comment'}
-            # ### Documents Review
-            # {review.step2Documents.map(documentReview => `
-            # { documentReview.comment ? `#### Review for document {documentReview.document_id}
-            # > {documentReview.comment || 'Reviewer has no comment for document'}
-            # Finished Reviewed On: {documentReview.finishedReviewedOn || 'Reviewer has not marked finished reviewing document'}
-            # `: ''}`).join('\n') || '>  Reviewer has not reviewed the documents'}
-            # ### Element of Competencies Review
-            # {review.step3Evaluation.map(eocReview =>`
-            # #### EOC {eocReview.eoc}
-            # Rating: {eocReview.rating ? `{eocReview.rating} - {DEVELOPMENT_LEVEL[eocReview.rating - 1].short}` : 'Reviewer has not rated the EOC'}
-            # Reason:
-            # > {eocReview.reason || 'Reviewer did not provide reason'}
-            # Idea for Improvement:
-            # > {eocReview.ideaForImprovement ||'Reviewer did not give suggestion'}
-            # `).join('\n') || '> Reviewer has not evaluated any Elements of Competency'}
-            # ***
-            # `).join('\n')}
-            )
+        # {course_evaluation.eoc.map(remarks =>`
+        # ## Justification for EOC: {remarks.eocNumber.join(', ')}
+        # Development Level: {remarks.developmentLevel ? `{remarks.developmentLevel} - {DEVELOPMENT_LEVEL[remarks.developmentLevel - 1].short}` :
+        #       'Coordinator has not rated the development Level'}
+        # Justification:
+        # > {remarks.justification}
+        # `).join('\n')}
+        # # Review
+        # {reviews.map(review =>`
+        # ## Review of {review.user_id.name}
+        # Read the Development Levels on: {review.step1DevelopmentLevels || 'Reviewer has not confirmed reading the development levels'}
+        # ### General Comment
+        # > {review.step4ReviewComment || 'Reviewer has no general comment'}
+        # ### Documents Review
+        # {review.step2Documents.map(documentReview => `
+        # { documentReview.comment ? `#### Review for document {documentReview.document_id}
+        # > {documentReview.comment || 'Reviewer has no comment for document'}
+        # Finished Reviewed On: {documentReview.finishedReviewedOn || 'Reviewer has not marked finished reviewing document'}
+        # `: ''}`).join('\n') || '>  Reviewer has not reviewed the documents'}
+        # ### Element of Competencies Review
+        # {review.step3Evaluation.map(eocReview =>`
+        # #### EOC {eocReview.eoc}
+        # Rating: {eocReview.rating ? `{eocReview.rating} - {DEVELOPMENT_LEVEL[eocReview.rating - 1].short}` : 'Reviewer has not rated the EOC'}
+        # Reason:
+        # > {eocReview.reason || 'Reviewer did not provide reason'}
+        # Idea for Improvement:
+        # > {eocReview.ideaForImprovement ||'Reviewer did not give suggestion'}
+        # `).join('\n') || '> Reviewer has not evaluated any Elements of Competency'}
+        # ***
+        # `).join('\n')}
+    )
