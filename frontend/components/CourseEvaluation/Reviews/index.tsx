@@ -8,9 +8,9 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 import AddIcon from '@mui/icons-material/Add';
 import Stack from '@mui/material/Stack';
 import useModal from '@/components/hooks/useModal';
+import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
 import AddReviewerModal from './AddReviewerModal';
 import ReviewCard from './ReviewCard';
-import useAuthenticatedAPIClient from '@/components/hooks/useAuthenticatedAPIClient';
 
 type Props = {
   evaluation: CourseEvaluationDetailEntry;

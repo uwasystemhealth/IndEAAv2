@@ -57,7 +57,7 @@ const Google = () => {
       setState(LOGIN_STATE.ERROR);
       setLoggedInErrored('No code received, cannot authenticate.');
     }
-  }, [router, setAuthenticationDetails]);
+  }, [router, setAuthenticationDetails, state]);
 
   return (
     <Box
