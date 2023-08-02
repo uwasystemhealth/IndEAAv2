@@ -13,7 +13,7 @@ WORKDIR /app_code
 RUN apt-get update && apt-get install --yes --no-install-recommends figlet boxes curl pandoc postgresql-client-13 g++ libssl-dev gcc && rm -rf /var/lib/apt/lists/*
 
 # Update pip and install poetry
-RUN pip install --upgrade pip && pip install poetry
+RUN pip install --upgrade pip && pip install poetry>=1.5.1
 
 # Copy application code into a directory called 'app_code'
 # This copy includes pyproject.toml and poetry.lock
