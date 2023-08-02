@@ -229,7 +229,7 @@ class CourseEvaluationGenerateReport(viewsets.ReadOnlyModelViewSet):
             )
             response["Content-Length"] = len(file_content)
             filename = f"indeaav2-report-{course_evaluation.unit_code}.docx"
-            response["Content-Disposition"] = f"attachment; filename=\"{filename}\""
+            response["Content-Disposition"] = f'attachment; filename="{filename}"'
 
             # for client-side hack - should not effect security exposing this header to the browser
             response["Access-Control-Expose-Headers"] = "Content-Disposition"
