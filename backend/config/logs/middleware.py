@@ -23,7 +23,6 @@ class LogsMiddleware:
         return False
 
     def __call__(self, request):
-
         # Scripts to run before the view call
         # Log all request to Djang App
         logger = get_request_logger(request)

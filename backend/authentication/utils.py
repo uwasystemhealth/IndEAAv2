@@ -51,7 +51,6 @@ class SocialAccountAdapter(DefaultSocialAccountAdapter):
         except EmailAddress.DoesNotExist:
             try:
                 logger = logging.getLogger(__name__)
-                breakpoint()
                 logger.info("No email address found for social login %s", sociallogin)
                 user = User.objects.get(email__iexact=email)
             except User.DoesNotExist:

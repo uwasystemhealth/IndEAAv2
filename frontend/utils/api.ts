@@ -20,6 +20,8 @@ export const API_ENDPOINT = {
   COURSE_EVALUATION: {
     LIST: '/api/v1/course-evaluations/',
     DETAIL: (courseEvaluationId: string) => `/api/v1/course-evaluations/${courseEvaluationId}/`,
+    DOWNLOAD: (courseEvaluationId: string) =>
+      `/api/v1/course-evaluations/${courseEvaluationId}/download/`,
     DOCUMENT: {
       LIST: (courseEvaluationId: string) =>
         `/api/v1/course-evaluations/${courseEvaluationId}/documents/`,

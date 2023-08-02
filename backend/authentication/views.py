@@ -16,10 +16,10 @@ class CustomOAuth2Adapter(google_views.GoogleOAuth2Adapter):
     See: Related issues of https://github.com/uwasystemhealth/IndEAAv2/issues/29
     """
 
-    def complete_login(self, request, app, token, **kwargs):
+    def complete_login(self, request, app, token, response, **kwargs):
         if request.user is None:
             request.user = AnonymousUser()
-        return super().complete_login(request, app, token, **kwargs)
+        return super().complete_login(request, app, token, response, **kwargs)
 
 
 class GoogleLogin(SocialLoginView):

@@ -7,11 +7,17 @@ api_patterns = (
         path(
             "course-evaluations/",
             include(
-                ("course_evaluations.urls", "course_evaluations"),  # (url_location, app_name)
+                (
+                    "course_evaluations.urls",
+                    "course_evaluations",
+                ),  # (url_location, app_name)
                 namespace="course_evaluations",  # use this namespace for url reversal
             ),
         ),
-        path("authentication/", include("authentication.urls", namespace="authentication")),
+        path(
+            "authentication/",
+            include("authentication.urls", namespace="authentication"),
+        ),
         path(
             "reviews/",
             include(

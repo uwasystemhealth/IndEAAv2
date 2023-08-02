@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 
 from course_evaluations.models import CourseEvaluation
+from course_evaluations.serializers.documents import DocumentReadOnlySerializer
+from course_evaluations.serializers.eoc import EOCSetSerializer
 from course_evaluations.serializers.generic import (
     CourseEvaluationListSerializer,
     UserSerializer,
@@ -67,3 +69,17 @@ class ReviewCreateSerializer(serializers.ModelSerializer):
         # Serialize using the generic serializer to create the review
         review = Review.objects.create(reviewer=user, course_evaluation=course_evaluation)
         return ReviewGenericSerializer(review)
+
+
+# Using these two to generate the reports
+class ReviewReportEOCSpecificSerializer(ReviewEOCSpecificSerializer):
+    eoc_specific = EOCSetSerializer.EOCGeneralSerializer.EOCSpecificSerializer(many=False, read_only=True)
+
+
+class ReviewReportDocumentSerializer(ReviewDocumentSerializer):
+    document = DocumentReadOnlySerializer()
+
+
+class ReviewReportGenericSerializer(ReviewGenericSerializer):
+    eoc_specific_reviews = ReviewReportEOCSpecificSerializer(many=True, read_only=True)
+    documents = ReviewReportDocumentSerializer(many=True, read_only=True)

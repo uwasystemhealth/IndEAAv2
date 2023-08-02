@@ -14,8 +14,8 @@ def test_login_username_and_password_get_jwt_and_user_info_success(setup_indeaa,
 
     # Check that the response is OK (JWT Created)
     assert request.status_code == status.HTTP_200_OK
-    assert "access_token" in request.data
-    assert "refresh_token" in request.data
+    assert "access" in request.data
+    assert "refresh" in request.data
     assert "user" in request.data
 
     user = request.data["user"]
@@ -34,8 +34,8 @@ def test_login_email_and_password_get_jwt_and_user_info_success(setup_indeaa, ap
 
     # Check that the response is OK (JWT Created)
     assert request.status_code == status.HTTP_200_OK
-    assert "access_token" in request.data
-    assert "refresh_token" in request.data
+    assert "access" in request.data
+    assert "refresh" in request.data
     assert "user" in request.data
 
     user = request.data["user"]
@@ -57,10 +57,6 @@ def test_reauthenticate_and_get_user_info_success(setup_indeaa, api_client, get_
 
     new_access_token = request.data["access"]
     assert new_access_token != access_token
-
-    expiry_datetime = request.data["access_token_expiration"]
-    expiry_epoch = expiry_datetime.timestamp()
-    assert expiry_epoch > access_token["exp"]
 
 
 def test_verify_token_success(setup_indeaa, api_client, get_auth):
