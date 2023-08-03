@@ -67,7 +67,6 @@ Update date: {{ updated_at|fromisoformat|date:"DATETIME_FORMAT" }}
 {% endif %}
 {% endfor %}
 {% for eoc_specific_reviews in eoc_specific.eoc_specific_reviews.all %}
-
 **Reviewer:** {{eoc_specific_reviews.review.reviewer.first_name}} {{eoc_specific_reviews.review.reviewer.last_name}} <{{eoc_specific_reviews.review.reviewer.email}}> ({{eoc_specific_reviews.review.development_level}}/{{highest_level_of_eoc}})
 
 Comments:
