@@ -2,7 +2,6 @@ from rest_framework import status
 
 
 class APIErrors:
-
     INTERNAL_SERVER_ERROR = {
         "number": 1,
         "code": "INTERNAL_SERVER_ERROR",
