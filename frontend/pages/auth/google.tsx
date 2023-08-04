@@ -23,7 +23,7 @@ const Google = () => {
     const pageURLParams = new URL(window.location.href).search;
     const code = new URLSearchParams(pageURLParams).get('code');
 
-    if (code && ![LOGIN_STATE.REQUEST, LOGIN_STATE.SUCCESS].includes(state)) {
+    if (code && LOGIN_STATE.START === state) {
       setState(LOGIN_STATE.REQUEST);
 
       const loginWithGoogleToken = async () => {
@@ -53,7 +53,7 @@ const Google = () => {
       };
 
       loginWithGoogleToken();
-    } else {
+    } else if (!code) {
       setState(LOGIN_STATE.ERROR);
       setLoggedInErrored('No code received, cannot authenticate.');
     }
